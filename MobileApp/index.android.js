@@ -11,12 +11,12 @@ import {
   Text,
   View
 } from 'react-native';
-import Menu from './src/Menu/MenuComponent';
+import FoodMenu from './src/FoodMenu/FoodMenuComponent';
 
 export default class MobileApp extends Component {
   render() {
     return (
-      <Menu />
+      <FoodMenu />
     );
   }
 }
