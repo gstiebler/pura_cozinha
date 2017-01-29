@@ -9,11 +9,12 @@ class Model {
         },
         {
             title: 'Sanduiche de mignon',
-            description: 'Feito com o melhor file mignon da cidade, bem passado'
+            description: 'Feito com o melhor file mignon da cidade, bem passado. Os bois ' +
+                'foram muito bem tratados.'
         },
         {
-            title: 'Acai',
-            description: 'Acao batido com banana e morango, vem cheiao'
+            title: 'Açai',
+            description: 'Açai batido com banana e morango, vem cheião.'
         },
         ];
   }
