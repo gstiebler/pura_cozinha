@@ -5,23 +5,11 @@ import {
   Text,
   View
 } from 'react-native';
-
-const menu = [
-  {
-    title: 'Sanduiche de frango',
-    description: 'Muito gostoso, feito com frango desfiado'
-  },
-  {
-    title: 'Sanduiche de mignon',
-    description: 'Feito com o melhor file mignon da cidade, bem passado'
-  },
-  {
-    title: 'Acai',
-    description: 'Acao batido com banana e morango, vem cheiao'
-  },
-];
+import model from '../Model';
 
 export default function Menu() {
+  const foodMenu = model.getFoodMenu();
+  console.log(foodMenu);
   return <View style={styles.container}>
     <Text style={styles.welcome}>
       Welcome to React Native!
