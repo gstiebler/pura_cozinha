@@ -36,7 +36,7 @@ const Menu = ({foodMenu}) => {
   const dataSource = ds.cloneWithRows(foodMenu);
   return <View style={styles.container}>
     <Text style={styles.header}>Cardápio</Text>
-    <ListView
+    <ListView enableEmptySections={true}
       dataSource={dataSource}
       renderRow={renderRow}
     />

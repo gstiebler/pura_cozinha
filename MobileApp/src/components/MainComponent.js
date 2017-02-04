@@ -5,10 +5,14 @@ import {
   View
 } from 'react-native';
 import TabsComponent from './TabsComponent';
+import Header from './Header';
 
 const MainComponent = () => {
   return (
+    <View style={styles.container}>
+      <Header />
       <TabsComponent />
+    </View>
   )
 }
 
@@ -16,13 +20,6 @@ export default MainComponent;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ffff99',
-    justifyContent: 'center'
+    flex: 1
   },
-  text: {
-    padding: 10,
-    color: '#000000',
-    fontSize: 20,
-  }
 });
