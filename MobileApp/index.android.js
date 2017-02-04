@@ -5,15 +5,12 @@
  */
 
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-} from 'react-native';
-import TabsComponent from './src/components/TabsComponent';
+import { AppRegistry } from 'react-native';
+import MainComponent from './src/components/MainComponent';
 
 export default class MobileApp extends Component {
   render() {
-    return <TabsComponent />
+    return <MainComponent />
   }
 }
 
