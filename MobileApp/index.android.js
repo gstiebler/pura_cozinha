@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import FoodMenu from './src/FoodMenu/FoodMenuComponent';
+import FoodMenu from './src/containers/FoodMenu';
 
 export default class MobileApp extends Component {
   render() {

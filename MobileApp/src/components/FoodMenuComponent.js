@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   Image,
   Dimensions
 } from 'react-native';
-import model from '../Model';
 import { formatMoney } from '../utils/StringUtils'
 
 const deviceWidth = Dimensions.get('window').width;
@@ -32,8 +31,7 @@ function renderRow(rowData, sectionID, rowID, highlightRow) {
   );
 }
 
-export default function Menu() {
-  const foodMenu = model.getFoodMenu();
+const Menu = ({foodMenu}) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   const dataSource = ds.cloneWithRows(foodMenu);
   return <View style={styles.container}>
@@ -44,6 +42,12 @@ export default function Menu() {
     />
   </View>
 }
+
+/*Menu.propTypes = {
+  foodMenu: React.propTypes.array.isRequired
+}*/
+
+export default Menu;
 
 const styles = StyleSheet.create({
   container: {
