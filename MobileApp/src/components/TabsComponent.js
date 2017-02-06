@@ -15,9 +15,9 @@ export default class TabsComponent extends Component {
         <FoodMenu />
         <Tabs selected="first" style={{backgroundColor:'white'}}
               selectedStyle={{color:'red'}} onSelect={el=>console.log(el.props.name)}>
-          <Text name="first">First</Text>
-          <Text name="second">Second</Text>
-          <Text name="third">Third</Text>
+          <Text name="food_menu">Cardápio</Text>
+          <Text name="orders">Pedidos</Text>
+          <Text name="profile">Eu</Text>
         </Tabs>
       </View>
     );
