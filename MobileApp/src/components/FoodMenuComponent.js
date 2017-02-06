@@ -17,9 +17,9 @@ function renderRow(rowData, sectionID, rowID, highlightRow) {
   return (
     <TouchableOpacity onPress={(rowId) => { console.log(rowId) }}>
       <View style={styles.card}>
-        <Image 
+        <Image
           style={styles.avatar}
-          source={require('../../assets/sandwich.jpg')} 
+          source={require('../../assets/sandwich.jpg')}
         />
         <View style={styles.textColumn}>
           <Text style={styles.title}>{rowData.title}</Text>
