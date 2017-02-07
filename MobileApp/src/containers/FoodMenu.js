@@ -15,7 +15,15 @@ export default class FoodMenu extends Component {
     this.setState({foodMenuItems: model.getFoodMenu()});
   }
 
+  onItemSelected(rowData) {
+    this.props.navigator.push({id: 'menu_item', menu_item_id: rowData.id});
+  }
+
   render() {
-    return <FoodMenuComponent foodMenu={this.state.foodMenuItems}/>    
+    return (
+      <FoodMenuComponent foodMenu={this.state.foodMenuItems}
+                         onItemSelected={this.onItemSelected.bind(this)}
+      />    
+    )
   }
 }

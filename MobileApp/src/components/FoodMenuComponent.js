@@ -13,9 +13,9 @@ import { formatMoney } from '../utils/StringUtils'
 
 const deviceWidth = Dimensions.get('window').width;
 
-function renderRow(rowData, sectionID, rowID, highlightRow) {
+function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
-    <TouchableOpacity onPress={(rowId) => { console.log(rowId) }}>
+    <TouchableOpacity onPress={() => { onItemSelected(rowData) } }>
       <View style={styles.card}>
         <Image
           style={styles.avatar}
@@ -31,14 +31,14 @@ function renderRow(rowData, sectionID, rowID, highlightRow) {
   );
 }
 
-const Menu = ({foodMenu}) => {
+const Menu = ({foodMenu, onItemSelected}) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   const dataSource = ds.cloneWithRows(foodMenu);
   return <View style={styles.container}>
     <Text style={styles.header}>Cardápio</Text>
     <ListView enableEmptySections={true}
       dataSource={dataSource}
-      renderRow={renderRow}
+      renderRow={renderRow.bind(null, onItemSelected)}
     />
   </View>
 }
