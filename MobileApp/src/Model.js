@@ -44,7 +44,25 @@ class Model {
   }
 
   setCartQty(menuItemId, qty) {
-    this.cartItems.set(menuItemId, qty);
+    if(qty === 0) {
+      this.cartItems.delete(menuItemId);
+    } else {
+      this.cartItems.set(menuItemId, qty);
+    }
+  }
+
+  getCartItems() {
+    const cartItems = [];
+    const entries = this.cartItems.entries();
+    for(let key of entries) {
+      let id = key[0];
+      let qty = key[1];
+      let menuItem = this.getFoodMenuItemById(id);
+      let item = { qty };
+      Object.assign(item, menuItem);
+      cartItems.push(item);
+    }
+    return cartItems;
   }
 
 }
