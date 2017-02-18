@@ -16,7 +16,7 @@ export default class FoodMenu extends Component {
   }
 
   onItemSelected(rowData) {
-    this.props.navigator.push({id: 'menu_item', menu_item_id: rowData.id});
+    this.props.navigator.push({id: 'menu_item', menuItemId: rowData.id});
   }
 
   render() {

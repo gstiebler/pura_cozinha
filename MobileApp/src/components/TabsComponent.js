@@ -21,7 +21,7 @@ export default class TabsComponent extends Component {
     if(this.state.page == 'food_menu') {
       viewedTab = <FoodMenu navigator={this.props.navigator} />
     } else if (this.state.page == 'cart') {
-      viewedTab = <Cart />
+      viewedTab = <Cart navigator={this.props.navigator} />
     } else if (this.state.page == 'orders') {
       viewedTab = <Text>Pedidos são mostrados aqui</Text>
     }

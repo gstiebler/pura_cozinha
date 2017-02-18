@@ -11,12 +11,21 @@ export default class Cart extends Component {
   }
 
   componentDidMount() {
-      const cartItems = model.getCartItems();
-      this.setState({ cartItems });
+    this.updateState();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // TODO call when the model changes too
+    this.updateState();
+  }
+
+  updateState(props) {
+    const cartItems = model.getCartItems();
+    this.setState({ cartItems });
   }
 
   onItemSelected(cartItem) {
-    console.log(cartItem);
+    this.props.navigator.push({id: 'menu_item', menuItemId: cartItem.id});
   }
 
   render() {
