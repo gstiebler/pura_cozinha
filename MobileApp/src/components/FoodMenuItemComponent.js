@@ -5,18 +5,25 @@ import {
   View,
   Button
 } from 'react-native';
-import { formatMoney } from '../utils/StringUtils'
 
-const MenuItem = ({menuItem, onBackClicked}) => {
+import InputNumber from 'rc-input-number'
+
+const MenuItem = (props) => {
   return (
     <View>
-      <Text>{menuItem.title}</Text>
-        <Button
-            onPress={onBackClicked}
-            title="Voltar"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-        />
+      <Text>{props.menuItem.title}</Text>
+      <InputNumber 
+        defaultValue={props.initialValue}
+        styles={{}}
+        min={0}
+        onChange={props.onValueChange}
+      />
+      <Button
+        onPress={props.onBackClicked}
+        title="Voltar"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
     </View>  
   );
 }
@@ -24,5 +31,4 @@ const MenuItem = ({menuItem, onBackClicked}) => {
 export default MenuItem;
 
 const styles = StyleSheet.create({
-  
 });

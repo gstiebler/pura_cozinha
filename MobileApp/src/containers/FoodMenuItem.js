@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import FoodMenuItemComponent from '../components/FoodMenuItemComponent';
 import model from '../Model';
 
@@ -7,25 +8,38 @@ export default class FoodMenuItem extends Component {
     super(props);
 
     this.state = {
-      menuItem: { title: '' }
+      menuItem: null,
+      qty: 0
     }
   }
 
   componentDidMount() {
     const menuItem = model.getFoodMenuItemById(this.props.menuItemId);
-    this.setState({ menuItem });
+    const qty = model.getCartQty(this.props.menuItemId)
+    this.setState({ menuItem, qty });
   }
 
   onBackClicked() {
+    model.setCartQty(this.props.menuItemId, this.state.qty)
     this.props.navigator.pop();
   }
 
+  onValueChange(newValue) {
+    this.setState({ qty: newValue });
+  }
+
   render() {
-    return (
-      <FoodMenuItemComponent
-        menuItem={this.state.menuItem}
-        onBackClicked={this.onBackClicked.bind(this)}
-      />
-    )
+    if(!this.state.menuItem) {
+      return <View />
+    } else {
+      return (
+        <FoodMenuItemComponent
+          menuItem={this.state.menuItem}
+          initialValue={this.state.qty}
+          onBackClicked={this.onBackClicked.bind(this)}
+          onValueChange={this.onValueChange.bind(this)}
+        />
+      )
+    }
   }
 }

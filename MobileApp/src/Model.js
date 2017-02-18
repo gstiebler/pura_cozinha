@@ -23,12 +23,28 @@ const menuItemFixture = [
 
 class Model {
 
+  constructor() {
+    this.cartItems = new Map();
+  }
+
   getFoodMenu() {
     return menuItemFixture;
   }
 
   getFoodMenuItemById(menuItemId) {
     return menuItemFixture.find(item => item.id == menuItemId);
+  }
+
+  getCartQty(menuItemId) {
+    if(!this.cartItems.has(menuItemId)) {
+      return 0;
+    } else {
+      return this.cartItems.get(menuItemId);
+    }
+  }
+
+  setCartQty(menuItemId, qty) {
+    this.cartItems.set(menuItemId, qty);
   }
 
 }
