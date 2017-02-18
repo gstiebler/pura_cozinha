@@ -8,15 +8,20 @@ import {
 import Header from './Header';
 import TabsComponent from './TabsComponent';
 import FoodMenuItem from '../containers/FoodMenuItem';
+import Address from '../containers/Address';
 
 function router(route, navigator) {
   if(route.id === 'tabs') {
     return <TabsComponent navigator={navigator} />
-  } else {
+  } else if (route.id === 'menu_item') {
     return <FoodMenuItem 
       navigator={navigator}
       menuItemId={route.menuItemId} 
     />
+  } else if (route.id  == 'address') {
+    return <Address navigator={navigator} />
+  } else {
+    return <Text>Erro!</Text>
   }
 }
 

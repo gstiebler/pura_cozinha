@@ -5,6 +5,7 @@ import {
   View,
   ListView,
   TouchableOpacity,
+  Button
 } from 'react-native';
 
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
@@ -27,6 +28,12 @@ const Cart = (props) => {
       <ListView enableEmptySections={true}
         dataSource={dataSource}
         renderRow={renderRow.bind(null, props.onItemSelected)}
+      />
+      <Button
+        onPress={props.onOrderClicked}
+        title="Fazer pedido"
+        color="#841584"
+        accessibilityLabel="Fazer pedido"
       />
     </View>
   );

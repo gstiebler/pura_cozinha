@@ -25,6 +25,7 @@ class Model {
 
   constructor() {
     this.cartItems = new Map();
+    this.address = '';
   }
 
   getFoodMenu() {
@@ -63,6 +64,14 @@ class Model {
       cartItems.push(item);
     }
     return cartItems;
+  }
+
+  getAddress() {
+    return this.address;
+  }
+
+  setAddress(newAddress) {
+    this.address = newAddress;
   }
 
 }

@@ -28,6 +28,10 @@ export default class Cart extends Component {
     this.props.navigator.push({id: 'menu_item', menuItemId: cartItem.id});
   }
 
+  onOrderClicked() {
+    this.props.navigator.push({id: 'address'});
+  }
+
   render() {
     if(!this.state.cartItems) {
       return <View />
@@ -36,6 +40,7 @@ export default class Cart extends Component {
         <CartComponent 
           cartItems={this.state.cartItems} 
           onItemSelected={this.onItemSelected.bind(this)}
+          onOrderClicked={this.onOrderClicked.bind(this)}
         />
       )
     }
