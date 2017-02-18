@@ -5,15 +5,18 @@ import {
   View,
   Navigator
 } from 'react-native';
-import TabsComponent from './TabsComponent';
 import Header from './Header';
+import TabsComponent from './TabsComponent';
+import FoodMenuItem from '../containers/FoodMenuItem';
 
 function router(route, navigator) {
   if(route.id === 'tabs') {
     return <TabsComponent navigator={navigator} />
   } else {
-    console.log(route.menu_item_id);
-    return <Text>Outra tela do navegador</Text>
+    return <FoodMenuItem 
+      navigator={navigator}
+      menuItemId={route.menu_item_id} 
+    />
   }
 }
 
