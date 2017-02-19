@@ -19,9 +19,9 @@ const Address = (props) => {
       />
       <Button
         onPress={props.onPayClicked}
-        title="Fazer pedido"
+        title="Pagar"
         color="#841584"
-        accessibilityLabel="Fazer pedido"
+        accessibilityLabel="Pagar"
       />
     </View>
   );
