@@ -9,6 +9,7 @@ import Header from './Header';
 import TabsComponent from './TabsComponent';
 import FoodMenuItem from '../containers/FoodMenuItem';
 import Address from '../containers/Address';
+import CreditCard from '../containers/CreditCard';
 
 function router(route, navigator) {
   if(route.id === 'tabs') {
@@ -20,6 +21,8 @@ function router(route, navigator) {
     />
   } else if (route.id  == 'address') {
     return <Address navigator={navigator} />
+  } else if (route.id  == 'credit_card') {
+    return <CreditCard navigator={navigator} />
   } else {
     return <Text>Erro!</Text>
   }
