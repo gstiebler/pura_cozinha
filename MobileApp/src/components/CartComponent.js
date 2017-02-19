@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button
 } from 'react-native';
+import { formatMoney } from '../utils/StringUtils'
 
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
@@ -29,6 +30,7 @@ const Cart = (props) => {
         dataSource={dataSource}
         renderRow={renderRow.bind(null, props.onItemSelected)}
       />
+      <Text style={styles.header}>Total: R$ {formatMoney(props.totalCartValue)}</Text>
       <Button
         onPress={props.onOrderClicked}
         title="Fazer pedido"

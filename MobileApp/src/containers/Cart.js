@@ -21,7 +21,8 @@ export default class Cart extends Component {
 
   updateState(props) {
     const cartItems = model.getCartItems();
-    this.setState({ cartItems });
+    const totalCartValue = model.getTotalCartValue();
+    this.setState({ cartItems, totalCartValue });
   }
 
   onItemSelected(cartItem) {
@@ -39,6 +40,7 @@ export default class Cart extends Component {
       return (
         <CartComponent 
           cartItems={this.state.cartItems} 
+          totalCartValue={this.state.totalCartValue}
           onItemSelected={this.onItemSelected.bind(this)}
           onOrderClicked={this.onOrderClicked.bind(this)}
         />

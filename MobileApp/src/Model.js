@@ -74,6 +74,15 @@ class Model {
     this.address = newAddress;
   }
 
+  getTotalCartValue() {
+    const selectedItems = this.getCartItems();
+    let total = 0.0;
+    for(item of selectedItems) {
+      total += item.price * item.qty;
+    }
+    return total;
+  }
+
 }
 
 const model = new Model();
