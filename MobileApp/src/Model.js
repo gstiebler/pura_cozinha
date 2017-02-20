@@ -1,3 +1,15 @@
+import { AsyncStorage } from 'react-native';
+
+function makeId(length)
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < length; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 const menuItemFixture = [
   {
@@ -21,11 +33,22 @@ const menuItemFixture = [
   },
 ];
 
+const USER_ID_KEY = 'general:user_id';
+
 class Model {
 
   constructor() {
     this.cartItems = new Map();
     this.address = '';
+    this.initializeUserId();
+  }
+
+  async initializeUserId() {
+    this.userId = await AsyncStorage.getItem(USER_ID_KEY);
+    if(this.userId === null) {
+      this.userId = makeId(8);
+      await AsyncStorage.setItem(USER_ID_KEY, this.userId);
+    }
   }
 
   getFoodMenu() {
