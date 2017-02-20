@@ -106,6 +106,10 @@ class Model {
     return total;
   }
 
+  pay(creditCardDetails) {
+    console.log(creditCardDetails);
+  }
+
 }
 
 const model = new Model();

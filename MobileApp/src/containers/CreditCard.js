@@ -24,7 +24,7 @@ export default class CreditCard extends Component {
 
   onPayClicked() {
     if(this.state.cardValues.valid) {
-      console.log('finished');
+      model.pay(this.state.cardValues.values);
     } else {
       Alert.alert(
         'Alerta',
