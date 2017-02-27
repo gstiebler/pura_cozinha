@@ -15,10 +15,10 @@
             "type": "node",
             "request": "launch",
             "name": "Mocha tests",
-            "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "src/test"
+                "src/test", "--no-timeouts"
             ]
         },
         {
