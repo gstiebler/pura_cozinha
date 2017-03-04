@@ -18,7 +18,7 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "src/test", "--no-timeouts"
+                "out/test", "--no-timeouts"
             ]
         },
         {

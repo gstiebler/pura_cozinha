@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "./out"
+    },
+    "exclude": [
+        "node_modules",    
+        "typings/browser.d.ts",
+        "typings/browser"
+    ]
+}
