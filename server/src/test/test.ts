@@ -6,13 +6,13 @@ let a = new Promise((accept, reject) => {
   accept('guilherme');
 });
 
-describe('Array', function() {
+describe('basic tests', function() {
 
   beforeEach(async function() {
     await execFixtures();
   });
 
-  describe('#indexOf()', function() {
+  describe('second level of basic tests', function() {
 
     it('should return -1 when the value is not present', async function() {
       const b = await a.then();
@@ -26,11 +26,10 @@ describe('Array', function() {
       assert.equal('world', result.data.hello);
     });
 
-    it('kitchen', async function() {
-      const query = 'query { kitchen }';
+    it('kitchen test', async function() {
+      const query = 'query { kitchens { _id, name, address } }';
       const result = await execGQLQuery(query);
-      const parsed = JSON.parse(result.data.kitchen);
-      assert.equal('Cozinha do Marcel', parsed.name);
+      assert.equal('Cozinha do Marcel', result.data.kitchens[0].name);
     });
   });
 });

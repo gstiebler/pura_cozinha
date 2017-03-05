@@ -2,10 +2,29 @@ import {
   graphql,
   GraphQLSchema,
   GraphQLObjectType,
-  GraphQLString
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLList,
 } from 'graphql';
 
 import { Kitchen } from './db/kitchen';
+
+const kitchenType = new GraphQLObjectType({
+  name: 'kitchenType',
+  fields: {
+    _id: {
+      type: new GraphQLNonNull(GraphQLID)
+    },
+    name: {
+      type: GraphQLString
+    },
+    address: {
+      type: GraphQLString
+    }
+  }
+});
+
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -17,11 +36,11 @@ const schema = new GraphQLSchema({
           return 'world';
         }
       },
-      kitchen: {
-        type: GraphQLString,
+      kitchens: {
+        type: new GraphQLList(kitchenType),
         resolve: async function() {
-          const result = await Kitchen.findOne().then();
-          return JSON.stringify(result);
+          const result = await Kitchen.find().then();
+          return result;
         }
       }
     }
