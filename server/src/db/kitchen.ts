@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const Kitchen = mongoose.model('Kitchen', {
+const kitSchema = new mongoose.Schema({
    name: { 
      type: String,
      required: true
@@ -11,3 +11,5 @@ export const Kitchen = mongoose.model('Kitchen', {
    },
    coordinates: { type: Object }
 });
+
+export const Kitchen = mongoose.model('Kitchen', kitSchema);
