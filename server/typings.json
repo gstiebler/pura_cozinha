@@ -1,6 +1,8 @@
 {
   "name": "server",
   "dependencies": {
+    "express": "registry:npm/express#4.14.0+20170217205433",
+    "express-graphql": "registry:dt/express-graphql#0.0.0+20160727004517",
     "graphql": "registry:npm/graphql#0.5.0+20160602041655"
   },
   "globalDependencies": {

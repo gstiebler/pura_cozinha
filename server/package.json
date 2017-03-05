@@ -12,6 +12,8 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "express": "^4.15.0",
+    "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
     "mongoose": "^4.8.5"
   }

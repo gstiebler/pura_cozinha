@@ -20,7 +20,7 @@ const kitchenType = new GraphQLObjectType({
 });
 
 
-const schema = new GraphQLSchema({
+export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
