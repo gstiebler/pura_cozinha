@@ -13,15 +13,9 @@ import { Kitchen } from './db/kitchen';
 const kitchenType = new GraphQLObjectType({
   name: 'kitchenType',
   fields: {
-    _id: {
-      type: new GraphQLNonNull(GraphQLID)
-    },
-    name: {
-      type: GraphQLString
-    },
-    address: {
-      type: GraphQLString
-    }
+    _id: { type: new GraphQLNonNull(GraphQLID) },
+    name: { type: GraphQLString },
+    address: { type: GraphQLString }
   }
 });
 
@@ -45,9 +39,7 @@ const schema = new GraphQLSchema({
       kitchen: {
         type: kitchenType,
         args: {
-          id: {
-            type: GraphQLString
-          }
+          id: { type: GraphQLString }
         },
         resolve: async function(root, { id }) {
           return Kitchen.findOne({ '_id': id });
