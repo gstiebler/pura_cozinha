@@ -12,7 +12,7 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
-    "chai": "^3.5.0",
-    "graphql": "^0.9.1"
+    "graphql": "^0.9.1",
+    "mongoose": "^4.8.5"
   }
 }
