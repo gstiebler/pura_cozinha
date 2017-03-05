@@ -12,9 +12,9 @@ import { formatMoney } from '../utils/StringUtils'
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
     <TouchableOpacity onPress={() => { onItemSelected(rowData) } }>
-      <View style={styles.card}>
-        <Text>{rowData.title}</Text>
-        <Text>{rowData.qty}</Text>
+      <View style={styles.row}>
+        <Text>{rowData.title}: </Text>
+        <Text style={styles.qty}>{rowData.qty}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -30,7 +30,7 @@ const Cart = (props) => {
         dataSource={dataSource}
         renderRow={renderRow.bind(null, props.onItemSelected)}
       />
-      <Text style={styles.header}>Total: R$ {formatMoney(props.totalCartValue)}</Text>
+      <Text style={styles.total}>Total: R$ {formatMoney(props.totalCartValue)}</Text>
       <Button
         onPress={props.onOrderClicked}
         title="Fazer pedido"
@@ -44,7 +44,24 @@ const Cart = (props) => {
 export default Cart;
 
 const styles = StyleSheet.create({
-  card: {},
+  row: {
+    flexDirection: 'row',
+    padding: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC'
+  },  
   container: {},
-  header: {},
+  header: {
+    padding: 5,
+    fontWeight: 'bold'
+  },
+  qty: {
+    marginLeft: 10,
+  },
+  total: {
+    padding: 10,
+    fontWeight: 'bold'
+  }
 });

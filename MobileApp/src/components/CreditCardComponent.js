@@ -15,7 +15,7 @@ const CreditCard = ({onChange, onPayClicked}) => {
   };
   return (
     <View>
-      <Text>Insira os dados do cartão de crédito</Text>
+      <Text style={styles.text} >Insira os dados do cartão de crédito</Text>
       <LiteCreditCardInput 
         onChange={onChange} 
         labels={labels}
@@ -31,3 +31,10 @@ const CreditCard = ({onChange, onPayClicked}) => {
 }
 
 export default CreditCard;
+
+
+const styles = StyleSheet.create({
+  text: {
+    padding: 10
+  },
+});
