@@ -1,7 +1,13 @@
 import * as mongoose from 'mongoose';
 
 export const Kitchen = mongoose.model('Kitchen', {
-   name: String,
-   address: String,
-   coordinates: Object
+   name: { 
+     type: String,
+     required: true
+   },
+   address: { 
+     type: String,
+     required: true
+   },
+   coordinates: { type: Object }
 });
