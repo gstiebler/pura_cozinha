@@ -6,6 +6,8 @@ import {
   GraphQLNonNull,
   GraphQLID,
   GraphQLList,
+  GraphQLInt,
+  GraphQLInputObjectType
 } from 'graphql';
 
 import { Kitchen } from './db/kitchen';
@@ -19,6 +21,14 @@ const kitchenType = new GraphQLObjectType({
   }
 });
 
+
+const KitchenInputType = new GraphQLInputObjectType({
+  name: 'ArticleInput',
+  fields: {
+    name: { type: GraphQLString },
+    address: { type: GraphQLString }
+  }
+});
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -46,6 +56,19 @@ export const schema = new GraphQLSchema({
         }
       }
     }
+  }),
+  mutation: new GraphQLObjectType({
+    fields: {
+      saveKitchen: {
+        type: kitchenType,
+        args: { newKitchenData: { type: KitchenInputType } },
+        resolve(value, { newKitchenData }) {
+          const newKitchen = new Kitchen(newKitchenData);
+          return newKitchen.save();
+        }
+      },
+    },
+    name: 'Mutation',
   })
 });
 

@@ -21,13 +21,26 @@ describe('basic tests', function() {
   });
 
   it('kitchen test', async function() {
-    const queryKitchens = 'query { kitchens { _id, name, address } }';
+    const kitchenFields = '_id, name, address';
+    const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
     const result = await execGQLQuery(queryKitchens);
     assert.equal('Cozinha do Marcel', result.data.kitchens[0].name);
     const id = result.data.kitchens[1]._id;
-    const queryOneKitchen = util.format('query { kitchen(id: "%s") { _id, name, address } }', id);
+    const queryOneKitchen = util.format('query { kitchen(id: "%s") { %s } }', id, kitchenFields);
     const resKitchen = await execGQLQuery(queryOneKitchen);
     assert.equal('Rua bem central', resKitchen.data.kitchen.address);
+  });
+
+  it('kitchen save', async function() {
+    const kitchenFields = 'name, address';
+    const kitchenValues = '{ name: "Teste nome cozinha", address: "Endereço salvar" }';
+    const mutSave = util.format('mutation { saveKitchen(newKitchenData: %s) { %s } }',
+          kitchenValues, kitchenFields);
+    const resSave = await execGQLQuery(mutSave);
+    
+    const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
+    const result = await execGQLQuery(queryKitchens);
+    assert.equal(3, result.data.kitchens.length);
   });
 });
 
