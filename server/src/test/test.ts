@@ -1,27 +1,6 @@
 import * as assert from 'assert';
-
-import {
-  graphql,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString
-} from 'graphql';
-
 import execFixtures from './fixtures/fixture';
-
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve() {
-          return 'world';
-        }
-      }
-    }
-  })
-});
+import { execGQLQuery } from '../graphql_controller';
 
 let a = new Promise((accept, reject) => {
   accept('guilherme');
@@ -41,11 +20,17 @@ describe('Array', function() {
       assert.equal(-1, [1,2,3].indexOf(4));
     });
 
-    
     it('graphql', async function() {
       const query = 'query teste { hello }';
-      const result = await graphql(schema, query);
-      console.log(result);
+      const result = await execGQLQuery(query);
+      assert.equal('world', result.data.hello);
+    });
+
+    it('kitchen', async function() {
+      const query = 'query { kitchen }';
+      const result = await execGQLQuery(query);
+      const parsed = JSON.parse(result.data.kitchen);
+      assert.equal('Cozinha do Marcel', parsed.name);
     });
   });
 });
