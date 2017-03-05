@@ -38,9 +38,19 @@ const schema = new GraphQLSchema({
       },
       kitchens: {
         type: new GraphQLList(kitchenType),
-        resolve: async function() {
-          const result = await Kitchen.find().then();
-          return result;
+        resolve: function() {
+          return Kitchen.find();
+        }
+      },
+      kitchen: {
+        type: kitchenType,
+        args: {
+          id: {
+            type: GraphQLString
+          }
+        },
+        resolve: async function(root, { id }) {
+          return Kitchen.findOne({ '_id': id });
         }
       }
     }

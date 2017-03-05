@@ -13,6 +13,7 @@ async function resetDb() {
 };
 
 async function dropDb() {
+  mongoose.Promise = global.Promise;
   await mongoose.connection.close();
   await mongoose.connect(testURL);
   await mongoose.connection.db.dropDatabase();

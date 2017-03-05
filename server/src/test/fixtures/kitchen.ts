@@ -1,10 +1,16 @@
 import { Kitchen } from '../../db/kitchen';
 
 export default async function execute() {
-  var kitchen = new Kitchen({
-    name: 'Cozinha do Marcel',
-    address: 'Endereço',
-    coordinates: { lat: 39573.3457, lng: 87347 }
-  });
-  await kitchen.save();
+  await Kitchen.collection.insert([
+    {
+      name: 'Cozinha do Marcel',
+      address: 'Endereço',
+      coordinates: { lat: 39573.3457, lng: 87347 }
+    },
+    {
+      name: 'Outra cozinha',
+      address: 'Rua bem central',
+      coordinates: { lat: 12.34, lng: -57.34 }
+    },
+  ]);
 }
