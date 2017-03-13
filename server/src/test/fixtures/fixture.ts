@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { init, testURL } from '../../db';
+import { init, MongoURL } from '../../db';
 import kitchenFixtures from './kitchen';
 
 export default async function execute() {
@@ -15,7 +15,7 @@ async function resetDb() {
 async function dropDb() {
   (<any>mongoose).Promise = global.Promise;
   await mongoose.connection.close();
-  await mongoose.connect(testURL);
+  await mongoose.connect(MongoURL);
   await mongoose.connection.db.dropDatabase();
   await mongoose.connection.close();
 }
