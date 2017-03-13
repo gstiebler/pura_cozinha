@@ -29,6 +29,18 @@
         },
         {
             "type": "node",
+            "request": "launch",
+            "name": "Seed",
+            "program": "${workspaceRoot}/out/db/seed.js",
+            "cwd": "${workspaceRoot}",
+            "args": [
+            ],
+			"env": {
+				"NODE_ENV": "development"
+			}
+        },
+        {
+            "type": "node",
             "request": "attach",
             "name": "Attach to Process",
             "port": 5858
