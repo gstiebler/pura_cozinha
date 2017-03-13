@@ -53,3 +53,5 @@ process.on('uncaughtException', function (err) {
 })
 
 app.listen(4000);
+
+export default app;
