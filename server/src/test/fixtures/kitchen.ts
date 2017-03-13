@@ -1,4 +1,4 @@
-import { Kitchen } from '../../db/kitchen';
+import { Kitchen } from '../../db/models/kitchen';
 
 export default async function execute() {
   await Kitchen.collection.insert([

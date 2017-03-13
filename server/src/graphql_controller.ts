@@ -10,7 +10,7 @@ import {
   GraphQLInputObjectType
 } from 'graphql';
 
-import { Kitchen } from './db/kitchen';
+import { Kitchen } from './db/models/kitchen';
 
 const kitchenType = new GraphQLObjectType({
   name: 'kitchenType',

@@ -1,10 +1,12 @@
 import * as mongoose from 'mongoose';
 import { init, MongoURL } from '../../db';
 import kitchenFixtures from './kitchen';
+import menuItemFixtures from './menuItem';
 
 export default async function execute() {
   await resetDb();
   await kitchenFixtures();
+  await menuItemFixtures();
 }
 
 async function resetDb() {
