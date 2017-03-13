@@ -5,40 +5,42 @@ import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
 import app from './../app';
 
-function initializeServer(port) {
-    app.set('port', port);
-    const server = http.createServer(app);
-    server.listen(port);
-    server.on('error', onError);
-    
-    function onError(error) {
-        winston.error(error);
-    }
-    
-    return server;
+const port = '4000';
+
+async function fetchQuery(query: string) {
+  const res = await fetch('http://localhost:' + port + '/graphql', {
+    method: 'POST',
+    headers: { "Content-type": "application/json", "Accept": "application/json"},
+    body: JSON.stringify({ query })
+  });
+  const json = await res.json();
+  return json.data;
 }
 
 describe('functional express api tests', function() {
 
-  beforeEach(async function() {
-    await execFixtures();
-    //this.server = initializeServer(3333);
+  before(async function() {
+    const server = http.createServer(app);
+    server.listen(port);
+    server.on('error', (err) => {
+      winston.error(err.stack);
+    });
+    this.server = server;
   });
 
-  afterEach(async function() {
-    //this.server.close();
+  after(async function() {
+    this.server.close();
+  });
+
+  beforeEach(async function() {
+    await execFixtures();
   });
 
   it('first test', async function() {
     const kitchenFields = '_id, name, address';
     const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
-    const res = await fetch('http://localhost:4000/graphql', {
-      method: 'POST',
-      headers: { "Content-type": "application/json", "Accept": "application/json"},
-      body: JSON.stringify({ query: queryKitchens })
-    });
-    const json = await res.json();
-    const kitchens = json.data.kitchens;
+    const data = await fetchQuery(queryKitchens);
+    const kitchens = data.kitchens;
     assert.equal(2, kitchens.length);
     assert.equal('Cozinha do Marcel', kitchens[0].name);
     assert.equal('Rua bem central', kitchens[1].address);

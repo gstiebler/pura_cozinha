@@ -52,6 +52,4 @@ process.on('uncaughtException', function (err) {
     winston.error(err.stack);
 })
 
-app.listen(4000);
-
 export default app;

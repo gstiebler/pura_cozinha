@@ -8,8 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/out/app.js",
-            "cwd": "${workspaceRoot}"
+            "program": "${workspaceRoot}/out/startServer.js",
+            "cwd": "${workspaceRoot}",
+			"env": {
+				"NODE_ENV": "development"
+			}
         },
         {
             "type": "node",
@@ -19,7 +22,10 @@
             "cwd": "${workspaceRoot}",
             "args": [
                 "out/test", "--no-timeouts"
-            ]
+            ],
+			"env": {
+				"NODE_ENV": "test"
+			}
         },
         {
             "type": "node",
