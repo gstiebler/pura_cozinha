@@ -42,5 +42,12 @@ describe('basic tests', function() {
     const result = await execGQLQuery(queryKitchens);
     assert.equal(3, result.data.kitchens.length);
   });
+
+  it('get menu items', async function() {
+    const fields = '_id, name, value, imgURL';
+    const query = 'query { menuItems(lat: 0.0, lng: 0.0) { ' + fields + ' } }';
+    const result = await execGQLQuery(query);
+    assert.equal('Sanduba de frango', result.data.menuItems[0].name);
+  });
 });
 
