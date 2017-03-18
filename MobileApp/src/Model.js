@@ -35,6 +35,21 @@ const menuItemFixture = [
 
 const USER_ID_KEY = 'general:user_id';
 
+async function fetchQuery(query) {
+  const port = '3000';
+  try {
+    const res = await fetch('http://192.168.0.14:' + port + '/graphql', {
+      method: 'POST',
+      headers: { "Content-type": "application/json", "Accept": "application/json"},
+      body: JSON.stringify({ query })
+    });
+    const json = await res.json();
+    return json.data;
+  } catch(err) {
+    console.error(err);
+  }
+}
+
 class Model {
 
   constructor() {
@@ -51,8 +66,11 @@ class Model {
     }
   }
 
-  getFoodMenu() {
-    return menuItemFixture;
+  async getFoodMenu() {
+    const fields = '_id, title, price, description, imgURL';
+    const query = 'query { menuItems(lat: 11.5, lng: 12.8) { ' + fields + ' } }';
+    const result = await fetchQuery(query);
+    return result.menuItems;
   }
 
   getFoodMenuItemById(menuItemId) {
