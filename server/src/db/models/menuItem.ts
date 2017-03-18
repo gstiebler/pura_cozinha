@@ -1,11 +1,15 @@
 import * as mongoose from 'mongoose';
 
 const menuItemSchema = new mongoose.Schema({
-   name: { 
+   title: { 
      type: String,
      required: true
    },
-   value: { 
+   description: { 
+     type: String,
+     required: true
+   },
+   price: { 
      type: Number,
      required: true
    },

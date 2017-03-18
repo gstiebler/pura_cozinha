@@ -44,10 +44,10 @@ describe('basic tests', function() {
   });
 
   it('get menu items', async function() {
-    const fields = '_id, name, value, imgURL';
-    const query = 'query { menuItems(lat: 0.0, lng: 0.0) { ' + fields + ' } }';
+    const fields = '_id, title, price, imgURL';
+    const query = 'query { menuItems(lat: 11.5, lng: 12.8) { ' + fields + ' } }';
     const result = await execGQLQuery(query);
-    assert.equal('Sanduba de frango', result.data.menuItems[0].name);
+    assert.equal('Sanduba de frango', result.data.menuItems[0].title);
   });
 });
 

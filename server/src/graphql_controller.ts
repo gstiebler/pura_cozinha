@@ -35,8 +35,9 @@ const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLID) },
-    name: { type: GraphQLString },
-    value: { type: GraphQLFloat },
+    title: { type: GraphQLString },
+    description: { type: GraphQLString },
+    price: { type: GraphQLFloat },
     imgURL: { type: GraphQLString },
   }
 });
