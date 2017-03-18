@@ -19,7 +19,7 @@ function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
       <View style={styles.card}>
         <Image
           style={styles.avatar}
-          source={require('../../assets/sandwich.jpg')}
+          source={{ uri: rowData.imgURL }}
         />
         <View style={styles.textColumn}>
           <Text style={styles.title}>{rowData.title}</Text>
