@@ -1,7 +1,24 @@
 import app from './app';
 import * as winston from 'winston';
+import * as http from 'http';
+import * as https from 'https';
+import * as fs from 'fs';
 
 const port = process.env.PORT || '3000';
-app.listen(port, function () {
+const HTTPSport = 443;
+
+const privateKey  = fs.readFileSync('./sslcert/ca.key', 'utf8');
+const certificate = fs.readFileSync('./sslcert/ca.crt', 'utf8');
+
+const credentials = {key: privateKey, cert: certificate};
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(port, () => {
   winston.info('Server listening on port ' + port);
+});
+
+httpsServer.listen(HTTPSport, () => {
+  winston.info('Server listening HTTPS on port ' + HTTPSport);
 });
