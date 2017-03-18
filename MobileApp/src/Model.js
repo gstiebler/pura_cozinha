@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import { getGeolocation} from './lib/geolocation';
 
 function makeId(length)
 {
@@ -67,10 +68,17 @@ class Model {
   }
 
   async getFoodMenu() {
-    const fields = '_id, title, price, description, imgURL';
-    const query = 'query { menuItems(lat: 11.5, lng: 12.8) { ' + fields + ' } }';
-    const result = await fetchQuery(query);
-    return result.menuItems;
+    try {
+      const geo = await getGeolocation();
+      console.log(JSON.stringify(geo));
+      const fields = '_id, title, price, description, imgURL';
+      const query = 'query { menuItems(lat: 11.5, lng: 12.8) { ' + fields + ' } }';
+      const result = await fetchQuery(query);
+      return result.menuItems;
+    } catch(err) {
+      console.error(err);
+      return [];
+    }
   }
 
   getFoodMenuItemById(menuItemId) {

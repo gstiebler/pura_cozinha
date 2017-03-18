@@ -12,10 +12,10 @@ export default class FoodMenu extends Component {
   }
 
   async componentDidMount() {
-    this.test();
+    this.getFoodMenu();
   }
 
-  async test() {
+  async getFoodMenu() {
     const foodMenuItems = await model.getFoodMenu();
     this.setState({ foodMenuItems });
   }
