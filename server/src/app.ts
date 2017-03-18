@@ -5,9 +5,18 @@ import * as winston from 'winston';
 import { schema } from './graphql_controller';
 import * as db from './db';
 
+import * as bodyParser from 'body-parser';
+
 db.init();
 
 const app = express();
+
+// log requests
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  winston.info(req.body);
+  next();
+});
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,

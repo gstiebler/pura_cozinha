@@ -12,6 +12,7 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.0",
     "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
