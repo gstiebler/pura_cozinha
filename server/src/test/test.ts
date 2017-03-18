@@ -11,7 +11,7 @@ describe('basic tests', function() {
   });
 
   it('first test', async function() {
-    assert.equal(-1, [1,2,3].indexOf(4));
+    assert.equal(-1, [1, 2, 3].indexOf(4));
   });
 
   it('graphql', async function() {
@@ -37,7 +37,7 @@ describe('basic tests', function() {
     const mutSave = util.format('mutation { saveKitchen(newKitchenData: %s) { %s } }',
           kitchenValues, kitchenFields);
     const resSave = await execGQLQuery(mutSave);
-    
+
     const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
     const result = await execGQLQuery(queryKitchens);
     assert.equal(3, result.data.kitchens.length);

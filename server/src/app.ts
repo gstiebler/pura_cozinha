@@ -26,7 +26,7 @@ app.use('/graphql', graphqlHTTP({
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err:any = new Error('Not Found');
+  const err: any = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -59,6 +59,6 @@ app.use(function(err, req: express.Request, res: express.Response) {
 
 process.on('uncaughtException', function (err) {
     winston.error(err.stack);
-})
+});
 
 export default app;
