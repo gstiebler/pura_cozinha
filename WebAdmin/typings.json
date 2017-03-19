@@ -8,6 +8,7 @@
   },
   "globalDependencies": {
     "bootstrap": "registry:dt/bootstrap#3.3.5+20160726204056",
-    "classnames": "registry:dt/classnames#0.0.0+20161113184211"
+    "classnames": "registry:dt/classnames#0.0.0+20161113184211",
+    "whatwg-fetch": "registry:dt/whatwg-fetch#0.0.0+20161004182750"
   }
 }

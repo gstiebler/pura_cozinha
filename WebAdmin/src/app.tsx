@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import AdminApp from './containers/BaseContainer';
-import FoodMenuItems from './components/FoodMenuItems';
+import FoodMenuItems from './containers/FoodMenuItems';
 
 ReactDOM.render(
     <Router history={browserHistory}>
