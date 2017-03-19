@@ -13,12 +13,14 @@ const certificate = fs.readFileSync('./sslcert/ca.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(port, () => {
   winston.info('Server listening on port ' + port);
 });
 
+/*
 httpsServer.listen(HTTPSport, () => {
   winston.info('Server listening HTTPS on port ' + HTTPSport);
 });
+*/
