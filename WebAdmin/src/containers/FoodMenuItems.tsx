@@ -5,13 +5,17 @@ import model from '../lib/Model';
 interface IAppProps {
 }
 
-interface IAppState { }
+interface IAppState {
+  menuItems: any[];
+}
 
 export default class FoodMenuItems extends React.Component<IAppProps, IAppState> {
 
   constructor(props: IAppProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      menuItems: []
+    };
   }
 
   componentDidMount() {
@@ -20,13 +24,13 @@ export default class FoodMenuItems extends React.Component<IAppProps, IAppState>
 
   async getFoodMenuItems() {
     const menuItems = await model.getFoodMenuItems();
-    console.log(JSON.stringify(menuItems));
+    this.setState({ menuItems });
   }
 
   public render(): React.ReactElement<any> {
     return (
       <div>
-        <FoodMenuItemsComponent />
+        <FoodMenuItemsComponent items={this.state.menuItems}/>
       </div>
     );
   }
