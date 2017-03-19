@@ -21,6 +21,9 @@
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
     "react-router": "^4.0.0",
+    "run-sequence": "^1.2.2",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
