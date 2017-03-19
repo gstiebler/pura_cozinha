@@ -1,6 +1,7 @@
 {
   "name": "pura_cozinha_admin_client",
   "dependencies": {
+    "fixed-data-table": "registry:dt/fixed-data-table#0.6.0+20170123203653",
     "react": "registry:dt/react#15.0.0+20170311000913",
     "react-bootstrap": "registry:dt/react-bootstrap#0.0.0+20170307015734",
     "react-dom": "registry:dt/react-dom#0.14.0+20170207010524",
