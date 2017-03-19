@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-const FoodMenuItems = (props) => {
+export default function FoodMenuItems(props) {
   return (
     <div>Hello Pura Cozinha!</div>
   );
 };
-
-export default FoodMenuItems;

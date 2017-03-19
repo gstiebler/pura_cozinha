@@ -28,6 +28,7 @@ export default class AdminApp extends React.Component<IAppProps, IAppState> {
     if (!redirURL) {
       redirURL = INITIAL_PAGE_URL;
     }
+    browserHistory.push(redirURL);
   }
 
   public render(): React.ReactElement<any> {
