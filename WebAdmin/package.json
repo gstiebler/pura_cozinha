@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "browser-sync": "^2.18.8",
     "browserify": "^14.1.0",
     "classnames": "^2.2.5",
     "gulp": "^3.9.1",
