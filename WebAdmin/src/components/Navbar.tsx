@@ -27,8 +27,8 @@ export default class Navbar extends React.Component<IAppProps, IAppState> {
                 <div className='container-fluid'>
                     <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
                         <ul className='nav navbar-nav'>
-                            <li className='active'><Link to='/admin/food_menu_items'>Itens de menu</Link></li>
-                            <li className='active'><Link to='/app/kitchens'>Cozinhas</Link></li>
+                            <li className='active'><Link to='/admin_app/food_menu_items'>Itens de menu</Link></li>
+                            <li className='active'><Link to='/admin_app/kitchens'>Cozinhas</Link></li>
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
                             <li><Link to='#' onClick={this.fetchItemsFromServer.bind(this)}>Sync</Link></li>
