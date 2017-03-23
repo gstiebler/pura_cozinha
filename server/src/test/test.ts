@@ -49,5 +49,18 @@ describe('basic tests', function() {
     const result = await execGQLQuery(query);
     assert.equal('Sanduba de frango', result.data.menuItems[0].title);
   });
+
+  it('order save', async function() {
+    const orderFields = 'user_id, items { food_menu_item_id, quantity, item_title, price }';
+    const orderValues = '{ user_id: "uuu", items: [ { food_menu_item_id: "fmii", quantity: 1.0, item_title: "it", price: 15.0 } ] }';
+    const mutSave = util.format('mutation { saveOrder(newOrderData: %s) { %s } }',
+          orderValues, orderFields);
+    const resSave = await execGQLQuery(mutSave);
+    console.log(JSON.stringify(resSave));
+
+    /* const queryOrders = 'query { kitchens { ' + orderFields + ' } }';
+    const result = await execGQLQuery(queryKitchens);
+    assert.equal(3, result.data.kitchens.length); */
+  });
 });
 

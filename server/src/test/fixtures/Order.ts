@@ -12,6 +12,7 @@ export default async function execute() {
       kitchen_id: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
       total_paid: 40.0,
       datetime: new Date(),
+      status: 'PAYMENT_PENDING',
       items: [
         {
           food_menu_item_id: sandubaFrango._id,
@@ -26,6 +27,7 @@ export default async function execute() {
       kitchen_id: await idByValue(Kitchen, 'name', 'Outra cozinha'),
       total_paid: 38.50,
       datetime: new Date(),
+      status: 'PAYMENT_PENDING',
       items: [
         {
           food_menu_item_id: sandubaFrango._id,
