@@ -17,6 +17,10 @@ const OrderSchema = new mongoose.Schema({
      type: Date,
      required: true
    },
+   items: {
+     type: Array,
+     required: true
+   }
 });
 
 export const Order = mongoose.model('Order', OrderSchema);
