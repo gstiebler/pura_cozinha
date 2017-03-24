@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/out/startServer.js",
+            "program": "${workspaceRoot}/out/server/src/startServer.js",
             "cwd": "${workspaceRoot}",
 			"env": {
 				"NODE_ENV": "development"
@@ -21,7 +21,7 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "out/test", "--no-timeouts"
+                "out/server/src/test", "--no-timeouts"
             ],
 			"env": {
 				"NODE_ENV": "test"

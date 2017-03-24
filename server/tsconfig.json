@@ -4,7 +4,8 @@
         "module": "commonjs",
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outDir": "./out"
+        "outDir": "./out",
+        "allowJs": true
     },
     "exclude": [
         "node_modules",    
