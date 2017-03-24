@@ -1,5 +1,3 @@
-import { AsyncStorage } from 'react-native';
-import { getGeolocation} from './lib/geolocation';
 
 function makeId(length)
 {
@@ -36,45 +34,31 @@ const menuItemFixture = [
 
 const USER_ID_KEY = 'general:user_id';
 
-const port = '3000';
-const baseURL = 'http://192.168.0.14:' + port + '/graphql';
+export class Model {
 
-async function fetchQuery(query) {
-  try {
-    const res = await fetch(baseURL, {
-      method: 'POST',
-      headers: { "Content-type": "application/json", "Accept": "application/json"},
-      body: JSON.stringify({ query })
-    });
-    const json = await res.json();
-    return json.data;
-  } catch(err) {
-    console.error(err);
-  }
-}
-
-class Model {
-
-  constructor() {
+  constructor(network, AsyncStorage, getGeolocation) {
+    this.network = network;
+    this.AsyncStorage = AsyncStorage;
+    this.getGeolocation = getGeolocation;
     this.cartItems = new Map();
     this.address = '';
     this.initializeUserId();
   }
 
   async initializeUserId() {
-    this.userId = await AsyncStorage.getItem(USER_ID_KEY);
+    this.userId = await this.AsyncStorage.getItem(USER_ID_KEY);
     if(this.userId === null) {
       this.userId = makeId(8);
-      await AsyncStorage.setItem(USER_ID_KEY, this.userId);
+      await this.AsyncStorage.setItem(USER_ID_KEY, this.userId);
     }
   }
 
   async getFoodMenu() {
     try {
-      const geo = await getGeolocation();
+      const geo = await this.getGeolocation();
       const fields = '_id, title, price, description, imgURL';
       const query = `query { menuItems(lat: ${geo.latitude}, lng: ${geo.longitude}) { ${fields} } }`;
-      const result = await fetchQuery(query);
+      const result = await this.network.fetchQuery(query);
       return result.menuItems;
     } catch(err) {
       console.error(err);
@@ -146,13 +130,10 @@ class Model {
 
     const orderValues = `{ user_id: "${this.userId}", items: ${itemsStr} }}`;
     const orderFields = 'user_id, items { food_menu_item_id, quantity }';
-    const mutSave = `mutation { saveOrder(newOrderData: ${orderValues}) { ${orderFields} } }`,
+    const mutSave = `mutation { saveOrder(newOrderData: ${orderValues}) { ${orderFields} } }`;
 
-    await fetchQuery(mutSave);
+    await this.network.fetchQuery(mutSave);
     console.log(creditCardDetails);
   }
 
 }
-
-const model = new Model();
-export default model;

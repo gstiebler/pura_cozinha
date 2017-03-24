@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import model from '../Model';
+import { model } from '../Startup';
 import FoodMenuComponent from '../components/FoodMenuComponent';
 
 export default class FoodMenu extends Component {

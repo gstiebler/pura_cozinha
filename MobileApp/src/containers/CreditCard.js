@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import CreditCardComponent from '../components/CreditCardComponent';
-import model from '../Model';
+import { model } from '../Startup';
 
 export default class CreditCard extends Component {
   constructor(props){

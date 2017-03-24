@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import CartComponent from '../components/CartComponent';
-import model from '../Model';
+import { model } from '../Startup';
 
 export default class Cart extends Component {
   constructor(props){
