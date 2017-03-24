@@ -1,30 +1,20 @@
 import * as assert from 'assert';
-import * as http from 'http';
 import * as winston from 'winston';
 import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
-import app from './../app';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
+import * as TestUtils from './lib/TestUtils';
 
 import { Model } from '../../../MobileApp/src/Model';
 import { Network } from '../../../MobileApp/src/Network';
 
 
-const port = '4000';
-
 describe('React Native model test', function() {
 
   before(async function() {
-    const server = http.createServer(app);
-    server.listen(port);
-    server.on('error', (err) => {
-      winston.error(err.stack);
-    });
-    this.server = server;
-
-    const baseURL = 'http://localhost:' + port + '/graphql';
-    this.network = new Network(baseURL, fetch);
+    this.server = TestUtils.createServer;
+    this.network = new Network(TestUtils.baseURL, fetch);
   });
 
   after(async function() {
