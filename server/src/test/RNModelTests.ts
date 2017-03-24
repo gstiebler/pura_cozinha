@@ -13,7 +13,7 @@ import { Network } from '../../../MobileApp/src/Network';
 describe('React Native model test', function() {
 
   before(async function() {
-    this.server = TestUtils.createServer;
+    this.server = TestUtils.createServer();
     this.network = new Network(TestUtils.baseURL, fetch);
   });
 
@@ -39,7 +39,7 @@ describe('React Native model test', function() {
 
   it('getFoodMenu', async function() {
     await this.model.fetchFoodMenu();
-    const foodMenu: any[] = await this.model.getFoodMenu();
+    const foodMenu: any[] = this.model.getFoodMenu();
     assert.equal(3, foodMenu.length);
     assert.equal('Sanduba de frango', foodMenu[0].title);
     assert.equal(8.0, foodMenu[1].price);

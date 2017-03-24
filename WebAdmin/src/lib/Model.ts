@@ -1,7 +1,7 @@
 
 export class Model {
 
-  network: any;
+  private network: any;
 
   constructor(network) {
     this.network = network;
