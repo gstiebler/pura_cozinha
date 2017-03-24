@@ -14,10 +14,12 @@ const app = express();
 
 // log requests
 app.use(bodyParser.json());
-app.use(function(req, res, next) {
-  winston.info(req.body);
-  next();
-});
+if (process.env.SHOW_GRAPHQL_QUERIES) {
+  app.use(function(req, res, next) {
+    winston.info(req.body);
+    next();
+  });
+}
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,

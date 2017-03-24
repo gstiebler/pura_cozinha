@@ -25,6 +25,7 @@
             ],
 			"env": {
 				"NODE_ENV": "test"
+                //"SHOW_GRAPHQL_QUERIES": "true"
 			}
         },
         {
