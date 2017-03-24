@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
 import { execGQLQuery } from '../graphql_controller';
+import { Order } from '../db/models/Order';
 import * as util from 'util';
 
 
@@ -56,11 +57,13 @@ describe('basic tests', function() {
     const mutSave = util.format('mutation { saveOrder(newOrderData: %s) { %s } }',
           orderValues, orderFields);
     const resSave = await execGQLQuery(mutSave);
-    console.log(JSON.stringify(resSave));
 
-    /* const queryOrders = 'query { kitchens { ' + orderFields + ' } }';
-    const result = await execGQLQuery(queryKitchens);
-    assert.equal(3, result.data.kitchens.length); */
+    const orders = await Order.find();
+    const lastOrder: any = orders[orders.length - 1];
+    assert.equal(15.35, lastOrder.total_paid);
+    assert.equal('kkk', lastOrder.kitchen_id);
+    assert.equal(1, lastOrder.items.length);
+    assert.equal('it', lastOrder.items[0].item_title);
   });
 });
 
