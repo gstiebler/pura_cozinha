@@ -5,6 +5,7 @@ import { Order } from '../db/models/Order';
 import { MenuItem } from '../db/models/menuItem';
 import * as util from 'util';
 import { idByValue } from './lib/TestUtils';
+import { removeJSONQuotes } from '../lib/StringUtils';
 
 
 describe('basic tests', function() {
@@ -56,9 +57,15 @@ describe('basic tests', function() {
   it('order save', async function() {
     const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
 
+    const items = [
+      {
+        food_menu_item_id: sandubaFrango._id,
+        quantity: 1.0
+      }
+    ];
+    const itemsStr = removeJSONQuotes(items);
     const orderFields = 'user_id, items { food_menu_item_id, quantity }';
-    const orderValues = util.format('{ user_id: "uuu", items: [ { food_menu_item_id: "%s", quantity: 1.0 } ] }',
-          sandubaFrango._id);
+    const orderValues = `{ user_id: "uuu", items: ${itemsStr} }`;
     const mutSave = util.format('mutation { saveOrder(newOrderData: %s) { %s } }',
           orderValues, orderFields);
     const resSave = await execGQLQuery(mutSave);
