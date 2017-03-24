@@ -14,6 +14,9 @@ export class Network {
         body: JSON.stringify({ query })
       });
       const json = await res.json();
+      if(json.errors) {
+        throw new Error(JSON.stringify(json.errors));
+      }
       return json.data;
     } catch(err) {
       console.error(err);

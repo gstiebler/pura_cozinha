@@ -10,6 +10,11 @@ function makeId(length)
     return text;
 }
 
+function objToGrahqlStr(obj) {
+  const str = JSON.stringify(obj);
+  return str.replace(/\"([^(\")"]+)\":/g,"$1:");
+}
+
 const menuItemFixture = [
   {
     id: 34,
@@ -43,6 +48,7 @@ export class Model {
     this.cartItems = new Map();
     this.address = '';
     this.initializeUserId();
+    this.fetchFoodMenu();
   }
 
   async initializeUserId() {
@@ -53,21 +59,25 @@ export class Model {
     }
   }
 
-  async getFoodMenu() {
+  async fetchFoodMenu() {
     try {
       const geo = await this.getGeolocation();
       const fields = '_id, title, price, description, imgURL';
       const query = `query { menuItems(lat: ${geo.latitude}, lng: ${geo.longitude}) { ${fields} } }`;
       const result = await this.network.fetchQuery(query);
-      return result.menuItems;
+      this.foodMenuItems = result.menuItems;
     } catch(err) {
       console.error(err);
       return [];
     }
   }
 
+  getFoodMenu() {
+    return this.foodMenuItems
+  }
+
   getFoodMenuItemById(menuItemId) {
-    return menuItemFixture.find(item => item.id == menuItemId);
+    return this.foodMenuItems.find(item => item._id == menuItemId);
   }
 
   getCartQty(menuItemId) {
@@ -122,18 +132,17 @@ export class Model {
 
     const items = cartItems.map((item) => {
       return {
-        food_menu_item_id: item.id,
+        food_menu_item_id: item._id,
         quantity: item.qty
       }
     });
-    const itemsStr = JSON.stringify(items).replace(/\"([^(\")"]+)\":/g,"$1:");
+    const itemsStr = objToGrahqlStr(items);
 
-    const orderValues = `{ user_id: "${this.userId}", items: ${itemsStr} }}`;
+    const orderValues = `{ user_id: "${this.userId}", items: ${itemsStr} }`;
     const orderFields = 'user_id, items { food_menu_item_id, quantity }';
     const mutSave = `mutation { saveOrder(newOrderData: ${orderValues}) { ${orderFields} } }`;
 
     await this.network.fetchQuery(mutSave);
-    console.log(creditCardDetails);
   }
 
 }

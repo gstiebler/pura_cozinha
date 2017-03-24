@@ -11,13 +11,8 @@ export default class FoodMenu extends Component {
     }
   }
 
-  async componentDidMount() {
-    this.getFoodMenu();
-  }
-
-  async getFoodMenu() {
-    const foodMenuItems = await model.getFoodMenu();
-    this.setState({ foodMenuItems });
+  componentDidMount() {
+    this.setState({ foodMenuItems: model.getFoodMenu() });
   }
 
   onItemSelected(rowData) {
