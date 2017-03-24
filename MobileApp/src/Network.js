@@ -1,13 +1,14 @@
 
 export class Network {
 
-  constructor(baseURL) {
+  constructor(baseURL, _fetch) {
     this.baseURL = baseURL;
+    this.fetch = _fetch;
   }
 
   async fetchQuery(query) {
     try {
-      const res = await fetch(this.baseURL, {
+      const res = await this.fetch(this.baseURL, {
         method: 'POST',
         headers: { "Content-type": "application/json", "Accept": "application/json"},
         body: JSON.stringify({ query })

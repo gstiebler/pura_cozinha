@@ -4,7 +4,6 @@ import * as winston from 'winston';
 import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
 import app from './../app';
-import rnModel from '../../../MobileApp/src/Model';
 
 const port = '4000';
 
@@ -45,8 +44,6 @@ describe('functional express api tests', function() {
     assert.equal(2, kitchens.length);
     assert.equal('Cozinha do Marcel', kitchens[0].name);
     assert.equal('Rua bem central', kitchens[1].address);
-
-    console.log(rnModel);
   });
 
 });
