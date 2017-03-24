@@ -36,10 +36,12 @@ const menuItemFixture = [
 
 const USER_ID_KEY = 'general:user_id';
 
+const port = '3000';
+const baseURL = 'http://192.168.0.14:' + port + '/graphql';
+
 async function fetchQuery(query) {
-  const port = '3000';
   try {
-    const res = await fetch('http://192.168.0.14:' + port + '/graphql', {
+    const res = await fetch(baseURL, {
       method: 'POST',
       headers: { "Content-type": "application/json", "Accept": "application/json"},
       body: JSON.stringify({ query })
@@ -131,7 +133,22 @@ class Model {
     return total;
   }
 
-  pay(creditCardDetails) {
+  async pay(creditCardDetails) {
+    const cartItems = this.getCartItems();
+
+    const items = cartItems.map((item) => {
+      return {
+        food_menu_item_id: item.id,
+        quantity: item.qty
+      }
+    });
+    const itemsStr = JSON.stringify(items).replace(/\"([^(\")"]+)\":/g,"$1:");
+
+    const orderValues = `{ user_id: "${this.userId}", items: ${itemsStr} }}`;
+    const orderFields = 'user_id, items { food_menu_item_id, quantity }';
+    const mutSave = `mutation { saveOrder(newOrderData: ${orderValues}) { ${orderFields} } }`,
+
+    await fetchQuery(mutSave);
     console.log(creditCardDetails);
   }
 
