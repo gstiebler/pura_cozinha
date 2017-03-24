@@ -48,8 +48,6 @@ const OrderItemType = new GraphQLObjectType({
   fields: {
     food_menu_item_id: { type: GraphQLID },
     quantity: { type: GraphQLFloat },
-    item_title: { type: GraphQLString },
-    price: { type: GraphQLFloat }
   }
 });
 
@@ -66,8 +64,6 @@ const OrderItemInputType = new GraphQLInputObjectType({
   fields: {
     food_menu_item_id: { type: GraphQLID },
     quantity: { type: GraphQLFloat },
-    item_title: { type: GraphQLString },
-    price: { type: GraphQLFloat }
   }
 });
 
@@ -129,11 +125,20 @@ export const schema = new GraphQLSchema({
       saveOrder: {
         type: OrderType,
         args: { newOrderData: { type: OrderInputType } },
-        resolve(value, { newOrderData }) {
+        resolve: async function(value, { newOrderData }) {
           newOrderData.datetime = new Date();
-          newOrderData.kitchen_id = 'kkk';
-          newOrderData.total_paid = 15.35;
+          const kitchen: any = await Kitchen.findOne();
+          newOrderData.kitchen_id = kitchen._id;
           newOrderData.status = 'PAYMENT_PENDING';
+          let total = 0.0;
+          for (let i = 0; i < newOrderData.items.length; i++) {
+            let menu_item_id = newOrderData.items[i].food_menu_item_id;
+            let menuItem: any = await MenuItem.findOne({ _id: menu_item_id });
+            newOrderData.items[i].title = menuItem.title;
+            newOrderData.items[i].price = menuItem.price;
+            total += menuItem.price;
+          }
+          newOrderData.total_paid = total;
           const newOrder = new Order(newOrderData);
           return newOrder.save();
         }

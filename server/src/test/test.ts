@@ -2,7 +2,9 @@ import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
 import { execGQLQuery } from '../graphql_controller';
 import { Order } from '../db/models/Order';
+import { MenuItem } from '../db/models/menuItem';
 import * as util from 'util';
+import { idByValue } from './lib/TestUtils';
 
 
 describe('basic tests', function() {
@@ -52,18 +54,21 @@ describe('basic tests', function() {
   });
 
   it('order save', async function() {
-    const orderFields = 'user_id, items { food_menu_item_id, quantity, item_title, price }';
-    const orderValues = '{ user_id: "uuu", items: [ { food_menu_item_id: "fmii", quantity: 1.0, item_title: "it", price: 15.0 } ] }';
+    const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
+
+    const orderFields = 'user_id, items { food_menu_item_id, quantity }';
+    const orderValues = util.format('{ user_id: "uuu", items: [ { food_menu_item_id: "%s", quantity: 1.0 } ] }',
+          sandubaFrango._id);
     const mutSave = util.format('mutation { saveOrder(newOrderData: %s) { %s } }',
           orderValues, orderFields);
     const resSave = await execGQLQuery(mutSave);
 
     const orders = await Order.find();
     const lastOrder: any = orders[orders.length - 1];
-    assert.equal(15.35, lastOrder.total_paid);
-    assert.equal('kkk', lastOrder.kitchen_id);
+    assert.equal(11.99, lastOrder.total_paid);
+    assert.equal('PAYMENT_PENDING', lastOrder.status);
     assert.equal(1, lastOrder.items.length);
-    assert.equal('it', lastOrder.items[0].item_title);
+    assert.equal('Sanduba de frango', lastOrder.items[0].title);
   });
 });
 
