@@ -1,0 +1,29 @@
+
+export class Network {
+
+  baseURL: string;
+  fetch: any;
+
+  constructor(baseURL: string, _fetch: any) {
+    this.baseURL = baseURL;
+    this.fetch = _fetch;
+  }
+
+  async fetchQuery(query) {
+    try {
+      const res = await this.fetch(this.baseURL, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ query })
+      });
+      const json = await res.json();
+      if(json.errors) {
+        throw new Error(JSON.stringify(json.errors));
+      }
+      return json.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+};

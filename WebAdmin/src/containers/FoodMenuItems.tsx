@@ -1,6 +1,6 @@
 import * as React from 'react';
 import FoodMenuItemsComponent from '../components/FoodMenuItems';
-import model from '../lib/Model';
+import { model } from '../Startup';
 
 interface IAppProps {
 }
