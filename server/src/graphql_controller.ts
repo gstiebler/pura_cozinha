@@ -8,7 +8,7 @@ import {
   GraphQLList,
   GraphQLInt,
   GraphQLFloat,
-  GraphQLInputObjectType
+  GraphQLInputObjectType,
 } from 'graphql';
 
 import { Kitchen } from './db/models/kitchen';
@@ -54,7 +54,12 @@ const OrderItemType = new GraphQLObjectType({
 const OrderType = new GraphQLObjectType({
   name: 'OrderType',
   fields: {
-    user_id: { type: GraphQLID },
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    user_id: { type: new GraphQLNonNull(GraphQLID) },
+    kitchen: { type: kitchenType },
+    total: { type: GraphQLFloat },
+    datetime: { type: GraphQLString },
+    status: { type: GraphQLString },
     items: { type: new GraphQLList(OrderItemType) },
   }
 });
@@ -110,6 +115,18 @@ export const schema = new GraphQLSchema({
           return MenuItem.find();
         }
       },
+      orders: {
+        type: new GraphQLList(OrderType),
+        resolve: async function() {
+          const orders: any[] = await Order.find().populate('kitchen');
+          const res = orders.map(order => {
+            order.id = order._id;
+            order.total = order.total_paid;
+            return order;
+          });
+          return res;
+        }
+      }
     }
   }),
   mutation: new GraphQLObjectType({
@@ -128,7 +145,7 @@ export const schema = new GraphQLSchema({
         resolve: async function(value, { newOrderData }) {
           newOrderData.datetime = new Date();
           const kitchen: any = await Kitchen.findOne();
-          newOrderData.kitchen_id = kitchen._id;
+          newOrderData.kitchen = kitchen._id;
           newOrderData.status = 'PAYMENT_PENDING';
           let total = 0.0;
           for (let i = 0; i < newOrderData.items.length; i++) {

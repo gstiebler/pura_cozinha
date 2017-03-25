@@ -34,4 +34,12 @@ describe('Web Admin model test', function() {
     assert.equal(8.0, foodMenu[1].price);
   });
 
+  it('get orders', async function() {
+    const model: Model = this.model;
+    const orders = await model.getOrders();
+    assert.equal(2, orders.length);
+    assert.equal(38.5, orders[1].total);
+    assert.equal('Outra cozinha', orders[1].kitchen.name);
+  });
+
 });

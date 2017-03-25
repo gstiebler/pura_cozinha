@@ -71,6 +71,7 @@ describe('basic tests', function() {
     const resSave = await execGQLQuery(mutSave);
 
     const orders = await Order.find();
+    assert.equal(3, orders.length);
     const lastOrder: any = orders[orders.length - 1];
     assert.equal(11.99, lastOrder.total_paid);
     assert.equal('PAYMENT_PENDING', lastOrder.status);

@@ -19,4 +19,12 @@ export class Model {
     }
   }
 
+  async getOrders() {
+    const fields = 'id, kitchen { _id, name }, total, datetime, status';
+    const query = `query { orders { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.orders;
+  }
+
+
 }

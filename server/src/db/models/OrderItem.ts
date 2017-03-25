@@ -2,11 +2,11 @@ import * as mongoose from 'mongoose';
 
 const OrderItemSchema = new mongoose.Schema({
    order_id: {
-     type: String,
+     type: mongoose.Schema.Types.ObjectId,
      required: true
    },
    food_menu_item_id: {
-     type: String,
+     type: mongoose.Schema.Types.ObjectId,
      required: true
    },
    quantity: {

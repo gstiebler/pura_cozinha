@@ -5,9 +5,9 @@ const OrderSchema = new mongoose.Schema({
      type: String,
      required: true
    },
-   kitchen_id: {
-     type: String,
-     required: true
+   kitchen: {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: 'Kitchen'
    },
    total_paid: {
      type: Number,

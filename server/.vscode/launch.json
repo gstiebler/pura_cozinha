@@ -21,7 +21,9 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "out/server/src/test", "--no-timeouts"
+                "out/server/src/test", 
+                "--no-timeouts"
+                //,"-g", "order save"
             ],
 			"env": {
 				"NODE_ENV": "test"

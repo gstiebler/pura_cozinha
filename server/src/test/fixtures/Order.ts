@@ -9,7 +9,7 @@ export default async function execute() {
   await Order.collection.insert([
     {
       user_id: 'xxx',
-      kitchen_id: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
+      kitchen: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
       total_paid: 40.0,
       datetime: new Date(),
       status: 'PAYMENT_PENDING',
@@ -24,7 +24,7 @@ export default async function execute() {
     },
     {
       user_id: 'xxx',
-      kitchen_id: await idByValue(Kitchen, 'name', 'Outra cozinha'),
+      kitchen: await idByValue(Kitchen, 'name', 'Outra cozinha'),
       total_paid: 38.50,
       datetime: new Date(),
       status: 'PAYMENT_PENDING',
