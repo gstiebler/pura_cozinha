@@ -35,7 +35,7 @@
             "type": "node",
             "request": "launch",
             "name": "Seed",
-            "program": "${workspaceRoot}/out/db/seed.js",
+            "program": "${workspaceRoot}/out/server/src/db/seed.js",
             "cwd": "${workspaceRoot}",
             "args": [
             ],

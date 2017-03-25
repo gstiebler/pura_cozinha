@@ -11,7 +11,8 @@ export class Network {
 
   async fetchQuery(query) {
     try {
-      const res = await this.fetch(this.baseURL, {
+      const fetch_fn = this.fetch;
+      const res = await fetch_fn(this.baseURL, {
         method: 'POST',
         headers: { 'Content-type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify({ query })
@@ -23,6 +24,7 @@ export class Network {
       return json.data;
     } catch (err) {
       console.error(err);
+      throw new Error(JSON.stringify(err));
     }
   }
 

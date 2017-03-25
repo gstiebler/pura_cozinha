@@ -19,6 +19,7 @@
     "gulp-tslint": "^7.1.0",
     "gulp-typescript": "^3.1.6",
     "gulp-uglify": "^2.1.0",
+    "moment": "^2.18.1",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",

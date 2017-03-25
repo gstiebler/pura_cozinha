@@ -13,6 +13,7 @@ export default function Navbar(props) {
           <ul className='nav navbar-nav'>
             <li><Link to='/admin_app/food_menu_items'>Itens de menu</Link></li>
             <li><Link to='/admin_app/kitchens'>Cozinhas</Link></li>
+            <li><Link to='/admin_app/orders'>Pedidos</Link></li>
           </ul>
           <ul className='nav navbar-nav navbar-right'>
             <li><Link to='#' onClick={fetchItemsFromServer}>Sync</Link></li>
