@@ -11,7 +11,8 @@
             "program": "${workspaceRoot}/out/server/src/startServer.js",
             "cwd": "${workspaceRoot}",
 			"env": {
-				"NODE_ENV": "development"
+				"NODE_ENV": "development",
+                "SHOW_GRAPHQL_QUERIES": "true"
 			}
         },
         {

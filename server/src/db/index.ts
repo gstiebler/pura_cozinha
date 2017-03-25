@@ -7,7 +7,7 @@ export const MongoURL = 'mongodb://localhost:27017/' + dbName;
 
 export async function init() {
   (<any>mongoose).Promise = global.Promise;
-  
+
   await mongoose.connection.close();
 
   const options = {

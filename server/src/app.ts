@@ -26,9 +26,12 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-app.use('/admin_app', express.static(path.join(__dirname, '/../../WebAdmin/dist')));
-app.use('/admin_app/ext_libs', express.static(path.join(__dirname, '/../../WebAdmin/node_modules')));
+const webAdminDir = path.join(__dirname, '/../../../../WebAdmin/');
+const distDirName = webAdminDir + 'dist';
+app.use('/admin_app', express.static(distDirName));
+app.use('/admin_app/ext_libs', express.static(webAdminDir + 'node_modules'));
 app.get('/admin_app/*', function (req, res) {
+  console.log(req.url);
   return res.redirect('/admin_app/?url=' + encodeURIComponent(req.url));
 });
 
