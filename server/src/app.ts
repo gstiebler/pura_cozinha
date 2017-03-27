@@ -26,7 +26,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-const webAdminDir = path.join(__dirname, '/../../../../WebAdmin/');
+const webAdminDir = path.join(__dirname, '/../../WebAdmin/');
 const distDirName = webAdminDir + 'dist';
 app.use('/admin_app', express.static(distDirName));
 app.use('/admin_app/ext_libs', express.static(webAdminDir + 'node_modules'));

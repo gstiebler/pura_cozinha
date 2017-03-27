@@ -6,8 +6,8 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model } from '../../../MobileApp/src/Model';
-import { Network } from '../../../MobileApp/src/Network';
+import { Model } from '../MobileApp/Model';
+import { Network } from '../MobileApp/Network';
 
 
 describe('React Native model test', function() {

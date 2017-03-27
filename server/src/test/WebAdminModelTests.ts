@@ -6,8 +6,8 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model } from '../../../WebAdmin/src/lib/Model';
-import { Network } from '../../../WebAdmin/src/lib/Network';
+import { Model } from '../WebAdmin/lib/Model';
+import { Network } from '../WebAdmin/lib/Network';
 
 
 describe('Web Admin model test', function() {
