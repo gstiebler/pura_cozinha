@@ -1,18 +1,18 @@
 
 export class Network {
 
-  baseURL: string;
-  fetch: any;
+  private baseApiURL: string;
+  private fetch: any;
 
-  constructor(baseURL: string, _fetch: any) {
-    this.baseURL = baseURL;
+  constructor(baseApiURL: string, _fetch: any) {
+    this.baseApiURL = baseApiURL;
     this.fetch = _fetch;
   }
 
   async fetchQuery(query) {
     try {
       const fetch_fn = this.fetch;
-      const res = await fetch_fn(this.baseURL, {
+      const res = await fetch_fn(this.baseApiURL, {
         method: 'POST',
         headers: { 'Content-type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify({ query })
