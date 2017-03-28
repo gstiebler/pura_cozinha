@@ -5,11 +5,13 @@ import { model } from '../Startup';
 import { Kitchen } from '../lib/Model';
 
 interface IAppProps {
+  location: any;
 }
 
 interface IAppState {
   kitchen: Kitchen;
   kitchenFields: EditKitchenComponent.NameLabel[];
+  id: string;
 }
 
 export default class Kitchens extends React.Component<IAppProps, IAppState> {
@@ -17,12 +19,23 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props);
     this.state = {
+      id: props.location.query.id,
       kitchen: { name: '', address: '' },
       kitchenFields: [
         { name: 'name', label: 'Nome' },
         { name: 'address', label: 'Endereço' },
       ]
     };
+  }
+
+  componentDidMount() {
+    if(this.state.id) {
+      this.getKitchen();
+    }
+  }
+
+  async getKitchen() {
+    const kitchen = await model.getKitchens();
   }
 
   onChange(name: string, value: string) {

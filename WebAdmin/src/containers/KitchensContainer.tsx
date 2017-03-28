@@ -34,7 +34,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   onEdit(id: string) {
-    console.log('onEdit ', id);
+    browserHistory.push('/admin_app/edit_kitchen?id=' + id);
   }
 
   public render(): React.ReactElement<any> {
