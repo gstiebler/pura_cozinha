@@ -42,4 +42,12 @@ describe('Web Admin model test', function() {
     assert.equal('Outra cozinha', orders[1].kitchen.name);
   });
 
+  it('get kitchens', async function() {
+    const model: Model = this.model;
+    const kitchens = await model.getKitchens();
+    assert.equal(2, kitchens.length);
+    assert.equal('Outra cozinha', kitchens[1].name);
+    assert.equal('Rua bem central', kitchens[1].address);
+  });
+
 });

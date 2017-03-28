@@ -1,4 +1,10 @@
 
+export interface Kitchen {
+  _id: string;
+  name: string;
+  address: string;
+}
+
 export class Model {
 
   private network: any;
@@ -24,6 +30,13 @@ export class Model {
     const query = `query { orders { ${fields} } }`;
     const result = await this.network.fetchQuery(query);
     return result.orders;
+  }
+
+  async getKitchens(): Promise<Kitchen[]> {
+    const fields = '_id, name, address';
+    const query = `query { kitchens { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.kitchens;
   }
 
 
