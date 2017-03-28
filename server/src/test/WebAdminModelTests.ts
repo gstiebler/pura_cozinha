@@ -4,9 +4,10 @@ import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
+import * as KitchenSchema from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model } from '../WebAdmin/lib/Model';
+import { Model, Kitchen } from '../WebAdmin/lib/Model';
 import { Network } from '../WebAdmin/lib/Network';
 
 
@@ -48,6 +49,19 @@ describe('Web Admin model test', function() {
     assert.equal(2, kitchens.length);
     assert.equal('Outra cozinha', kitchens[1].name);
     assert.equal('Rua bem central', kitchens[1].address);
+  });
+
+  it('save kitchens', async function() {
+    const kitchen: Kitchen = {
+      name: 'nome para salvar',
+      address: 'endereço para salvar'
+    }
+    const model: Model = this.model;
+    await model.saveKitchen(kitchen);
+    const kitchens: any[] = await KitchenSchema.Kitchen.find();
+    assert.equal(3, kitchens.length);
+    assert.equal(kitchen.name, kitchens[2].name);
+    assert.equal(kitchen.address, kitchens[2].address);
   });
 
 });

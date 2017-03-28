@@ -8,10 +8,11 @@ export interface NameLabel {
 export interface Props {
   kitchenFields: NameLabel[];
   onChange(name: string, value: string);
+  onSave();
 }
 
 export function render(props: Props) {
-  const { kitchenFields, onChange } = props;
+  const { kitchenFields, onChange, onSave } = props;
   const htmlFields = kitchenFields.map((kf, i) => {
     return (
       <div key={i + 'htmlFields'}>
@@ -19,12 +20,12 @@ export function render(props: Props) {
           <label className='control-label col-sm-2'>{kf.label}:</label>
           <div className='col-sm-10'>
             <input type='text' className='form-control'
-                    defaultValue={ '' }
-                    onChange={evt => onChange(kf.name, evt.target.value) }
+              defaultValue={''}
+              onChange={evt => onChange(kf.name, evt.target.value)}
             />
           </div>
         </div>
-        <br/>
+        <br />
       </div>
     );
   });
@@ -32,6 +33,12 @@ export function render(props: Props) {
   return (
     <div>
       {htmlFields}
+      <br/>
+      <div className='form-group' >
+        <div className='col-sm-offset-2 col-sm-10'>
+          <button className='btn btn-default' onClick={onSave} >Salvar</button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 
 export interface Kitchen {
-  _id: string;
+  _id?: string;
   name: string;
   address: string;
 }
@@ -36,6 +36,14 @@ export class Model {
     const fields = '_id, name, address';
     const query = `query { kitchens { ${fields} } }`;
     const result = await this.network.fetchQuery(query);
+    return result.kitchens;
+  }
+
+  async saveKitchen(kitchen: Kitchen) {
+    const kitchenFields = 'name, address';
+    const kitchenValues = `{ name: "${kitchen.name}", address: "${kitchen.address}" }`;
+    const mutSave = `mutation { saveKitchen(newKitchenData: ${kitchenValues}) { ${kitchenFields} } }`;
+    const result = await this.network.fetchQuery(mutSave);
     return result.kitchens;
   }
 
