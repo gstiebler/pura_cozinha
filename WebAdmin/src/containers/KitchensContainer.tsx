@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { browserHistory } from 'react-router';
 import KitchensComponent from '../components/KitchensComponent';
 import { model } from '../Startup';
 import { Kitchen } from '../lib/Model';
@@ -28,10 +29,14 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
     this.setState({ kitchens });
   }
 
+  onAdd() {
+    browserHistory.push('/admin_app/edit_kitchen');
+  }
+
   public render(): React.ReactElement<any> {
     return (
       <div>
-        <KitchensComponent kitchens={this.state.kitchens}/>
+        <KitchensComponent kitchens={this.state.kitchens} onAdd={this.onAdd.bind(this)}/>
       </div>
     );
   }
