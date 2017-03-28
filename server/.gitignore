@@ -1,4 +1,5 @@
 node_modules
 typings
 out
-WebAdmin
+src/WebAdmin
+src/MobileApp

@@ -64,4 +64,12 @@ describe('Web Admin model test', function() {
     assert.equal(kitchen.address, kitchens[2].address);
   });
 
+  it('get one kitchen', async function() {
+    const model: Model = this.model;
+    const kitchen_id = await TestUtils.idByValue(KitchenSchema.Kitchen, 'name', 'Cozinha do Marcel');
+    const kitchen = await model.getKitchen(kitchen_id);
+    assert.equal('Cozinha do Marcel', kitchen.name);
+    assert.equal('Endereço', kitchen.address);
+  });
+
 });
