@@ -7,10 +7,11 @@ import { Kitchen } from '../lib/Model';
 interface Props {
   kitchens: Kitchen[];
   onAdd();
+  onEdit(id: string);
 }
 
 export default function Kitchens(props: Props) {
-  const { kitchens, onAdd } = props;
+  const { kitchens, onAdd, onEdit } = props;
 
   return (
     <div>
@@ -38,9 +39,21 @@ export default function Kitchens(props: Props) {
           )}
           width={200}
         />
+        <Column
+          header={<Cell>Editar</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              <a className="btn btn-large btn-primary" 
+                  onClick={() => onEdit(kitchens[props.rowIndex]._id)}>
+                Editar
+              </a>
+            </Cell>
+          )}
+          width={200}
+        />
       </Table>
-      <br/>
-      <button className='btn btn-large btn-success' onClick={ onAdd } >Adicionar</button>
+      <br />
+      <button className='btn btn-large btn-success' onClick={onAdd} >Adicionar</button>
     </div>
   );
 };
