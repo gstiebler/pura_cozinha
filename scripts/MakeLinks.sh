@@ -1,0 +1,1 @@
+ln -s ..\WebAdmin\src ..\server\WebAdmin
