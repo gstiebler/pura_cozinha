@@ -114,4 +114,10 @@ export class Model {
     const result = await this.network.fetchQuery(query);
     return result.foodMenuItem;
   }
+
+  async deleteFoodMenuItem(id: string) {
+    const mutDelete = `mutation { deleteFoodMenuItem(fmiID: "${id}") }`;
+    const result = await this.network.fetchQuery(mutDelete);
+    return result.deleteFoodMenuItem;
+  }
 }

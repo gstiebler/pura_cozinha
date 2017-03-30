@@ -213,6 +213,14 @@ export const schema = new GraphQLSchema({
           return 'OK';
         }
       },
+      deleteFoodMenuItem: {
+        type: GraphQLString,
+        args: { fmiID: { type: GraphQLID } },
+        resolve: async (value, { fmiID }) => {
+          await MenuItem.remove({ _id: fmiID });
+          return 'OK';
+        }
+      },
     },
     name: 'Mutation',
   })

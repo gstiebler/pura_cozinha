@@ -90,6 +90,7 @@ describe('Web Admin model test', function() {
       const kitchen_id = await TestUtils.idByValue(KitchenSchema.Kitchen, 'name', 'Cozinha do Marcel');
       await model.deleteKitchen(kitchen_id);
       const deletedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
+      assert.ok(!deletedKitchen);
       const count = await KitchenSchema.Kitchen.count({});
       assert.equal(1, count);
     });
@@ -98,7 +99,7 @@ describe('Web Admin model test', function() {
 
   describe('Food menu items', function() {
 
-    it('get food menu items', async function() {
+    it('Get items', async function() {
       const model: Model = this.model;
       const foodMenu: any[] = await model.getFoodMenuItems();
       assert.equal(3, foodMenu.length);
@@ -106,7 +107,7 @@ describe('Web Admin model test', function() {
       assert.equal(8.0, foodMenu[1].price);
     });
 
-    it('Save food menu item', async function() {
+    it('Create', async function() {
       const foodMenuItem: FoodMenuItem = {
         title: 'nome para salvar',
         description: 'endereço para salvar',
@@ -123,7 +124,7 @@ describe('Web Admin model test', function() {
       assert.equal(foodMenuItem.imgURL, foodMenuItems[3].imgURL);
     });
 
-    it('Update food menu item', async function() {
+    it('Update', async function() {
       const model: Model = this.model;
       const acai_id = await TestUtils.idByValue(MenuItemSchema.MenuItem, 'title', 'Açai');
       const newFMI: FoodMenuItem = {
@@ -145,7 +146,7 @@ describe('Web Admin model test', function() {
       assert.equal(3, count);
     });
 
-    it('Get one food menu item', async function() {
+    it('Read one', async function() {
       const model: Model = this.model;
       const acai_id = await TestUtils.idByValue(MenuItemSchema.MenuItem, 'title', 'Açai');
       const fmi = await model.getFoodMenuItem(acai_id);
@@ -153,6 +154,16 @@ describe('Web Admin model test', function() {
       assert.equal('Açai batido com banana e morango, vem cheião.', fmi.description);
       assert.equal(8.00, fmi.price);
       assert.equal('http://www.mundoboaforma.com.br/wp-content/uploads/2015/04/Acai-na-Tigela-500x330.jpg', fmi.imgURL);
+    });
+
+    it('Delete', async function() {
+      const model: Model = this.model;
+      const acai_id = await TestUtils.idByValue(MenuItemSchema.MenuItem, 'title', 'Açai');
+      await model.deleteFoodMenuItem(acai_id);
+      const deletedFMI: any = await MenuItemSchema.MenuItem.findById(acai_id);
+      assert.ok(!deletedFMI);
+      const count = await MenuItemSchema.MenuItem.count({});
+      assert.equal(2, count);
     });
 
   });
