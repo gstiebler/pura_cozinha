@@ -123,6 +123,38 @@ describe('Web Admin model test', function() {
       assert.equal(foodMenuItem.imgURL, foodMenuItems[3].imgURL);
     });
 
+    it('Update food menu item', async function() {
+      const model: Model = this.model;
+      const acai_id = await TestUtils.idByValue(MenuItemSchema.MenuItem, 'title', 'Açai');
+      const newFMI: FoodMenuItem = {
+        _id: acai_id,
+        title: 'nome para editar',
+        description: 'endereço para editar',
+        price: 42.42,
+        imgURL: 'wikipedia.com/food.jpg'
+      };
+      const res = await model.updateFoodMenuItem(newFMI);
+      assert.equal('OK', res);
+      const editedFMI: any = await MenuItemSchema.MenuItem.findById(acai_id);
+      assert.equal(newFMI.title, editedFMI.title);
+      assert.equal(newFMI.description, editedFMI.description);
+      assert.equal(newFMI.price, editedFMI.price);
+      assert.equal(newFMI.imgURL, editedFMI.imgURL);
+
+      const count = await MenuItemSchema.MenuItem.count({});
+      assert.equal(3, count);
+    });
+
+    it('Get one food menu item', async function() {
+      const model: Model = this.model;
+      const acai_id = await TestUtils.idByValue(MenuItemSchema.MenuItem, 'title', 'Açai');
+      const fmi = await model.getFoodMenuItem(acai_id);
+      assert.equal('Açai', fmi.title);
+      assert.equal('Açai batido com banana e morango, vem cheião.', fmi.description);
+      assert.equal(8.00, fmi.price);
+      assert.equal('http://www.mundoboaforma.com.br/wp-content/uploads/2015/04/Acai-na-Tigela-500x330.jpg', fmi.imgURL);
+    });
+
   });
 
 });

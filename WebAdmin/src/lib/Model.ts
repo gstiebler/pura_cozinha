@@ -92,4 +92,26 @@ export class Model {
     const result = await this.network.fetchQuery(mutSave);
     return result.saveFoodMenuItem;
   }
+
+  async updateFoodMenuItem(foodMenuItem: FoodMenuItem) {
+    // TODO use removeJSONQuotes
+    const values =
+      `{
+         id: "${foodMenuItem._id}",
+         title: "${foodMenuItem.title}",
+         description: "${foodMenuItem.description}",
+         price: ${foodMenuItem.price},
+         imgURL: "${foodMenuItem.imgURL}",
+      }`;
+    const mutSave = `mutation { updateFoodMenuItem(fmiData: ${values}) }`;
+    const result = await this.network.fetchQuery(mutSave);
+    return result.updateFoodMenuItem;
+  }
+
+  async getFoodMenuItem(id: string): Promise<FoodMenuItem> {
+    const fields = 'title, description, price, imgURL';
+    const query = `query { foodMenuItem(id: "${id}") { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.foodMenuItem;
+  }
 }
