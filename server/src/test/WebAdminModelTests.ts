@@ -76,6 +76,9 @@ describe('Web Admin model test', function() {
     const editedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
     assert.equal(newKitchen.name, editedKitchen.name);
     assert.equal(newKitchen.address, editedKitchen.address);
+
+    const allKitchens = await KitchenSchema.Kitchen.find();
+    assert.equal(2, allKitchens.length);
   });
 
   it('get one kitchen', async function() {

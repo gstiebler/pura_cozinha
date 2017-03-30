@@ -46,6 +46,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
 
   async onSave() {
     if (this.state.id) {
+      this.state.kitchen._id = this.state.id;
       await model.updateKitchen(this.state.kitchen);
     } else {
       await model.saveKitchen(this.state.kitchen);
