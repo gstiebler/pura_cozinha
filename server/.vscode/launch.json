@@ -12,6 +12,7 @@
             "cwd": "${workspaceRoot}",
 			"env": {
 				"NODE_ENV": "development",
+                "DB_HOST": "localhost",
                 "SHOW_GRAPHQL_QUERIES": "true"
 			}
         },
@@ -27,7 +28,8 @@
                 //,"-g", "order save"
             ],
 			"env": {
-				"NODE_ENV": "test"
+				"NODE_ENV": "test",
+                "DB_HOST": "localhost"
                 //"SHOW_GRAPHQL_QUERIES": "true"
 			}
         },
