@@ -5,6 +5,14 @@ export interface Kitchen {
   address: string;
 }
 
+export interface FoodMenuItem {
+  _id?: string;
+  title: string;
+  description: string;
+  price: Number;
+  imgURL: string;
+}
+
 export class Model {
 
   private network: any;
