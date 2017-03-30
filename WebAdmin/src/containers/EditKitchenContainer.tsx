@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { browserHistory } from 'react-router';
-import * as EditKitchenComponent from '../components/EditKitchenComponent';
+import * as EditFieldsComponent from '../components/EditFieldsComponent';
 import { model } from '../Startup';
 import { Kitchen } from '../lib/Model';
 
@@ -10,7 +10,7 @@ interface IAppProps {
 
 interface IAppState {
   kitchen: Kitchen;
-  kitchenFields: EditKitchenComponent.NameLabel[];
+  kitchenFields: EditFieldsComponent.NameLabel[];
   id: string;
 }
 
@@ -56,11 +56,11 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
 
   public render(): React.ReactElement<any> {
     return (
-      <EditKitchenComponent.render 
-        kitchenFields={this.state.kitchenFields}
+      <EditFieldsComponent.render
+        fields={this.state.kitchenFields}
         onChange={this.onChange.bind(this)}
         onSave={this.onSave.bind(this)}
-        kitchen={this.state.kitchen}
+        obj={this.state.kitchen}
       />
     );
   }
