@@ -14,7 +14,7 @@ interface IAppState {
   id: string;
 }
 
-export default class Kitchens extends React.Component<IAppProps, IAppState> {
+export default class EditFoodMenuItems extends React.Component<IAppProps, IAppState> {
 
   constructor(props: IAppProps) {
     super(props);

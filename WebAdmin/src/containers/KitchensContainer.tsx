@@ -45,7 +45,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   public render(): React.ReactElement<any> {
     return (
       <div>
-        <KitchensComponent 
+        <KitchensComponent
           kitchens={this.state.kitchens}
           onAdd={this.onAdd.bind(this)}
           onEdit={this.onEdit.bind(this)}
