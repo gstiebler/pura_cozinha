@@ -142,22 +142,6 @@ export const schema = new GraphQLSchema({
   }),
   mutation: new GraphQLObjectType({
     fields: {
-      saveKitchen: {
-        type: kitchenType,
-        args: { newKitchenData: { type: KitchenInputType } },
-        resolve(value, { newKitchenData }) {
-          const newKitchen = new Kitchen(newKitchenData);
-          return newKitchen.save();
-        }
-      },
-      updateKitchen: {
-        type: GraphQLString,
-        args: { newKitchenData: { type: KitchenInputType } },
-        resolve: async (value, { newKitchenData }) => {
-          await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
-          return 'OK';
-        }
-      },
       saveOrder: {
         type: OrderType,
         args: { newOrderData: { type: OrderInputType } },
@@ -177,6 +161,22 @@ export const schema = new GraphQLSchema({
           newOrderData.total_paid = total;
           const newOrder = new Order(newOrderData);
           return newOrder.save();
+        }
+      },
+      saveKitchen: {
+        type: kitchenType,
+        args: { newKitchenData: { type: KitchenInputType } },
+        resolve(value, { newKitchenData }) {
+          const newKitchen = new Kitchen(newKitchenData);
+          return newKitchen.save();
+        }
+      },
+      updateKitchen: {
+        type: GraphQLString,
+        args: { newKitchenData: { type: KitchenInputType } },
+        resolve: async (value, { newKitchenData }) => {
+          await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
+          return 'OK';
         }
       },
       deleteKitchen: {
