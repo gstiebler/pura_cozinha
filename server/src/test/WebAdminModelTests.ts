@@ -55,7 +55,7 @@ describe('Web Admin model test', function() {
     const kitchen: Kitchen = {
       name: 'nome para salvar',
       address: 'endereço para salvar'
-    }
+    };
     const model: Model = this.model;
     await model.saveKitchen(kitchen);
     const kitchens: any[] = await KitchenSchema.Kitchen.find();

@@ -39,6 +39,13 @@ export class Model {
     return result.kitchens;
   }
 
+  async getKitchen(id: string): Promise<Kitchen> {
+    const fields = 'name, address';
+    const query = `query { kitchen(id: "${id}") { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.kitchen;
+  }
+
   async saveKitchen(kitchen: Kitchen) {
     const kitchenFields = 'name, address';
     const kitchenValues = `{ name: "${kitchen.name}", address: "${kitchen.address}" }`;
