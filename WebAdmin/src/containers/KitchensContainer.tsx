@@ -37,6 +37,11 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
     browserHistory.push('/admin_app/edit_kitchen?id=' + id);
   }
 
+  async onDelete(id: string) {
+    await model.deleteKitchen(id);
+    this.getKitchens();
+  }
+
   public render(): React.ReactElement<any> {
     return (
       <div>
@@ -44,6 +49,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
           kitchens={this.state.kitchens}
           onAdd={this.onAdd.bind(this)}
           onEdit={this.onEdit.bind(this)}
+          onDelete={this.onDelete.bind(this)}
         />
       </div>
     );

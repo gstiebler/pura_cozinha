@@ -8,10 +8,11 @@ interface Props {
   kitchens: Kitchen[];
   onAdd();
   onEdit(id: string);
+  onDelete(id: string);
 }
 
 export default function Kitchens(props: Props) {
-  const { kitchens, onAdd, onEdit } = props;
+  const { kitchens, onAdd, onEdit, onDelete } = props;
 
   return (
     <div>
@@ -43,9 +44,21 @@ export default function Kitchens(props: Props) {
           header={<Cell>Editar</Cell>}
           cell={props => (
             <Cell {...props}>
-              <a className="btn btn-large btn-primary" 
+              <a className='btn btn-large btn-primary'
                   onClick={() => onEdit(kitchens[props.rowIndex]._id)}>
                 Editar
+              </a>
+            </Cell>
+          )}
+          width={200}
+        />
+        <Column
+          header={<Cell>Apagar</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              <a className='btn btn-large btn-danger'
+                  onClick={() => onDelete(kitchens[props.rowIndex]._id)}>
+                Apagar
               </a>
             </Cell>
           )}
