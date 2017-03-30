@@ -72,7 +72,8 @@ describe('Web Admin model test', function() {
       name: 'cozinha editada',
       address: 'address editado'
     };
-    await model.updateKitchen(newKitchen);
+    const res = await model.updateKitchen(newKitchen);
+    assert.equal('OK', res);
     const editedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
     assert.equal(newKitchen.name, editedKitchen.name);
     assert.equal(newKitchen.address, editedKitchen.address);
