@@ -7,12 +7,13 @@ export interface NameLabel {
 
 export interface Props {
   kitchenFields: NameLabel[];
+  kitchen: any;
   onChange(name: string, value: string);
   onSave();
 }
 
 export function render(props: Props) {
-  const { kitchenFields, onChange, onSave } = props;
+  const { kitchenFields, kitchen, onChange, onSave } = props;
   const htmlFields = kitchenFields.map((kf, i) => {
     return (
       <div key={i + 'htmlFields'}>
@@ -20,7 +21,7 @@ export function render(props: Props) {
           <label className='control-label col-sm-2'>{kf.label}:</label>
           <div className='col-sm-10'>
             <input type='text' className='form-control'
-              defaultValue={''}
+              value={kitchen[kf.name]}
               onChange={evt => onChange(kf.name, evt.target.value)}
             />
           </div>

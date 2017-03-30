@@ -29,13 +29,14 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
-    if(this.state.id) {
+    if (this.state.id) {
       this.getKitchen();
     }
   }
 
   async getKitchen() {
-    const kitchen = await model.getKitchens();
+    const kitchen = await model.getKitchen(this.state.id);
+    this.setState({ kitchen });
   }
 
   onChange(name: string, value: string) {
@@ -54,6 +55,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
         kitchenFields={this.state.kitchenFields}
         onChange={this.onChange.bind(this)}
         onSave={this.onSave.bind(this)}
+        kitchen={this.state.kitchen}
       />
     );
   }
