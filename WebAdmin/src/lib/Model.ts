@@ -61,5 +61,11 @@ export class Model {
     return result.updateKitchen;
   }
 
+  async deleteKitchen(kitchenId: string) {
+    const mutSave = `mutation { deleteKitchen(kitchenId: "${kitchenId}") }`;
+    const result = await this.network.fetchQuery(mutSave);
+    return result.deleteKitchen;
+  }
+
 
 }

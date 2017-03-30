@@ -169,6 +169,14 @@ export const schema = new GraphQLSchema({
           return newOrder.save();
         }
       },
+      deleteKitchen: {
+        type: GraphQLString,
+        args: { kitchenId: { type: GraphQLID } },
+        resolve: async (value, { kitchenId }) => {
+          await Kitchen.remove({ _id: kitchenId });
+          return 'OK';
+        }
+      },
     },
     name: 'Mutation',
   })
