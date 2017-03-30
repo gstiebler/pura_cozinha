@@ -54,5 +54,12 @@ export class Model {
     return result.kitchens;
   }
 
+  async updateKitchen(kitchen: Kitchen) {
+    const kitchenValues = `{ id: "${kitchen._id}", name: "${kitchen.name}", address: "${kitchen.address}" }`;
+    const mutSave = `mutation { updateKitchen(newKitchenData: ${kitchenValues}) }`;
+    const result = await this.network.fetchQuery(mutSave);
+    return result.updateKitchen;
+  }
+
 
 }

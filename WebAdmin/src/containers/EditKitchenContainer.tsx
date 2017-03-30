@@ -45,7 +45,11 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   async onSave() {
-    await model.saveKitchen(this.state.kitchen);
+    if (this.state.id) {
+      await model.updateKitchen(this.state.kitchen);
+    } else {
+      await model.saveKitchen(this.state.kitchen);
+    }
     browserHistory.push('/admin_app/kitchens');
   }
 

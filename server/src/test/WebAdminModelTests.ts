@@ -51,7 +51,7 @@ describe('Web Admin model test', function() {
     assert.equal('Rua bem central', kitchens[1].address);
   });
 
-  it('save kitchens', async function() {
+  it('save kitchen', async function() {
     const kitchen: Kitchen = {
       name: 'nome para salvar',
       address: 'endereço para salvar'
@@ -62,6 +62,20 @@ describe('Web Admin model test', function() {
     assert.equal(3, kitchens.length);
     assert.equal(kitchen.name, kitchens[2].name);
     assert.equal(kitchen.address, kitchens[2].address);
+  });
+
+  it('update kitchen', async function() {
+    const model: Model = this.model;
+    const kitchen_id = await TestUtils.idByValue(KitchenSchema.Kitchen, 'name', 'Cozinha do Marcel');
+    const newKitchen: Kitchen = {
+      _id: kitchen_id,
+      name: 'cozinha editada',
+      address: 'address editado'
+    };
+    await model.updateKitchen(newKitchen);
+    const editedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
+    assert.equal(newKitchen.name, editedKitchen.name);
+    assert.equal(newKitchen.address, editedKitchen.address);
   });
 
   it('get one kitchen', async function() {

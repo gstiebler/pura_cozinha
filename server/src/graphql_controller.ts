@@ -25,8 +25,9 @@ const kitchenType = new GraphQLObjectType({
 });
 
 const KitchenInputType = new GraphQLInputObjectType({
-  name: 'ArticleInput',
+  name: 'kitchenInputType',
   fields: {
+    id: { type: GraphQLID },
     name: { type: GraphQLString },
     address: { type: GraphQLString }
   }
@@ -137,6 +138,14 @@ export const schema = new GraphQLSchema({
         resolve(value, { newKitchenData }) {
           const newKitchen = new Kitchen(newKitchenData);
           return newKitchen.save();
+        }
+      },
+      updateKitchen: {
+        type: GraphQLString,
+        args: { newKitchenData: { type: KitchenInputType } },
+        resolve: async (value, { newKitchenData }) => {
+          await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
+          return 'OK';
         }
       },
       saveOrder: {
