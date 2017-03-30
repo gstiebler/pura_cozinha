@@ -40,6 +40,8 @@ export class Model {
     return result.orders;
   }
 
+  /** Kitchen */
+
   async getKitchens(): Promise<Kitchen[]> {
     const fields = '_id, name, address';
     const query = `query { kitchens { ${fields} } }`;
@@ -75,5 +77,19 @@ export class Model {
     return result.deleteKitchen;
   }
 
+  /** Food menu items */
 
+  async saveFoodMenuItem(foodMenuItem: FoodMenuItem) {
+    // TODO use removeJSONQuotes
+    const values =
+      `{
+         title: "${foodMenuItem.title}",
+         description: "${foodMenuItem.description}",
+         price: ${foodMenuItem.price},
+         imgURL: "${foodMenuItem.imgURL}",
+      }`;
+    const mutSave = `mutation { saveFoodMenuItem(fmiData: ${values}) }`;
+    const result = await this.network.fetchQuery(mutSave);
+    return result.saveFoodMenuItem;
+  }
 }

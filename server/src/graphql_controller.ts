@@ -81,6 +81,16 @@ const OrderInputType = new GraphQLInputObjectType({
   }
 });
 
+const FoodMenuItemInputType = new GraphQLInputObjectType({
+  name: 'FoodMenuItemInputType',
+  fields: {
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    description: { type: GraphQLString },
+    imgURL: { type: GraphQLString },
+    price: { type: new GraphQLNonNull(GraphQLFloat) },
+  }
+});
+
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
@@ -175,6 +185,14 @@ export const schema = new GraphQLSchema({
         resolve: async (value, { kitchenId }) => {
           await Kitchen.remove({ _id: kitchenId });
           return 'OK';
+        }
+      },
+      saveFoodMenuItem: {
+        type: GraphQLString,
+        args: { fmiData: { type: FoodMenuItemInputType } },
+        resolve(value, { fmiData }) {
+          const newFMI = new MenuItem(fmiData);
+          return newFMI.save();
         }
       },
     },
