@@ -6,7 +6,17 @@ paypal.configure({
   'client_secret': 'EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM'
 });
 
-export function createCC(savedCard): Promise<any> {
+interface CreditCard {
+  type: string;
+  number: string;
+  expire_month: string;
+  expire_year: string;
+  cvv2: string;
+  first_name: string;
+  last_name: string;
+}
+
+export function createCC(savedCard: CreditCard): Promise<any> {
   return new Promise((resolve, reject) => {
     paypal.creditCard.create(savedCard, function (error, credit_card) {
       if (error) {
@@ -20,7 +30,7 @@ export function createCC(savedCard): Promise<any> {
 }
 
 
-function payWithSavedCardSync(paymentInfo): Promise<any> {
+function paySync(paymentInfo): Promise<any> {
   return new Promise((resolve, reject) => {
     paypal.payment.create(paymentInfo, function (error, payment) {
       if (error) {
@@ -39,37 +49,39 @@ export async function payWithSavedCard(ccId: string, value: Number, description:
       'payment_method': 'credit_card',
       'funding_instruments': [{
         'credit_card_token': {
-          'credit_card_id': 'CARD-5BT058015C739554AKE2GCEI' // ccId
+          'credit_card_id': ccId
         }
       }]
     },
     'transactions': [{
       'amount': {
-        'currency': 'USD',
+        'currency': 'BRL',
         'total': value.toString()
       },
       'description': description
     }]
   };
 
-  return await payWithSavedCardSync(paymentInfo);
+  return await paySync(paymentInfo);
 }
 
-export async function pay() {
-  const savedCard = {
-    'type': 'visa',
-    'number': '4417119669820331',
-    'expire_month': '11',
-    'expire_year': '2019',
-    'cvv2': '123',
-    'first_name': 'Joe',
-    'last_name': 'Shopper'
+export async function payCreditCard(creditCard: CreditCard, value: Number, description: string) {
+  const paymentInfo = {
+    'intent': 'sale',
+    'payer': {
+      'payment_method': 'credit_card',
+      'funding_instruments': [{
+        'credit_card': creditCard
+      }]
+    },
+    'transactions': [{
+      'amount': {
+        'total': value.toString(),
+        'currency': 'BRL',
+      },
+      'description': description
+    }]
   };
 
-  try {
-    const res = await createCC(savedCard);
-    return res;
-  } catch (err) {
-    console.error(JSON.stringify(err));
-  }
+  return await paySync(paymentInfo);
 }

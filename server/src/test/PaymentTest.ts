@@ -41,11 +41,34 @@ describe('Payment tests', function () {
       console.log(JSON.stringify(paymentRes));
     } catch (err) {
       console.error(err);
+      assert.ok(false);
     }
   });
 
-  it('payment', async function () {
-    const savedCard = await Payment.pay();
-    assert.ok(savedCard.id.includes('CARD-'));
+  it('Pay with new credit card', async function () {
+    const creditCardInfo = {
+      'type': 'visa',
+      'number': '4417119669820331',
+      'expire_month': '11',
+      'expire_year': '2018',
+      'cvv2': '874',
+      'first_name': 'Joe',
+      'last_name': 'Shopper',
+      /*'billing_address': {
+        'line1': '52 N Main ST',
+        'city': 'Johnstown',
+        'state': 'OH',
+        'postal_code': '43210',
+        'country_code': 'US'
+      }*/
+    };
+
+    try {
+      const res = await Payment.payCreditCard(creditCardInfo, 8.99, 'teste compra cartão');
+      console.log(res);
+    } catch (err) {
+      console.error(JSON.stringify(err));
+      assert.ok(false);
+    }
   });
 });
