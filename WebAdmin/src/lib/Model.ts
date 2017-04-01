@@ -3,6 +3,10 @@ export interface Kitchen {
   _id?: string;
   name: string;
   address: string;
+  coordinates: {
+    lat: Number,
+    lng: Number
+  }
 }
 
 export interface FoodMenuItem {
@@ -50,22 +54,39 @@ export class Model {
   }
 
   async getKitchen(id: string): Promise<Kitchen> {
-    const fields = 'name, address';
+    const fields = 'name, address, coordinates { lat, lng }';
     const query = `query { kitchen(id: "${id}") { ${fields} } }`;
     const result = await this.network.fetchQuery(query);
     return result.kitchen;
   }
 
   async saveKitchen(kitchen: Kitchen) {
-    const kitchenFields = 'name, address';
-    const kitchenValues = `{ name: "${kitchen.name}", address: "${kitchen.address}" }`;
-    const mutSave = `mutation { saveKitchen(newKitchenData: ${kitchenValues}) { ${kitchenFields} } }`;
+    const kitchenValues =
+      `{
+         id: "${kitchen._id}",
+         name: "${kitchen.name}",
+         address: "${kitchen.address}",
+         coordinates: {
+           lat: ${kitchen.coordinates.lat},
+           lng: ${kitchen.coordinates.lng}
+         }
+      }`;
+    const mutSave = `mutation { saveKitchen(newKitchenData: ${kitchenValues}) }`;
     const result = await this.network.fetchQuery(mutSave);
     return result.kitchens;
   }
 
   async updateKitchen(kitchen: Kitchen) {
-    const kitchenValues = `{ id: "${kitchen._id}", name: "${kitchen.name}", address: "${kitchen.address}" }`;
+    const kitchenValues = 
+      `{
+         id: "${kitchen._id}",
+         name: "${kitchen.name}",
+         address: "${kitchen.address}",
+         coordinates: {
+           lat: ${kitchen.coordinates.lat},
+           lng: ${kitchen.coordinates.lng}
+         }
+      }`;
     const mutSave = `mutation { updateKitchen(newKitchenData: ${kitchenValues}) }`;
     const result = await this.network.fetchQuery(mutSave);
     return result.updateKitchen;

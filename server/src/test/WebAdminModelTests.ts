@@ -49,7 +49,11 @@ describe('Web Admin model test', function() {
     it('save kitchen', async function() {
       const kitchen: Kitchen = {
         name: 'nome para salvar',
-        address: 'endereço para salvar'
+        address: 'endereço para salvar',
+        coordinates: {
+          lat: 30,
+          lng: 40
+        }
       };
       const model: Model = this.model;
       await model.saveKitchen(kitchen);
@@ -57,6 +61,7 @@ describe('Web Admin model test', function() {
       assert.equal(4, kitchens.length);
       assert.equal(kitchen.name, kitchens[3].name);
       assert.equal(kitchen.address, kitchens[3].address);
+      assert.equal(kitchen.coordinates.lat, kitchens[3].coordinates.lat);
     });
 
     it('update kitchen', async function() {
@@ -65,13 +70,18 @@ describe('Web Admin model test', function() {
       const newKitchen: Kitchen = {
         _id: kitchen_id,
         name: 'cozinha editada',
-        address: 'address editado'
+        address: 'address editado',
+        coordinates: {
+          lat: 55,
+          lng: 66
+        }
       };
       const res = await model.updateKitchen(newKitchen);
       assert.equal('OK', res);
       const editedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
       assert.equal(newKitchen.name, editedKitchen.name);
       assert.equal(newKitchen.address, editedKitchen.address);
+      assert.equal(newKitchen.coordinates.lat, editedKitchen.coordinates.lat);
 
       const count = await KitchenSchema.Kitchen.count({});
       assert.equal(3, count);
@@ -83,6 +93,7 @@ describe('Web Admin model test', function() {
       const kitchen = await model.getKitchen(kitchen_id);
       assert.equal('Cozinha do Marcel', kitchen.name);
       assert.equal('R. Jorn. Henrique Cordeiro, 310', kitchen.address);
+      assert.equal(-43.321984, kitchen.coordinates.lng);
     });
 
     it('delete kitchen', async function() {

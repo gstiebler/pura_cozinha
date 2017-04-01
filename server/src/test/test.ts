@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
-import { execGQLQuery } from '../graphql_controller';
+import { execGQLQuery } from '../graphql/graphql_controller';
 import { Order } from '../db/models/Order';
 import { MenuItem } from '../db/models/menuItem';
 import * as util from 'util';
@@ -36,12 +36,19 @@ describe('basic tests', function() {
   });
 
   it('kitchen save', async function() {
-    const kitchenFields = 'name, address';
-    const kitchenValues = '{ name: "Teste nome cozinha", address: "Endereço salvar" }';
-    const mutSave = util.format('mutation { saveKitchen(newKitchenData: %s) { %s } }',
-          kitchenValues, kitchenFields);
+    const kitchenValues = `{ 
+      name: "Teste nome cozinha", 
+      address: "Endereço salvar",
+      coordinates: {
+        lat: 11.1,
+        lng: 22.2
+      }
+    }`;
+    const mutSave = util.format('mutation { saveKitchen(newKitchenData: %s) }',
+          kitchenValues);
     const resSave = await execGQLQuery(mutSave);
 
+    const kitchenFields = 'name, address';
     const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
     const result = await execGQLQuery(queryKitchens);
     assert.equal(4, result.data.kitchens.length);

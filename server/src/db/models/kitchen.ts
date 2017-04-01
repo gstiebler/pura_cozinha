@@ -1,15 +1,18 @@
 import * as mongoose from 'mongoose';
 
 const kitSchema = new mongoose.Schema({
-   name: { 
+   name: {
      type: String,
      required: true
    },
-   address: { 
+   address: {
      type: String,
      required: true
    },
-   coordinates: { type: Object }
+   coordinates: { 
+     lat: { type: Number },
+     lng: { type: Number }
+   }
 });
 
 export const Kitchen = mongoose.model('Kitchen', kitSchema);
