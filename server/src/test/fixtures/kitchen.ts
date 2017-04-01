@@ -4,13 +4,27 @@ export default async function execute() {
   await Kitchen.collection.insert([
     {
       name: 'Cozinha do Marcel',
-      address: 'Endereço',
-      coordinates: { lat: 39573.3457, lng: 87347 }
+      address: 'R. Jorn. Henrique Cordeiro, 310',
+      coordinates: {
+        lat: -23.005238,
+        lng: -43.321984
+      }
     },
     {
       name: 'Outra cozinha',
-      address: 'Rua bem central',
-      coordinates: { lat: 12.34, lng: -57.34 }
+      address: 'Rua Barata Ribeiro, 419',
+      coordinates: {
+        lat: -22.968896,
+        lng: -43.186143
+      }
+    },
+    {
+      name: 'Cozinha Centro',
+      address: 'Av. Mal. Floriano, 71',
+      coordinates: {
+        lat: -22.901411,
+        lng: -43.183318
+      }
     },
   ]);
 }

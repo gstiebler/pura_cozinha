@@ -41,9 +41,9 @@ describe('Web Admin model test', function() {
     it('get kitchens', async function() {
       const model: Model = this.model;
       const kitchens = await model.getKitchens();
-      assert.equal(2, kitchens.length);
+      assert.equal(3, kitchens.length);
       assert.equal('Outra cozinha', kitchens[1].name);
-      assert.equal('Rua bem central', kitchens[1].address);
+      assert.equal('Rua Barata Ribeiro, 419', kitchens[1].address);
     });
 
     it('save kitchen', async function() {
@@ -54,9 +54,9 @@ describe('Web Admin model test', function() {
       const model: Model = this.model;
       await model.saveKitchen(kitchen);
       const kitchens: any[] = await KitchenSchema.Kitchen.find();
-      assert.equal(3, kitchens.length);
-      assert.equal(kitchen.name, kitchens[2].name);
-      assert.equal(kitchen.address, kitchens[2].address);
+      assert.equal(4, kitchens.length);
+      assert.equal(kitchen.name, kitchens[3].name);
+      assert.equal(kitchen.address, kitchens[3].address);
     });
 
     it('update kitchen', async function() {
@@ -74,7 +74,7 @@ describe('Web Admin model test', function() {
       assert.equal(newKitchen.address, editedKitchen.address);
 
       const count = await KitchenSchema.Kitchen.count({});
-      assert.equal(2, count);
+      assert.equal(3, count);
     });
 
     it('get one kitchen', async function() {
@@ -82,7 +82,7 @@ describe('Web Admin model test', function() {
       const kitchen_id = await TestUtils.idByValue(KitchenSchema.Kitchen, 'name', 'Cozinha do Marcel');
       const kitchen = await model.getKitchen(kitchen_id);
       assert.equal('Cozinha do Marcel', kitchen.name);
-      assert.equal('Endereço', kitchen.address);
+      assert.equal('R. Jorn. Henrique Cordeiro, 310', kitchen.address);
     });
 
     it('delete kitchen', async function() {
@@ -92,7 +92,7 @@ describe('Web Admin model test', function() {
       const deletedKitchen: any = await KitchenSchema.Kitchen.findById(kitchen_id);
       assert.ok(!deletedKitchen);
       const count = await KitchenSchema.Kitchen.count({});
-      assert.equal(1, count);
+      assert.equal(2, count);
     });
 
   });

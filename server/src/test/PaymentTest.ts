@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
 import * as Payment from '../core/Payment';
 
-describe('Payment tests', function () {
+describe.skip('Payment tests', function () {
 
   beforeEach(async function () {
     await execFixtures();

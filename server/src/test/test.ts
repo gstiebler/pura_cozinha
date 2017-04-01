@@ -32,7 +32,7 @@ describe('basic tests', function() {
     const id = result.data.kitchens[1]._id;
     const queryOneKitchen = util.format('query { kitchen(id: "%s") { %s } }', id, kitchenFields);
     const resKitchen = await execGQLQuery(queryOneKitchen);
-    assert.equal('Rua bem central', resKitchen.data.kitchen.address);
+    assert.equal('Rua Barata Ribeiro, 419', resKitchen.data.kitchen.address);
   });
 
   it('kitchen save', async function() {
@@ -44,7 +44,7 @@ describe('basic tests', function() {
 
     const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
     const result = await execGQLQuery(queryKitchens);
-    assert.equal(3, result.data.kitchens.length);
+    assert.equal(4, result.data.kitchens.length);
   });
 
   it('get menu items', async function() {

@@ -41,9 +41,9 @@ describe('functional express api tests', function() {
     const queryKitchens = 'query { kitchens { ' + kitchenFields + ' } }';
     const data = await fetchQuery(queryKitchens);
     const kitchens = data.kitchens;
-    assert.equal(2, kitchens.length);
+    assert.equal(3, kitchens.length);
     assert.equal('Cozinha do Marcel', kitchens[0].name);
-    assert.equal('Rua bem central', kitchens[1].address);
+    assert.equal('Rua Barata Ribeiro, 419', kitchens[1].address);
   });
 
 });
