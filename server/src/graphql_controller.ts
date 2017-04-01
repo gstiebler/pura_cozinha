@@ -15,24 +15,8 @@ import { Kitchen } from './db/models/kitchen';
 import { MenuItem } from './db/models/menuItem';
 import { Order } from './db/models/Order';
 import { processOrder } from './core/OrderProcess';
+import * as KitchenGraphql from './graphql/KitchenGraphql';
 
-const kitchenType = new GraphQLObjectType({
-  name: 'kitchenType',
-  fields: {
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    name: { type: GraphQLString },
-    address: { type: GraphQLString }
-  }
-});
-
-const KitchenInputType = new GraphQLInputObjectType({
-  name: 'kitchenInputType',
-  fields: {
-    id: { type: GraphQLID },
-    name: { type: GraphQLString },
-    address: { type: GraphQLString }
-  }
-});
 
 const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
@@ -58,7 +42,7 @@ const OrderType = new GraphQLObjectType({
   fields: {
     id: { type: new GraphQLNonNull(GraphQLID) },
     user_id: { type: new GraphQLNonNull(GraphQLID) },
-    kitchen: { type: kitchenType },
+    kitchen: { type: KitchenGraphql.kitchenType },
     total: { type: GraphQLFloat },
     datetime: { type: GraphQLString },
     status: { type: GraphQLString },
@@ -103,21 +87,6 @@ export const schema = new GraphQLSchema({
           return 'world';
         }
       },
-      kitchens: {
-        type: new GraphQLList(kitchenType),
-        resolve: function() {
-          return Kitchen.find();
-        }
-      },
-      kitchen: {
-        type: kitchenType,
-        args: {
-          id: { type: GraphQLID }
-        },
-        resolve: async function(root, { id }) {
-          return Kitchen.findOne({ '_id': id });
-        }
-      },
       foodMenuItem: {
         type: menuItemType,
         args: {
@@ -148,7 +117,9 @@ export const schema = new GraphQLSchema({
           });
           return res;
         }
-      }
+      },
+      kitchen: KitchenGraphql.KitchenQuery.kitchen,
+      kitchens: KitchenGraphql.KitchenQuery.kitchens
     }
   }),
   mutation: new GraphQLObjectType({
@@ -158,30 +129,6 @@ export const schema = new GraphQLSchema({
         args: { newOrderData: { type: OrderInputType } },
         resolve: async function(value, { newOrderData }) {
           await processOrder(newOrderData);
-        }
-      },
-      saveKitchen: {
-        type: kitchenType,
-        args: { newKitchenData: { type: KitchenInputType } },
-        resolve(value, { newKitchenData }) {
-          const newKitchen = new Kitchen(newKitchenData);
-          return newKitchen.save();
-        }
-      },
-      updateKitchen: {
-        type: GraphQLString,
-        args: { newKitchenData: { type: KitchenInputType } },
-        resolve: async (value, { newKitchenData }) => {
-          await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
-          return 'OK';
-        }
-      },
-      deleteKitchen: {
-        type: GraphQLString,
-        args: { kitchenId: { type: GraphQLID } },
-        resolve: async (value, { kitchenId }) => {
-          await Kitchen.remove({ _id: kitchenId });
-          return 'OK';
         }
       },
       saveFoodMenuItem: {
@@ -208,6 +155,9 @@ export const schema = new GraphQLSchema({
           return 'OK';
         }
       },
+      saveKitchen: KitchenGraphql.KitchenMutation.saveKitchen,
+      updateKitchen: KitchenGraphql.KitchenMutation.updateKitchen,
+      deleteKitchen: KitchenGraphql.KitchenMutation.deleteKitchen,
     },
     name: 'Mutation',
   })
