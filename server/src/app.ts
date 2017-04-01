@@ -3,7 +3,7 @@ import * as graphqlHTTP from 'express-graphql';
 import * as winston from 'winston';
 import * as path from 'path';
 
-import { schema } from './graphql_controller';
+import { schema } from './graphql/graphql_controller';
 import * as db from './db';
 
 import * as bodyParser from 'body-parser';
