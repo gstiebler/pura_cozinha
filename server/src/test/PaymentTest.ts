@@ -10,13 +10,13 @@ describe('Payment tests', function () {
 
   it('Create credit card', async function () {
     const cardDetails = {
-      "type": "visa",
-      "number": "4417119669820331",
-      "expire_month": "11",
-      "expire_year": "2019",
-      "cvv2": "123",
-      "first_name": "Joe",
-      "last_name": "Shopper"
+      'type': 'visa',
+      'number': '4417119669820331',
+      'expire_month': '11',
+      'expire_year': '2019',
+      'cvv2': '123',
+      'first_name': 'Joe',
+      'last_name': 'Shopper'
     };
 
     const savedCard = await Payment.createCC(cardDetails);
@@ -26,13 +26,13 @@ describe('Payment tests', function () {
 
   it('Payment with saved credit card', async function () {
     const cardDetails = {
-      "type": "visa",
-      "number": "4417119669820331",
-      "expire_month": "11",
-      "expire_year": "2019",
-      "cvv2": "123",
-      "first_name": "Joe",
-      "last_name": "Shopper"
+      'type': 'visa',
+      'number': '4417119669820331',
+      'expire_month': '11',
+      'expire_year': '2019',
+      'cvv2': '123',
+      'first_name': 'Joe',
+      'last_name': 'Shopper'
     };
     const savedCard = await Payment.createCC(cardDetails);
     const cardId = savedCard.id;
