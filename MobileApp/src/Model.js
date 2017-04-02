@@ -45,6 +45,8 @@ export class Model {
     this.network = network;
     this.AsyncStorage = AsyncStorage;
     this.getGeolocation = getGeolocation;
+
+    this.menuItems = [];
     this.cartItems = new Map();
     this.address = '';
     this.initializeUserId();
@@ -125,6 +127,13 @@ export class Model {
       total += item.price * item.qty;
     }
     return total;
+  }
+
+  async getKitchensByDistance(coordinates) {
+    const fields = '_id, name, address, distMeters, coordinates { lat, lng }';
+    const query = `query { kitchensByDistance(lat: ${coordinates.lat}, lng: ${coordinates.lng}) { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.kitchensByDistance;
   }
 
   async pay(creditCardDetails) {
