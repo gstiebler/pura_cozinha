@@ -80,7 +80,8 @@ export const schema = new GraphQLSchema({
       foodMenuItem: FoodMenuItemGraphql.Query.foodMenuItem,
       menuItems: FoodMenuItemGraphql.Query.menuItems,
       kitchen: KitchenGraphql.KitchenQuery.kitchen,
-      kitchens: KitchenGraphql.KitchenQuery.kitchens
+      kitchens: KitchenGraphql.KitchenQuery.kitchens,
+      kitchensByDistance: KitchenGraphql.KitchenQuery.kitchensByDistance
     }
   }),
   mutation: new GraphQLObjectType({

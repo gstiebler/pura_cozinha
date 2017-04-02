@@ -59,4 +59,34 @@ describe('React Native model test', function() {
     assert.equal('Sanduba de frango', lastOrder.items[0].title);
   });
 
+  describe('Kitchen', function() {
+
+    it('Kitchens by distance', async function() {
+      const cariocaCoordinates = {
+        lat: -22.906922,
+        lng: -43.178046
+      };
+      const kitchensFromCarioca = await this.model.getKitchensByDistance(cariocaCoordinates);
+      assert.equal('Av. Mal. Floriano, 71', kitchensFromCarioca[0].address);
+      assert.equal(815, kitchensFromCarioca[0].distMeters);
+      assert.equal('Rua Barata Ribeiro, 419', kitchensFromCarioca[1].address);
+      assert.equal(6913, kitchensFromCarioca[1].distMeters);
+      assert.equal('R. Jorn. Henrique Cordeiro, 310', kitchensFromCarioca[2].address);
+      assert.equal(18343, kitchensFromCarioca[2].distMeters);
+
+      const downtownCoordinates = {
+        lat: -23.003716,
+        lng: -43.317238,
+      };
+      const kitchensFromDowntown = await this.model.getKitchensByDistance(downtownCoordinates);
+      assert.equal('R. Jorn. Henrique Cordeiro, 310', kitchensFromDowntown[0].address);
+      assert.equal(515, kitchensFromDowntown[0].distMeters);
+      assert.equal('Rua Barata Ribeiro, 419', kitchensFromDowntown[1].address);
+      assert.equal(13984, kitchensFromDowntown[1].distMeters);
+      assert.equal('Av. Mal. Floriano, 71', kitchensFromDowntown[2].address);
+      assert.equal(17804, kitchensFromDowntown[2].distMeters);
+    });
+
+  });
+
 });

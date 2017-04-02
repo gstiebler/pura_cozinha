@@ -7,6 +7,7 @@ import {
   GraphQLList,
   GraphQLFloat
 } from 'graphql';
+import * as geolib from 'geolib';
 import { Kitchen } from '../db/models/kitchen';
 
 export const geolocationType = new GraphQLObjectType({
@@ -35,6 +36,17 @@ export const kitchenType = new GraphQLObjectType({
   }
 });
 
+export const kitchenWithDistType = new GraphQLObjectType({
+  name: 'kitchenWithDistType',
+  fields: {
+    _id: { type: new GraphQLNonNull(GraphQLID) },
+    name: { type: GraphQLString },
+    address: { type: GraphQLString },
+    distMeters: { type: GraphQLFloat },
+    coordinates: { type: geolocationType }
+  }
+});
+
 const KitchenInputType = new GraphQLInputObjectType({
   name: 'kitchenInputType',
   fields: {
@@ -51,6 +63,31 @@ export const KitchenQuery = {
     type: new GraphQLList(kitchenType),
     resolve: function() {
       return Kitchen.find();
+    }
+  },
+  kitchensByDistance: {
+    type: new GraphQLList(kitchenWithDistType),
+    args: {
+      lat: { type: GraphQLFloat },
+      lng: { type: GraphQLFloat }
+    },
+    resolve: async function(root, { lat, lng }) {
+      const origin = {
+        latitude: lat,
+        longitude: lng
+      };
+      const kitchens: any[] = await Kitchen.find();
+      const kitchensWithDist = kitchens.map(k => {
+        const kitchen = k.toObject();
+        const kitchenCoords = {
+          latitude: kitchen.coordinates.lat,
+          longitude: kitchen.coordinates.lng
+        };
+        kitchen.distMeters = geolib.getDistance(origin, kitchenCoords);
+        return kitchen;
+      });
+      kitchensWithDist.sort((a, b) => { return a.distMeters - b.distMeters; });
+      return kitchensWithDist;
     }
   },
   kitchen: {
