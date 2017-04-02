@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import MainComponent from './out/src/components/MainComponent';
+import MainComponent from './out/components/MainComponent';
 
 export default class MobileApp extends Component {
   render() {

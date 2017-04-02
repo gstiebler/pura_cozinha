@@ -11,16 +11,10 @@
         "allowJs": true,
         "sourceMap": true
     },
-    "filesGlob": [
-        "typings/index.d.ts",
+    "include": [
         "src/**/*.ts",
-        "src/**/*.tsx"
-    ],
-    "exclude": [
-        "index.android.js",
-        "index.ios.js",
-        "build",
-        "node_modules"
+        "src/**/*.tsx",
+        "src/**/*.js"
     ],
     "compileOnSave": false
 }
