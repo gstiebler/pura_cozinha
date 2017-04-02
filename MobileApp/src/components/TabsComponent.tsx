@@ -5,8 +5,9 @@ import {
   View
 } from 'react-native';
 
-import FoodMenu from '../../src/containers/FoodMenu';
-import Cart from '../../src/containers/Cart';
+import FoodMenu from '../containers/FoodMenu';
+import Kitchens from '../containers/KitchensContainer';
+import Cart from '../containers/Cart';
 import Tabs from 'react-native-tabs';
 
 interface IAppProps {
@@ -21,17 +22,22 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
 
   constructor(props) {
     super(props);
-    this.state = { page: 'food_menu' };
+    this.state = {
+      page: 'kitchens'
+    };
   }
 
   render() {
     let viewedTab = null;
+    console.log(this.state.page);
     if (this.state.page === 'food_menu') {
       viewedTab = <FoodMenu navigator={this.props.navigator} />
+    } else if (this.state.page === 'kitchens') {
+      viewedTab = <Kitchens navigator={this.props.navigator} />;
     } else if (this.state.page === 'cart') {
       viewedTab = <Cart navigator={this.props.navigator} />
     } else if (this.state.page === 'orders') {
-      viewedTab = <Text>Pedidos são mostrados aqui</Text>
+      viewedTab = <Text>Pedidos são mostrados aqui</Text>;
     }
 
     return (
@@ -39,7 +45,7 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
         {viewedTab}
         <Tabs selected={this.state.page} style={styles.tabs}
           selectedStyle={styles.selected} onSelect={el => this.setState({ page: el.props.name })}>
-          <Text name="food_menu">Cardápio</Text>
+          <Text name="kitchens">Cozinhas</Text>
           <Text name="cart">Carrinho</Text>
           <Text name="orders">Pedidos</Text>
           <Text name="profile">Eu</Text>

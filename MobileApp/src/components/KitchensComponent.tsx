@@ -20,7 +20,7 @@ function renderRow(onItemSelected, rowData: KitchenWithDist, sectionID, rowID, h
         <View style={styles.textColumn}>
           <Text style={styles.title}>{rowData.name}</Text>
           <Text style={styles.description}>Endereço: {rowData.address}</Text>
-          <Text style={styles.description}>Distância: {(rowData.distMeters / 1000)}km</Text>
+          <Text style={styles.description}>Distância: {(rowData.distMeters)} metros</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -36,7 +36,7 @@ const Kitchens = (props: IProps) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   const dataSource = ds.cloneWithRows(props.kitchens);
   return <View style={styles.container}>
-    <Text style={styles.header}>Cardápio</Text>
+    <Text style={styles.header}>Escolhe a cozinha ai!</Text>
     <ListView enableEmptySections={true}
       dataSource={dataSource}
       renderRow={renderRow.bind(null, props.onItemSelected)}

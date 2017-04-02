@@ -32,7 +32,6 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
       lng: currCoordinates.longitude
     };
     const kitchens = await model.getKitchensByDistance(geoCoordinates);
-    console.log(kitchens);
     this.setState({ kitchens });
   }
 

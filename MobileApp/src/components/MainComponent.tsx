@@ -18,7 +18,7 @@ function router(route, navigator) {
   } else if (route.id === 'menu_item') {
     return <FoodMenuItem 
       navigator={navigator}
-      menuItemId={route.menuItemId} 
+      menuItemId={route.menuItemId}
     />
   } else if (route.id  === 'address') {
     return <Address navigator={navigator} />
