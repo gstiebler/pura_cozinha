@@ -9,7 +9,7 @@ interface IAppProps {
 }
 
 interface IAppState {
-  kitchen: Kitchen;
+  kitchen: any;
   kitchenFields: EditFieldsComponent.NameLabel[];
   id: string;
 }
@@ -20,10 +20,17 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
     super(props);
     this.state = {
       id: props.location.query.id,
-      kitchen: { name: '', address: '' },
+      kitchen: {
+        name: '',
+        address: '',
+        lat: 0.0,
+        lng: 0.0
+      },
       kitchenFields: [
         { name: 'name', label: 'Nome' },
         { name: 'address', label: 'Endereço' },
+        { name: 'lat', label: 'Latitude' },
+        { name: 'lng', label: 'Longitude' },
       ]
     };
   }
@@ -36,7 +43,13 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
 
   async getKitchen() {
     const kitchen = await model.getKitchen(this.state.id);
-    this.setState({ kitchen });
+    const kitchenEditObj = {
+      name: kitchen.name,
+      address: kitchen.address,
+      lat: kitchen.coordinates.lat,
+      lng: kitchen.coordinates.lng
+    }
+    this.setState({ kitchen: kitchenEditObj });
   }
 
   onChange(name: string, value: string) {
@@ -45,11 +58,19 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   async onSave() {
+    const kitchen: Kitchen = {
+      name: this.state.kitchen.name,
+      address: this.state.kitchen.address,
+      coordinates: {
+        lat: this.state.kitchen.lat,
+        lng: this.state.kitchen.lng
+      }
+    }
     if (this.state.id) {
-      this.state.kitchen._id = this.state.id;
-      await model.updateKitchen(this.state.kitchen);
+      kitchen._id = this.state.id;
+      await model.updateKitchen(kitchen);
     } else {
-      await model.saveKitchen(this.state.kitchen);
+      await model.saveKitchen(kitchen);
     }
     browserHistory.push('/admin_app/kitchens');
   }
