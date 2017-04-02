@@ -17,8 +17,8 @@ function objToGrahqlStr(obj) {
 const USER_ID_KEY = 'general:user_id';
 
 interface GeoCoordinates {
-  lat: Number;
-  lng: Number;
+  lat: number;
+  lng: number;
 }
 
 interface Kitchen {
@@ -28,15 +28,15 @@ interface Kitchen {
   coordinates: GeoCoordinates;
 }
 
-interface KitchenWithDist extends Kitchen {
-  distMeters: Number;
+export interface KitchenWithDist extends Kitchen {
+  distMeters: number;
 }
 
 interface FoodMenuItem {
   _id?: string;
   title: string;
   description: string;
-  price: Number;
+  price: number;
 }
 
 export class Model {

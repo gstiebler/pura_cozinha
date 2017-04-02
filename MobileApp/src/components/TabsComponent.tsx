@@ -9,28 +9,36 @@ import FoodMenu from '../../src/containers/FoodMenu';
 import Cart from '../../src/containers/Cart';
 import Tabs from 'react-native-tabs';
 
-export default class TabsComponent extends Component {
+interface IAppProps {
+  navigator: any;
+}
 
-  constructor(props){
+interface IAppState {
+  page: string;
+}
+
+export default class TabsComponent extends Component<IAppProps, IAppState> {
+
+  constructor(props) {
     super(props);
-    this.state = { page:'food_menu' };
+    this.state = { page: 'food_menu' };
   }
 
   render() {
     let viewedTab = null;
-    if(this.state.page == 'food_menu') {
+    if (this.state.page === 'food_menu') {
       viewedTab = <FoodMenu navigator={this.props.navigator} />
-    } else if (this.state.page == 'cart') {
+    } else if (this.state.page === 'cart') {
       viewedTab = <Cart navigator={this.props.navigator} />
-    } else if (this.state.page == 'orders') {
+    } else if (this.state.page === 'orders') {
       viewedTab = <Text>Pedidos são mostrados aqui</Text>
     }
 
     return (
       <View style={styles.container}>
-        { viewedTab }
+        {viewedTab}
         <Tabs selected={this.state.page} style={styles.tabs}
-              selectedStyle={styles.selected} onSelect={el=>this.setState({page:el.props.name})}>
+          selectedStyle={styles.selected} onSelect={el => this.setState({ page: el.props.name })}>
           <Text name="food_menu">Cardápio</Text>
           <Text name="cart">Carrinho</Text>
           <Text name="orders">Pedidos</Text>
@@ -47,9 +55,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   selected: {
-    color:'red'
+    color: 'red'
   },
   tabs: {
-    backgroundColor:'white'
+    backgroundColor: 'white'
   }
 });

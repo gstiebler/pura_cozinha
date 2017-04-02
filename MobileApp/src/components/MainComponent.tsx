@@ -10,6 +10,7 @@ import TabsComponent from './TabsComponent';
 import FoodMenuItem from '../containers/FoodMenuItem';
 import Address from '../containers/Address';
 import CreditCard from '../containers/CreditCard';
+import Kitchens from '../containers/KitchensContainer';
 
 function router(route, navigator) {
   if(route.id === 'tabs') {
@@ -19,9 +20,9 @@ function router(route, navigator) {
       navigator={navigator}
       menuItemId={route.menuItemId} 
     />
-  } else if (route.id  == 'address') {
+  } else if (route.id  === 'address') {
     return <Address navigator={navigator} />
-  } else if (route.id  == 'credit_card') {
+  } else if (route.id  === 'credit_card') {
     return <CreditCard navigator={navigator} />
   } else {
     return <Text>Erro!</Text>
