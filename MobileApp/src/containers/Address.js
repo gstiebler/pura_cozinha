@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import AddressComponent from '../components/AddressComponent';
 import { model } from '../Startup';
+import { addressFlowControl } from '../FlowControl';
 
 export default class Cart extends Component {
   constructor(props){
@@ -22,7 +23,7 @@ export default class Cart extends Component {
   }
 
   onPayClicked() {
-    this.props.navigator.push({id: 'credit_card'});
+    addressFlowControl.onPayClicked();
   }
 
   render() {

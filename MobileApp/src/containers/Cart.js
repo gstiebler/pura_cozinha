@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import CartComponent from '../components/CartComponent';
 import { model } from '../Startup';
+import { cartFlowControl } from '../FlowControl';
 
 export default class Cart extends Component {
   constructor(props){
@@ -26,11 +27,11 @@ export default class Cart extends Component {
   }
 
   onItemSelected(cartItem) {
-    this.props.navigator.push({id: 'menu_item', menuItemId: cartItem.id});
+    cartFlowControl.onItemSelected(cartItem.id);
   }
 
   onOrderClicked() {
-    this.props.navigator.push({id: 'address'});
+    cartFlowControl.onOrderClicked();
   }
 
   render() {

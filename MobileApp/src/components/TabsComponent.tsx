@@ -40,11 +40,11 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
     let viewedTab = null;
     console.log(this.state.page);
     if (this.state.page === 'food_menu') {
-      viewedTab = <FoodMenu navigator={this.props.navigator} />
+      viewedTab = <FoodMenu />
     } else if (this.state.page === 'kitchens') {
-      viewedTab = <Kitchens navigator={this.props.navigator} />;
+      viewedTab = <Kitchens />;
     } else if (this.state.page === 'cart') {
-      viewedTab = <Cart navigator={this.props.navigator} />
+      viewedTab = <Cart />
     } else if (this.state.page === 'orders') {
       viewedTab = <Text>Pedidos são mostrados aqui</Text>;
     }

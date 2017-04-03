@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { model } from '../Startup';
 import FoodMenuComponent from '../components/FoodMenuComponent';
+import { foodMenuListFlowControl } from '../FlowControl';
 
 export default class FoodMenu extends Component {
   constructor(props){
@@ -22,7 +23,7 @@ export default class FoodMenu extends Component {
   }
 
   onItemSelected(rowData) {
-    this.props.navigator.push({id: 'menu_item', menuItemId: rowData.id});
+    foodMenuListFlowControl.onFoodSelected(rowData.id);
   }
 
   render() {
