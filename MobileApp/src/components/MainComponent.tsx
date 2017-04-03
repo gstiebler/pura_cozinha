@@ -11,8 +11,10 @@ import FoodMenuItem from '../containers/FoodMenuItem';
 import Address from '../containers/Address';
 import CreditCard from '../containers/CreditCard';
 import Kitchens from '../containers/KitchensContainer';
+import * as FlowControl from '../FlowControl';
 
 function router(route, navigator) {
+  FlowControl.setNavigator(navigator);
   if(route.id === 'tabs') {
     return <TabsComponent navigator={navigator} />
   } else if (route.id === 'menu_item') {

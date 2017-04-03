@@ -9,6 +9,7 @@ import FoodMenu from '../containers/FoodMenu';
 import Kitchens from '../containers/KitchensContainer';
 import Cart from '../containers/Cart';
 import Tabs from 'react-native-tabs';
+import * as FlowControl from '../FlowControl';
 
 interface IAppProps {
   navigator: any;
@@ -25,6 +26,14 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
     this.state = {
       page: 'kitchens'
     };
+  }
+
+  componentDidMount() {
+    FlowControl.setTabComponent(this);
+  }
+
+  setPage(page: string) {
+    this.setState( { page } );
   }
 
   render() {
@@ -46,6 +55,7 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
         <Tabs selected={this.state.page} style={styles.tabs}
           selectedStyle={styles.selected} onSelect={el => this.setState({ page: el.props.name })}>
           <Text name="kitchens">Cozinhas</Text>
+          <Text name='food_menu'>Cardápio</Text>
           <Text name="cart">Carrinho</Text>
           <Text name="orders">Pedidos</Text>
           <Text name="profile">Eu</Text>

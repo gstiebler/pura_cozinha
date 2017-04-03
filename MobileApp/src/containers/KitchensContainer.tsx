@@ -3,6 +3,7 @@ import { model } from '../Startup';
 import { KitchenWithDist } from '../Model';
 import { getGeolocation} from '../lib/geolocation';
 import KitchensComponent from '../components/KitchensComponent';
+import { kitchensFlowControl } from '../FlowControl';
 
 interface IAppProps {
   navigator: any;
@@ -36,8 +37,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   onItemSelected(rowData: KitchenWithDist) {
-    console.log(rowData);
-    // this.props.navigator.push({id: 'menu_item', menuItemId: rowData._id});
+    kitchensFlowControl.onKitchenSelected(rowData._id);
   }
 
   render() {
