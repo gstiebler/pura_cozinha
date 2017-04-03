@@ -16,10 +16,10 @@ const CreditCard = ({onChange, onPayClicked}) => {
   return (
     <View>
       <Text style={styles.text} >Insira os dados do cartão de crédito</Text>
-      <LiteCreditCardInput 
-        onChange={onChange} 
+      <LiteCreditCardInput
+        onChange={onChange}
         labels={labels}
-      />      
+      />
       <Button
         onPress={onPayClicked}
         title="Pagar"
