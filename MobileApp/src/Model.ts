@@ -188,3 +188,20 @@ export class Model {
   }
 
 }
+
+export function convertCCFormat(interfaceCCInfo): ICreditCard {
+  const expiryParts = interfaceCCInfo.expiry.split('/');
+  const expire_month = expiryParts[0];
+  const expire_year = '20' + expiryParts[1];
+  const ccRawValues = interfaceCCInfo;
+  const ccInfo: ICreditCard = {
+    type: ccRawValues.type,
+    number: interfaceCCInfo.number.replace(/ /g, ''),
+    expire_month,
+    expire_year,
+    cvv2: interfaceCCInfo.cvc,
+    first_name: 'PrimeiroNome',
+    last_name: 'ÚltimoNome'
+  };
+  return ccInfo;
+}

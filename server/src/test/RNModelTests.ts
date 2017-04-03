@@ -6,7 +6,7 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model, ICreditCard } from '../MobileApp/Model';
+import { Model, ICreditCard, convertCCFormat } from '../MobileApp/Model';
 import { Network } from '../MobileApp/Network';
 
 
@@ -45,29 +45,48 @@ describe('React Native model test', function() {
     assert.equal(8.0, foodMenu[1].price);
   });
 
-  it('Save order', async function() {
-    const model: Model = this.model;
-    const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
-    await model.fetchFoodMenu();
-    model.setCartQty(sandubaFrango._id.toString(), 3);
+  describe('Order', function() {
 
-    const creditCardInfo: ICreditCard = {
-      type: 'visa',
-      number: '4417119669820331',
-      expire_month: '11',
-      expire_year: '2019',
-      cvv2: '123',
-      first_name: 'Joe',
-      last_name: 'Shopper'
-    };
-    await model.order(creditCardInfo);
+    it('Save order', async function() {
+      const model: Model = this.model;
+      const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
+      await model.fetchFoodMenu();
+      model.setCartQty(sandubaFrango._id.toString(), 3);
 
-    const orders: any[] = await Order.find();
-    assert.equal(3, orders.length);
-    const lastOrder = orders[2];
-    assert.equal('333', lastOrder.user_id);
-    assert.equal(1, lastOrder.items.length);
-    assert.equal('Sanduba de frango', lastOrder.items[0].title);
+      const creditCardInfo: ICreditCard = {
+        type: 'visa',
+        number: '4417119669820331',
+        expire_month: '11',
+        expire_year: '2019',
+        cvv2: '123',
+        first_name: 'Joe',
+        last_name: 'Shopper'
+      };
+      await model.order(creditCardInfo);
+
+      const orders: any[] = await Order.find();
+      assert.equal(3, orders.length);
+      const lastOrder = orders[2];
+      assert.equal('333', lastOrder.user_id);
+      assert.equal(1, lastOrder.items.length);
+      assert.equal('Sanduba de frango', lastOrder.items[0].title);
+    });
+
+    it('Convert credit card format from screen to Paypal', async function() {
+      const interfaceCCInfo = {
+        number: '4417 1196 6982 0331',
+        expiry: '11/19',
+        cvc: '123',
+        type: 'visa'
+      };
+      const converted = convertCCFormat(interfaceCCInfo);
+      assert.equal('4417119669820331', converted.number);
+      assert.equal('visa', converted.type);
+      assert.equal('123', converted.cvv2);
+      assert.equal('11', converted.expire_month);
+      assert.equal('2019', converted.expire_year);
+    });
+
   });
 
   describe('Kitchen', function() {
