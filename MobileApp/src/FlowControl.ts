@@ -1,3 +1,4 @@
+import { BackAndroid } from 'react-native';
 
 let _navigator = null;
 let _tabComponent = null;
@@ -38,3 +39,8 @@ export const addressFlowControl = {
     _navigator.push({id: 'credit_card'});
   }
 };
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  _navigator.pop();
+  return true;
+});
