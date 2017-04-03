@@ -1,27 +1,41 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { View } from 'react-native';
 import FoodMenuItemComponent from '../components/FoodMenuItemComponent';
 import { model } from '../Startup';
+import { foodMenuItemFlowControl } from '../FlowControl';
 
-export default class FoodMenuItem extends Component {
-  constructor(props){
+interface IAppProps {
+  menuItemId: string;
+}
+
+interface IAppState {
+  menuItem: any;
+  qty: number;
+}
+
+export default class FoodMenuItem extends React.Component<IAppProps, IAppState> {
+
+  state: IAppState;
+  props: IAppProps;
+
+  constructor(props) {
     super(props);
 
     this.state = {
       menuItem: null,
       qty: 0
-    }
+    };
   }
 
   componentDidMount() {
     const menuItem = model.getFoodMenuItemById(this.props.menuItemId);
-    const qty = model.getCartQty(this.props.menuItemId)
+    const qty = model.getCartQty(this.props.menuItemId);
     this.setState({ menuItem, qty });
   }
 
   onBackClicked() {
-    model.setCartQty(this.props.menuItemId, this.state.qty)
-    this.props.navigator.pop();
+    model.setCartQty(this.props.menuItemId, this.state.qty);
+    foodMenuItemFlowControl.onBackClicked();
   }
 
   onValueChange(newValue) {

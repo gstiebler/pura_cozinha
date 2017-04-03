@@ -25,6 +25,12 @@ export const foodMenuListFlowControl = {
   }
 };
 
+export const foodMenuItemFlowControl = {
+  onBackClicked: () => {
+    _navigator.pop();
+  }
+};
+
 export const cartFlowControl = {
   onItemSelected: (id: string) => {
     _navigator.push({id: 'menu_item', menuItemId: id});

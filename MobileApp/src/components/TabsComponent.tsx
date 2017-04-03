@@ -38,7 +38,6 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
 
   render() {
     let viewedTab = null;
-    console.log(this.state.page);
     if (this.state.page === 'food_menu') {
       viewedTab = <FoodMenu />
     } else if (this.state.page === 'kitchens') {
