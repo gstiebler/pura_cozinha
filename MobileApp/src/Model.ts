@@ -1,5 +1,5 @@
 
-function makeId(length) {
+function makeId(length: number) {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -87,7 +87,7 @@ export class Model {
   async initializeUserId() {
     this.userId = await this.AsyncStorage.getItem(USER_ID_KEY);
     if (this.userId === null) {
-      this.userId = makeId(8);
+      this.userId = makeId(20);
       await this.AsyncStorage.setItem(USER_ID_KEY, this.userId);
     }
   }
