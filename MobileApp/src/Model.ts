@@ -39,13 +39,27 @@ export interface FoodMenuItem {
   price: number;
 }
 
+interface ICartItem extends FoodMenuItem {
+  qty: number;
+};
+
+interface ICreditCard {
+  type: string;
+  number: string;
+  expire_month: string;
+  expire_year: string;
+  cvv2: string;
+  first_name: string;
+  last_name: string;
+}
+
 export class Model {
 
   network;
   AsyncStorage;
   getGeolocation;
   foodMenuItems: FoodMenuItem[];
-  cartItems: Map<string, any>;
+  cartItemsQtd: Map<string, number>;
   address: string;
   userId: string;
 
@@ -55,7 +69,7 @@ export class Model {
     this.getGeolocation = getGeolocation;
 
     this.foodMenuItems = [];
-    this.cartItems = new Map();
+    this.cartItemsQtd = new Map();
     this.address = '';
     this.initializeUserId();
     this.fetchFoodMenu();
@@ -91,45 +105,45 @@ export class Model {
     return this.foodMenuItems.find(item => item._id === menuItemId);
   }
 
-  getCartQty(menuItemId) {
-    if (!this.cartItems.has(menuItemId)) {
+  getCartQty(menuItemId): number {
+    if (!this.cartItemsQtd.has(menuItemId)) {
       return 0;
     } else {
-      return this.cartItems.get(menuItemId);
+      return this.cartItemsQtd.get(menuItemId);
     }
   }
 
-  setCartQty(menuItemId, qty) {
+  setCartQty(menuItemId: string, qty: number) {
     if (qty === 0) {
-      this.cartItems.delete(menuItemId);
+      this.cartItemsQtd.delete(menuItemId);
     } else {
-      this.cartItems.set(menuItemId, qty);
+      this.cartItemsQtd.set(menuItemId, qty);
     }
   }
 
-  getCartItems() {
-    const cartItems = [];
-    const entries = this.cartItems.entries();
+  getCartItems(): ICartItem[] {
+    const cartItems: ICartItem[] = [];
+    const entries = this.cartItemsQtd.entries();
     for (let key of entries) {
       let id = key[0];
       let qty = key[1];
       let menuItem = this.getFoodMenuItemById(id);
-      let item = { qty };
+      let item: any = { qty };
       Object.assign(item, menuItem);
       cartItems.push(item);
     }
     return cartItems;
   }
 
-  getAddress() {
+  getAddress(): string {
     return this.address;
   }
 
-  setAddress(newAddress) {
+  setAddress(newAddress: string) {
     this.address = newAddress;
   }
 
-  getTotalCartValue() {
+  getTotalCartValue(): number {
     const selectedItems = this.getCartItems();
     let total = 0.0;
     for (let item of selectedItems) {
