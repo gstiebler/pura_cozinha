@@ -22,16 +22,12 @@ export default class Cart extends Component {
     model.setAddress(newAddress);
   }
 
-  onPayClicked() {
-    addressFlowControl.onPayClicked();
-  }
-
   render() {
     return (
       <AddressComponent 
         address={this.state.address} 
         onAddressChanged={this.onAddressChanged.bind(this)}
-        onPayClicked={this.onPayClicked.bind(this)}
+        onPayClicked={addressFlowControl.onPayClicked}
       />
     )
   }

@@ -26,24 +26,16 @@ export default class Cart extends Component {
     this.setState({ cartItems, totalCartValue });
   }
 
-  onItemSelected(cartItem) {
-    cartFlowControl.onItemSelected(cartItem.id);
-  }
-
-  onOrderClicked() {
-    cartFlowControl.onOrderClicked();
-  }
-
   render() {
     if(!this.state.cartItems) {
       return <View />
     } else {
       return (
         <CartComponent 
-          cartItems={this.state.cartItems} 
+          cartItems={this.state.cartItems}
           totalCartValue={this.state.totalCartValue}
-          onItemSelected={this.onItemSelected.bind(this)}
-          onOrderClicked={this.onOrderClicked.bind(this)}
+          onItemSelected={(cartItem) => { cartFlowControl.onItemSelected(cartItem.id); }}
+          onOrderClicked={cartFlowControl.onOrderClicked}
         />
       )
     }

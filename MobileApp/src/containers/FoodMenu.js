@@ -22,15 +22,12 @@ export default class FoodMenu extends Component {
     this.setState({ foodMenuItems });
   }
 
-  onItemSelected(rowData) {
-    foodMenuListFlowControl.onFoodSelected(rowData.id);
-  }
-
   render() {
     return (
-      <FoodMenuComponent foodMenu={this.state.foodMenuItems}
-                         onItemSelected={this.onItemSelected.bind(this)}
-      />    
+      <FoodMenuComponent
+        foodMenu={this.state.foodMenuItems}
+        onItemSelected={(rowData) => { foodMenuListFlowControl.onFoodSelected(rowData.id) }}
+      />
     )
   }
 }
