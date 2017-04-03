@@ -1,7 +1,10 @@
 
 export class Network {
 
-  constructor(baseURL, _fetch) {
+  baseURL: string;
+  fetch: any;
+
+  constructor(baseURL: string, _fetch) {
     this.baseURL = baseURL;
     this.fetch = _fetch;
   }
@@ -10,7 +13,7 @@ export class Network {
     try {
       const res = await this.fetch(this.baseURL, {
         method: 'POST',
-        headers: { "Content-type": "application/json", "Accept": "application/json"},
+        headers: { 'Content-type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify({ query })
       });
       const json = await res.json();
