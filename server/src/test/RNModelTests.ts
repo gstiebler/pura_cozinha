@@ -68,6 +68,7 @@ describe('React Native model test', function() {
       assert.equal(3, orders.length);
       const lastOrder = orders[2];
       assert.equal('333', lastOrder.user_id);
+      assert.equal(35.97, lastOrder.total_paid);
       assert.equal(1, lastOrder.items.length);
       assert.equal('Sanduba de frango', lastOrder.items[0].title);
     });
