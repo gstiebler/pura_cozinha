@@ -61,7 +61,7 @@ describe('basic tests', function() {
     assert.equal('Sanduba de frango', result.data.menuItems[0].title);
   });
 
-  it('order save', async function() {
+  it.skip('order save', async function() {
     const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
 
     const items = [

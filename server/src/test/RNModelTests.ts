@@ -6,7 +6,7 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model } from '../MobileApp/Model';
+import { Model, ICreditCard } from '../MobileApp/Model';
 import { Network } from '../MobileApp/Network';
 
 
@@ -45,11 +45,22 @@ describe('React Native model test', function() {
     assert.equal(8.0, foodMenu[1].price);
   });
 
-  it('save order', async function() {
+  it('Save order', async function() {
+    const model: Model = this.model;
     const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
-    await this.model.fetchFoodMenu();
-    this.model.setCartQty(sandubaFrango._id, 3);
-    await this.model.pay({});
+    await model.fetchFoodMenu();
+    model.setCartQty(sandubaFrango._id.toString(), 3);
+
+    const creditCardInfo: ICreditCard = {
+      type: 'visa',
+      number: '4417119669820331',
+      expire_month: '11',
+      expire_year: '2019',
+      cvv2: '123',
+      first_name: 'Joe',
+      last_name: 'Shopper'
+    };
+    await model.order(creditCardInfo);
 
     const orders: any[] = await Order.find();
     assert.equal(3, orders.length);

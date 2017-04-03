@@ -39,6 +39,19 @@ const OrderType = new GraphQLObjectType({
   }
 });
 
+const CreditCardInputType = new GraphQLInputObjectType({
+  name: 'CreditCardInputType',
+  fields: {
+    type: { type: GraphQLString },
+    number: { type: GraphQLString },
+    expire_month: { type: GraphQLString },
+    expire_year: { type: GraphQLString },
+    cvv2: { type: GraphQLString },
+    first_name: { type: GraphQLString },
+    last_name: { type: GraphQLString },
+  }
+});
+
 const OrderItemInputType = new GraphQLInputObjectType({
   name: 'OrderItemInputType',
   fields: {
@@ -52,6 +65,7 @@ const OrderInputType = new GraphQLInputObjectType({
   fields: {
     user_id: { type: GraphQLID },
     items: { type: new GraphQLList(OrderItemInputType) },
+    credit_card_info: { type: CreditCardInputType }
   }
 });
 
@@ -87,7 +101,7 @@ export const schema = new GraphQLSchema({
   mutation: new GraphQLObjectType({
     fields: {
       saveOrder: {
-        type: OrderType,
+        type: GraphQLString,
         args: { newOrderData: { type: OrderInputType } },
         resolve: async function(value, { newOrderData }) {
           await processOrder(newOrderData);

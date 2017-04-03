@@ -43,7 +43,7 @@ interface ICartItem extends FoodMenuItem {
   qty: number;
 };
 
-interface ICreditCard {
+export interface ICreditCard {
   type: string;
   number: string;
   expire_month: string;
@@ -51,6 +51,15 @@ interface ICreditCard {
   cvv2: string;
   first_name: string;
   last_name: string;
+}
+
+export interface IOrder {
+  user_id: string;
+  items: {
+    food_menu_item_id: string;
+    quantity: number;
+  }[];
+  credit_card_info: ICreditCard;
 }
 
 export class Model {
@@ -100,8 +109,6 @@ export class Model {
   }
 
   getFoodMenuItemById(menuItemId) {
-    console.log(JSON.stringify(menuItemId));
-    console.log(JSON.stringify(this.foodMenuItems));
     return this.foodMenuItems.find(item => item._id === menuItemId);
   }
 
@@ -159,21 +166,24 @@ export class Model {
     return result.kitchensByDistance;
   }
 
-  async pay(creditCardDetails) {
+  async order(creditCardDetails: ICreditCard) {
     const cartItems = this.getCartItems();
 
     const items = cartItems.map((item) => {
       return {
         food_menu_item_id: item._id,
         quantity: item.qty
-      }
+      };
     });
-    const itemsStr = objToGrahqlStr(items);
 
-    const orderValues = `{ user_id: "${this.userId}", items: ${itemsStr} }`;
-    const orderFields = 'user_id, items { food_menu_item_id, quantity }';
-    const mutSave = `mutation { saveOrder(newOrderData: ${orderValues}) { ${orderFields} } }`;
+    const order: IOrder = {
+      user_id: this.userId,
+      items: items,
+      credit_card_info: creditCardDetails
+    };
 
+    const orderStr = objToGrahqlStr(order);
+    const mutSave = `mutation { saveOrder(newOrderData: ${orderStr}) }`;
     await this.network.fetchQuery(mutSave);
   }
 
