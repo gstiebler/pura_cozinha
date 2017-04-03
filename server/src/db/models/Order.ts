@@ -25,6 +25,9 @@ const OrderSchema = new mongoose.Schema({
      type: String,
      required: true
    },
+   payment_info: {
+     type: Object
+   }
 });
 
 export const Order = mongoose.model('Order', OrderSchema);

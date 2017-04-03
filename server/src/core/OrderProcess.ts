@@ -1,6 +1,7 @@
 import { Kitchen } from '../db/models/kitchen';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
+import { payCreditCard } from './Payment';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
@@ -18,4 +19,13 @@ export async function processOrder(newOrderData) {
   newOrderData.total_paid = total;
   const newOrder = new Order(newOrderData);
   await newOrder.save();
+
+  // Pay
+  try {
+    const resPayment = await payCreditCard(newOrderData.credit_card_info, total, 'new payment');
+    await Order.update({_id: newOrder._id }, { $set: { payment_info: resPayment} });
+  } catch (err) {
+    await Order.update({_id: newOrder._id }, { $set: { payment_info: 'error on payment' } });
+    throw new Error(err);
+  }
 }
