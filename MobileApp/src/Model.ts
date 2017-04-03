@@ -32,7 +32,7 @@ export interface KitchenWithDist extends Kitchen {
   distMeters: number;
 }
 
-interface FoodMenuItem {
+export interface FoodMenuItem {
   _id?: string;
   title: string;
   description: string;
@@ -71,9 +71,8 @@ export class Model {
 
   async fetchFoodMenu() {
     try {
-      const geo = await this.getGeolocation();
       const fields = '_id, title, price, description, imgURL';
-      const query = `query { menuItems(lat: ${geo.latitude}, lng: ${geo.longitude}) { ${fields} } }`;
+      const query = `query { menuItems(lat: ${0.0}, lng: ${0.0}) { ${fields} } }`;
       const result = await this.network.fetchQuery(query);
       this.foodMenuItems = result.menuItems;
     } catch (err) {
@@ -87,6 +86,8 @@ export class Model {
   }
 
   getFoodMenuItemById(menuItemId) {
+    console.log(JSON.stringify(menuItemId));
+    console.log(JSON.stringify(this.foodMenuItems));
     return this.foodMenuItems.find(item => item._id === menuItemId);
   }
 
