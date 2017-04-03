@@ -46,6 +46,13 @@ export const addressFlowControl = {
   }
 };
 
+export const creditCardFlowControl = {
+  afterPayment: () => {
+    _navigator.push({id: 'food_menu'});
+    _tabComponent.setPage('kitchens');
+  }
+};
+
 BackAndroid.addEventListener('hardwareBackPress', function() {
   _navigator.pop();
   return true;
