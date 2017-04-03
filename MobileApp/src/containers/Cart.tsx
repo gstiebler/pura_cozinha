@@ -4,11 +4,22 @@ import CartComponent from '../components/CartComponent';
 import { model } from '../Startup';
 import { cartFlowControl } from '../FlowControl';
 
-export default class Cart extends Component {
-  constructor(props){
+interface IAppProps {
+}
+
+interface IAppState {
+  cartItems: any[];
+  totalCartValue: number;
+}
+
+export default class Cart extends Component<IAppProps, IAppState> {
+  constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      cartItems: [],
+      totalCartValue: 0.0
+    };
   }
 
   componentDidMount() {
@@ -20,7 +31,7 @@ export default class Cart extends Component {
     this.updateState();
   }
 
-  updateState(props) {
+  updateState() {
     const cartItems = model.getCartItems();
     const totalCartValue = model.getTotalCartValue();
     this.setState({ cartItems, totalCartValue });

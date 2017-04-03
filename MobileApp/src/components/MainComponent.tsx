@@ -15,19 +15,18 @@ import * as FlowControl from '../FlowControl';
 
 function router(route, navigator) {
   FlowControl.setNavigator(navigator);
-  if(route.id === 'tabs') {
-    return <TabsComponent navigator={navigator} />
+  if (route.id === 'tabs') {
+    return <TabsComponent />;
   } else if (route.id === 'menu_item') {
-    return <FoodMenuItem 
-      navigator={navigator}
+    return <FoodMenuItem
       menuItemId={route.menuItemId}
     />
   } else if (route.id  === 'address') {
-    return <Address navigator={navigator} />
+    return <Address />;
   } else if (route.id  === 'credit_card') {
-    return <CreditCard navigator={navigator} />
+    return <CreditCard />;
   } else {
-    return <Text>Erro!</Text>
+    return <Text>Erro!</Text>;
   }
 }
 
@@ -36,7 +35,7 @@ const MainComponent = () => {
   return (
     <Navigator
         initialRoute={{ id: 'tabs' }}
-        renderScene={(route, navigator) => 
+        renderScene={(route, navigator) =>
           <View style={styles.container}>
             <Header/>
             { router(route, navigator) }

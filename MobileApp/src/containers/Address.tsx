@@ -4,8 +4,15 @@ import AddressComponent from '../components/AddressComponent';
 import { model } from '../Startup';
 import { addressFlowControl } from '../FlowControl';
 
-export default class Cart extends Component {
-  constructor(props){
+interface IAppProps {
+}
+
+interface IAppState {
+  address: string;
+}
+
+export default class Cart extends Component<IAppProps, IAppState> {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -25,7 +32,7 @@ export default class Cart extends Component {
   render() {
     return (
       <AddressComponent 
-        address={this.state.address} 
+        address={this.state.address}
         onAddressChanged={this.onAddressChanged.bind(this)}
         onPayClicked={addressFlowControl.onPayClicked}
       />

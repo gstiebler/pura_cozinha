@@ -5,9 +5,7 @@ import { getGeolocation} from '../lib/geolocation';
 import KitchensComponent from '../components/KitchensComponent';
 import { kitchensFlowControl } from '../FlowControl';
 
-interface IAppProps {
-  navigator: any;
-}
+interface IAppProps {}
 
 interface IAppState {
   kitchens: KitchenWithDist[];
@@ -19,7 +17,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
 
     this.state = {
       kitchens: []
-    }
+    };
   }
 
   componentDidMount() {

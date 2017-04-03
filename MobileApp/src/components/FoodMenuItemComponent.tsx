@@ -9,7 +9,14 @@ import {
 
 import InputNumber from 'rc-input-number'
 
-const MenuItem = (props) => {
+interface IAppProps {
+  menuItem: any;
+  initialValue: any;
+  onValueChange();
+  onBackClicked();
+};
+
+const MenuItem = (props: IAppProps) => {
   return (
     <View>
       <View style={styles.row} >

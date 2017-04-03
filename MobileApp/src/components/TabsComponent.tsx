@@ -11,9 +11,7 @@ import Cart from '../containers/Cart';
 import Tabs from 'react-native-tabs';
 import * as FlowControl from '../FlowControl';
 
-interface IAppProps {
-  navigator: any;
-}
+interface IAppProps {}
 
 interface IAppState {
   page: string;
@@ -39,11 +37,11 @@ export default class TabsComponent extends Component<IAppProps, IAppState> {
   render() {
     let viewedTab = null;
     if (this.state.page === 'food_menu') {
-      viewedTab = <FoodMenu />
+      viewedTab = <FoodMenu />;
     } else if (this.state.page === 'kitchens') {
       viewedTab = <Kitchens />;
     } else if (this.state.page === 'cart') {
-      viewedTab = <Cart />
+      viewedTab = <Cart />;
     } else if (this.state.page === 'orders') {
       viewedTab = <Text>Pedidos são mostrados aqui</Text>;
     }
