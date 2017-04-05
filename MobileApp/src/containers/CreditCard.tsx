@@ -26,9 +26,6 @@ export default class CreditCard extends Component<IAppProps, IAppState> {
 
   onChange(newCCInfo) {
     this.setState({ cardValues: newCCInfo });
-    if (newCCInfo.valid) {
-      console.log(newCCInfo.values);
-    }
   }
 
   async onPayClicked() {

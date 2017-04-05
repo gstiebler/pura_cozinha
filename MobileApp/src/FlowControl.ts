@@ -48,7 +48,7 @@ export const addressFlowControl = {
 
 export const creditCardFlowControl = {
   afterPayment: () => {
-    _navigator.push({id: 'food_menu'});
+    _navigator.push({id: 'tabs'});
     _tabComponent.setPage('kitchens');
   }
 };

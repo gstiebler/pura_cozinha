@@ -35,6 +35,7 @@ export default class Kitchens extends React.Component<IAppProps, IAppState> {
   }
 
   onItemSelected(rowData: KitchenWithDist) {
+    model.setSelectedKitchenId(rowData._id);
     kitchensFlowControl.onKitchenSelected(rowData._id);
   }
 

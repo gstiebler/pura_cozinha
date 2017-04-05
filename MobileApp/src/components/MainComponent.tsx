@@ -26,6 +26,7 @@ function router(route, navigator) {
   } else if (route.id  === 'credit_card') {
     return <CreditCard />;
   } else {
+    console.error(`Route not found on navigator: ${route.id}`);
     return <Text>Erro!</Text>;
   }
 }
