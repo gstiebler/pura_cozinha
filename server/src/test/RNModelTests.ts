@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
+import { Kitchen } from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
 import { Model, ICreditCard, convertCCFormat } from '../MobileApp/Model';
@@ -52,6 +53,8 @@ describe('React Native model test', function() {
       const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
       await model.fetchFoodMenu();
       model.setCartQty(sandubaFrango._id.toString(), 3);
+      const kitchen: any = await Kitchen.findOne();
+      model.setSelectedKitchenId(kitchen._id.toString());
 
       const creditCardInfo: ICreditCard = {
         type: 'visa',
@@ -70,6 +73,7 @@ describe('React Native model test', function() {
       assert.equal('333', lastOrder.user_id);
       assert.equal(35.97, lastOrder.total_paid);
       assert.equal(1, lastOrder.items.length);
+      assert.equal(kitchen._id.toString(), lastOrder.kitchen.toString());
       assert.equal('Sanduba de frango', lastOrder.items[0].title);
     });
 

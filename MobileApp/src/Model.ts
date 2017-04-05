@@ -60,6 +60,7 @@ export interface IOrder {
     quantity: number;
   }[];
   credit_card_info: ICreditCard;
+  selected_kitchen_id: string;
 }
 
 export class Model {
@@ -71,6 +72,7 @@ export class Model {
   cartItemsQtd: Map<string, number>;
   address: string;
   userId: string;
+  private selectedKitchenId: string;
 
   constructor(network, AsyncStorage, getGeolocation) {
     this.network = network;
@@ -90,6 +92,10 @@ export class Model {
       this.userId = makeId(20);
       await this.AsyncStorage.setItem(USER_ID_KEY, this.userId);
     }
+  }
+
+  setSelectedKitchenId(selectedKitchenId) {
+    this.selectedKitchenId = selectedKitchenId;
   }
 
   async fetchFoodMenu() {
@@ -179,7 +185,8 @@ export class Model {
     const order: IOrder = {
       user_id: this.userId,
       items: items,
-      credit_card_info: creditCardDetails
+      credit_card_info: creditCardDetails,
+      selected_kitchen_id: this.selectedKitchenId
     };
 
     const orderStr = objToGrahqlStr(order);

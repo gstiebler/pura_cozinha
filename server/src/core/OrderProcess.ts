@@ -1,12 +1,10 @@
-import { Kitchen } from '../db/models/kitchen';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import { payCreditCard } from './Payment';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
-  const kitchen: any = await Kitchen.findOne();
-  newOrderData.kitchen = kitchen._id;
+  newOrderData.kitchen = newOrderData.selected_kitchen_id;
   newOrderData.status = 'PAYMENT_PENDING';
   let total = 0.0;
   for (let i = 0; i < newOrderData.items.length; i++) {
