@@ -8,7 +8,7 @@ import {
   GraphQLList
 } from 'graphql';
 import { MenuItem } from '../db/models/menuItem';
-import { Kitchen } from '../db/models/Kitchen';
+import { Kitchen } from '../db/models/kitchen';
 
 const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',

@@ -49,13 +49,13 @@ describe('React Native model test', function() {
     });
 
     it('Food menu items by kitchen', async function() {
-      const kitchen1: any = Kitchen.find({ name: 'Cozinha do Marcel' });
+      const kitchen1: any = await Kitchen.findOne({ name: 'Cozinha do Marcel' });
       const model: Model = this.model;
       model.setSelectedKitchenId(kitchen1._id);
       const menuItemsByKitchen = await model.menuItemsByKitchen();
-      assert.equal(2, menuItemsByKitchen);
-      assert.equal('Sanduba de frango', menuItemsByKitchen[0]);
-      assert.equal('Sanduíche de Mignon', menuItemsByKitchen[1]);
+      assert.equal(2, menuItemsByKitchen.length);
+      assert.equal('Sanduba de frango', menuItemsByKitchen[0].title);
+      assert.equal('Sanduíche de Mignon', menuItemsByKitchen[1].title);
     });
 
   });
