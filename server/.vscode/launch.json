@@ -13,7 +13,8 @@
 			"env": {
 				"NODE_ENV": "development",
                 "DB_HOST": "localhost",
-                "SHOW_GRAPHQL_QUERIES": "true"
+                "SHOW_GRAPHQL_QUERIES": "true",
+                "TELEGRAM_TOKEN": "355954135:AAH6jRIhl2auBG3fOWXF5dVTelEc1u09poU"
 			}
         },
         {

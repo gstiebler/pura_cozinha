@@ -12,6 +12,7 @@ export default async function execute() {
         lng: -43.321984
       },
       phone_number: '234-5697',
+      telegram_username: 'marcel',
       active: 'YES',
       stock: [
         {
@@ -36,6 +37,7 @@ export default async function execute() {
         lng: -43.186143
       },
       phone_number: '+55 21 99401-1944',
+      telegram_username: 'gstiebler',
       active: 'YES',
       stock: [
         {
@@ -56,6 +58,7 @@ export default async function execute() {
         lng: -43.183318
       },
       phone_number: '99999-8888',
+      telegram_username: 'jose',
       active: 'NO',
       stock: [
         {

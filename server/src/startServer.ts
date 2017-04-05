@@ -4,6 +4,8 @@ import * as http from 'http';
 import * as https from 'https';
 import * as fs from 'fs';
 
+import * as TelegramServer from './KitchenTelegram/server';
+
 const port = process.env.PORT || '3000';
 const HTTPSport = 443;
 
@@ -24,3 +26,5 @@ httpsServer.listen(HTTPSport, () => {
   winston.info('Server listening HTTPS on port ' + HTTPSport);
 });
 */
+
+TelegramServer.startServer(process.env.TELEGRAM_TOKEN);

@@ -13,6 +13,7 @@ const kitSchema = new mongoose.Schema({
      lat: { type: Number },
      lng: { type: Number }
    },
+   telegram_username: { type: String },
    phone_number: { type: String },
    active: { type: String },
    stock: { type: Object }

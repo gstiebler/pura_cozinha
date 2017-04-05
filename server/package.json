@@ -19,6 +19,7 @@
     "graphql": "^0.9.1",
     "mongoose": "^4.8.5",
     "node-fetch": "^1.6.3",
+    "node-telegram-bot-api": "^0.27.0",
     "paypal-rest-sdk": "^1.7.1",
     "typescript": "^2.2.2",
     "winston": "^2.3.1"
