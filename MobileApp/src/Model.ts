@@ -118,6 +118,13 @@ export class Model {
     return this.foodMenuItems.find(item => item._id === menuItemId);
   }
 
+  async menuItemsByKitchen() {
+    const fields = '_id, title, price, description, imgURL';
+    const query = `query { menuItemsByKitchen(kitchen_id: "${this.selectedKitchenId}") { ${fields} } }`;
+    const result = await this.network.fetchQuery(query);
+    return result.menuItemsByKitchen;
+  }
+
   getCartQty(menuItemId): number {
     if (!this.cartItemsQtd.has(menuItemId)) {
       return 0;

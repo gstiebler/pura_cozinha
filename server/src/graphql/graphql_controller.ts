@@ -94,6 +94,7 @@ export const schema = new GraphQLSchema({
       },
       foodMenuItem: FoodMenuItemGraphql.Query.foodMenuItem,
       menuItems: FoodMenuItemGraphql.Query.menuItems,
+      menuItemsByKitchen: FoodMenuItemGraphql.Query.menuItemsByKitchen,
       kitchen: KitchenGraphql.KitchenQuery.kitchen,
       kitchens: KitchenGraphql.KitchenQuery.kitchens,
       kitchensByDistance: KitchenGraphql.KitchenQuery.kitchensByDistance

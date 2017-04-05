@@ -38,12 +38,26 @@ describe('React Native model test', function() {
     this.model = new Model(this.network, asyncStorage, getGeolocation);
   });
 
-  it('getFoodMenu', async function() {
-    await this.model.fetchFoodMenu();
-    const foodMenu: any[] = this.model.getFoodMenu();
-    assert.equal(3, foodMenu.length);
-    assert.equal('Sanduba de frango', foodMenu[0].title);
-    assert.equal(8.0, foodMenu[1].price);
+  describe('Food menu items', function() {
+
+    it('getFoodMenu', async function() {
+      await this.model.fetchFoodMenu();
+      const foodMenu: any[] = this.model.getFoodMenu();
+      assert.equal(3, foodMenu.length);
+      assert.equal('Sanduba de frango', foodMenu[0].title);
+      assert.equal(8.0, foodMenu[1].price);
+    });
+
+    it('Food menu items by kitchen', async function() {
+      const kitchen1: any = Kitchen.find({ name: 'Cozinha do Marcel' });
+      const model: Model = this.model;
+      model.setSelectedKitchenId(kitchen1._id);
+      const menuItemsByKitchen = await model.menuItemsByKitchen();
+      assert.equal(2, menuItemsByKitchen);
+      assert.equal('Sanduba de frango', menuItemsByKitchen[0]);
+      assert.equal('Sanduíche de Mignon', menuItemsByKitchen[1]);
+    });
+
   });
 
   describe('Order', function() {

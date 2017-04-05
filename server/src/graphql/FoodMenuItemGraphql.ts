@@ -8,6 +8,7 @@ import {
   GraphQLList
 } from 'graphql';
 import { MenuItem } from '../db/models/menuItem';
+import { Kitchen } from '../db/models/Kitchen';
 
 const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
@@ -51,6 +52,22 @@ export const Query = {
       return MenuItem.find();
     }
   },
+  menuItemsByKitchen: {
+    type: new GraphQLList(menuItemType),
+    args: {
+      kitchen_id: { type: GraphQLID },
+    },
+    resolve: async function(root, { kitchen_id }) {
+      const kitchen: any = await Kitchen.findById(kitchen_id);
+      const menuItemIds = [];
+      for (let stockItem of kitchen.stock) {
+        if (stockItem.quantity > 0) {
+          menuItemIds.push(stockItem.menu_item);
+        }
+      }
+      return MenuItem.find({ _id: { $in: menuItemIds }  });
+    }
+  }
 };
 
 
