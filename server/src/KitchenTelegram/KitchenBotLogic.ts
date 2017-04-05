@@ -17,24 +17,41 @@ export class KitchenBotLogic {
   }
 
   async receive(receivedMsg) {
+    if (this.state === 'MAIN_MENU') {
+      if (receivedMsg.text === 'Definir cozinha como ativa') {
+        await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'YES' } });
+        this.sendMainMenu();
+      } else if (receivedMsg.text === 'Definir cozinha como inativa') {
+        await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'NO' } });
+        this.sendMainMenu();
+      } else if (receivedMsg.text === 'Modificar estoque') {
+        this.sendStockMenu();
+      } else {
+        this.sendMainMenu();
+      }
+    } else {
+      this.sendMainMenu();
+    }
+  }
+
+  async sendMainMenu() {
     const kitchen: any = await Kitchen.findById(this.kitchenId);
     if (!kitchen) {
       throw new Error('Kitchen not found');
     }
-    this.sendMenu(kitchen);
-  }
-
-  sendMenu(kitchen) {
     let msg = '';
+    let changeText = '';
     if (kitchen.active === 'YES') {
       msg = 'Cozinha está ativa';
+      changeText = 'inativa';
     } else {
       msg = 'Cozinha está inativa';
+      changeText = 'ativa';
     }
 
     const userOptions = [
-      [{ text: 'primeiro' }],
-      [{ text: 'segundo' }],
+      [{ text: 'Definir cozinha como ' + changeText }],
+      [{ text: 'Modificar estoque' }],
     ];
 
     const options = {
@@ -45,6 +62,11 @@ export class KitchenBotLogic {
     };
 
     this.sendMessageFn(msg, options);
+    this.state = 'MAIN_MENU';
+  }
+
+  sendStockMenu() {
+
   }
 
 }
