@@ -1,4 +1,5 @@
 import { Kitchen } from '../db/models/kitchen';
+import { MenuItem } from '../db/models/menuItem';
 
 export class KitchenBotLogic {
 
@@ -65,8 +66,15 @@ export class KitchenBotLogic {
     this.state = 'MAIN_MENU';
   }
 
-  sendStockMenu() {
-
+  async sendStockMenu() {
+    const kitchen: any = await Kitchen.findById(this.kitchenId);
+    const stock: any[] = kitchen.stock;
+    let msg = 'Estoque:\n';
+    for (let stockItem of stock) {
+      const menuItem: any = await MenuItem.findById(stockItem.menu_item);
+      msg += `${menuItem.title}: ${stockItem.quantity}\n`;
+    }
+    this.sendMessageFn(msg);
   }
 
 }
