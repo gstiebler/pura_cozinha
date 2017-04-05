@@ -101,6 +101,13 @@ describe('React Native model test', function() {
         lat: -22.906922,
         lng: -43.178046
       };
+
+      const kitchensAvailable = await this.model.getKitchensByDistance(cariocaCoordinates);
+      assert.equal(2, kitchensAvailable.length);
+      assert.equal('Outra cozinha', kitchensAvailable[0].name);
+      assert.equal('Cozinha do Marcel', kitchensAvailable[1].name);
+      await Kitchen.update({ name: 'Cozinha Centro' }, { $set: { active: 'YES' } });
+
       const kitchensFromCarioca = await this.model.getKitchensByDistance(cariocaCoordinates);
       assert.equal('Av. Mal. Floriano, 71', kitchensFromCarioca[0].address);
       assert.equal(815, kitchensFromCarioca[0].distMeters);

@@ -76,7 +76,7 @@ export const KitchenQuery = {
         latitude: lat,
         longitude: lng
       };
-      const kitchens: any[] = await Kitchen.find();
+      const kitchens: any[] = await Kitchen.find({ active: 'YES' });
       const kitchensWithDist = kitchens.map(k => {
         const kitchen = k.toObject();
         const kitchenCoords = {
