@@ -1,6 +1,6 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as winston from 'winston';
-import { Kitchen } from '../db/models/kitchen';
+import { KitchenBotLogic } from './KitchenBotLogic';
 
 export function startServer(token) {
   const bot = new TelegramBot(token, {polling: true});
@@ -8,23 +8,25 @@ export function startServer(token) {
   winston.info('Started Telegram kitchen server');
 }
 
-function onMessage(bot, msg) {
+const kitchens = new Map<string, KitchenBotLogic>();
+
+async function onMessage(bot, msg) {
   console.log(JSON.stringify(msg, undefined, 2));
   const chatId = msg.chat.id;
-  sendMainMenu(bot, chatId, msg.from.username);
+  const username = msg.from.username;
+
+  let logic: KitchenBotLogic;
+  if (kitchens.has(username)) {
+    logic = kitchens.get(username);
+  } else {
+    logic = new KitchenBotLogic(sendMessage.bind(null, bot, chatId));
+    await logic.initialize(username);
+    kitchens.set(username, logic);
+  }
+
+  logic.receive(msg);
 }
 
-async function sendMainMenu(bot, chatId, username: string) {
-  const kitchen: any = await Kitchen.findOne({ 'telegram_username': username });
-  if (!kitchen) {
-    bot.sendMessage(chatId, 'Cozinha não encontrada');
-    return;
-  }
-  let msg = '';
-  if (kitchen.active === 'YES') {
-    msg = 'Cozinha está ativa';
-  } else {
-    msg = 'Cozinha está inativa';
-  }
-  bot.sendMessage(chatId, msg);
+function sendMessage(bot, chatId, msg, options) {
+  bot.sendMessage(chatId, msg, options);
 }
