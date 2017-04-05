@@ -6,8 +6,8 @@ import OrderFixtures from './Order';
 
 export default async function execute() {
   await resetDb();
-  await kitchenFixtures();
   await menuItemFixtures();
+  await kitchenFixtures();
   await OrderFixtures();
 }
 

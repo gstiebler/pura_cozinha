@@ -12,7 +12,10 @@ const kitSchema = new mongoose.Schema({
    coordinates: { 
      lat: { type: Number },
      lng: { type: Number }
-   }
+   },
+   phone_number: { type: String },
+   active: { type: String },
+   stock: { type: Object }
 });
 
 export const Kitchen = mongoose.model('Kitchen', kitSchema);
