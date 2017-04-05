@@ -6,6 +6,7 @@ export class KitchenBotLogic {
   private state: string;
   private sendMessageFn: any;
   private kitchenId: any;
+  private selectedFoodItemToUpdate: string;
 
   constructor(sendMessageFn) {
     this.sendMessageFn = sendMessageFn;
@@ -30,9 +31,30 @@ export class KitchenBotLogic {
       } else {
         this.sendMainMenu();
       }
+    } else if (this.state === 'STOCK_QUANTITY_INPUT') {
+      const kitchen: any = await Kitchen.findById(this.kitchenId);
+      const stock: any[] = kitchen.stock;
+      for (let i = 0; i < stock.length; i++) {
+        if (stock[i].menu_item.toString() === this.selectedFoodItemToUpdate) {
+          stock[i].quantity = parseInt(receivedMsg.text);
+          await Kitchen.update({ _id: this.kitchenId }, { $set: { stock } });
+          const menuItem: any = await MenuItem.findById(this.selectedFoodItemToUpdate);
+          this.sendMessageFn(`Quantidade de ${menuItem.title} atualizada para ${stock[i].quantity}`);
+          break;
+        }
+      }
+      this.sendMainMenu();
     } else {
       this.sendMainMenu();
     }
+  }
+
+  async callbackQuery(receivedMsg) {
+    const foodMenuItemId = receivedMsg.data;
+    this.selectedFoodItemToUpdate = foodMenuItemId;
+    const menuItem: any = await MenuItem.findById(foodMenuItemId);
+    this.sendMessageFn(`Digite a quantidade de ${menuItem.title}:`);
+    this.state = 'STOCK_QUANTITY_INPUT';
   }
 
   async sendMainMenu() {
@@ -70,11 +92,21 @@ export class KitchenBotLogic {
     const kitchen: any = await Kitchen.findById(this.kitchenId);
     const stock: any[] = kitchen.stock;
     let msg = 'Estoque:\n';
+    const stockItemsButtons = [];
     for (let stockItem of stock) {
       const menuItem: any = await MenuItem.findById(stockItem.menu_item);
       msg += `${menuItem.title}: ${stockItem.quantity}\n`;
+      stockItemsButtons.push([{ text: menuItem.title, callback_data: stockItem.menu_item }]);
     }
-    this.sendMessageFn(msg);
+
+    const options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: stockItemsButtons
+      })
+    };
+
+    this.sendMessageFn(msg, options);
+    this.state = 'STOCK_LIST';
   }
 
 }
