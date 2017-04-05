@@ -15,6 +15,9 @@ export class KitchenBotLogic {
 
   async initialize(username) {
     const kitchen: any = await Kitchen.findOne({ 'telegram_username': username });
+    if (!kitchen) {
+      throw new Error('Cozinha não encontrada para o usuário ' + username);
+    }
     this.kitchenId = kitchen._id;
   }
 
