@@ -25,8 +25,7 @@ export default class FoodMenu extends Component<IAppProps, IAppState> {
   }
 
   async getFoodMenu() {
-    await model.fetchFoodMenu();
-    const foodMenuItems = model.getFoodMenu();
+    const foodMenuItems = await model.menuItemsByKitchen();
     this.setState({ foodMenuItems });
   }
 
