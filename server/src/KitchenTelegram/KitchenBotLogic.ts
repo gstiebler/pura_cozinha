@@ -1,12 +1,27 @@
 import { Kitchen } from '../db/models/kitchen';
 import { MenuItem } from '../db/models/menuItem';
 
+const kitchens = new Map<string, KitchenBotLogic>();
+
+export async function getKitchenLogic(username: string, bot, chatId, sendMessage) {
+  let logic: KitchenBotLogic;
+  if (kitchens.has(username)) {
+    logic = kitchens.get(username);
+  } else {
+    logic = new KitchenBotLogic(sendMessage);
+    await logic.initialize(username);
+    kitchens.set(username, logic);
+  }
+  return logic;
+}
+
 export class KitchenBotLogic {
 
   private state: string;
   private sendMessageFn: any;
   private kitchenId: any;
   private selectedFoodItemToUpdate: string;
+
 
   constructor(sendMessageFn) {
     this.sendMessageFn = sendMessageFn;

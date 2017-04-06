@@ -1,6 +1,6 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as winston from 'winston';
-import { KitchenBotLogic } from './KitchenBotLogic';
+import { KitchenBotLogic, getKitchenLogic } from './KitchenBotLogic';
 
 export function startServer(token) {
   const bot = new TelegramBot(token, {polling: true});
@@ -9,25 +9,11 @@ export function startServer(token) {
   winston.info('Started Telegram kitchen server');
 }
 
-const kitchens = new Map<string, KitchenBotLogic>();
-
-async function getKitchenLogic(username: string, bot, chatId) {
-  let logic: KitchenBotLogic;
-  if (kitchens.has(username)) {
-    logic = kitchens.get(username);
-  } else {
-    logic = new KitchenBotLogic(sendMessage.bind(null, bot, chatId));
-    await logic.initialize(username);
-    kitchens.set(username, logic);
-  }
-  return logic;
-}
-
 async function onMessage(bot, msg) {
   console.log(JSON.stringify(msg, undefined, 2));
   const chatId = msg.chat.id;
   const username = msg.from.username;
-  const logic = await getKitchenLogic(username, bot, chatId);
+  const logic = await getKitchenLogic(username, bot, chatId, sendMessage.bind(null, bot, chatId));
   logic.receive(msg);
 }
 
@@ -37,7 +23,7 @@ async function onCallbackQuery(bot, callbackQuery) {
   console.log('Callback query', JSON.stringify(callbackQuery, undefined, 2));
   const chatId = msg.chat.id;
   const username = callbackQuery.from.username;
-  const logic = await getKitchenLogic(username, bot, chatId);
+  const logic = await getKitchenLogic(username, bot, chatId, sendMessage.bind(null, bot, chatId));
   logic.callbackQuery(callbackQuery);
 }
 
