@@ -3,7 +3,7 @@ import { MenuItem } from '../db/models/menuItem';
 
 const kitchens = new Map<string, KitchenBotLogic>();
 
-export async function getKitchenLogic(username: string, bot, chatId, sendMessage) {
+export async function getKitchenLogic(username: string, sendMessage) {
   let logic: KitchenBotLogic;
   if (kitchens.has(username)) {
     logic = kitchens.get(username);
