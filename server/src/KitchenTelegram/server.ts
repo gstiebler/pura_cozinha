@@ -1,6 +1,6 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as winston from 'winston';
-import { KitchenBotLogic, getKitchenLogic } from './KitchenBotLogic';
+import { KitchenBotLogic, kitchenLogicSingleton } from './KitchenBotLogic';
 
 export function startServer(token) {
   const bot = new TelegramBot(token, {polling: true});
@@ -13,7 +13,7 @@ async function onMessage(bot, msg) {
   console.log(JSON.stringify(msg, undefined, 2));
   const chatId = msg.chat.id;
   const username = msg.from.username;
-  const logic = await getKitchenLogic(username, sendMessage.bind(null, bot, chatId));
+  const logic = await kitchenLogicSingleton(username, sendMessage.bind(null, bot, chatId));
   logic.receive(msg);
 }
 
@@ -23,7 +23,7 @@ async function onCallbackQuery(bot, callbackQuery) {
   console.log('Callback query', JSON.stringify(callbackQuery, undefined, 2));
   const chatId = msg.chat.id;
   const username = callbackQuery.from.username;
-  const logic = await getKitchenLogic(username, sendMessage.bind(null, bot, chatId));
+  const logic = await kitchenLogicSingleton(username, sendMessage.bind(null, bot, chatId));
   logic.callbackQuery(callbackQuery);
 }
 

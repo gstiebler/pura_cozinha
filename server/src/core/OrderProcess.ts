@@ -1,6 +1,8 @@
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
+import { Kitchen } from '../db/models/kitchen';
 import { payCreditCard } from './Payment';
+import { getKitchenLogic } from '../KitchenTelegram/KitchenBotLogic';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
@@ -17,6 +19,13 @@ export async function processOrder(newOrderData) {
   newOrderData.total_paid = total;
   const newOrder = new Order(newOrderData);
   await newOrder.save();
+  try {
+    const kitchen: any = await Kitchen.findById(newOrderData.kitchen);
+    const kitchenBotLogic = getKitchenLogic(kitchen.telegram_username);
+    kitchenBotLogic.sendOrder(newOrderData.items, 'nome', 'endereço');
+  } catch (err) {
+    console.error(err);
+  }
 
   // Pay
   try {

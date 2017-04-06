@@ -3,7 +3,7 @@ import { MenuItem } from '../db/models/menuItem';
 
 const kitchens = new Map<string, KitchenBotLogic>();
 
-export async function getKitchenLogic(username: string, sendMessage) {
+export async function kitchenLogicSingleton(username: string, sendMessage) {
   let logic: KitchenBotLogic;
   if (kitchens.has(username)) {
     logic = kitchens.get(username);
@@ -18,7 +18,7 @@ export async function getKitchenLogic(username: string, sendMessage) {
 export class KitchenBotLogic {
 
   private state: string;
-  private sendMessageFn: any;
+  private sendMessageFn: (msg: string, options?: any) => void;
   private kitchenId: any;
   private selectedFoodItemToUpdate: string;
 
@@ -127,4 +127,22 @@ export class KitchenBotLogic {
     this.state = 'STOCK_LIST';
   }
 
+  sendOrder(items: any[], address: string, name: string) {
+    let msg = 'Novo pedido!\n';
+    for (let item of items) {
+      msg += `${item.title}: ${item.quantity}\n`;
+    }
+    msg += name + '\n';
+    msg += address + '\n';
+    this.sendMessageFn(msg);
+  }
+
+}
+
+export function getKitchenLogic(username: string) {
+  const kitchenLogic = kitchens.get(username);
+  if (!kitchenLogic) {
+    throw new Error('Kitchen not connected');
+  }
+  return kitchenLogic;
 }
