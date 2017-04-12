@@ -40,14 +40,14 @@ export class KitchenBotLogic {
     if (this.state === 'MAIN_MENU') {
       if (receivedMsg.text === 'Definir cozinha como ativa') {
         await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'YES' } });
-        this.sendMainMenu();
+        await this.sendMainMenu();
       } else if (receivedMsg.text === 'Definir cozinha como inativa') {
         await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'NO' } });
-        this.sendMainMenu();
+        await this.sendMainMenu();
       } else if (receivedMsg.text === 'Modificar estoque') {
-        this.sendStockMenu();
+        await this.sendStockMenu();
       } else {
-        this.sendMainMenu();
+        await this.sendMainMenu();
       }
     } else if (this.state === 'STOCK_QUANTITY_INPUT') {
       const kitchen: any = await Kitchen.findById(this.kitchenId);
@@ -61,9 +61,9 @@ export class KitchenBotLogic {
           break;
         }
       }
-      this.sendMainMenu();
+      await this.sendMainMenu();
     } else {
-      this.sendMainMenu();
+      await this.sendMainMenu();
     }
   }
 
