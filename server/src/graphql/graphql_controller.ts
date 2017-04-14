@@ -67,6 +67,8 @@ const OrderInputType = new GraphQLInputObjectType({
     items: { type: new GraphQLList(OrderItemInputType) },
     credit_card_info: { type: CreditCardInputType },
     selected_kitchen_id: { type: GraphQLID },
+    address: { type: GraphQLString },
+    name: { type: GraphQLString },
   }
 });
 

@@ -61,6 +61,8 @@ export interface IOrder {
   }[];
   credit_card_info: ICreditCard;
   selected_kitchen_id: string;
+  name: string;
+  address: string;
 }
 
 export class Model {
@@ -71,6 +73,7 @@ export class Model {
   foodMenuItems: FoodMenuItem[];
   cartItemsQtd: Map<string, number>;
   address: string;
+  public name: string;
   userId: string;
   private selectedKitchenId: string;
 
@@ -193,7 +196,9 @@ export class Model {
       user_id: this.userId,
       items: items,
       credit_card_info: creditCardDetails,
-      selected_kitchen_id: this.selectedKitchenId
+      selected_kitchen_id: this.selectedKitchenId,
+      address: this.address,
+      name: this.name
     };
 
     const orderStr = objToGrahqlStr(order);

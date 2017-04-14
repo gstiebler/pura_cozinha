@@ -69,6 +69,8 @@ describe('React Native model test', function() {
       model.setCartQty(sandubaFrango._id.toString(), 3);
       const kitchen: any = await Kitchen.findOne();
       model.setSelectedKitchenId(kitchen._id.toString());
+      model.setAddress('5th Avenue');
+      model.name = 'John Doe';
 
       const creditCardInfo: ICreditCard = {
         type: 'visa',
@@ -86,6 +88,9 @@ describe('React Native model test', function() {
       const lastOrder = orders[2];
       assert.equal('333', lastOrder.user_id);
       assert.equal(35.97, lastOrder.total_paid);
+      assert.equal(35.97, lastOrder.total_paid);
+      assert.equal('5th Avenue', lastOrder.address);
+      assert.equal('John Doe', lastOrder.name);
       assert.equal(1, lastOrder.items.length);
       assert.equal(kitchen._id.toString(), lastOrder.kitchen.toString());
       assert.equal('Sanduba de frango', lastOrder.items[0].title);
