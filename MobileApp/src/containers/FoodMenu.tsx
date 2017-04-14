@@ -34,6 +34,7 @@ export default class FoodMenu extends Component<IAppProps, IAppState> {
       <FoodMenuComponent
         foodMenu={this.state.foodMenuItems}
         onItemSelected={(rowData) => { foodMenuListFlowControl.onFoodSelected(rowData._id); }}
+        onMakeOrder={foodMenuListFlowControl.onMakeOrder}
       />
     )
   }

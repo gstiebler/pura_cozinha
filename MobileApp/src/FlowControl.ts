@@ -18,7 +18,10 @@ export const kitchensFlowControl = {
 export const foodMenuListFlowControl = {
   onFoodSelected: (id: string) => {
     _navigator.push({id: 'menu_item', menuItemId: id });
-  }
+  },
+  onMakeOrder: () => {
+    _navigator.push({id: 'address' });
+  },
 };
 
 export const foodMenuItemFlowControl = {
@@ -44,8 +47,7 @@ export const addressFlowControl = {
 
 export const creditCardFlowControl = {
   afterPayment: () => {
-    _navigator.push({id: 'tabs'});
-    _tabComponent.setPage('kitchens');
+    _navigator.push({id: 'kitchens'});
   }
 };
 

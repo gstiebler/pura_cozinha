@@ -7,7 +7,8 @@ import {
   ListView,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  Button
 } from 'react-native';
 import { formatMoney } from '../utils/StringUtils'
 
@@ -15,7 +16,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
-    <TouchableOpacity onPress={() => { onItemSelected(rowData) } }>
+    <TouchableOpacity onPress={() => { onItemSelected(rowData) }}>
       <View style={styles.card}>
         <Image
           style={styles.avatar}
@@ -31,14 +32,28 @@ function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   );
 }
 
-const Menu = ({foodMenu, onItemSelected}) => {
-  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+interface IProps {
+  foodMenu: any;
+  onItemSelected: any;
+  onMakeOrder: any;
+}
+
+const Menu = (props: IProps) => {
+  const { foodMenu, onItemSelected, onMakeOrder } = props;
+  const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   const dataSource = ds.cloneWithRows(foodMenu);
   return <View style={styles.container}>
     <Text style={styles.header}>Cardápio</Text>
     <ListView enableEmptySections={true}
       dataSource={dataSource}
       renderRow={renderRow.bind(null, onItemSelected)}
+    />
+    <Button
+      onPress={onMakeOrder}
+      title='Fazer pedido'
+      color='#841584'
+      accessibilityLabel='Pagar'
     />
   </View>
 }
@@ -67,7 +82,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC'
-  },  
+  },
   avatar: {
     padding: 10,
     width: 50,
