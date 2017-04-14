@@ -20,7 +20,7 @@ export const foodMenuListFlowControl = {
     _navigator.push({id: 'menu_item', menuItemId: id });
   },
   onMakeOrder: () => {
-    _navigator.push({id: 'address' });
+    _navigator.push({id: 'cart' });
   },
 };
 
