@@ -22,7 +22,7 @@ export async function processOrder(newOrderData) {
   try {
     const kitchen: any = await Kitchen.findById(newOrderData.kitchen);
     const kitchenBotLogic = getKitchenLogic(kitchen.telegram_username);
-    kitchenBotLogic.sendOrder(newOrderData.items, 'nome', 'endereço');
+    kitchenBotLogic.sendOrder(newOrderData.items, newOrderData.name, newOrderData.address);
   } catch (err) {
     console.error(err);
   }
