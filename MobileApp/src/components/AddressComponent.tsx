@@ -7,8 +7,15 @@ import {
   TextInput
 } from 'react-native';
 
+interface IProps {
+  onAddressChanged(newAddress: string);
+  address: string;
+  onNameChanged(newName: string);
+  name: string;
+  onPayClicked();
+}
 
-const Address = (props) => {
+const Address = (props: IProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.address} >
@@ -19,11 +26,19 @@ const Address = (props) => {
           value={props.address}
         />
       </View>
+      <View style={styles.address} >
+        <Text style={styles.header}>Qual o seu nome:</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={props.onNameChanged}
+          value={props.name}
+        />
+      </View>
       <Button
         onPress={props.onPayClicked}
-        title="Pagar"
-        color="#841584"
-        accessibilityLabel="Pagar"
+        title='Pagar'
+        color='#841584'
+        accessibilityLabel='Pagar'
       />
     </View>
   );

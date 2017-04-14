@@ -9,6 +9,7 @@ interface IAppProps {
 
 interface IAppState {
   address: string;
+  name: string;
 }
 
 export default class Cart extends Component<IAppProps, IAppState> {
@@ -16,7 +17,8 @@ export default class Cart extends Component<IAppProps, IAppState> {
     super(props);
 
     this.state = {
-      address: ''
+      address: '',
+      name: ''
     }
   }
 
@@ -29,11 +31,18 @@ export default class Cart extends Component<IAppProps, IAppState> {
     model.setAddress(newAddress);
   }
 
+  onNameChanged(newName: string) {
+    this.setState({name: newName});
+    model.name = newName;
+  }
+
   render() {
     return (
       <AddressComponent 
         address={this.state.address}
         onAddressChanged={this.onAddressChanged.bind(this)}
+        name={this.state.name}
+        onNameChanged={this.onNameChanged.bind(this)}
         onPayClicked={addressFlowControl.onPayClicked}
       />
     )
