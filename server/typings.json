@@ -1,10 +1,12 @@
 {
   "name": "server",
   "dependencies": {
+    "bcrypt": "registry:dt/bcrypt#1.0.0+20161217125511",
     "body-parser": "registry:dt/body-parser#1.16.0+20170307072947",
     "express": "registry:npm/express#4.14.0+20170217205433",
     "express-graphql": "registry:dt/express-graphql#0.0.0+20160727004517",
     "graphql": "registry:npm/graphql#0.5.0+20160602041655",
+    "jsonwebtoken": "registry:dt/jsonwebtoken#7.2.0+20161229235100",
     "node-fetch": "registry:dt/node-fetch#1.6.0+20161224095027",
     "winston": "registry:dt/winston#2.2.0+20170106144044"
   },

@@ -3,9 +3,11 @@ import { init, MongoURL } from '../../db';
 import kitchenFixtures from './kitchen';
 import menuItemFixtures from './menuItem';
 import OrderFixtures from './Order';
+import UserFixtures from './UserFixtures';
 
 export default async function execute() {
   await resetDb();
+  await UserFixtures();
   await menuItemFixtures();
   await kitchenFixtures();
   await OrderFixtures();
