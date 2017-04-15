@@ -5,6 +5,7 @@ interface IUserModel extends mongoose.Document {
   login: string;
   name: string;
   role: string;
+  password: string;
   setPassword(newPassword: string);
   passwordMatch(password: string): boolean;
 }
