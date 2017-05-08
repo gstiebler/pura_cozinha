@@ -1,4 +1,4 @@
-package com.mobileapp;
+package com.puracozinha;
 
 import android.app.Application;
 import android.util.Log;
