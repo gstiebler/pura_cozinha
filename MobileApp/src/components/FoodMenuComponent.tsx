@@ -17,22 +17,19 @@ const deviceWidth = Dimensions.get('window').width;
 
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
-    <View>
-      <TouchableOpacity onPress={() => { onItemSelected(rowData); }}>
-        <View style={styles.card}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: rowData.imgURL }}
-          />
-          <View style={styles.textColumn}>
-            <Text style={styles.title}>{rowData.title}</Text>
-            <Text style={styles.description}>{rowData.description}</Text>
-          </View>
-          <Text style={styles.price}>R$ {formatMoney(rowData.price)}</Text>
+    <TouchableOpacity onPress={() => { onItemSelected(rowData); }}>
+      <View style={styles.card}>
+        <Image
+          style={styles.avatar}
+          source={{ uri: rowData.imgURL }}
+        />
+        <View style={styles.textColumn}>
+          <Text style={styles.title}>{rowData.title}</Text>
+          <Text style={styles.description}>{rowData.description}</Text>
         </View>
-      </TouchableOpacity>
-      <SmallOrderSummary />
-    </View>
+        <Text style={styles.price}>R$ {formatMoney(rowData.price)}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -53,13 +50,14 @@ const Menu = (props: IProps) => {
       dataSource={dataSource}
       renderRow={renderRow.bind(null, onItemSelected)}
     />
+    <SmallOrderSummary />
     <Button
       onPress={onMakeOrder}
       title='Fazer pedido'
       color='#841584'
       accessibilityLabel='Pagar'
     />
-  </View>
+  </View>;
 }
 
 /*Menu.propTypes = {
@@ -72,6 +70,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f4f4f4'
+  },
+  pageEnd: {
+    justifyContent: 'flex-end'
   },
   header: {
     padding: 10,
