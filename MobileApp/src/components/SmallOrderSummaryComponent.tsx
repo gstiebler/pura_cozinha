@@ -8,14 +8,16 @@ import {
 } from 'react-native';
 
 interface IProps {
+  cartItems: any[];
 }
 
 const OrderSummary = (props: IProps) => {
-  // const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  // const dataSource = ds.cloneWithRows(props.kitchens);
+  const cartItems = props.cartItems.map((item, index) => {
+    return <Text key={index}>{item.title}: {item.qty}</Text>;
+  });
   return <View style={styles.container}>
-    <Text style={styles.header}>Teste!</Text>
-  </View>
+    {cartItems}
+  </View>;
 };
 
 export default OrderSummary;

@@ -6,6 +6,7 @@ interface IAppProps {
 }
 
 interface IAppState {
+  cartItems: any[];
 }
 
 export default class SmallOrderSummary extends Component<IAppProps, IAppState> {
@@ -13,20 +14,31 @@ export default class SmallOrderSummary extends Component<IAppProps, IAppState> {
     super(props);
 
     this.state = {
+      cartItems: [],
     };
   }
 
   componentDidMount() {
+    this.updateState();
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO call when the model changes too
+    this.updateState();
   }
+
+  updateState() {
+    const cartItems = model.getCartItems();
+    this.setState({ cartItems });
+  }
+
   render() {
     if (false) {
       // return null;
     } else {
       return (
         <SmallOrderSummaryComponent
+          cartItems={this.state.cartItems}
         />
       );
     }
