@@ -10,25 +10,29 @@ import {
   Dimensions,
   Button
 } from 'react-native';
-import { formatMoney } from '../utils/StringUtils'
+import { formatMoney } from '../utils/StringUtils';
+import SmallOrderSummary from '../containers/SmallOrderSummaryContainer';
 
 const deviceWidth = Dimensions.get('window').width;
 
 function renderRow(onItemSelected, rowData, sectionID, rowID, highlightRow) {
   return (
-    <TouchableOpacity onPress={() => { onItemSelected(rowData) }}>
-      <View style={styles.card}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: rowData.imgURL }}
-        />
-        <View style={styles.textColumn}>
-          <Text style={styles.title}>{rowData.title}</Text>
-          <Text style={styles.description}>{rowData.description}</Text>
+    <View>
+      <TouchableOpacity onPress={() => { onItemSelected(rowData); }}>
+        <View style={styles.card}>
+          <Image
+            style={styles.avatar}
+            source={{ uri: rowData.imgURL }}
+          />
+          <View style={styles.textColumn}>
+            <Text style={styles.title}>{rowData.title}</Text>
+            <Text style={styles.description}>{rowData.description}</Text>
+          </View>
+          <Text style={styles.price}>R$ {formatMoney(rowData.price)}</Text>
         </View>
-        <Text style={styles.price}>R$ {formatMoney(rowData.price)}</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      <SmallOrderSummary />
+    </View>
   );
 }
 
