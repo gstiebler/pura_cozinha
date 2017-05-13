@@ -1,6 +1,5 @@
 import * as fetch from 'node-fetch';
 
-
 const pk = 'public_key=TEST-947b1369-9810-411f-9afe-67a31c411f37';
 const at = 'access_token=TEST-2939849420189802-051115-01e9077f122bcdbe9460fe04420671d0__LA_LC__-82570970';
 
@@ -51,15 +50,15 @@ export async function first() {
 async function getRealToken(tokenp) {
   console.log('tokenp: ' + tokenp);
   const body = {
-    card_number: "4509953566233704",
-    security_code: "123",
+    card_number: '4509953566233704',
+    security_code: '123',
     expiration_month: 12,
     expiration_year: 2020,
     cardholder: {
-      name: "APRO",
+      name: 'APRO',
       identification: {
-        number: "05533146709",
-        type: "CPF"
+        number: '05533146709',
+        type: 'CPF'
       }
     },
     device: {
@@ -76,7 +75,7 @@ async function getRealToken(tokenp) {
       'accept': 'application/json'
     },
     body: JSON.stringify(body)
-  }
+  };
 
   const url2 = 'https://api.mercadopago.com/v1/card_tokens/' + tokenp + '?' + pk;
 
@@ -97,7 +96,7 @@ async function execPay(ctoken) {
     payment_method_id: 'visa',
     installments: 1,
     payer: {
-      email: "test_user_19653727@testuser.com"
+      email: 'test_user_19653727@testuser.com'
     },
   };
 
@@ -110,7 +109,7 @@ async function execPay(ctoken) {
       'public_key': 'TEST-947b1369-9810-411f-9afe-67a31c411f37',
     },
     body: JSON.stringify(body)
-  }
+  };
 
   const url = 'https://api.mercadopago.com/v1/payments?' + pk + '&' + at;
 
