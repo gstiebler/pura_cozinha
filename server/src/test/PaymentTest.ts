@@ -1,11 +1,16 @@
 import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
 import * as Payment from '../core/Payment';
+import * as MercadoPago from '../core/MercadoPago';
 
-describe.skip('Payment tests', function () {
+describe('Payment tests', function () {
 
   beforeEach(async function () {
     await execFixtures();
+  });
+
+  it('Mercado Pago', async function() {
+    return MercadoPago.first();
   });
 
   it('Create credit card', async function () {
