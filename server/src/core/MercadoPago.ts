@@ -14,7 +14,7 @@ function fetchSync(url, options): Promise<any> {
   });
 }
 
-export async function cardToken() {
+export async function cardToken(cc_info) {
 
   const bodyp = {
     card_number: null,
@@ -43,19 +43,19 @@ export async function cardToken() {
 
   const res = await fetchSync(urlp, optionsp);
   console.log('first token' + JSON.stringify(res));
-  return await getRealToken(res.id);
+  return await getRealToken(res.id, cc_info);
 }
 
-async function getRealToken(tokenp) {
+async function getRealToken(tokenp: string, cc_info) {
   const body = {
-    card_number: '4509953566233704',
-    security_code: '123',
-    expiration_month: 12,
-    expiration_year: 2020,
+    card_number: cc_info.cc_number,
+    security_code: cc_info.cvv2,
+    expiration_month: cc_info.exp_month,
+    expiration_year: cc_info.exp_year,
     cardholder: {
       name: 'APRO',
       identification: {
-        number: '05533146709',
+        number: cc_info.cpf,
         type: 'CPF'
       }
     },
@@ -80,12 +80,13 @@ async function getRealToken(tokenp) {
   return await fetchSync(url2, options);
 }
 
-export async function execPay(ctoken) {
+export async function execPay(ctoken: string, amount: number,
+          desc: string, ) {
   const body = {
-    description: 'TESTE',
+    description: desc,
     transaction_amount: 10.0,
     token: ctoken,
-    statement_descriptor: 'teste',
+    statement_descriptor: desc,
     payment_method_id: 'visa',
     installments: 1,
     payer: {
@@ -96,7 +97,6 @@ export async function execPay(ctoken) {
   const options = {
     method: 'POST',
     headers: {
-
       'content-type': 'application/x-www-form-urlencoded',
       'accept': 'application/json',
       'public_key': 'TEST-947b1369-9810-411f-9afe-67a31c411f37',
