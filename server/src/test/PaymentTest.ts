@@ -10,8 +10,14 @@ describe('Payment tests', function () {
   });
 
   it('Mercado Pago', async function() {
-    const cardToken = await MercadoPago.cardToken('4509953566233704', '123',
-            12, 2020, '05533146709');
+    const cc_info = {
+      cc_number: '4509953566233704',
+      cvv2: '123',
+      exp_month: 12,
+      exp_year: 2020,
+      cpf: '05533146709'
+    };
+    const cardToken = await MercadoPago.cardToken(cc_info);
     console.log('second token' + JSON.stringify(cardToken));
     const payRes = await MercadoPago.execPay(cardToken.id, 10.0, 'descrip');
     console.log(payRes);
