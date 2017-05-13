@@ -10,7 +10,10 @@ describe('Payment tests', function () {
   });
 
   it('Mercado Pago', async function() {
-    return MercadoPago.first();
+    const cardToken = await MercadoPago.cardToken();
+    console.log('second token' + JSON.stringify(cardToken));
+    const payRes = await MercadoPago.execPay(cardToken.id);
+    console.log(payRes);
   });
 
   it('Create credit card', async function () {

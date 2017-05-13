@@ -14,7 +14,7 @@ function fetchSync(url, options): Promise<any> {
   });
 }
 
-export async function first() {
+export async function cardToken() {
 
   const bodyp = {
     card_number: null,
@@ -43,12 +43,10 @@ export async function first() {
 
   const res = await fetchSync(urlp, optionsp);
   console.log('first token' + JSON.stringify(res));
-  await getRealToken(res.id);
+  return await getRealToken(res.id);
 }
 
-
 async function getRealToken(tokenp) {
-  console.log('tokenp: ' + tokenp);
   const body = {
     card_number: '4509953566233704',
     security_code: '123',
@@ -79,15 +77,10 @@ async function getRealToken(tokenp) {
 
   const url2 = 'https://api.mercadopago.com/v1/card_tokens/' + tokenp + '?' + pk;
 
-  const res = await fetchSync(url2, options);
-  console.log('second token' + JSON.stringify(res));
-  await execPay(res.id);
+  return await fetchSync(url2, options);
 }
 
-
-
-async function execPay(ctoken) {
-  console.log('ctoken ' + ctoken);
+export async function execPay(ctoken) {
   const body = {
     description: 'TESTE',
     transaction_amount: 10.0,
@@ -112,9 +105,7 @@ async function execPay(ctoken) {
   };
 
   const url = 'https://api.mercadopago.com/v1/payments?' + pk + '&' + at;
-
-  const res = await fetchSync(url, options);
-  console.log(res);
+  return await fetchSync(url, options);
 }
 
 
