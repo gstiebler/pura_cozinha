@@ -3,8 +3,7 @@ import { fetchSync } from '../lib/NetworkUtils';
 const publicKey = 'public_key=' + process.env.MP_PUBLIC_KEY;
 const accessToken = 'access_token=' + process.env.MP_ACCESS_TOKEN;
 
-export async function execPay(ctoken: string, amount: number,
-          desc: string, ) {
+export async function execPay(ctoken: string, amount: number, desc: string) {
   const body = {
     description: desc,
     transaction_amount: 10.0,

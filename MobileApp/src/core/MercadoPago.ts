@@ -1,20 +1,10 @@
+import { fetchSync } from '../lib/NetworkUtils';
+
 const publicKey = 'TEST-947b1369-9810-411f-9afe-67a31c411f37';
-import fetch from 'node-fetch';
 const headers = {
   'content-type': 'application/x-www-form-urlencoded',
   'accept': 'application/json'
 };
-
-function fetchSync(url, options): Promise<any> {
-  return new Promise((accept, reject) => {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => {
-        accept(json);
-      })
-      .catch(err => { reject(err); });
-  });
-}
 
 export interface CreditCardInfo {
   cardNumber: string;

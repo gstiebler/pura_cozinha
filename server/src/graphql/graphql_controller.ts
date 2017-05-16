@@ -39,19 +39,6 @@ const OrderType = new GraphQLObjectType({
   }
 });
 
-const CreditCardInputType = new GraphQLInputObjectType({
-  name: 'CreditCardInputType',
-  fields: {
-    type: { type: GraphQLString },
-    number: { type: GraphQLString },
-    expire_month: { type: GraphQLString },
-    expire_year: { type: GraphQLString },
-    cvv2: { type: GraphQLString },
-    first_name: { type: GraphQLString },
-    last_name: { type: GraphQLString },
-  }
-});
-
 const OrderItemInputType = new GraphQLInputObjectType({
   name: 'OrderItemInputType',
   fields: {
@@ -65,7 +52,7 @@ const OrderInputType = new GraphQLInputObjectType({
   fields: {
     user_id: { type: GraphQLID },
     items: { type: new GraphQLList(OrderItemInputType) },
-    credit_card_info: { type: CreditCardInputType },
+    cc_token: { type: GraphQLString },
     selected_kitchen_id: { type: GraphQLID },
     address: { type: GraphQLString },
     name: { type: GraphQLString },

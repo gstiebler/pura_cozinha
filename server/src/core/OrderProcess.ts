@@ -1,8 +1,8 @@
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
-import { payCreditCard } from './Payment';
 import { getKitchenLogic } from '../KitchenTelegram/KitchenBotLogic';
+import { execPay } from '../core/MercadoPago';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
@@ -29,7 +29,7 @@ export async function processOrder(newOrderData) {
 
   // Pay
   try {
-    const resPayment = await payCreditCard(newOrderData.credit_card_info, total, 'new payment');
+    const resPayment = await execPay(newOrderData.cc_token, total, 'new payment');
     await Order.update({_id: newOrder._id }, { $set: { payment_info: resPayment} });
   } catch (err) {
     await Order.update({_id: newOrder._id }, { $set: { payment_info: 'error on payment' } });
