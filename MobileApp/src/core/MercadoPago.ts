@@ -1,4 +1,5 @@
 const publicKey = 'TEST-947b1369-9810-411f-9afe-67a31c411f37';
+import fetch from 'node-fetch';
 const headers = {
   'content-type': 'application/x-www-form-urlencoded',
   'accept': 'application/json'
@@ -45,7 +46,7 @@ export async function cardToken(cc_info: CreditCardInfo) {
     body: JSON.stringify(bodyp)
   };
 
-  const urlp = 'https://api.mercadopago.com/v1/card_tokens/?' + publicKey;
+  const urlp = 'https://api.mercadopago.com/v1/card_tokens/?public_key=' + publicKey;
 
   const res = await fetchSync(urlp, options);
   return await getRealToken(res.id, cc_info);
@@ -76,7 +77,7 @@ async function getRealToken(tokenp: string, cc_info: CreditCardInfo) {
     headers,
     body: JSON.stringify(body)
   };
-  const url2 = 'https://api.mercadopago.com/v1/card_tokens/' + tokenp + '?' + publicKey;
+  const url2 = 'https://api.mercadopago.com/v1/card_tokens/' + tokenp + '?public_key=' + publicKey;
 
   return await fetchSync(url2, options);
 }
