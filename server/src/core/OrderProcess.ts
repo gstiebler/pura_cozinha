@@ -33,6 +33,6 @@ export async function processOrder(newOrderData) {
     await Order.update({_id: newOrder._id }, { $set: { payment_info: resPayment} });
   } catch (err) {
     await Order.update({_id: newOrder._id }, { $set: { payment_info: 'error on payment' } });
-    // throw new Error(err);
+    throw new Error(err.message + ' - ' + JSON.stringify(err.response.details));
   }
 }
