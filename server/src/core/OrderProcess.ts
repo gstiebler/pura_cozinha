@@ -30,6 +30,9 @@ export async function processOrder(newOrderData) {
   // Pay
   try {
     const resPayment = await execPay(newOrderData.cc_token, total, 'new payment');
+    if (resPayment.error) {
+      throw new Error(resPayment.error);
+    }
     const data = {
       payment_info: resPayment,
       status: 'PAYMENT_OK'
