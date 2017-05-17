@@ -31,6 +31,7 @@ export default class CreditCard extends Component<IAppProps, IAppState> {
   async onPayClicked() {
     if (this.state.cardValues.valid) {
       const ccInfo = convertCCFormat(this.state.cardValues.values);
+      ccInfo.cardHolderName = model.name;
       await model.order(ccInfo);
       creditCardFlowControl.afterPayment();
     } else {

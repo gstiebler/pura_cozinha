@@ -7,8 +7,9 @@ import { Order } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model, ICreditCard, convertCCFormat } from '../MobileApp/Model';
+import { Model, convertCCFormat } from '../MobileApp/Model';
 import { Network } from '../MobileApp/Network';
+import { CreditCardInfo } from '../MobileApp/core/MercadoPago';
 
 
 describe('React Native model test', function() {
@@ -72,14 +73,13 @@ describe('React Native model test', function() {
       model.setAddress('5th Avenue');
       model.name = 'John Doe';
 
-      const creditCardInfo: ICreditCard = {
-        type: 'visa',
-        number: '4417119669820331',
-        expire_month: '11',
-        expire_year: '2019',
-        cvv2: '123',
-        first_name: 'Joe',
-        last_name: 'Shopper'
+      const creditCardInfo: CreditCardInfo = {
+        // type: 'visa',
+        cardNumber: '4417119669820331',
+        expirationMonth: 11,
+        expirationYear: 2019,
+        securityCode: '123',
+        cardHolderName: 'Joe Doe'
       };
       await model.order(creditCardInfo);
 
@@ -96,7 +96,7 @@ describe('React Native model test', function() {
       assert.equal('Sanduba de frango', lastOrder.items[0].title);
     });
 
-    it('Convert credit card format from screen to Paypal', async function() {
+    it('Convert credit card format from screen to MercadoPago', async function() {
       const interfaceCCInfo = {
         number: '4417 1196 6982 0331',
         expiry: '11/19',
@@ -104,11 +104,11 @@ describe('React Native model test', function() {
         type: 'visa'
       };
       const converted = convertCCFormat(interfaceCCInfo);
-      assert.equal('4417119669820331', converted.number);
-      assert.equal('visa', converted.type);
-      assert.equal('123', converted.cvv2);
-      assert.equal('11', converted.expire_month);
-      assert.equal('2019', converted.expire_year);
+      assert.equal('4417119669820331', converted.cardNumber);
+      // assert.equal('visa', converted.type);
+      assert.equal('123', converted.securityCode);
+      assert.equal('11', converted.expirationMonth);
+      assert.equal('2019', converted.expirationYear);
     });
 
   });

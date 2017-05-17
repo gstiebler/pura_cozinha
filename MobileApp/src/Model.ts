@@ -1,4 +1,6 @@
 
+import { CreditCardInfo, cardToken } from './core/MercadoPago';
+
 function makeId(length: number) {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -41,16 +43,6 @@ export interface FoodMenuItem {
 
 interface ICartItem extends FoodMenuItem {
   qty: number;
-};
-
-export interface ICreditCard {
-  type: string;
-  number: string;
-  expire_month: string;
-  expire_year: string;
-  cvv2: string;
-  first_name: string;
-  last_name: string;
 }
 
 export interface IOrder {
@@ -59,7 +51,7 @@ export interface IOrder {
     food_menu_item_id: string;
     quantity: number;
   }[];
-  credit_card_info: ICreditCard;
+  cc_token: string;
   selected_kitchen_id: string;
   name: string;
   address: string;
@@ -182,7 +174,9 @@ export class Model {
     return result.kitchensByDistance;
   }
 
-  async order(creditCardDetails: ICreditCard) {
+  async order(creditCardDetails: CreditCardInfo) {
+    const token = await cardToken(creditCardDetails);
+
     const cartItems = this.getCartItems();
 
     const items = cartItems.map((item) => {
@@ -195,7 +189,7 @@ export class Model {
     const order: IOrder = {
       user_id: this.userId,
       items: items,
-      credit_card_info: creditCardDetails,
+      cc_token: token,
       selected_kitchen_id: this.selectedKitchenId,
       address: this.address,
       name: this.name
@@ -208,19 +202,28 @@ export class Model {
 
 }
 
-export function convertCCFormat(interfaceCCInfo): ICreditCard {
+/**
+ * Interface to the values returned from the Credit Card library
+ */
+interface CreditCardComponentInfo {
+  expiry: string;
+  type: string;
+  cvc: string;
+  number: string;
+}
+
+export function convertCCFormat(interfaceCCInfo: CreditCardComponentInfo): CreditCardInfo {
   const expiryParts = interfaceCCInfo.expiry.split('/');
-  const expire_month = expiryParts[0];
-  const expire_year = '20' + expiryParts[1];
+  const expirationMonth = parseInt(expiryParts[0]);
+  const expirationYear = parseInt('20' + expiryParts[1]);
   const ccRawValues = interfaceCCInfo;
-  const ccInfo: ICreditCard = {
-    type: ccRawValues.type,
-    number: interfaceCCInfo.number.replace(/ /g, ''),
-    expire_month,
-    expire_year,
-    cvv2: interfaceCCInfo.cvc,
-    first_name: 'PrimeiroNome',
-    last_name: 'ÚltimoNome'
+  const ccInfo: CreditCardInfo = {
+    // type: ccRawValues.type,
+    cardNumber: interfaceCCInfo.number.replace(/ /g, ''),
+    expirationMonth,
+    expirationYear,
+    securityCode: interfaceCCInfo.cvc,
+    cardHolderName: null
   };
   return ccInfo;
 }

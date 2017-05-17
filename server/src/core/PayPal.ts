@@ -1,20 +1,13 @@
 import * as  paypal from 'paypal-rest-sdk';
 
+import { CreditCard } from './CreditCard';
+
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
+  'mode': 'sandbox', // sandbox or live
   'client_id': 'EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM',
   'client_secret': 'EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM'
 });
 
-interface CreditCard {
-  type: string;
-  number: string;
-  expire_month: string;
-  expire_year: string;
-  cvv2: string;
-  first_name: string;
-  last_name: string;
-}
 
 export function createCC(savedCard: CreditCard): Promise<any> {
   return new Promise((resolve, reject) => {
