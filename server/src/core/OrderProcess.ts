@@ -33,6 +33,9 @@ export async function processOrder(newOrderData) {
     if (resPayment.error) {
       throw new Error(resPayment.error);
     }
+    if (resPayment.status !== 'approved') {
+      throw new Error('Payment not approved. Status: ' + resPayment.status);
+    }
     const data = {
       payment_info: resPayment,
       status: 'PAYMENT_OK'

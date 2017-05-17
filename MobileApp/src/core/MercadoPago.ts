@@ -39,7 +39,11 @@ export async function cardToken(cc_info: CreditCardInfo) {
   const urlp = 'https://api.mercadopago.com/v1/card_tokens/?public_key=' + publicKey;
 
   const res = await fetchSync(urlp, options);
-  return await getRealToken(res.id, cc_info);
+  const realToken = await getRealToken(res.id, cc_info);
+  if (realToken.status !== 'active') {
+    throw new Error('problem getting card token');
+  }
+  return realToken;
 }
 
 async function getRealToken(tokenp: string, cc_info: CreditCardInfo) {
