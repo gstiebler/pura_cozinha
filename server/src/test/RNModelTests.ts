@@ -7,10 +7,18 @@ import { Order } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
-import { Model, convertCCFormat } from '../MobileApp/Model';
+import * as mock from 'mock-require';
+mock('../MobileApp/lib/NetworkUtils', '../lib/NetworkUtils');
+
+/* mock('../MobileApp/lib/NetworkUtils', { fetchSync: function(a, b) {
+  console.log('NetworkUtils called');
+}}); */
+
 import { Network } from '../MobileApp/Network';
 import { CreditCardInfo } from '../MobileApp/core/MercadoPago';
 
+
+import { Model, convertCCFormat } from '../MobileApp/Model';
 
 describe('React Native model test', function() {
 
@@ -86,6 +94,7 @@ describe('React Native model test', function() {
       const orders: any[] = await Order.find();
       assert.equal(3, orders.length);
       const lastOrder = orders[2];
+      assert.equal('PAYMENT_OK', lastOrder.status);
       assert.equal('333', lastOrder.user_id);
       assert.equal(35.97, lastOrder.total_paid);
       assert.equal(35.97, lastOrder.total_paid);

@@ -175,7 +175,8 @@ export class Model {
   }
 
   async order(creditCardDetails: CreditCardInfo) {
-    const token = await cardToken(creditCardDetails);
+    const cardDetails = await cardToken(creditCardDetails);
+    const token = cardDetails.id;
 
     const cartItems = this.getCartItems();
 

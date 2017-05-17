@@ -2,6 +2,14 @@ import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
 import * as Payment from '../core/Payment';
 import * as MercadoPago from '../core/MercadoPago';
+
+
+import * as mock from 'mock-require';
+mock('../MobileApp/lib/NetworkUtils', '../lib/NetworkUtils');
+
+/*mock('../MobileApp/lib/NetworkUtils', { fetchSync: function(a, b) {
+  console.log('NetworkUtils called');
+}});*/
 import * as MercadoPagoRN from '../MobileApp/core/MercadoPago';
 
 describe('Payment tests', function () {

@@ -30,9 +30,17 @@ export async function processOrder(newOrderData) {
   // Pay
   try {
     const resPayment = await execPay(newOrderData.cc_token, total, 'new payment');
-    await Order.update({_id: newOrder._id }, { $set: { payment_info: resPayment} });
+    const data = {
+      payment_info: resPayment,
+      status: 'PAYMENT_OK'
+    };
+    await Order.update({_id: newOrder._id }, { $set: data });
   } catch (err) {
-    await Order.update({_id: newOrder._id }, { $set: { payment_info: 'error on payment' } });
+    const data = {
+      payment_info: 'error on payment',
+      status: 'PAYMENT_ERROR'
+    };
+    await Order.update({_id: newOrder._id }, { $set: { payment_info: data } });
     throw new Error(err.message + ' - ' + JSON.stringify(err.response.details));
   }
 }
