@@ -14,7 +14,9 @@
 				"NODE_ENV": "development",
                 "DB_HOST": "localhost",
                 "SHOW_GRAPHQL_QUERIES": "true",
-                "TELEGRAM_TOKEN": "355954135:AAH6jRIhl2auBG3fOWXF5dVTelEc1u09poU"
+                "TELEGRAM_TOKEN": "355954135:AAH6jRIhl2auBG3fOWXF5dVTelEc1u09poU",
+                "MP_PUBLIC_KEY": "TEST-947b1369-9810-411f-9afe-67a31c411f37",
+                "MP_ACCESS_TOKEN": "TEST-2939849420189802-051115-01e9077f122bcdbe9460fe04420671d0__LA_LC__-82570970"
 			}
         },
         {
@@ -26,11 +28,15 @@
             "args": [
                 "out/test", 
                 "--no-timeouts"
-                //,"-g", "order save"
+                //"--reporter",
+                //"dot"
+                ,"-g", "Payment tests"
             ],
 			"env": {
 				"NODE_ENV": "test",
-                "DB_HOST": "localhost"
+                "DB_HOST": "localhost",
+                "MP_PUBLIC_KEY": "TEST-947b1369-9810-411f-9afe-67a31c411f37",
+                "MP_ACCESS_TOKEN": "TEST-2939849420189802-051115-01e9077f122bcdbe9460fe04420671d0__LA_LC__-82570970"
                 //"SHOW_GRAPHQL_QUERIES": "true"
 			}
         },
