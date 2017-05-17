@@ -12,6 +12,7 @@ import CreditCard from '../containers/CreditCard';
 import Kitchens from '../containers/KitchensContainer';
 import FoodMenu from '../containers/FoodMenu';
 import Cart from '../containers/Cart';
+import FinalOkPage from '../containers/FinalOkPage';
 import * as FlowControl from '../FlowControl';
 
 function router(route, navigator) {
@@ -28,6 +29,8 @@ function router(route, navigator) {
     return <Cart />;
   } else if (route.id  === 'credit_card') {
     return <CreditCard />;
+  } else if (route.id  === 'final_ok_page') {
+    return <FinalOkPage />;
   } else {
     console.error(`Route not found on navigator: ${route.id}`);
     return <Text>Erro!</Text>;

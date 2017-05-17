@@ -47,7 +47,14 @@ export const addressFlowControl = {
 
 export const creditCardFlowControl = {
   afterPayment: () => {
-    _navigator.push({id: 'kitchens'});
+    _navigator.popToTop();
+    _navigator.push({id: 'final_ok_page'});
+  }
+};
+
+export const finalOkPageFlowControl = {
+  onOkClicked: () => {
+    _navigator.resetTo({id: 'kitchens'});
   }
 };
 
