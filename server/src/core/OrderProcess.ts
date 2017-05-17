@@ -44,6 +44,6 @@ export async function processOrder(newOrderData) {
       status: 'PAYMENT_ERROR'
     };
     await Order.update({_id: newOrder._id }, { $set: { payment_info: data } });
-    throw new Error(err.message + ' - ' + JSON.stringify(err.response.details));
+    throw new Error(err.message + ' - ' + JSON.stringify(err));
   }
 }
