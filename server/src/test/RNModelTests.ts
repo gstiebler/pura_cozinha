@@ -83,9 +83,9 @@ describe('React Native model test', function() {
 
       const creditCardInfo: CreditCardInfo = {
         // type: 'visa',
-        cardNumber: '4417119669820331',
-        expirationMonth: 11,
-        expirationYear: 2019,
+        cardNumber: '4509953566233704',
+        expirationMonth: 12,
+        expirationYear: 2020,
         securityCode: '123',
         cardHolderName: 'Joe Doe'
       };
@@ -96,7 +96,6 @@ describe('React Native model test', function() {
       const lastOrder = orders[2];
       assert.equal('PAYMENT_OK', lastOrder.status);
       assert.equal('333', lastOrder.user_id);
-      assert.equal(35.97, lastOrder.total_paid);
       assert.equal(35.97, lastOrder.total_paid);
       assert.equal('5th Avenue', lastOrder.address);
       assert.equal('John Doe', lastOrder.name);

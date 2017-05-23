@@ -27,7 +27,8 @@ export async function execPay(ctoken: string, amount: number, desc: string) {
   };
 
   const url = 'https://api.mercadopago.com/v1/payments?public_key=' + publicKey + '&' + accessToken;
-  return await fetchSync(url, options);
+  const result = await fetchSync(url, options);
+  return result;
 }
 
 
