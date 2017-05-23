@@ -17,15 +17,14 @@ export async function kitchenLogicSingleton(username: string, sendMessage) {
 
 export class KitchenBotLogic {
 
-  private state: string;
+  private handler: (receivedMsg: string) => void;
   private sendMessageFn: (msg: string, options?: any) => void;
   private kitchenId: any;
   private selectedFoodItemToUpdate: string;
 
-
   constructor(sendMessageFn) {
     this.sendMessageFn = sendMessageFn;
-    this.state = 'ROOT';
+    this.handler = this.defaultHandler.bind(this);
   }
 
   async initialize(username) {
@@ -37,34 +36,40 @@ export class KitchenBotLogic {
   }
 
   async receive(receivedMsg) {
-    if (this.state === 'MAIN_MENU') {
-      if (receivedMsg.text === 'Definir cozinha como ativa') {
-        await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'YES' } });
-        await this.sendMainMenu();
-      } else if (receivedMsg.text === 'Definir cozinha como inativa') {
-        await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'NO' } });
-        await this.sendMainMenu();
-      } else if (receivedMsg.text === 'Modificar estoque') {
-        await this.sendStockMenu();
-      } else {
-        await this.sendMainMenu();
-      }
-    } else if (this.state === 'STOCK_QUANTITY_INPUT') {
-      const kitchen: any = await Kitchen.findById(this.kitchenId);
-      const stock: any[] = kitchen.stock;
-      for (let i = 0; i < stock.length; i++) {
-        if (stock[i].menu_item.toString() === this.selectedFoodItemToUpdate) {
-          stock[i].quantity = parseInt(receivedMsg.text);
-          await Kitchen.update({ _id: this.kitchenId }, { $set: { stock } });
-          const menuItem: any = await MenuItem.findById(this.selectedFoodItemToUpdate);
-          this.sendMessageFn(`Quantidade de ${menuItem.title} atualizada para ${stock[i].quantity}`);
-          break;
-        }
-      }
+    await this.handler(receivedMsg);
+  }
+
+  async mainMenuHandler(receivedMsg) {
+    if (receivedMsg.text === 'Definir cozinha como ativa') {
+      await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'YES' } });
       await this.sendMainMenu();
+    } else if (receivedMsg.text === 'Definir cozinha como inativa') {
+      await Kitchen.update({ _id: this.kitchenId }, { $set: { active: 'NO' } });
+      await this.sendMainMenu();
+    } else if (receivedMsg.text === 'Modificar estoque') {
+      await this.sendStockMenu();
     } else {
       await this.sendMainMenu();
     }
+  }
+
+  async defaultHandler(receivedMsg) {
+      await this.sendMainMenu();
+  }
+
+  async stockQuantityInputHandler(receivedMsg) {
+    const kitchen: any = await Kitchen.findById(this.kitchenId);
+    const stock: any[] = kitchen.stock;
+    for (let i = 0; i < stock.length; i++) {
+      if (stock[i].menu_item.toString() === this.selectedFoodItemToUpdate) {
+        stock[i].quantity = parseInt(receivedMsg.text);
+        await Kitchen.update({ _id: this.kitchenId }, { $set: { stock } });
+        const menuItem: any = await MenuItem.findById(this.selectedFoodItemToUpdate);
+        this.sendMessageFn(`Quantidade de ${menuItem.title} atualizada para ${stock[i].quantity}`);
+        break;
+      }
+    }
+    await this.sendMainMenu();
   }
 
   async callbackQuery(receivedMsg) {
@@ -72,7 +77,7 @@ export class KitchenBotLogic {
     this.selectedFoodItemToUpdate = foodMenuItemId;
     const menuItem: any = await MenuItem.findById(foodMenuItemId);
     this.sendMessageFn(`Digite a quantidade de ${menuItem.title}:`);
-    this.state = 'STOCK_QUANTITY_INPUT';
+    this.handler = this.stockQuantityInputHandler.bind(this);
   }
 
   async sendMainMenu() {
@@ -103,7 +108,7 @@ export class KitchenBotLogic {
     };
 
     this.sendMessageFn(msg, options);
-    this.state = 'MAIN_MENU';
+    this.handler = this.mainMenuHandler.bind(this);
   }
 
   async sendStockMenu() {
@@ -124,7 +129,7 @@ export class KitchenBotLogic {
     };
 
     this.sendMessageFn(msg, options);
-    this.state = 'STOCK_LIST';
+    this.handler = this.mainMenuHandler.bind(this);
   }
 
   sendOrder(items: any[], address: string, name: string) {
