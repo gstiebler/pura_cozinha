@@ -1,5 +1,6 @@
 import { Kitchen } from '../db/models/kitchen';
 import { MenuItem } from '../db/models/menuItem';
+import { Order, PaymentStatus } from '../db/models/Order';
 
 const kitchens = new Map<string, KitchenBotLogic>();
 
@@ -95,10 +96,20 @@ export class KitchenBotLogic {
       changeText = 'ativa';
     }
 
+    const paidOrders = await Order.find({ status: PaymentStatus.PAID });
+    const readyOrders = await Order.find({ status: PaymentStatus.READY });
+
     const userOptions = [
       [{ text: 'Definir cozinha como ' + changeText }],
       [{ text: 'Modificar estoque' }],
     ];
+
+    if (paidOrders.length > 0) {
+      userOptions.push([{ text: 'Definir pedido como pronto' }]);
+    }
+    if (readyOrders.length > 0) {
+      userOptions.push([{ text: 'Definir pedido como entregue' }]);
+    }
 
     const options = {
       reply_markup: JSON.stringify({
