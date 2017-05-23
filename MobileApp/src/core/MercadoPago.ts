@@ -72,6 +72,6 @@ async function getRealToken(tokenp: string, cc_info: CreditCardInfo) {
     body: JSON.stringify(body)
   };
   const url2 = 'https://api.mercadopago.com/v1/card_tokens/' + tokenp + '?public_key=' + publicKey;
-
-  return await fetchSync(url2, options);
+  const result = await fetchSync(url2, options);
+  return result;
 }
