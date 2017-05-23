@@ -30,16 +30,28 @@ export default class CreditCard extends Component<IAppProps, IAppState> {
 
   async onPayClicked() {
     if (this.state.cardValues.valid) {
-      const ccInfo = convertCCFormat(this.state.cardValues.values);
-      ccInfo.cardHolderName = model.name;
-      await model.order(ccInfo);
-      creditCardFlowControl.afterPayment();
+      try {
+        const ccInfo = convertCCFormat(this.state.cardValues.values);
+        ccInfo.cardHolderName = model.name;
+        await model.order(ccInfo);
+        creditCardFlowControl.afterPayment();
+      } catch (err) {
+        console.error(err);
+        Alert.alert(
+          'Alerta',
+          'Problemas ao validar o cartão',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        );
+      }
     } else {
       Alert.alert(
         'Alerta',
         'Cartão inválido',
         [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
         ],
         { cancelable: false }
       );
@@ -48,7 +60,7 @@ export default class CreditCard extends Component<IAppProps, IAppState> {
 
   render() {
     return (
-      <CreditCardComponent 
+      <CreditCardComponent
         onChange={this.onChange.bind(this)}
         onPayClicked={this.onPayClicked.bind(this)}
       />
