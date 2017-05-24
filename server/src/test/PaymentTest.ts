@@ -64,7 +64,7 @@ describe('Payment tests', function () {
     }
 
     const orders = await Order.find();
-    assert.equal(3, orders.length);
+    assert.equal(4, orders.length);
     const lastOrder: any = orders[orders.length - 1];
     assert.equal(11.99, lastOrder.total_paid);
     assert.equal('PAYMENT_OK', lastOrder.status);

@@ -3,7 +3,7 @@ import * as winston from 'winston';
 import fetch from 'node-fetch';
 import execFixtures from './fixtures/fixture';
 import { MenuItem } from '../db/models/menuItem';
-import { Order } from '../db/models/Order';
+import { Order, PaymentStatus } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
@@ -92,9 +92,9 @@ describe('React Native model test', function() {
       await model.order(creditCardInfo);
 
       const orders: any[] = await Order.find();
-      assert.equal(3, orders.length);
-      const lastOrder = orders[2];
-      assert.equal('PAYMENT_OK', lastOrder.status);
+      assert.equal(4, orders.length);
+      const lastOrder = orders[3];
+      assert.equal(PaymentStatus.PAYMENT_OK, lastOrder.status);
       assert.equal('333', lastOrder.user_id);
       assert.equal(35.97, lastOrder.total_paid);
       assert.equal('5th Avenue', lastOrder.address);

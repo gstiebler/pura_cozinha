@@ -31,9 +31,9 @@ describe('Web Admin model test', function() {
   it('get orders', async function() {
     const model: Model = this.model;
     const orders = await model.getOrders();
-    assert.equal(2, orders.length);
-    assert.equal(38.5, orders[1].total);
-    assert.equal('Outra cozinha', orders[1].kitchen.name);
+    assert.equal(3, orders.length);
+    assert.equal(38.5, orders[2].total);
+    assert.equal('Outra cozinha', orders[2].kitchen.name);
   });
 
   describe('kitchen', function() {
