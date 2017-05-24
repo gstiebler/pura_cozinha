@@ -108,6 +108,19 @@ export class KitchenBotLogic {
     await this.sendMainMenu();
   }
 
+  async orderAsDeliveredHandler(readyOrders: any[], receivedMsg) {
+    const readyOrderIndex = parseInt(receivedMsg.data);
+    if (readyOrderIndex < 0 || readyOrderIndex >= readyOrders.length ||
+        isNaN(readyOrderIndex)) {
+      throw new Error('Invalid paid item index');
+    }
+    const readyOrder = readyOrders[readyOrderIndex];
+    await Order.update({ _id: readyOrder._id }, { $set: { status: PaymentStatus.DELIVERED } });
+    // TODO: send notification to the user
+    this.sendMessageFn('Pedido marcado como entregue');
+    await this.sendMainMenu();
+  }
+
   async callbackQuery(receivedMsg) {
     try {
       await this.handler(receivedMsg);
@@ -202,7 +215,17 @@ export class KitchenBotLogic {
   }
 
    async sendSetOrderAsDeliveredMenu() {
+    const kitchen: any = await Kitchen.findById(this.kitchenId);
+    const readyOrders: any[] = await Order.find({ status: PaymentStatus.READY, kitchen: this.kitchenId });
+    const { msg, itemsButtons } = orderButtonsAndMessage(readyOrders);
+    const options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: itemsButtons
+      })
+    };
 
+    this.sendMessageFn(msg, options);
+    this.handler = this.orderAsDeliveredHandler.bind(this, readyOrders);
    }
 
   sendOrder(items: any[], address: string, name: string) {

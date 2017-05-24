@@ -65,6 +65,47 @@ describe('Kitchen Telegram', function() {
     assert.equal('Definir pedido como entregue', replay_markup.keyboard[2][0].text);
     const paidOrders = await Order.find({ status: PaymentStatus.PAYMENT_OK, kitchen: kitchen1._id });
     assert.equal(0, paidOrders.length);
+    const readyOrders1 = await Order.find({ status: PaymentStatus.READY, kitchen: kitchen1._id });
+    assert.equal(2, readyOrders1.length);
+
+    // Ask to change an order as delivered
+    await logic.receive({ text: 'Definir pedido como entregue' });
+    assert.equal('Pedido a ser marcado como pronto:\n1) Sanduba de frango: 1\n2) Açai: 2\n', lastResponse().msg);
+    replay_markup = JSON.parse(lastResponse().options.reply_markup);
+    assert.equal(2, replay_markup.inline_keyboard.length);
+    assert.equal('1', replay_markup.inline_keyboard[0][0].text);
+    assert.equal('0', replay_markup.inline_keyboard[0][0].callback_data);
+    assert.equal('2', replay_markup.inline_keyboard[1][0].text);
+    assert.equal('1', replay_markup.inline_keyboard[1][0].callback_data);
+
+    // Select the second order as delivered
+    await logic.callbackQuery({ data: '1' });
+    assert.equal('Cozinha está inativa', lastResponse().msg);
+    replay_markup = JSON.parse(lastResponse().options.reply_markup);
+    assert.equal(3, replay_markup.keyboard.length);
+    assert.equal('Definir cozinha como ativa', replay_markup.keyboard[0][0].text);
+    assert.equal('Modificar estoque', replay_markup.keyboard[1][0].text);
+    assert.equal('Definir pedido como entregue', replay_markup.keyboard[2][0].text);
+
+    // Ask to change the first order as delivered
+    await logic.receive({ text: 'Definir pedido como entregue' });
+    assert.equal('Pedido a ser marcado como pronto:\n1) Sanduba de frango: 1\n', lastResponse().msg);
+    replay_markup = JSON.parse(lastResponse().options.reply_markup);
+    assert.equal(1, replay_markup.inline_keyboard.length);
+    assert.equal('1', replay_markup.inline_keyboard[0][0].text);
+    assert.equal('0', replay_markup.inline_keyboard[0][0].callback_data);
+
+    // Select the first order as delivered
+    await logic.callbackQuery({ data: '0' });
+    assert.equal('Cozinha está inativa', lastResponse().msg);
+    replay_markup = JSON.parse(lastResponse().options.reply_markup);
+    assert.equal(2, replay_markup.keyboard.length);
+    assert.equal('Definir cozinha como ativa', replay_markup.keyboard[0][0].text);
+    assert.equal('Modificar estoque', replay_markup.keyboard[1][0].text);
+    const readyOrders = await Order.find({ status: PaymentStatus.READY, kitchen: kitchen1._id });
+    assert.equal(0, paidOrders.length);
+    const deliveredOrders = await Order.find({ status: PaymentStatus.DELIVERED, kitchen: kitchen1._id });
+    assert.equal(2, deliveredOrders.length);
 
     // Show items in stock
     await logic.receive({ text: 'Modificar estoque' });
@@ -85,10 +126,9 @@ describe('Kitchen Telegram', function() {
     assert.equal('Quantidade de Sanduba de frango atualizada para 6', responses[responses.length - 2].msg);
     assert.equal('Cozinha está inativa', lastResponse().msg);
     replay_markup = JSON.parse(lastResponse().options.reply_markup);
-    assert.equal(3, replay_markup.keyboard.length);
+    assert.equal(2, replay_markup.keyboard.length);
     assert.equal('Definir cozinha como ativa', replay_markup.keyboard[0][0].text);
     assert.equal('Modificar estoque', replay_markup.keyboard[1][0].text);
-    assert.equal('Definir pedido como entregue', replay_markup.keyboard[2][0].text);
   });
 
 });
