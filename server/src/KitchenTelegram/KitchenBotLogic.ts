@@ -37,7 +37,12 @@ export class KitchenBotLogic {
   }
 
   async receive(receivedMsg) {
-    await this.handler(receivedMsg);
+    try {
+      await this.handler(receivedMsg);
+    } catch (err) {
+      console.error(err);
+      this.sendMainMenu();
+    }
   }
 
   async mainMenuHandler(receivedMsg) {
@@ -49,6 +54,10 @@ export class KitchenBotLogic {
       await this.sendMainMenu();
     } else if (receivedMsg.text === 'Modificar estoque') {
       await this.sendStockMenu();
+    } else if (receivedMsg.text === 'Definir pedido como pronto') {
+      await this.sendSetOrderAsReadyMenu();
+    } else if (receivedMsg.text === 'Definir pedido como entregue') {
+      // await this.sendSetOrderAsDeliveredMenu();
     } else {
       await this.sendMainMenu();
     }
@@ -70,6 +79,19 @@ export class KitchenBotLogic {
         break;
       }
     }
+    await this.sendMainMenu();
+  }
+
+  async orderAsReadyHandler(paidOrders: any[], receivedMsg) {
+    const paidOrderIndex = parseInt(receivedMsg.text) - 1;
+    if (paidOrderIndex < paidOrders.length || paidOrderIndex >= paidOrders.length ||
+        isNaN(paidOrderIndex)) {
+      throw new Error('Invalid paid item index');
+    }
+    const paidOrder = paidOrders[paidOrderIndex];
+    await Order.update({ _id: paidOrder._id }, { $set: { status: PaymentStatus.READY } });
+    // TODO: send notification to the user
+    this.sendMessageFn('Pedido marcado como pronto');
     await this.sendMainMenu();
   }
 
@@ -96,8 +118,8 @@ export class KitchenBotLogic {
       changeText = 'ativa';
     }
 
-    const paidOrders = await Order.find({ status: PaymentStatus.PAYMENT_OK });
-    const readyOrders = await Order.find({ status: PaymentStatus.READY });
+    const paidOrders = await Order.find({ status: PaymentStatus.PAYMENT_OK, kitchen: this.kitchenId });
+    const readyOrders = await Order.find({ status: PaymentStatus.READY, kitchen: this.kitchenId });
 
     const userOptions = [
       [{ text: 'Definir cozinha como ' + changeText }],
@@ -141,6 +163,30 @@ export class KitchenBotLogic {
 
     this.sendMessageFn(msg, options);
     this.handler = this.mainMenuHandler.bind(this);
+  }
+
+  async sendSetOrderAsReadyMenu() {
+    const kitchen: any = await Kitchen.findById(this.kitchenId);
+
+    const paidOrders: any[] = await Order.find({ status: PaymentStatus.PAYMENT_OK, kitchen: this.kitchenId });
+    let msg = 'Pedido a ser marcado como pronto:\n';
+    const paidItemsButtons = [];
+    for (let i = 0; i < paidOrders.length; i++) {
+      const paidOrder = paidOrders[i];
+      const orderItems = paidOrder.items.map(orderItem => `${orderItem.item_title}: ${orderItem.quantity}`);
+      const itemsStr = orderItems.join(', ');
+      msg += `${i + 1}) ${itemsStr}\n`;
+      paidItemsButtons.push([{ text: `${i + 1}`, callback_data: i.toString() }]);
+    }
+
+    const options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: paidItemsButtons
+      })
+    };
+
+    this.sendMessageFn(msg, options);
+    this.handler = this.orderAsReadyHandler.bind(this, paidOrders);
   }
 
   sendOrder(items: any[], address: string, name: string) {

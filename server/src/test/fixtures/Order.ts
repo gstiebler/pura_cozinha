@@ -24,6 +24,21 @@ export default async function execute() {
     },
     {
       user_id: 'xxx',
+      kitchen: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
+      total_paid: 30.0,
+      datetime: new Date(),
+      status: PaymentStatus.READY,
+      items: [
+        {
+          food_menu_item_id: acai._id,
+          quantity: 2.0,
+          item_title: acai.title,
+          price: acai.price
+        },
+      ]
+    },
+    {
+      user_id: 'xxx',
       kitchen: await idByValue(Kitchen, 'name', 'Outra cozinha'),
       total_paid: 38.50,
       datetime: new Date(),
