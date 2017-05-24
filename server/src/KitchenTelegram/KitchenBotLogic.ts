@@ -16,6 +16,19 @@ export async function kitchenLogicSingleton(username: string, sendMessage) {
   return logic;
 }
 
+function orderButtonsAndMessage(orders: any[]) {
+  const itemsButtons = [];
+  let msg = 'Pedido a ser marcado como pronto:\n';
+  for (let i = 0; i < orders.length; i++) {
+    const paidOrder = orders[i];
+    const orderItems = paidOrder.items.map(orderItem => `${orderItem.title}: ${orderItem.quantity}`);
+    const itemsStr = orderItems.join(', ');
+    msg += `${i + 1}) ${itemsStr}\n`;
+    itemsButtons.push([{ text: `${i + 1}`, callback_data: i.toString() }]);
+  }
+  return { msg, itemsButtons };
+}
+
 export class KitchenBotLogic {
 
   private handler: (receivedMsg: string) => void;
@@ -57,7 +70,7 @@ export class KitchenBotLogic {
     } else if (receivedMsg.text === 'Definir pedido como pronto') {
       await this.sendSetOrderAsReadyMenu();
     } else if (receivedMsg.text === 'Definir pedido como entregue') {
-      // await this.sendSetOrderAsDeliveredMenu();
+      await this.sendSetOrderAsDeliveredMenu();
     } else {
       await this.sendMainMenu();
     }
@@ -176,27 +189,21 @@ export class KitchenBotLogic {
 
   async sendSetOrderAsReadyMenu() {
     const kitchen: any = await Kitchen.findById(this.kitchenId);
-
     const paidOrders: any[] = await Order.find({ status: PaymentStatus.PAYMENT_OK, kitchen: this.kitchenId });
-    let msg = 'Pedido a ser marcado como pronto:\n';
-    const paidItemsButtons = [];
-    for (let i = 0; i < paidOrders.length; i++) {
-      const paidOrder = paidOrders[i];
-      const orderItems = paidOrder.items.map(orderItem => `${orderItem.title}: ${orderItem.quantity}`);
-      const itemsStr = orderItems.join(', ');
-      msg += `${i + 1}) ${itemsStr}\n`;
-      paidItemsButtons.push([{ text: `${i + 1}`, callback_data: i.toString() }]);
-    }
-
+    const { msg, itemsButtons } = orderButtonsAndMessage(paidOrders);
     const options = {
       reply_markup: JSON.stringify({
-        inline_keyboard: paidItemsButtons
+        inline_keyboard: itemsButtons
       })
     };
 
     this.sendMessageFn(msg, options);
     this.handler = this.orderAsReadyHandler.bind(this, paidOrders);
   }
+
+   async sendSetOrderAsDeliveredMenu() {
+
+   }
 
   sendOrder(items: any[], address: string, name: string) {
     let msg = 'Novo pedido!\n';
