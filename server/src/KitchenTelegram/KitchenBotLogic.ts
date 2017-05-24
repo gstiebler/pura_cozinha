@@ -96,6 +96,15 @@ export class KitchenBotLogic {
   }
 
   async callbackQuery(receivedMsg) {
+    try {
+      await this.handler(receivedMsg);
+    } catch (err) {
+      console.error(err);
+      this.sendMainMenu();
+    }
+  }
+
+  async askStockQuantityHandler(receivedMsg) {
     const foodMenuItemId = receivedMsg.data;
     this.selectedFoodItemToUpdate = foodMenuItemId;
     const menuItem: any = await MenuItem.findById(foodMenuItemId);
@@ -162,7 +171,7 @@ export class KitchenBotLogic {
     };
 
     this.sendMessageFn(msg, options);
-    this.handler = this.mainMenuHandler.bind(this);
+    this.handler = this.askStockQuantityHandler.bind(this);
   }
 
   async sendSetOrderAsReadyMenu() {
