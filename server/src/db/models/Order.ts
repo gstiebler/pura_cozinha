@@ -37,3 +37,11 @@ const OrderSchema = new mongoose.Schema({
 });
 
 export const Order = mongoose.model('Order', OrderSchema);
+
+export const PaymentStatus = {
+  PAYMENT_PENDING: 'PAYMENT_PENDING',
+  PAYMENT_OK: 'PAYMENT_OK',
+  PAYMENT_ERROR: 'PAYMENT_ERROR',
+  READY: 'READY',
+  DELIVERED: 'DELIVERED',
+};

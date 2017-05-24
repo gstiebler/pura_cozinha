@@ -96,7 +96,7 @@ export class KitchenBotLogic {
       changeText = 'ativa';
     }
 
-    const paidOrders = await Order.find({ status: PaymentStatus.PAID });
+    const paidOrders = await Order.find({ status: PaymentStatus.PAYMENT_OK });
     const readyOrders = await Order.find({ status: PaymentStatus.READY });
 
     const userOptions = [

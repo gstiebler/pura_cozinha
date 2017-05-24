@@ -1,4 +1,4 @@
-import { Order } from '../../db/models/Order';
+import { Order, PaymentStatus } from '../../db/models/Order';
 import { Kitchen } from '../../db/models/kitchen';
 import { idByValue } from '../lib/TestUtils';
 import { MenuItem } from '../../db/models/menuItem';
@@ -12,7 +12,7 @@ export default async function execute() {
       kitchen: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
       total_paid: 40.0,
       datetime: new Date(),
-      status: 'PAID',
+      status: PaymentStatus.PAYMENT_OK,
       items: [
         {
           food_menu_item_id: sandubaFrango._id,
@@ -27,7 +27,7 @@ export default async function execute() {
       kitchen: await idByValue(Kitchen, 'name', 'Outra cozinha'),
       total_paid: 38.50,
       datetime: new Date(),
-      status: 'PAYMENT_PENDING',
+      status: PaymentStatus.READY,
       items: [
         {
           food_menu_item_id: sandubaFrango._id,
