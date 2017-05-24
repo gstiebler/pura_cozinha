@@ -17,7 +17,7 @@ export default async function execute() {
         {
           food_menu_item_id: sandubaFrango._id,
           quantity: 1.0,
-          item_title: sandubaFrango.title,
+          title: sandubaFrango.title,
           price: sandubaFrango.price
         },
       ]
@@ -32,7 +32,7 @@ export default async function execute() {
         {
           food_menu_item_id: acai._id,
           quantity: 2.0,
-          item_title: acai.title,
+          title: acai.title,
           price: acai.price
         },
       ]
@@ -47,13 +47,13 @@ export default async function execute() {
         {
           food_menu_item_id: sandubaFrango._id,
           quantity: 2.0,
-          item_title: sandubaFrango.title,
+          title: sandubaFrango.title,
           price: sandubaFrango.price
         },
         {
           food_menu_item_id: acai._id,
           quantity: 5.0,
-          item_title: acai.title,
+          title: acai.title,
           price: acai.price
         },
       ]

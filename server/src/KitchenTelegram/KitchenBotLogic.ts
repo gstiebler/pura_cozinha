@@ -83,8 +83,8 @@ export class KitchenBotLogic {
   }
 
   async orderAsReadyHandler(paidOrders: any[], receivedMsg) {
-    const paidOrderIndex = parseInt(receivedMsg.text) - 1;
-    if (paidOrderIndex < paidOrders.length || paidOrderIndex >= paidOrders.length ||
+    const paidOrderIndex = parseInt(receivedMsg.data);
+    if (paidOrderIndex < 0 || paidOrderIndex >= paidOrders.length ||
         isNaN(paidOrderIndex)) {
       throw new Error('Invalid paid item index');
     }
@@ -182,7 +182,7 @@ export class KitchenBotLogic {
     const paidItemsButtons = [];
     for (let i = 0; i < paidOrders.length; i++) {
       const paidOrder = paidOrders[i];
-      const orderItems = paidOrder.items.map(orderItem => `${orderItem.item_title}: ${orderItem.quantity}`);
+      const orderItems = paidOrder.items.map(orderItem => `${orderItem.title}: ${orderItem.quantity}`);
       const itemsStr = orderItems.join(', ');
       msg += `${i + 1}) ${itemsStr}\n`;
       paidItemsButtons.push([{ text: `${i + 1}`, callback_data: i.toString() }]);
