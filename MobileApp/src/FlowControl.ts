@@ -1,4 +1,5 @@
 import { BackAndroid } from 'react-native';
+import * as Paypal from './core/Paypal';
 
 let _navigator = null;
 
@@ -15,7 +16,8 @@ export function getInitialRouteId() {
 
 export const kitchensFlowControl = {
   onKitchenSelected: (id: string) => {
-    _navigator.push({id: 'food_menu' });
+    Paypal.execute(0.70, 'Comida').then(res => console.log(res));
+    //_navigator.push({id: 'food_menu' });
   }
 };
 
