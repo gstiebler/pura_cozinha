@@ -49,7 +49,7 @@ export interface IOrder {
     food_menu_item_id: string;
     quantity: number;
   }[];
-  cc_token: string;
+  pp_token: string;
   selected_kitchen_id: string;
   name: string;
   address: string;
@@ -172,11 +172,7 @@ export class Model {
     return result.kitchensByDistance;
   }
 
-  async order(paymentToken: string) {
-    /*
-    const cardDetails = await cardToken(creditCardDetails);
-    const token = cardDetails.id;
-
+  async order(paypalToken: string) {
     const cartItems = this.getCartItems();
 
     const items = cartItems.map((item) => {
@@ -186,19 +182,18 @@ export class Model {
       };
     });
 
-    const order: IOrder = {
+    const orderInfo: IOrder = {
       user_id: this.userId,
       items: items,
-      cc_token: token,
+      pp_token: paypalToken,
       selected_kitchen_id: this.selectedKitchenId,
       address: this.address,
       name: this.name
     };
 
-    const orderStr = objToGrahqlStr(order);
+    const orderStr = objToGrahqlStr(orderInfo);
     const mutSave = `mutation { saveOrder(newOrderData: ${orderStr}) }`;
     await this.network.fetchQuery(mutSave);
-    */
   }
 
 }
