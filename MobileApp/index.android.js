@@ -14,4 +14,4 @@ export default class MobileApp extends Component {
   }
 }
 
-AppRegistry.registerComponent('PuraCozinhaApp', () => MobileApp);
+AppRegistry.registerComponent('PuraCozinha', () => MobileApp);

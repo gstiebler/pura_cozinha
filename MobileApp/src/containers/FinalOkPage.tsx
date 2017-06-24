@@ -10,7 +10,7 @@ interface IAppProps {
 interface IAppState {
 }
 
-export default class CreditCard extends Component<IAppProps, IAppState> {
+export default class FinalOkPage extends Component<IAppProps, IAppState> {
   constructor(props) {
     super(props);
 

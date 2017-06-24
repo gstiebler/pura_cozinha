@@ -2,13 +2,14 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  Navigator
+  View
 } from 'react-native';
+
+import { Navigator } from 'react-native-deprecated-custom-components';
+
 import Header from './Header';
 import FoodMenuItem from '../containers/FoodMenuItem';
 import Address from '../containers/Address';
-import CreditCard from '../containers/CreditCard';
 import Kitchens from '../containers/KitchensContainer';
 import FoodMenu from '../containers/FoodMenu';
 import Cart from '../containers/Cart';
@@ -27,8 +28,6 @@ function router(route, navigator) {
     return <Address />;
   } else if (route.id  === 'cart') {
     return <Cart />;
-  } else if (route.id  === 'credit_card') {
-    return <CreditCard />;
   } else if (route.id  === 'final_ok_page') {
     return <FinalOkPage />;
   } else {

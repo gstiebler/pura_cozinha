@@ -1,6 +1,4 @@
 
-import { CreditCardInfo, cardToken } from './core/MercadoPago';
-
 function makeId(length: number) {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -174,7 +172,8 @@ export class Model {
     return result.kitchensByDistance;
   }
 
-  async order(creditCardDetails: CreditCardInfo) {
+  async order(paymentToken: string) {
+    /*
     const cardDetails = await cardToken(creditCardDetails);
     const token = cardDetails.id;
 
@@ -199,32 +198,7 @@ export class Model {
     const orderStr = objToGrahqlStr(order);
     const mutSave = `mutation { saveOrder(newOrderData: ${orderStr}) }`;
     await this.network.fetchQuery(mutSave);
+    */
   }
 
-}
-
-/**
- * Interface to the values returned from the Credit Card library
- */
-interface CreditCardComponentInfo {
-  expiry: string;
-  type: string;
-  cvc: string;
-  number: string;
-}
-
-export function convertCCFormat(interfaceCCInfo: CreditCardComponentInfo): CreditCardInfo {
-  const expiryParts = interfaceCCInfo.expiry.split('/');
-  const expirationMonth = parseInt(expiryParts[0]);
-  const expirationYear = parseInt('20' + expiryParts[1]);
-  const ccRawValues = interfaceCCInfo;
-  const ccInfo: CreditCardInfo = {
-    // type: ccRawValues.type,
-    cardNumber: interfaceCCInfo.number.replace(/ /g, ''),
-    expirationMonth,
-    expirationYear,
-    securityCode: interfaceCCInfo.cvc,
-    cardHolderName: null
-  };
-  return ccInfo;
 }

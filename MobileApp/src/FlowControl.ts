@@ -49,12 +49,14 @@ export const addressFlowControl = {
   }
 };
 
+/*
 export const creditCardFlowControl = {
   afterPayment: () => {
     // _navigator.popToTop();
     _navigator.push({id: 'final_ok_page'});
   }
 };
+*/
 
 export const finalOkPageFlowControl = {
   onOkClicked: () => {
