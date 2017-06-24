@@ -54,3 +54,5 @@ fastlane/screenshots
 
 out
 typings
+
+src/app.env.ts
