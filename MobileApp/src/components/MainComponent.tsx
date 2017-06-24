@@ -41,7 +41,7 @@ const MainComponent = () => {
 
   return (
     <Navigator
-        initialRoute={{ id: 'kitchens' }}
+        initialRoute={{ id: FlowControl.getInitialRouteId() }}
         renderScene={(route, navigator) =>
           <View style={styles.container}>
             <Header/>

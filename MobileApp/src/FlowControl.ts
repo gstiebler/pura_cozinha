@@ -7,6 +7,10 @@ export function setNavigator(navigator) {
 }
 
 
+export function getInitialRouteId() {
+  return 'kitchens';
+}
+
 /** Flow controls */
 
 export const kitchensFlowControl = {
