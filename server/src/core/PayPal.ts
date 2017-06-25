@@ -23,7 +23,7 @@ export async function confirmPayment(paymentId: string, expectedAmount: number) 
   const transactionAmountStr: string = paymentDetails.transactions[0].amount.total;
   const transactionAmount = parseFloat(transactionAmountStr);
   if (paymentDetails.state === 'approved' && expectedAmount === transactionAmount) {
-    return true;
+    return paymentDetails;
   } else {
     throw new Error('Payment information is diverging');
   }

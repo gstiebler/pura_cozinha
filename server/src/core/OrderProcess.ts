@@ -2,6 +2,7 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order, PaymentStatus } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import { getKitchenLogic } from '../KitchenTelegram/KitchenBotLogic';
+import * as Paypal from '../core/Paypal';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
@@ -28,13 +29,7 @@ export async function processOrder(newOrderData) {
 
   // Pay
   try {
-    const resPayment = await execPay(newOrderData.cc_token, total, 'new payment');
-    if (resPayment.error) {
-      throw new Error(resPayment.error);
-    }
-    if (resPayment.status !== 'approved') {
-      throw new Error('Payment not approved. Status: ' + resPayment.status);
-    }
+    const resPayment = await Paypal.confirmPayment(newOrderData.paypal_pay_id, total);
     const data = {
       payment_info: resPayment,
       status: PaymentStatus.PAYMENT_OK

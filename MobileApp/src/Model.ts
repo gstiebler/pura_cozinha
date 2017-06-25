@@ -49,7 +49,7 @@ export interface IOrder {
     food_menu_item_id: string;
     quantity: number;
   }[];
-  pp_token: string;
+  paypal_pay_id: string;
   selected_kitchen_id: string;
   name: string;
   address: string;
@@ -172,7 +172,7 @@ export class Model {
     return result.kitchensByDistance;
   }
 
-  async order(paypalToken: string) {
+  async order(paypalPayId: string) {
     const cartItems = this.getCartItems();
 
     const items = cartItems.map((item) => {
@@ -185,7 +185,7 @@ export class Model {
     const orderInfo: IOrder = {
       user_id: this.userId,
       items: items,
-      pp_token: paypalToken,
+      paypal_pay_id: paypalPayId,
       selected_kitchen_id: this.selectedKitchenId,
       address: this.address,
       name: this.name
