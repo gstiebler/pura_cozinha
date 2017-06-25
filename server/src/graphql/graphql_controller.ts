@@ -52,7 +52,7 @@ const OrderInputType = new GraphQLInputObjectType({
   fields: {
     user_id: { type: GraphQLID },
     items: { type: new GraphQLList(OrderItemInputType) },
-    pp_pay_id: { type: GraphQLString },
+    paypal_pay_id: { type: GraphQLString },
     selected_kitchen_id: { type: GraphQLID },
     address: { type: GraphQLString },
     name: { type: GraphQLString },
