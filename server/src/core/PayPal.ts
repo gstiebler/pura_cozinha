@@ -1,80 +1,30 @@
 import * as  paypal from 'paypal-rest-sdk';
 
-import { CreditCard } from './CreditCard';
-
 paypal.configure({
-  'mode': 'sandbox', // sandbox or live
-  'client_id': 'EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM',
-  'client_secret': 'EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM'
+  'mode': process.env.PAYPAL_MODE,
+  'client_id': process.env.PAYPAL_CLIENT_ID,
+  'client_secret': process.env.PAYPAL_SECRET
 });
 
-
-export function createCC(savedCard: CreditCard): Promise<any> {
+function paymentDetailsSync(paymentId): Promise<any> {
   return new Promise((resolve, reject) => {
-    paypal.creditCard.create(savedCard, function (error, credit_card) {
+    paypal.payment.get(paymentId, function (error, res) {
       if (error) {
         reject(error);
       } else {
-        resolve(credit_card);
-      }
-
-    });
-  });
-}
-
-
-function paySync(paymentInfo): Promise<any> {
-  return new Promise((resolve, reject) => {
-    paypal.payment.create(paymentInfo, function (error, payment) {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(payment);
+        resolve(res);
       }
     });
   });
 }
 
-export async function payWithSavedCard(ccId: string, value: Number, description: string) {
-  const paymentInfo = {
-    'intent': 'sale',
-    'payer': {
-      'payment_method': 'credit_card',
-      'funding_instruments': [{
-        'credit_card_token': {
-          'credit_card_id': ccId
-        }
-      }]
-    },
-    'transactions': [{
-      'amount': {
-        'currency': 'BRL',
-        'total': value.toString()
-      },
-      'description': description
-    }]
-  };
-
-  return await paySync(paymentInfo);
-}
-
-export async function payCreditCard(creditCard: CreditCard, value: Number, description: string) {
-  const paymentInfo = {
-    'intent': 'sale',
-    'payer': {
-      'payment_method': 'credit_card',
-      'funding_instruments': [{
-        'credit_card': creditCard
-      }]
-    },
-    'transactions': [{
-      'amount': {
-        'total': value.toString(),
-        'currency': 'BRL',
-      },
-      'description': description
-    }]
-  };
-
-  return await paySync(paymentInfo);
+export async function confirmPayment(paymentId: string, expectedAmount: number) {
+  const paymentDetails = await paymentDetailsSync(paymentId);
+  const transactionAmountStr: string = paymentDetails.transactions[0].amount.total;
+  const transactionAmount = parseFloat(transactionAmountStr);
+  if (paymentDetails.state === 'approved' && expectedAmount === transactionAmount) {
+    return true;
+  } else {
+    throw new Error('Payment information is diverging');
+  }
 }

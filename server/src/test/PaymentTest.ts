@@ -1,42 +1,22 @@
 import * as assert from 'assert';
 import execFixtures from './fixtures/fixture';
-import * as MercadoPago from '../core/MercadoPago';
 import { Kitchen } from '../db/models/kitchen';
 import { User } from '../db/models/User';
 import { MenuItem } from '../db/models/menuItem';
 import { removeJSONQuotes } from '../lib/StringUtils';
 import { Order } from '../db/models/Order';
 import { execGQLQuery } from '../graphql/graphql_controller';
-
-
-import * as mock from 'mock-require';
-mock('../MobileApp/lib/NetworkUtils', '../lib/NetworkUtils');
-
-/*mock('../MobileApp/lib/NetworkUtils', { fetchSync: function(a, b) {
-  console.log('NetworkUtils called');
-}});*/
-import * as MercadoPagoRN from '../MobileApp/core/MercadoPago';
+import * as Paypal from '../core/Paypal';
 
 describe('Payment tests', function () {
 
   beforeEach(async function () {
     await execFixtures();
-
-    const cc_info: MercadoPagoRN.CreditCardInfo = {
-      cardNumber: '4509953566233704',
-      securityCode: '123',
-      expirationMonth: 12,
-      expirationYear: 2020,
-      cardHolderName: 'Joe Doe'
-      // cpf: '05533146709'
-    };
-    this.cardToken = await MercadoPagoRN.cardToken(cc_info);
-    // console.log('second token' + JSON.stringify(this.cardToken));
   });
 
-  it('Mercado Pago', async function() {
-    const payRes = await MercadoPago.execPay(this.cardToken.id, 10.0, 'descrip');
-    assert.equal('approved', payRes.status);
+  it('Paypal', async function () {
+    const res = await Paypal.confirmPayment('PAY-3S7706967U665390ELFHPPLA', 1.70);
+    assert.ok(res);
   });
 
   it('order save', async function() {
