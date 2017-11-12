@@ -4,17 +4,16 @@ import config from './config';
 
 const dbHost = process.env.DB_HOST;
 const dbName = config[process.env.NODE_ENV].dbName;
-export const MongoURL = `mongodb://${dbHost}:27017/${dbName}`;
+const PORT = '27017';
+export const MongoURL = `mongodb://${dbHost}:${PORT}/${dbName}`;
 
 export async function init() {
   (<any>mongoose).Promise = global.Promise;
 
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 
   const options = {
-    server: {
-      socketOptions: { socketTimeoutMS: 10000 }
-    }
+    useMongoClient: true
   };
-  await mongoose.connect(MongoURL, options);
+  const db = await mongoose.connect(MongoURL, options);
 }

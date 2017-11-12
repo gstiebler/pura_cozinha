@@ -5,7 +5,13 @@ import menuItemFixtures from './menuItem';
 import OrderFixtures from './Order';
 import UserFixtures from './UserFixtures';
 
+const MONGOOSE_DISCONNECTED = 0;
+
 export default async function execute() {
+  /*mongoose.connection.on('disconnected', () => console.log('disconnected'));
+  mongoose.connection.on('connected', () => console.log('connected'));
+  mongoose.connection.on('connecting', () => console.log('connecting'));
+  mongoose.connection.on('disconnecting', () => console.log('disconnecting'));*/
   await resetDb();
   await UserFixtures();
   await menuItemFixtures();
@@ -20,8 +26,10 @@ async function resetDb() {
 
 async function dropDb() {
   (<any>mongoose).Promise = global.Promise;
-  await mongoose.connection.close();
-  await mongoose.connect(MongoURL);
+  if (mongoose.connection.readyState !== MONGOOSE_DISCONNECTED) {
+    await mongoose.disconnect();
+  }
+  await mongoose.connect(MongoURL, { useMongoClient: true });
   await mongoose.connection.db.dropDatabase();
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 }
