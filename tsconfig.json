@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "commonjs",
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -9,8 +9,9 @@
     "jsx": "react",
     "removeComments": true
   },
-  "exclude": [
-    "node_modules",
-    "out"
-  ]
+  "include": [
+      "server/src/**/*.ts",
+      // "WebAdmin/src/**/*.ts",
+      // "WebAdmin/src/**/*.tsx"
+  ],
 }
