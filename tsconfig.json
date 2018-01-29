@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "outDir": "./out",
+    "allowJs": true,
+    "jsx": "react",
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules",
+    "out"
+  ]
+}
