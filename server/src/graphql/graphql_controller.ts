@@ -90,6 +90,7 @@ export const schema = new GraphQLSchema({
     }
   }),
   mutation: new GraphQLObjectType({
+    name: 'Mutation',
     fields: {
       saveOrder: {
         type: GraphQLString,
@@ -105,7 +106,6 @@ export const schema = new GraphQLSchema({
       updateKitchen: KitchenGraphql.KitchenMutation.updateKitchen,
       deleteKitchen: KitchenGraphql.KitchenMutation.deleteKitchen,
     },
-    name: 'Mutation',
   })
 });
 
