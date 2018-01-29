@@ -12,6 +12,12 @@ db.init();
 
 const app = express();
 
+const HTTP_CODES = {
+  success : 200,
+  notFound : 404,
+  error: 500,
+};
+
 // log requests
 app.use(bodyParser.json());
 if (process.env.SHOW_GRAPHQL_QUERIES) {
@@ -44,32 +50,39 @@ app.use(function(req, res, next) {
 
 // error handlers
 
+// catch 404 and forward to error handler
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const err = new Error('Not Found');
+  (err as any).status = HTTP_CODES.notFound;
+  next(err);
+});
+
+// error handlers
+
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req: express.Request, res: express.Response) {
-    winston.error(err.stack);
-    res.status(err.status || 500);
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.status(err.status || HTTP_CODES.error);
     res.render('error', {
+      error: err,
       message: err.message,
-      error: err
     });
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req: express.Request, res: express.Response) {
-  res.status(err.status || 500);
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.status(err.status || HTTP_CODES.error);
   res.render('error', {
+    error: {},
     message: err.message,
-    error: {}
   });
 });
 
-
-process.on('uncaughtException', function (err) {
-    winston.error(err.stack);
+process.on('uncaughtException', (err) => {
+  winston.error(err.stack);
 });
 
 export default app;
