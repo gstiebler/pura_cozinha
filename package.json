@@ -37,6 +37,7 @@
     "geolib": "^2.0.24",
     "graphql": "^0.12.3",
     "gulp": "^3.9.1",
+    "gulp-mocha": "^5.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.4",

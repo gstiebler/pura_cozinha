@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import { Kitchen } from '../db/models/kitchen';
 import { User } from '../db/models/User';
 import { MenuItem } from '../db/models/menuItem';
@@ -11,7 +11,7 @@ import * as Paypal from '../core/Paypal';
 describe('Payment tests', function () {
 
   beforeEach(async function () {
-    await execFixtures();
+    await initFixtures();
   });
 
   it('Paypal', async function () {

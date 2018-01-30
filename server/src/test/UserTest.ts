@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import { User } from '../db/models/User';
 
 describe('User tests', function() {
 
   beforeEach(async function() {
-    await execFixtures();
+    await initFixtures();
   });
 
   it('password', async function() {

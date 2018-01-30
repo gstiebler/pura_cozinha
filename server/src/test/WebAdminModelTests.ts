@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as winston from 'winston';
 import fetch from 'node-fetch';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import { MenuItem } from '../db/models/menuItem';
 import { Order } from '../db/models/Order';
 import * as KitchenSchema from '../db/models/kitchen';
@@ -14,17 +14,12 @@ import { Network } from '../WebAdmin/lib/Network';
 
 describe('Web Admin model test', function() {
 
-  before(async function() {
-    this.server = TestUtils.createServer();
-    this.network = new Network(TestUtils.baseURL, fetch);
-  });
-
   after(async function() {
     this.server.close();
   });
 
   beforeEach(async function() {
-    await execFixtures();
+    await initFixtures();
     this.model = new Model(this.network);
   });
 

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import { execGQLQuery } from '../graphql/graphql_controller';
 import { Order } from '../db/models/Order';
 import { MenuItem } from '../db/models/menuItem';
@@ -11,7 +11,7 @@ import { removeJSONQuotes } from '../lib/StringUtils';
 describe('basic tests', function() {
 
   beforeEach(async function() {
-    await execFixtures();
+    await initFixtures();
   });
 
   it('first test', async function() {

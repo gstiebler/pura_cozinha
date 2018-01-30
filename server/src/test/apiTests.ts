@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import * as http from 'http';
 import * as winston from 'winston';
 import fetch from 'node-fetch';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import app from './../app';
 
 const port = '4000';
@@ -33,7 +33,7 @@ describe('functional express api tests', function() {
   });
 
   beforeEach(async function() {
-    await execFixtures();
+    await initFixtures();
   });
 
   it('first test', async function() {

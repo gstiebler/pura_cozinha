@@ -2,13 +2,21 @@ import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
 import * as winston from 'winston';
 import * as path from 'path';
-
+import * as dotenv from 'dotenv';
+import * as MongoInit from './db/index';
 import { schema } from './graphql/graphql_controller';
 import * as db from './db';
 
 import * as bodyParser from 'body-parser';
 
-db.init();
+// load environment variables from .env file in the root of the project (where package.json is)
+dotenv.config();
+
+MongoInit.init({
+  dbHost: process.env.MONGODB_HOST,
+  dbName: process.env.MONGODB_DB_NAME,
+  port: process.env.MONGODB_PORT,
+});
 
 const app = express();
 

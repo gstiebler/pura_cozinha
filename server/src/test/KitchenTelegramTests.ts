@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import execFixtures from './fixtures/fixture';
+import { initFixtures } from './fixtures/fixture';
 import { KitchenBotLogic } from '../KitchenTelegram/KitchenBotLogic';
 import { Kitchen } from '../db/models/kitchen';
 import { Order, PaymentStatus } from '../db/models/Order';
@@ -9,7 +9,7 @@ import { MenuItem } from '../db/models/menuItem';
 describe('Kitchen Telegram', function() {
 
   beforeEach(async function() {
-    await execFixtures();
+    await initFixtures();
   });
 
   it('first', async function() {

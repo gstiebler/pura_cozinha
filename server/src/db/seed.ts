@@ -1,6 +1,14 @@
-import initFixtures from '../test/fixtures/fixture';
+import * as dotenv from 'dotenv';
+import { initFixtures } from '../../../server/src/test/fixtures/fixture';
+import * as MongoInit from '../db/index';
 
-async function exec() {
+export async function seed() {
+  dotenv.config();
+  await MongoInit.init({
+    dbHost: process.env.MONGODB_HOST,
+    dbName: process.env.MONGODB_DB_NAME,
+    port: process.env.MONGODB_PORT,
+  });
   if(process.env.NODE_ENV !== 'development') {
     console.log('Not allowed on ' + process.env.NODE_ENV);
   } else {
@@ -12,5 +20,3 @@ async function exec() {
     }
   }
 }
-
-exec();
