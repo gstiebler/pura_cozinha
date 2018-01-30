@@ -7,18 +7,7 @@ import { Order, PaymentStatus } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import * as TestUtils from './lib/TestUtils';
 
-import * as mock from 'mock-require';
-mock('../MobileApp/lib/NetworkUtils', '../lib/NetworkUtils');
-
-/* mock('../MobileApp/lib/NetworkUtils', { fetchSync: function(a, b) {
-  console.log('NetworkUtils called');
-}}); */
-
 import { Network } from '../MobileApp/Network';
-import { CreditCardInfo } from '../MobileApp/core/MercadoPago';
-
-
-import { Model, convertCCFormat } from '../MobileApp/Model';
 
 describe('React Native model test', function() {
 
