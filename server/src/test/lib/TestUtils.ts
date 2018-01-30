@@ -9,7 +9,7 @@ import { execGQLQuery } from '../../graphql/graphql_controller';
 import app from './../../app';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as chai from 'chai';
-const network = require('../../ConsumerWebApp/lib/network');
+const network = require('../../../../ConsumerWebApp/src/model/network');
 chai.use(chaiAsPromised);
 
 dotenv.config();

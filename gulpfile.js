@@ -22,3 +22,27 @@ gulp.task("transpile", ['clean:transpiled'], function () {
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest("out"));
 });
+
+gulp.task('test:nc', [], function () {
+  process.env.NODE_ENV = 'TEST';
+  const mochaOptions = {
+    timeout: 50000,
+    // grep: ''
+  }
+  const consumerWebAppTestFiles = 'out/ConsumerWebApp/src/tests/**/*.spec.js';
+  const srcFiles = [
+    'out/server/src/test/lib/TestUtils.js',
+    consumerWebAppTestFiles
+  ];
+  return gulp.src(srcFiles, { read: false })
+    // .pipe(print())
+    .pipe(mocha(mochaOptions))
+    .on('error', function (error) {
+      console.error(error);
+    })
+    .on('end', function () {
+      console.log('Tests finished.');
+    });
+});
+
+gulp.task('test', ['test:nc', 'transpile']);

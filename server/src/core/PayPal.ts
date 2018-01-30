@@ -1,4 +1,7 @@
 import * as  paypal from 'paypal-rest-sdk';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 paypal.configure({
   'mode': process.env.PAYPAL_MODE,
