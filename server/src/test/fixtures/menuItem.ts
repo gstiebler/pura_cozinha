@@ -1,7 +1,7 @@
 import { MenuItem } from '../../db/models/menuItem';
 
-export default async function execute() {
-  await MenuItem.collection.insert([
+export default async () => {
+  [
     {
       title: 'Sanduba de frango',
       description: 'Muito gostoso, feito com frango desfiado',
@@ -20,5 +20,5 @@ export default async function execute() {
       price: 15.00,
       imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg'
     },
-  ]);
+  ];
 }
