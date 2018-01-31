@@ -3,10 +3,10 @@ import { Kitchen } from '../../db/models/kitchen';
 import { idByValue } from '../lib/TestUtils';
 import { MenuItem } from '../../db/models/menuItem';
 
-export default async function execute() {
+export default async () => {
   const sandubaFrango: any = await MenuItem.findOne({ title: 'Sanduba de frango' });
   const acai: any = await MenuItem.findOne({ title: 'Açai' });
-  await Order.collection.insert([
+  return [
     {
       user_id: 'xxx',
       kitchen: await idByValue(Kitchen, 'name', 'Cozinha do Marcel'),
@@ -58,5 +58,5 @@ export default async function execute() {
         },
       ]
     },
-  ]);
+  ];
 }

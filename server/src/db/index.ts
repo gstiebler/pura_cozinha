@@ -14,11 +14,8 @@ export async function init({
 
   await mongoose.disconnect();
 
-  const options = {
-    useMongoClient: true,
-  };
   try {
-    db = await mongoose.connect(mongoURL, options);
+    db = await mongoose.connect(mongoURL, {});
     logger.info('Connected to MongoDB');
 
     /*

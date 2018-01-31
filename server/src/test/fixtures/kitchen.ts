@@ -2,8 +2,8 @@ import { Kitchen } from '../../db/models/kitchen';
 import { MenuItem } from '../../db/models/menuItem';
 import { idByValue } from '../lib/TestUtils';
 
-export default async function execute() {
-  await Kitchen.collection.insert([
+export default async () => {
+  return [
     {
       name: 'Cozinha do Marcel',
       address: 'R. Jorn. Henrique Cordeiro, 310',
@@ -75,5 +75,5 @@ export default async function execute() {
         }
       ]
     },
-  ]);
+  ];
 }

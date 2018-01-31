@@ -1,6 +1,6 @@
 import { User } from '../../db/models/User';
 
-export default async function execute() {
+export default async () => {
   const guilherme = new User({
     login: 'gstiebler',
     name: 'Guilherme Stiebler',

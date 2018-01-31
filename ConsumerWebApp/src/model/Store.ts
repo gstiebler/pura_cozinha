@@ -1,6 +1,6 @@
 
 import { computed, observable } from 'mobx';
-import * as Network from './Network';
+import * as ns from './NetworkServices';
 import * as _ from 'lodash';
 
 export interface FoodMenuItem {
@@ -19,7 +19,7 @@ export class Store {
   @observable foodMenuItems: FoodMenuItem[];
 
   async onMenuPageLoad() {
-    this.foodMenuItems = await Network.fetchFoodMenu();
+    this.foodMenuItems = await ns.fetchFoodMenu();
   }
 
 }

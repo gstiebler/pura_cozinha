@@ -81,12 +81,8 @@ export const schema = new GraphQLSchema({
           return res;
         }
       },
-      foodMenuItem: FoodMenuItemGraphql.Query.foodMenuItem,
-      menuItems: FoodMenuItemGraphql.Query.menuItems,
-      menuItemsByKitchen: FoodMenuItemGraphql.Query.menuItemsByKitchen,
-      kitchen: KitchenGraphql.KitchenQuery.kitchen,
-      kitchens: KitchenGraphql.KitchenQuery.kitchens,
-      kitchensByDistance: KitchenGraphql.KitchenQuery.kitchensByDistance
+      ...FoodMenuItemGraphql.Query,
+      ...KitchenGraphql.KitchenQuery,
     }
   }),
   mutation: new GraphQLObjectType({
@@ -99,12 +95,8 @@ export const schema = new GraphQLSchema({
           await processOrder(newOrderData);
         }
       },
-      saveFoodMenuItem: FoodMenuItemGraphql.Mutation.saveFoodMenuItem,
-      updateFoodMenuItem: FoodMenuItemGraphql.Mutation.updateFoodMenuItem,
-      deleteFoodMenuItem: FoodMenuItemGraphql.Mutation.deleteFoodMenuItem,
-      saveKitchen: KitchenGraphql.KitchenMutation.saveKitchen,
-      updateKitchen: KitchenGraphql.KitchenMutation.updateKitchen,
-      deleteKitchen: KitchenGraphql.KitchenMutation.deleteKitchen,
+      ...FoodMenuItemGraphql.Mutation,
+      ...KitchenGraphql.KitchenMutation,
     },
   })
 });

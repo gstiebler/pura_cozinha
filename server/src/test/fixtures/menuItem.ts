@@ -1,7 +1,7 @@
 import { MenuItem } from '../../db/models/menuItem';
 
 export default async () => {
-  [
+  return [
     {
       title: 'Sanduba de frango',
       description: 'Muito gostoso, feito com frango desfiado',
