@@ -15,15 +15,15 @@ gulp.task('clean:transpiled', function () {
   ]);
 });
 
-gulp.task("transpile", ['clean:transpiled'], function () {
+gulp.task("transpile", gulp.series('clean:transpiled', function () {
   return tsProject.src()
     .pipe(tsProject())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest("out"));
-});
+}));
 
-gulp.task('test:nc', [], function () {
+gulp.task('test:nc', function () {
   process.env.NODE_ENV = 'TEST';
   const mochaOptions = {
     timeout: 50000,
@@ -45,4 +45,4 @@ gulp.task('test:nc', [], function () {
     });
 });
 
-gulp.task('test', ['test:nc', 'transpile']);
+gulp.task('test', gulp.series('transpile', 'test:nc'));
