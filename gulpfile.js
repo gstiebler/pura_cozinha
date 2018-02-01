@@ -8,6 +8,8 @@ const del = require('del');
 const tsify = require("tsify");
 const browserify = require("browserify");
 const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const uglify = require('gulp-uglify');
 
 gulp.task('clean:transpiled', function () {
   return del([
@@ -46,3 +48,33 @@ gulp.task('test:nc', function () {
 });
 
 gulp.task('test', gulp.series('transpile', 'test:nc'));
+
+gulp.task("bundle:consumer", gulp.series('transpile', function () {
+  return browserify({
+    basedir: '.',
+    debug: true,
+    entries: ['out/ConsumerWebApp/src/app.js'],
+    cache: {},
+    packageCache: {}
+  })
+  .plugin(tsify)
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest("./ConsumerWebApp/dist"));
+}));
+
+gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
+  return browserify({
+    basedir: '.',
+    debug: false,
+    entries: ['out/ConsumerWebApp/src/app.js'],
+    cache: {},
+    packageCache: {}
+  })
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(buffer())
+  .pipe(uglify())
+  .pipe(gulp.dest("./ConsumerWebApp/dist"));
+}));
+
