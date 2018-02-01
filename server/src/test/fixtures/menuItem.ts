@@ -1,4 +1,3 @@
-import { MenuItem } from '../../db/models/menuItem';
 
 export default async () => {
   return [

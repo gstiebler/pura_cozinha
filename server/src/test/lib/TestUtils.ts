@@ -18,6 +18,9 @@ export async function idByValue(model: mongoose.Model<mongoose.Document>,
                                 fieldName: string,
                                 value: any): Promise<string> {
   const record = await model.findOne({ [fieldName]: value });
+  if (!record) {
+    throw new Error(`Item not found: ${fieldName}, ${value}, ${model.modelName}`);
+  }
   return record._id;
 }
 
