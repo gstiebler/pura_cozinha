@@ -40,6 +40,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
+/*
 const webAdminDir = path.join(__dirname, '/../../WebAdmin/');
 const distDirName = webAdminDir + 'dist';
 app.use('/admin_app', express.static(distDirName));
@@ -47,6 +48,24 @@ app.use('/admin_app/ext_libs', express.static(webAdminDir + 'node_modules'));
 app.get('/admin_app/*', function (req, res) {
   console.log(req.url);
   return res.redirect('/admin_app/?url=' + encodeURIComponent(req.url));
+});
+*/
+
+const consumerWebAppDir = path.join(__dirname, '/../../../ConsumerWebApp/');
+console.log(consumerWebAppDir);
+const cwaDistDirName = consumerWebAppDir + 'dist';
+app.use('/', express.static(cwaDistDirName));
+
+/*
+app.get('/*', function (req, res) {
+  console.log(req.url);
+  return res.redirect('/?url=' + encodeURIComponent(req.url));
+});
+*/
+
+app.use(function(error, req, res, next) {
+  console.log(req);
+  next();
 });
 
 // catch 404 and forward to error handler

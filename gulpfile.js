@@ -49,7 +49,7 @@ gulp.task('test:nc', function () {
 
 gulp.task('test', gulp.series('transpile', 'test:nc'));
 
-gulp.task("bundle:consumer", gulp.series('transpile', function () {
+gulp.task("bundle:consumer:nc", function () {
   return browserify({
     basedir: '.',
     debug: true,
@@ -61,7 +61,9 @@ gulp.task("bundle:consumer", gulp.series('transpile', function () {
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest("./ConsumerWebApp/dist"));
-}));
+});
+
+gulp.task("bundle:consumer", gulp.series('transpile', "bundle:consumer:nc"));
 
 gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
   return browserify({
@@ -70,6 +72,11 @@ gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
     entries: ['out/ConsumerWebApp/src/app.js'],
     cache: {},
     packageCache: {}
+  })
+  .plugin(tsify)
+  .transform('babelify', {
+      presets: ['es2015'],
+      extensions: ['.ts']
   })
   .bundle()
   .pipe(source('bundle.js'))
