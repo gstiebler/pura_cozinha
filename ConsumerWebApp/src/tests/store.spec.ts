@@ -12,7 +12,9 @@ describe('store', () => {
   it('get food menu items', async () => {
     const store = new Store();
     await store.onMenuPageLoad();
-    logger.debug(JSON.stringify(store.foodMenuItems, null, 2));
+    expect(store.foodMenuItems[0].title).to.equal('Sanduba de frango');
+    expect(store.foodMenuItems[1].title).to.equal('Açai');
+    expect(store.foodMenuItems[2].title).to.equal('Sanduíche de Mignon');
   });
 
 });
