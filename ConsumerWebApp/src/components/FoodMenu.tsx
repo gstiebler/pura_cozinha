@@ -25,14 +25,14 @@ function FoodMenu(props: IProps) {
   const items = props.store.foodMenuItems.map(fmi => {
     return (
       <ListItem key={fmi._id} button>
-        <ListItemText primary={fmi.title} />
+        <ListItemText primary={fmi.title} secondary={fmi.description} />
       </ListItem>
     );
   });
 
   return (
     <div className={classes.root}>
-      <List component="nav">
+      <List>
         {items}
       </List>
     </div>

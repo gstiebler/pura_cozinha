@@ -25,16 +25,9 @@ ReactDOM.render(
   <div>
     <MuiThemeProvider theme={theme}>
       <Navbar store={store} />
-      <Grid container justify='center' style={{marginTop: 8}} >
-        <Grid item>
-          <div>
-            <Provider store={store}>
-                <MobxRouter/>
-            </Provider>
-            <DevTools />
-          </div>
-        </Grid>
-      </Grid>
+      <Provider store={store}>
+        <MobxRouter/>
+      </Provider>
     </MuiThemeProvider>
   </div>,
   document.getElementById('root')
