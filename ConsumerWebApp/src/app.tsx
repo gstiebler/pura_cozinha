@@ -4,7 +4,7 @@ import { store } from './model/Store';
 import { Provider } from 'mobx-react';
 import { RouterStore } from 'mobx-router';
 import { MobxRouter, startRouter } from 'mobx-router';
-// import views from './model/Views';
+import views from './Views';
 import Navbar from './components/Navbar';
 import Button from 'material-ui/Button';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
@@ -18,9 +18,8 @@ export const theme = createMuiTheme({
   },
 });
 
-
-// store.router = new RouterStore();
-// startRouter(views, store);
+store.router = new RouterStore();
+startRouter(views, store);
 
 ReactDOM.render(
   <div>

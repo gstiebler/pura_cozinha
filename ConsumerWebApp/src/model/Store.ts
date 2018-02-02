@@ -16,6 +16,7 @@ interface ICartItem extends FoodMenuItem {
 
 export class Store {
 
+  @observable router;
   @observable foodMenuItems: FoodMenuItem[];
 
   async onMenuPageLoad() {
