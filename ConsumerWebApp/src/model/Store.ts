@@ -8,6 +8,7 @@ export interface FoodMenuItem {
   title: string;
   description: string;
   price: number;
+  imgURL: string;
 }
 
 interface ICartItem extends FoodMenuItem {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 import { observer } from 'mobx-react';
 import { Link } from 'mobx-router';
 import views from '../Views';
@@ -25,6 +26,7 @@ function FoodMenu(props: IProps) {
   const items = props.store.foodMenuItems.map(fmi => {
     return (
       <ListItem key={fmi._id} button>
+        <Avatar alt="Sanduíche" src={fmi.imgURL} />
         <ListItemText primary={fmi.title} secondary={fmi.description} />
       </ListItem>
     );
