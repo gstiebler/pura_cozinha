@@ -17,7 +17,7 @@ interface ICartItem extends FoodMenuItem {
 export class Store {
 
   @observable router;
-  @observable foodMenuItems: FoodMenuItem[];
+  @observable foodMenuItems: FoodMenuItem[] = [];
 
   async onMenuPageLoad() {
     this.foodMenuItems = await ns.fetchFoodMenu();
@@ -25,4 +25,4 @@ export class Store {
 
 }
 
-export let store = new Store();
+export let store: Store = new Store();

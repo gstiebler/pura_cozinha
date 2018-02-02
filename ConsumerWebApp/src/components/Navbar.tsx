@@ -13,10 +13,6 @@ import { Link } from 'mobx-router';
 const styles = {
   root: {
     width: '100%',
-    top: 0,
-    left: 'auto',
-    right: 0,
-    // position: 'fixed'
   },
   flex: {
     flex: 1,
@@ -36,7 +32,7 @@ class Navbar extends React.Component<IProps> {
   render() {
     const { classes, store } = this.props;
     return (
-      <AppBar className={classes.root} position="fixed" color="default">
+      <AppBar className={classes.root} position="static" color="default">
         <Toolbar>
           <Typography type="title" color="inherit">
             Pura Cozinha

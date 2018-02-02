@@ -23,19 +23,19 @@ startRouter(views, store);
 
 ReactDOM.render(
   <div>
-    <Navbar store={store} />
-    <Grid container justify='center' spacing={16}>
-      <Grid item>
-        <div style={{ width: 800 }}>
-          <Provider store={store}>
-            <MuiThemeProvider theme={theme}>
-              <MobxRouter/>
-            </MuiThemeProvider>
-          </Provider>
-          <DevTools />
-        </div>
+    <MuiThemeProvider theme={theme}>
+      <Navbar store={store} />
+      <Grid container justify='center' style={{marginTop: 8}} >
+        <Grid item>
+          <div>
+            <Provider store={store}>
+                <MobxRouter/>
+            </Provider>
+            <DevTools />
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </MuiThemeProvider>
   </div>,
   document.getElementById('root')
 );
