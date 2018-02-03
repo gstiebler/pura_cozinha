@@ -17,7 +17,7 @@ RUN apt-get install yarn
 WORKDIR /usr/src
 RUN git clone https://<github_oauth>@github.com/gstiebler/pura_cozinha.git
 
-WORKDIR /usr/src/go_dental
+WORKDIR /usr/src/pura_cozinha
 
 # used for caching packages
 RUN yarn
