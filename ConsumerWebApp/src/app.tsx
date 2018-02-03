@@ -11,10 +11,13 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { red } from 'material-ui/colors';
 import DevTools from 'mobx-react-devtools';
 import Grid from 'material-ui/Grid';
+import purple from 'material-ui/colors/purple';
+import green from 'material-ui/colors/green';
 
-export const theme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
-    error: red,
+    primary: purple,
+    secondary: green,
   },
 });
 
