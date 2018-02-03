@@ -85,3 +85,6 @@ gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
   .pipe(gulp.dest("./ConsumerWebApp/dist"));
 }));
 
+gulp.task('start:server', function () {
+  return require('./out/server/src/startServer').start();
+});

@@ -6,7 +6,7 @@ import * as fs from 'fs';
 
 // import * as TelegramServer from './KitchenTelegram/server';
 
-const port = process.env.SERVER_PORT || '3000';
+const port = process.env.SERVER_PORT;
 
 /*
 const HTTPSport = 443;
@@ -18,11 +18,13 @@ const credentials = {key: privateKey, cert: certificate};
 const httpsServer = https.createServer(credentials, app);
 */
 
-const httpServer = http.createServer(app);
+export function start() {
+  const httpServer = http.createServer(app);
 
-httpServer.listen(port, () => {
-  winston.info('Server listening on port ' + port);
-});
+  httpServer.listen(port, () => {
+    winston.info('Server listening on port ' + port);
+  });
+}
 
 /*
 httpsServer.listen(HTTPSport, () => {
