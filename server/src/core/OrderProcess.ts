@@ -2,7 +2,7 @@ import { MenuItem } from '../db/models/menuItem';
 import { Order, PaymentStatus } from '../db/models/Order';
 import { Kitchen } from '../db/models/kitchen';
 import { getKitchenLogic } from '../KitchenTelegram/KitchenBotLogic';
-import * as Paypal from '../core/Paypal';
+import * as Paypal from './Paypal';
 
 export async function processOrder(newOrderData) {
   newOrderData.datetime = new Date();
