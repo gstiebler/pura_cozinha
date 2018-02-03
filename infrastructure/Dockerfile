@@ -1,12 +1,27 @@
-FROM node:7.7
+FROM node:carbon
+
+# Update
+RUN apt-get update -y
+
+# Install apt-transport-https for Yarn repository
+RUN apt-get install apt-transport-https -y
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# Update
+RUN apt-get update -y
+
+RUN apt-get install yarn
 
 WORKDIR /usr/src
-RUN git clone https://9757d14fb19ca7959487542f9fdaaa993d1180e0:x-oauth-basic@github.com/gstiebler/pura_cozinha.git
+RUN git clone https://<github_oauth>@github.com/gstiebler/pura_cozinha.git
 
-WORKDIR /usr/src/pura_cozinha/scripts
+WORKDIR /usr/src/go_dental
 
-RUN ./install.sh
+# used for caching packages
+RUN yarn
+RUN yarn global add typescript
 
-EXPOSE 80 3000
-CMD git clone https://9757d14fb19ca7959487542f9fdaaa993d1180e0:x-oauth-basic@github.com/gstiebler/pura_cozinha.git
-CMD bash -C '/usr/src/pura_cozinha/scripts/start.sh'
+WORKDIR /usr/src/pura_cozinha/infrastructure
+CMD ./startServer.sh
