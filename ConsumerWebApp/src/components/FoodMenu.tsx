@@ -25,7 +25,7 @@ function FoodMenu(props: IProps) {
 
   const items = props.store.foodMenuItems.map(fmi => {
     return (
-      <ListItem key={fmi._id} button>
+      <ListItem key={fmi._id} button divider>
         <Avatar alt="Sanduíche" src={fmi.imgURL} />
         <ListItemText primary={fmi.title} secondary={fmi.description} />
       </ListItem>

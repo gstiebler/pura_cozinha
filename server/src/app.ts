@@ -52,7 +52,6 @@ app.get('/admin_app/*', function (req, res) {
 */
 
 const consumerWebAppDir = path.join(__dirname, '/../../../ConsumerWebApp/');
-console.log(consumerWebAppDir);
 const cwaDistDirName = consumerWebAppDir + 'dist';
 app.use('/', express.static(cwaDistDirName));
 
