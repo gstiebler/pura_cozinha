@@ -13,6 +13,9 @@ const styles = theme => ({
     // maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  image: {
+    maxWidth: 40
+  }
 });
 
 interface IProps {
@@ -20,14 +23,18 @@ interface IProps {
   classes?: any;
 }
 
+function formatCurrency(value: number): string {
+  return `R$ ${value.toFixed(2)}`.replace('.', ',');
+}
+// 
 function FoodMenu(props: IProps) {
   const { classes } = props;
 
   const items = props.store.foodMenuItems.map(fmi => {
     return (
       <ListItem key={fmi._id} button divider>
-        <Avatar alt="Sanduíche" src={fmi.imgURL} />
-        <ListItemText primary={fmi.title} secondary={fmi.description} />
+        <ListItemText primary={fmi.title} secondary={formatCurrency(fmi.price)}/>
+        <img src={fmi.imgURL} className={classes.image}/>
       </ListItem>
     );
   });
