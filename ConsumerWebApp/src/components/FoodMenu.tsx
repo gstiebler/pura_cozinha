@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import { observer } from 'mobx-react';
-import { Link } from 'mobx-router';
 import views from '../Views';
 import { Store } from '../model/Store';
+import { formatCurrency } from '../lib/Utils';
+
+function onItemClicked(store: Store, id: string) {
+  store.router.goTo(views.itemDetail, { id }, store);
+}
 
 const styles = theme => ({
   root: {
@@ -23,16 +26,12 @@ interface IProps {
   classes?: any;
 }
 
-function formatCurrency(value: number): string {
-  return `R$ ${value.toFixed(2)}`.replace('.', ',');
-}
-// 
 function FoodMenu(props: IProps) {
-  const { classes } = props;
+  const { store, classes } = props;
 
-  const items = props.store.foodMenuItems.map(fmi => {
+  const items = store.foodMenuItems.map(fmi => {
     return (
-      <ListItem key={fmi._id} button divider>
+      <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={formatCurrency(fmi.price)}/>
         <img src={fmi.imgURL} className={classes.image}/>
       </ListItem>
