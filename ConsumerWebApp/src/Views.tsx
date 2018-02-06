@@ -14,9 +14,6 @@ export default {
   }),
   itemDetail: new Route({
     path: '/item_detail',
-    component: <ItemDetail store={store}/>,
-    beforeEnter: (route, params, store: Store) => {
-      store.onMenuPageLoad();
-    },
+    component: <ItemDetail store={store}/>
   }),
 };
