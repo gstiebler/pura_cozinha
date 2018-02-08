@@ -57,9 +57,9 @@ function ItemDetail(props: IProps) {
           { formatCurrency(foodMenuItem.price) }
         </Typography>
         <Divider />
-        <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
-        <span className={classes.quantity}>{ store.getItemQty(foodMenuItem._id) }</span>
         <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+        <span className={classes.quantity}>{ store.getItemQty(foodMenuItem._id) }</span>
+        <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
       </div>
     </div>
   );

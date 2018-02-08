@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
+import Button from 'material-ui/Button';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
@@ -18,7 +19,11 @@ const styles = theme => ({
   },
   image: {
     maxWidth: 40
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+    horizontalAlignment: 'center',
+  },
 });
 
 interface IProps {
@@ -43,6 +48,11 @@ function FoodMenu(props: IProps) {
       <List>
         {items}
       </List>
+
+      <Button variant="raised" className={classes.button} 
+              onClick={ () => store.router.goTo(views.orderSummary, {}, store) } disabled={store.orderSummary.items.length === 0}>
+        Finalizar pedido
+      </Button>
     </div>
   );
 }

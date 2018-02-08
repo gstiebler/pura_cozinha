@@ -31,14 +31,38 @@ export class Store {
     return this.itemQty.has(id) ? this.itemQty.get(id) : 0;
   }
 
+  @computed
+  get orderSummary() {
+    const selectedItems = [...this.itemQty.entries()];
+    const items = selectedItems.map(item => {
+      const fmi = this.getFoodMenuItem(item[0]);
+      const qty = item[1];
+      const itemTotalPrice = fmi.price * qty;
+      return {
+        fmi,
+        qty,
+        itemTotalPrice,
+      }
+    });
+    const total = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
+    return { items, total };
+  }
+
+  setItemQty(id: TfmiId, qty: number) {
+    if (qty < 0) {
+    } else if (qty === 0) {
+      this.itemQty.delete(id);
+    } else {
+      this.itemQty.set(id, qty);
+    }
+  }
+
   onItemQtyIncreased(fmiId: TfmiId) {
-    this.itemQty.set(fmiId, this.getItemQty(fmiId) + 1);
+    this.setItemQty(fmiId, this.getItemQty(fmiId) + 1);
   }
 
   onItemQtyDecreased(fmiId: TfmiId) {
-    const currentQty = this.getItemQty(fmiId);
-    if (currentQty === 0) { return; }
-    this.itemQty.set(fmiId, currentQty - 1);
+    this.setItemQty(fmiId, this.getItemQty(fmiId) - 1);
   }
 
 }
