@@ -2,6 +2,7 @@ const gulp = require("gulp");
 const tslint = require("gulp-tslint");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
+const tsConsumerProject = ts.createProject("tsconfig.consumer.json");
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
@@ -20,6 +21,14 @@ gulp.task('clean:transpiled', function () {
 gulp.task("transpile", gulp.series('clean:transpiled', function () {
   return tsProject.src()
     .pipe(tsProject())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest("out"));
+}));
+
+gulp.task("transpile:consumer:prod", gulp.series('clean:transpiled', function () {
+  return tsConsumerProject.src()
+    .pipe(tsConsumerProject())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest("out"));
@@ -57,7 +66,6 @@ gulp.task("bundle:consumer:nc", function () {
     cache: {},
     packageCache: {}
   })
-  .plugin(tsify)
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest("./ConsumerWebApp/dist"));
@@ -65,7 +73,7 @@ gulp.task("bundle:consumer:nc", function () {
 
 gulp.task("bundle:consumer", gulp.series('transpile', "bundle:consumer:nc"));
 
-gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
+gulp.task("bundle:consumer:prod", gulp.series('transpile:consumer:prod', function () {
   return browserify({
     basedir: '.',
     debug: false,
@@ -76,7 +84,7 @@ gulp.task("bundle:consumer:prod", gulp.series('transpile', function () {
   .plugin(tsify)
   .transform('babelify', {
       presets: ['es2015'],
-      extensions: ['.ts']
+      extensions: ['.js']
   })
   .bundle()
   .pipe(source('bundle.js'))
