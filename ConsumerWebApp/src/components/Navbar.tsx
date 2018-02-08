@@ -34,7 +34,7 @@ class Navbar extends React.Component<IProps> {
     return (
       <AppBar className={classes.root} position="static" color="default">
         <Toolbar>
-          <Typography type="title" color="inherit">
+          <Typography variant="title" color="inherit">
             Pura Cozinha
           </Typography>
         </Toolbar>

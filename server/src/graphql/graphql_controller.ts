@@ -10,6 +10,7 @@ import {
   GraphQLFloat,
   GraphQLInputObjectType,
 } from 'graphql';
+import logger from 'winston';
 
 import { Kitchen } from '../db/models/kitchen';
 import { Order } from '../db/models/Order';
@@ -102,5 +103,6 @@ export const schema = new GraphQLSchema({
 });
 
 export async function execGQLQuery(query: string) {
+  logger.debug(query);
   return await graphql(schema, query);
 }

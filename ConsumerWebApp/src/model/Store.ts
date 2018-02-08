@@ -17,7 +17,7 @@ export class Store {
 
   @observable router;
   @observable foodMenuItems: FoodMenuItem[] = [];
-  @observable itemQty: Map<TfmiId, number>;
+  @observable itemQty: Map<TfmiId, number> = new Map();
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
@@ -27,8 +27,18 @@ export class Store {
     this.foodMenuItems = await ns.fetchFoodMenu();
   }
 
-  onItemQtyChanged(fmiId: TfmiId, qty: number) {
-    this.itemQty.set(fmiId, qty);
+  getItemQty(id: TfmiId): number {
+    return this.itemQty.has(id) ? this.itemQty.get(id) : 0;
+  }
+
+  onItemQtyIncreased(fmiId: TfmiId) {
+    this.itemQty.set(fmiId, this.getItemQty(fmiId) + 1);
+  }
+
+  onItemQtyDecreased(fmiId: TfmiId) {
+    const currentQty = this.getItemQty(fmiId);
+    if (currentQty === 0) { return; }
+    this.itemQty.set(fmiId, currentQty - 1);
   }
 
 }

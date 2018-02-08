@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
-import * as winston from 'winston';
+import * as logger from 'winston';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as MongoInit from './db/index';
@@ -28,16 +28,20 @@ const HTTP_CODES = {
 
 // log requests
 app.use(bodyParser.json());
-if (process.env.SHOW_GRAPHQL_QUERIES) {
-  app.use(function(req, res, next) {
-    winston.info(req.body);
-    next();
-  });
-}
+app.use(function(req, res, next) {
+  logger.debug(req.body);
+  next();
+});
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  graphiql: true
+  graphiql: true,
+  formatError: error => ({
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack,
+    path: error.path
+  })
 }));
 
 /*
@@ -63,7 +67,7 @@ app.get('/*', function (req, res) {
 */
 
 app.use(function(error, req, res, next) {
-  console.log(req);
+  logger.debug(req);
   next();
 });
 
@@ -108,7 +112,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 process.on('uncaughtException', (err) => {
-  winston.error(err.stack);
+  logger.error(err.stack);
 });
 
 export default app;
