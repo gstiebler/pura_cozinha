@@ -12,6 +12,13 @@ const styles = theme => ({
   root: {
     padding: 16,
   },
+  price: {
+    width: '100%',
+    textAlign: 'right',
+  },
+  itemLine: {
+    width: '100%'
+  }
 });
 
 interface IProps {
@@ -23,7 +30,12 @@ function OrderSummary(props: IProps) {
   const { store, classes } = props;
 
   const items = store.orderSummary.items.map(item => {
-    return <span key={item.fmi._id}>{item.fmi.title}: {item.qty} * {formatCurrency(item.fmi.price)} = { formatCurrency(item.itemTotalPrice) }</span>;
+    return (
+      <div key={item.fmi._id} className={classes.itemLine}>
+        <span>{item.fmi.title} ({item.qty}):</span>
+        <span className={classes.price}> { formatCurrency(item.itemTotalPrice) }</span>
+      </div>
+    );
   });
 
   return (
