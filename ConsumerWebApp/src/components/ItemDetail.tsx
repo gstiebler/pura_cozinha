@@ -54,7 +54,7 @@ function ItemDetail(props: IProps) {
           { foodMenuItem.description }
         </Typography>
         <Typography variant="body1" component="p" className={classes.price}>
-          { formatCurrency(foodMenuItem.price) }
+          { formatCurrency(foodMenuItem.price) } aa
         </Typography>
         <Divider />
         <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>

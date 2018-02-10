@@ -70,8 +70,10 @@
     "tslint": "^5.9.1",
     "tslint-config-airbnb-base": "^0.1.0",
     "typescript": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.1.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
+    "webpack": "^3.11.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
   },
