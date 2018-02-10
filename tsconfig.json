@@ -12,9 +12,6 @@
   },
   "include": [
       "server/src/**/*.ts",
-      "ConsumerWebApp/src/**/*.ts",
-      "ConsumerWebApp/src/**/*.tsx"
-      // "WebAdmin/src/**/*.ts",
-      // "WebAdmin/src/**/*.tsx"
+      "ConsumerWebApp/src/**/*.ts"
   ]
 }

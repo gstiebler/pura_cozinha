@@ -3,18 +3,10 @@
     "target": "es2015",
     "module": "commonjs",
     "preserveConstEnums": true,
-    "sourceMap": false,
     "outDir": "./out",
     "allowJs": true,
     "jsx": "react",
     "experimentalDecorators": true,
     "removeComments": true
-  },
-  "include": [
-    "./ConsumerWebApp/src/**/*.ts",
-    "./ConsumerWebApp/src/**/*.tsx",
-    "./server/src/**/*.ts",
-    // "WebAdmin/src/**/*.ts",
-    // "WebAdmin/src/**/*.tsx"
-  ]
+  }
 }
