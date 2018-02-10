@@ -17,4 +17,15 @@ describe('store', () => {
     expect(store.foodMenuItems[2].title).to.equal('Sanduíche de Mignon');
   });
 
+  it('order summary', async () => {
+    const store = new Store();
+    await store.onMenuPageLoad();
+    store.onItemQtyIncreased(store.foodMenuItems[0]._id);
+    store.onItemQtyIncreased(store.foodMenuItems[0]._id);
+    expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
+    expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
+    expect(store.orderSummary.items[0].qty).to.equal(2);
+    expect(store.orderSummary.total).to.equal(23.98);
+  });
+
 });

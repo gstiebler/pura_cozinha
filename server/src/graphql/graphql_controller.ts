@@ -103,6 +103,6 @@ export const schema = new GraphQLSchema({
 });
 
 export async function execGQLQuery(query: string) {
-  logger.debug(query);
+  // logger.debug(query);
   return await graphql(schema, query);
 }
