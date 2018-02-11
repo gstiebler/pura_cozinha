@@ -10,15 +10,17 @@ import {
 import { MenuItem } from '../db/models/menuItem';
 import { Kitchen } from '../db/models/kitchen';
 
+export const menuItemTypeFields = {
+  _id: { type: new GraphQLNonNull(GraphQLID) },
+  title: { type: GraphQLString },
+  description: { type: GraphQLString },
+  price: { type: GraphQLFloat },
+  imgURL: { type: GraphQLString },
+};
+
 const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
-  fields: {
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    price: { type: GraphQLFloat },
-    imgURL: { type: GraphQLString },
-  }
+  fields: menuItemTypeFields,
 });
 
 const FoodMenuItemInputType = new GraphQLInputObjectType({

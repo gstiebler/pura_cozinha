@@ -9,16 +9,11 @@ import {
 } from 'graphql';
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
+import { menuItemTypeFields } from './FoodMenuItemGraphql';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
-  fields: {
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    price: { type: GraphQLFloat },
-    imgURL: { type: GraphQLString },
-  }
+  fields: menuItemTypeFields
 });
 
 const OrderItemInputType = new GraphQLInputObjectType({
