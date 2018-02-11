@@ -4,6 +4,7 @@ import Typography from 'material-ui/Typography';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
 import Divider from 'material-ui/Divider';
+import Grid from 'material-ui/Grid';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
@@ -29,6 +30,9 @@ const styles = theme => ({
   },
   quantity: {
     verticalAlign: 'center'
+  },
+  qtyContainer: {
+    flexGrow: 1,
   }
 });
 
@@ -56,9 +60,31 @@ function ItemDetail(props: IProps) {
           { formatCurrency(foodMenuItem.price) }
         </Typography>
         <Divider />
-        <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
-        <span className={classes.quantity}>{ store.getItemQty(foodMenuItem._id) }</span>
-        <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+        <Grid container className={classes.qtyContainer}>
+          <Grid item xs={12}>
+            <Grid container            
+                alignItems="center"
+                direction="row"
+                justify='flex-start' >
+              <Grid item>
+                <Typography variant="subheading" gutterBottom>
+                  Quantidade:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+              </Grid>
+              <Grid item>
+                <Typography className={classes.quantity} variant="body2">
+                  { store.getItemQty(foodMenuItem._id) }
+                </Typography>
+              </Grid>
+              <Grid item>
+                <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
