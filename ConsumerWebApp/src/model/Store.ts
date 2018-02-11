@@ -37,6 +37,10 @@ export class Store {
     ];
   }
 
+  reset() {
+    this.itemQty = new Map();
+  }
+
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
   }
