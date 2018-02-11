@@ -4,6 +4,7 @@ import { store, Store } from './model/Store';
 import FoodMenu from './components/FoodMenu';
 import ItemDetail from './components/ItemDetail';
 import OrderSummary from './components/OrderSummary';
+import AddressPayment from './components/AddressPayment';
 
 export default {
   home: new Route({
@@ -20,5 +21,9 @@ export default {
   orderSummary: new Route({
     path: '/order_summary',
     component: <OrderSummary store={store}/>
+  }),
+  addressPayment: new Route({
+    path: '/address_payment',
+    component: <AddressPayment store={store}/>
   }),
 };

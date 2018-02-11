@@ -2,8 +2,8 @@ import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
+import Button from 'material-ui/Button';
 import { observer } from 'mobx-react';
-import { Link } from 'mobx-router';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../lib/Utils';
@@ -18,7 +18,11 @@ const styles = theme => ({
   },
   itemLine: {
     width: '100%'
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+    horizontalAlignment: 'center',
+  },
 });
 
 interface IProps {
@@ -42,7 +46,11 @@ function OrderSummary(props: IProps) {
     <div className={classes.root}>
       { items }
       <br />
-      Total: { formatCurrency(store.orderSummary.total) }
+      Total: { formatCurrency(store.orderSummary.total) } 
+      <Button variant="raised" className={classes.button} 
+              onClick={ () => store.router.goTo(views.addressPayment, {}, store) } >
+        Próximo
+      </Button>
     </div>
   );
 }

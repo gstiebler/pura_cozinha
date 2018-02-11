@@ -18,6 +18,9 @@ export class Store {
   @observable router;
   @observable foodMenuItems: FoodMenuItem[] = [];
   @observable itemQty: Map<TfmiId, number> = new Map();
+  @observable selectedLocal: string;
+  @observable selectedPaymentOption: string;
+  @observable telephoneNumber: string;
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -80,6 +83,18 @@ export class Store {
 
   async onMenuPageLoad() {
     this.foodMenuItems = await ns.fetchFoodMenu();
+  }
+
+  onLocalSelected(local: string) {
+    this.selectedLocal = local;
+  }
+
+  onPaymentOptionSelected(paymentOption: string) {
+    this.selectedPaymentOption = paymentOption;
+  }
+  
+  onTelNumberChanged(telNumber: string) {
+    this.telephoneNumber = telNumber;
   }
 
 }

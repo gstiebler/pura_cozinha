@@ -5,7 +5,6 @@ import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
 import Divider from 'material-ui/Divider';
 import { observer } from 'mobx-react';
-import { Link } from 'mobx-router';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../lib/Utils';
@@ -54,7 +53,7 @@ function ItemDetail(props: IProps) {
           { foodMenuItem.description }
         </Typography>
         <Typography variant="body1" component="p" className={classes.price}>
-          { formatCurrency(foodMenuItem.price) } aa
+          { formatCurrency(foodMenuItem.price) }
         </Typography>
         <Divider />
         <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
