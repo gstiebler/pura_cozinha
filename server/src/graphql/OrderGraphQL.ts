@@ -10,6 +10,7 @@ import {
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
 import { menuItemTypeFields } from './FoodMenuItemGraphql';
+import { Order } from '../db/models/Order';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
@@ -47,8 +48,28 @@ export const Mutation = {
   saveOrder: {
     type: GraphQLString,
     args: { fmiData: { type: OrderRequestInputType } },
-    resolve(value, { fmiData }: { fmiData: IOrderRequest}) {
-      logger.debug(JSON.stringify(fmiData, null, 2));
+    async resolve(value, { fmiData }: { fmiData: IOrderRequest}) {
+      const items = fmiData.orderSummary.items.map(item => ({
+        qty: item.qty,
+        itemTotalPrice: item.itemTotalPrice,
+        foodMenuItem: {
+          id: item.fmi._id,
+          title: item.fmi.title,
+          price: item.fmi.price,
+          description: item.fmi.description,
+        },
+      }));
+      const orderObj = {
+        userId: 'coffee_shop',
+        local: fmiData.local,
+        paymentOption: fmiData.paymentOption,
+        telephoneNumber: fmiData.telephoneNumber,
+        totalAmount: fmiData.orderSummary.totalAmount,
+        items,
+      };
+      const order = new Order(orderObj);
+      await order.save();
+
       return { msg: 'OK' };
     }
   },

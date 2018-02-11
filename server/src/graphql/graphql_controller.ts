@@ -12,10 +12,6 @@ import {
 } from 'graphql';
 import logger from 'winston';
 
-import { Kitchen } from '../db/models/kitchen';
-import { Order } from '../db/models/Order';
-import { processOrder } from '../core/OrderProcess';
-import * as KitchenGraphql from './KitchenGraphql';
 import * as FoodMenuItemGraphql from './FoodMenuItemGraphql';
 import * as OrderGraphQL from './OrderGraphQL';
 

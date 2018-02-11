@@ -1,5 +1,6 @@
 import * as TelegramBot from 'node-telegram-bot-api';
 import * as winston from 'winston';
+/*
 import { KitchenBotLogic, kitchenLogicSingleton } from './KitchenBotLogic';
 
 export function startServer(token) {
@@ -30,3 +31,4 @@ async function onCallbackQuery(bot, callbackQuery) {
 function sendMessage(bot, chatId, msg, options) {
   bot.sendMessage(chatId, msg, options);
 }
+*/
