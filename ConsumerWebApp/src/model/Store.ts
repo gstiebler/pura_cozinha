@@ -15,6 +15,7 @@ export class Store {
   @observable foodMenuItems: FoodMenuItem[] = [];
   @observable itemQty: Map<TfmiId, number> = new Map();
   @observable selectedLocal: string;
+  @observable localComplement: string;
   @observable selectedPaymentOption: string;
   @observable telephoneNumber: string;
 
@@ -85,6 +86,10 @@ export class Store {
     this.selectedLocal = local;
   }
 
+  onLocalComplementChanged(local: string) {
+    this.localComplement = local;
+  }
+
   onPaymentOptionSelected(paymentOption: string) {
     this.selectedPaymentOption = paymentOption;
   }
@@ -97,6 +102,7 @@ export class Store {
     const request:IOrderRequest = {
       orderSummary: this.orderSummary,
       local: this.selectedLocal,
+      localComplement: this.localComplement,
       paymentOption: this.selectedPaymentOption,
       telephoneNumber: this.telephoneNumber,
     };

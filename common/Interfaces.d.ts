@@ -21,6 +21,7 @@ export interface IOrderSummary {
 export interface IOrderRequest {
   orderSummary: IOrderSummary;
   local: string;
+  localComplement: string;
   paymentOption: string;
   telephoneNumber: string;
 }

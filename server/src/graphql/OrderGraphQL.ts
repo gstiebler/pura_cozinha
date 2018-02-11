@@ -10,7 +10,7 @@ import {
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
 import { menuItemTypeFields } from './FoodMenuItemGraphql';
-import { Order } from '../db/models/Order';
+import { Order, IOrderModal } from '../db/models/Order';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
@@ -38,6 +38,7 @@ const OrderRequestInputType = new GraphQLInputObjectType({
   name: 'OrderRequestInputType',
   fields: {
     local: { type: new GraphQLNonNull(GraphQLString) },
+    localComplement: { type: GraphQLString },
     paymentOption: { type: new GraphQLNonNull(GraphQLString) },
     telephoneNumber: { type: GraphQLString },
     orderSummary: { type: new GraphQLNonNull(OrderSummaryInputType) },
@@ -62,6 +63,7 @@ export const Mutation = {
       const orderObj = {
         userId: 'coffee_shop',
         local: fmiData.local,
+        localComplement: fmiData.localComplement,
         paymentOption: fmiData.paymentOption,
         telephoneNumber: fmiData.telephoneNumber,
         totalAmount: fmiData.orderSummary.totalAmount,
