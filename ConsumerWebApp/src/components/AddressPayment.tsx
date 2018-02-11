@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 import Select from 'material-ui/Select';
 import { observer } from 'mobx-react';
 import views from '../Views';
@@ -20,6 +21,11 @@ function telNumberChanged(store: Store, event) {
   store.onTelNumberChanged(event.target.value);
 }
 
+async function onSendOrderRequested(store: Store) {
+  await store.onSendOrderRequested();
+  store.router.goTo(views.home, {}, store);
+}
+
 const styles = theme => ({
   root: {
     padding: 16,
@@ -31,14 +37,18 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: '100%',
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    width: '100%',
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
+  },
+  button: {
+    margin: theme.spacing.unit,
+    horizontalAlignment: 'center',
   },
 });
 
@@ -96,6 +106,10 @@ function AddressPayment(props: IProps) {
           margin="normal"
         />
       </form>
+      <Button variant="raised" className={classes.button} 
+              onClick={ () => store.router.goTo(views.addressPayment, {}, store) } >
+        Enviar pedido
+      </Button>
     </div>
   );
 }

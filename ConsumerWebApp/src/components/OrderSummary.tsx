@@ -46,7 +46,7 @@ function OrderSummary(props: IProps) {
     <div className={classes.root}>
       { items }
       <br />
-      Total: { formatCurrency(store.orderSummary.total) } 
+      Total: { formatCurrency(store.orderSummary.totalAmount) } 
       <Button variant="raised" className={classes.button} 
               onClick={ () => store.router.goTo(views.addressPayment, {}, store) } >
         Próximo

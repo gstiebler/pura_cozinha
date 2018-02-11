@@ -2,16 +2,12 @@
 import { computed, observable } from 'mobx';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-
-type TfmiId = string;
-
-export interface FoodMenuItem {
-  _id?: TfmiId;
-  title: string;
-  description: string;
-  price: number;
-  imgURL: string;
-}
+import { 
+  TfmiId,
+  FoodMenuItem,
+  IOrderSummary,
+  IOrderRequest,
+} from '../../../common/Interfaces';
 
 export class Store {
 
@@ -57,7 +53,7 @@ export class Store {
   }
 
   @computed
-  get orderSummary() {
+  get orderSummary(): IOrderSummary {
     const selectedItems = [...this.itemQty.entries()];
     const items = selectedItems.map(item => {
       const fmi = this.getFoodMenuItem(item[0]);
@@ -69,8 +65,8 @@ export class Store {
         itemTotalPrice,
       }
     });
-    const total = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
-    return { items, total };
+    const totalAmount = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
+    return { items, totalAmount };
   }
 
   onItemQtyIncreased(fmiId: TfmiId) {
@@ -95,6 +91,16 @@ export class Store {
   
   onTelNumberChanged(telNumber: string) {
     this.telephoneNumber = telNumber;
+  }
+
+  async onSendOrderRequested() {
+    const request:IOrderRequest = {
+      ...this.orderSummary,
+      selectedLocal: this.selectedLocal,
+      selectedPaymentOption: this.selectedPaymentOption,
+      telephoneNumber: this.telephoneNumber,
+    };
+    await ns.sendOrderRequest(request);
   }
 
 }
