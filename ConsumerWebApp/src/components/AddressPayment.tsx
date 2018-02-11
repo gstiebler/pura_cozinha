@@ -21,6 +21,10 @@ function telNumberChanged(store: Store, event) {
   store.onTelNumberChanged(event.target.value);
 }
 
+function localComplementChanged(store: Store, event) {
+  store.onLocalComplementChanged(event.target.value);
+}
+
 async function onSendOrderRequested(store: Store) {
   await store.onSendOrderRequested();
   store.router.goTo(views.home, {}, store);
@@ -83,6 +87,16 @@ function AddressPayment(props: IProps) {
           { localOptionsHTML }
         </Select>
       </FormControl>
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="localComplement"
+          label={store.localComplementLabel}
+          className={classes.textField}
+          value={store.localComplement}
+          onChange={localComplementChanged.bind(null, store)}
+          margin="normal"
+        />
+      </form>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="payment">Opções de pagamento</InputLabel>
         <Select
@@ -107,7 +121,7 @@ function AddressPayment(props: IProps) {
         />
       </form>
       <Button variant="raised" className={classes.button} 
-              onClick={ () => store.router.goTo(views.addressPayment, {}, store) } >
+              onClick={ onSendOrderRequested.bind(null, store) } >
         Enviar pedido
       </Button>
     </div>

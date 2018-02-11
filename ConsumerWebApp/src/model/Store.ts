@@ -18,6 +18,7 @@ export class Store {
   @observable localComplement: string;
   @observable selectedPaymentOption: string;
   @observable telephoneNumber: string;
+  @observable localComplementLabel: string = 'Apartamento';
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -84,6 +85,8 @@ export class Store {
 
   onLocalSelected(local: string) {
     this.selectedLocal = local;
+    this.localComplementLabel = local === 'Piscina' ? 'Como te localizar na piscina' :
+      'Apartamento';
   }
 
   onLocalComplementChanged(local: string) {
