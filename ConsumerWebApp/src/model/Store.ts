@@ -95,9 +95,9 @@ export class Store {
 
   async onSendOrderRequested() {
     const request:IOrderRequest = {
-      ...this.orderSummary,
-      selectedLocal: this.selectedLocal,
-      selectedPaymentOption: this.selectedPaymentOption,
+      orderSummary: this.orderSummary,
+      local: this.selectedLocal,
+      paymentOption: this.selectedPaymentOption,
       telephoneNumber: this.telephoneNumber,
     };
     await ns.sendOrderRequest(request);

@@ -37,8 +37,11 @@ describe('store', () => {
     expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
     expect(store.orderSummary.items[0].qty).to.equal(2);
     expect(store.orderSummary.totalAmount).to.equal(23.98);
+    store.onLocalSelected('Stella Vita');
+    store.onPaymentOptionSelected('Dinheiro');
+    store.onTelNumberChanged('1234');
     await store.onSendOrderRequested();
-    
+
   });
 
 });

@@ -18,8 +18,9 @@ export interface IOrderSummary {
   totalAmount: number;
 }
 
-export interface IOrderRequest extends IOrderSummary {
-  selectedLocal: string;
-  selectedPaymentOption: string;
+export interface IOrderRequest {
+  orderSummary: IOrderSummary;
+  local: string;
+  paymentOption: string;
   telephoneNumber: string;
 }

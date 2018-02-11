@@ -5,6 +5,7 @@ import {
   IOrderSummary,
   IOrderRequest,
 } from '../../../common/Interfaces';
+import { objToGrahqlStr } from './util';
 
 export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
   const fields = '_id, title, price, description, imgURL';
@@ -14,11 +15,7 @@ export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
 }
 
 export async function sendOrderRequest(orderRequest: IOrderRequest) {
-  const values = `
-    selectedLocal: ${orderRequest.selectedLocal},
-    selectedPaymentOption: ${orderRequest.selectedPaymentOption},
-    telephoneNumber: ${orderRequest.telephoneNumber},
-    totalAmount: ${orderRequest.totalAmount},
-  `;
-  const mutation = `mutation { saveOrder(${values}) } { msg }`;
+  const mutation = `mutation { saveOrder( fmiData: ${objToGrahqlStr(orderRequest)} ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
 }

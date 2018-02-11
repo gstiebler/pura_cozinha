@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import * as winston from 'winston';
+import * as logger from 'winston';
 import * as dotenv from 'dotenv';
 import * as sinon from 'sinon';
 import * as http from 'http';
@@ -40,10 +40,11 @@ after((done) => {
 });
 
 if (process.env.LOG_LEVEL) {
-  winston.default.transports.console.level = process.env.LOG_LEVEL;
+  logger.default.transports.console.level = process.env.LOG_LEVEL;
 }
 
 async function queryFn(query: string) {
+  logger.debug(query);
   const res = await execGQLQuery(query);
   if (_.isEmpty(res.errors)) {
     return res.data;
