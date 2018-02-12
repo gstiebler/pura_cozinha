@@ -11,9 +11,9 @@ export default async () => {
         lat: -23.005238,
         lng: -43.321984
       },
-      phone_number: '234-5697',
-      telegram_username: 'marcel',
-      active: 'YES',
+      phoneNumber: '234-5697',
+      telegramUsernames: ['marcel'],
+      active: true,
       stock: [
         {
           menu_item: await idByValue(MenuItem, 'title', 'Sanduba de frango'),
@@ -36,9 +36,9 @@ export default async () => {
         lat: -22.968896,
         lng: -43.186143
       },
-      phone_number: '+55 21 99401-1944',
-      telegram_username: 'gstiebler',
-      active: 'YES',
+      phoneNumber: '+55 21 99401-1944',
+      telegramUsernames: ['gstiebler'],
+      active: true,
       stock: [
         {
           menu_item: await idByValue(MenuItem, 'title', 'Sanduba de frango'),
@@ -57,9 +57,9 @@ export default async () => {
         lat: -22.901411,
         lng: -43.183318
       },
-      phone_number: '99999-8888',
-      telegram_username: 'jose',
-      active: 'NO',
+      phoneNumber: '99999-8888',
+      telegramUsernames: ['jose'],
+      active: false,
       stock: [
         {
           menu_item: await idByValue(MenuItem, 'title', 'Sanduba de frango'),
@@ -74,6 +74,18 @@ export default async () => {
           quantity: 20.0
         }
       ]
+    },
+    {
+      name: 'coffee_shop',
+      address: 'Praça',
+      coordinates: {
+        lat: -22.901411,
+        lng: -43.183318
+      },
+      phoneNumber: '99999-8888',
+      telegramUsernames: ['gstiebler'],
+      active: true,
+      stock: []
     },
   ];
 }
