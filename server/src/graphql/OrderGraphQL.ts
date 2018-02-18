@@ -11,6 +11,7 @@ import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
 import { menuItemTypeFields } from './FoodMenuItemGraphql';
 import { Order, IOrder } from '../db/models/Order';
+import * as resolvers from './resolvers/OrderResolver';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
@@ -49,29 +50,8 @@ export const Mutation = {
   saveOrder: {
     type: GraphQLString,
     args: { fmiData: { type: OrderRequestInputType } },
-    async resolve(value, { fmiData }: { fmiData: IOrderRequest}) {
-      const items = fmiData.orderSummary.items.map(item => ({
-        qty: item.qty,
-        itemTotalPrice: item.itemTotalPrice,
-        foodMenuItem: {
-          id: item.fmi._id,
-          title: item.fmi.title,
-          price: item.fmi.price,
-          description: item.fmi.description,
-        },
-      }));
-      const orderObj: IOrder = {
-        userId: 'coffee_shop',
-        local: fmiData.local,
-        localComplement: fmiData.localComplement,
-        paymentOption: fmiData.paymentOption,
-        telephoneNumber: fmiData.telephoneNumber,
-        totalAmount: fmiData.orderSummary.totalAmount,
-        items,
-      };
-      const order = new Order(orderObj);
-      await order.save();
-
+    async resolve(value, { fmiData }) {
+      await resolvers.saveOrder(fmiData);
       return { msg: 'OK' };
     }
   },
