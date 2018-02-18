@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
+import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import * as logger from 'winston';
@@ -6,9 +8,19 @@ import { Order } from '../../../server/src/db/models/Order';
 
 describe('store', () => {
 
+  const twitterSendMessageStub = sinon.stub(Twitter, 'sendTwit', () => {});
+
   before(async () => {
     await initFixtures();
   });
+
+  beforeEach(() => {
+    //twitterSendMessageStub.returns(null);
+  })
+
+  afterEach(() => {
+    // twitterSendMessageStub.restore();
+  })
 
   it('get food menu items', async () => {
     const store = new Store();

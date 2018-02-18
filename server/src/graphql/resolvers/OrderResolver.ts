@@ -1,5 +1,7 @@
 import { IOrderRequest } from '../../../../common/Interfaces';
 import { Order, IOrder } from '../../db/models/Order';
+import * as Twitter from '../../lib/Twitter';
+import * as OrderProcess from '../../core/OrderProcess';
 
 export async function saveOrder(fmiData: IOrderRequest) {
   const items = fmiData.orderSummary.items.map(item => ({
@@ -22,5 +24,7 @@ export async function saveOrder(fmiData: IOrderRequest) {
     items,
   };
   const order = new Order(orderObj);
+  const formattedOrder = OrderProcess.formatOrder(orderObj);
+  Twitter.sendTwit(formattedOrder);
   await order.save();
 }

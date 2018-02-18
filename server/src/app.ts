@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import * as MongoInit from './db/index';
 import { schema } from './graphql/graphql_controller';
 import * as db from './db';
+import { initializeTwitter } from './lib/Twitter';
 
 import * as bodyParser from 'body-parser';
 
@@ -114,5 +115,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 process.on('uncaughtException', (err) => {
   logger.error(err.stack);
 });
+
+initializeTwitter();
 
 export default app;
