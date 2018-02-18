@@ -2,7 +2,7 @@ import { Document, Schema, Model, model } from 'mongoose';
 import { menuItemSchema } from './menuItem';
 const ObjectId = Schema.Types.ObjectId;
 
-export interface IOrderModal extends Document {
+export interface IOrder {
   userId: string;
   local: string;
   localComplement: string;
@@ -46,4 +46,6 @@ const OrderSchema = new Schema({
   createdOn: { type: Date, default: Date.now },
 });
 
-export const Order: Model<IOrderModal> = model<IOrderModal>('Order', OrderSchema);
+interface IOrderModel extends IOrder, Document {}
+
+export const Order: Model<IOrderModel> = model<IOrderModel>('Order', OrderSchema);

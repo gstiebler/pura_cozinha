@@ -4,6 +4,7 @@ import * as ns from './NetworkServices';
 import * as _ from 'lodash';
 import { 
   TfmiId,
+  TPaymentOptions,
   FoodMenuItem,
   IOrderSummary,
   IOrderRequest,
@@ -16,7 +17,7 @@ export class Store {
   @observable itemQty: Map<TfmiId, number> = new Map();
   @observable selectedLocal: string;
   @observable localComplement: string;
-  @observable selectedPaymentOption: string;
+  @observable selectedPaymentOption: TPaymentOptions;
   @observable telephoneNumber: string;
   @observable localComplementLabel: string = 'Apartamento';
 
@@ -97,7 +98,7 @@ export class Store {
     this.localComplement = local;
   }
 
-  onPaymentOptionSelected(paymentOption: string) {
+  onPaymentOptionSelected(paymentOption: TPaymentOptions) {
     this.selectedPaymentOption = paymentOption;
   }
   

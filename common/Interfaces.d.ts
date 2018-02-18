@@ -1,5 +1,6 @@
 
 export type TfmiId = string;
+export type TPaymentOptions = 'Dinheiro' | 'Cartão';
 
 export interface FoodMenuItem {
   _id?: TfmiId;
@@ -18,10 +19,11 @@ export interface IOrderSummary {
   totalAmount: number;
 }
 
+
 export interface IOrderRequest {
   orderSummary: IOrderSummary;
   local: string;
   localComplement: string;
-  paymentOption: string;
+  paymentOption: TPaymentOptions;
   telephoneNumber: string;
 }

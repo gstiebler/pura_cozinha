@@ -44,7 +44,7 @@ if (process.env.LOG_LEVEL) {
 }
 
 async function queryFn(query: string) {
-  logger.debug(query);
+  logger.silly(query);
   const res = await execGQLQuery(query);
   if (_.isEmpty(res.errors)) {
     return res.data;

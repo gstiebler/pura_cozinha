@@ -10,7 +10,7 @@ import {
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
 import { menuItemTypeFields } from './FoodMenuItemGraphql';
-import { Order, IOrderModal } from '../db/models/Order';
+import { Order, IOrder } from '../db/models/Order';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
@@ -60,7 +60,7 @@ export const Mutation = {
           description: item.fmi.description,
         },
       }));
-      const orderObj = {
+      const orderObj: IOrder = {
         userId: 'coffee_shop',
         local: fmiData.local,
         localComplement: fmiData.localComplement,

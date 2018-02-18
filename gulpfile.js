@@ -41,9 +41,11 @@ gulp.task('test:nc', function () {
     // grep: ''
   }
   const consumerWebAppTestFiles = 'out/ConsumerWebApp/src/tests/**/*.spec.js';
+  const serverTestFiles = 'out/server/src/test/**/*.spec.js';
   const srcFiles = [
     'out/server/src/test/lib/TestUtils.js',
-    consumerWebAppTestFiles
+    consumerWebAppTestFiles,
+    serverTestFiles,
   ];
   return gulp.src(srcFiles, { read: false })
     // .pipe(print())

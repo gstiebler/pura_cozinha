@@ -6,7 +6,7 @@ import { MenuItem } from '../db/models/menuItem';
 import { removeJSONQuotes } from '../lib/StringUtils';
 import { Order } from '../db/models/Order';
 import { execGQLQuery } from '../graphql/graphql_controller';
-import * as Paypal from '../core/Paypal';
+import * as Paypal from '../lib/Paypal';
 
 describe('Payment tests', function () {
 
