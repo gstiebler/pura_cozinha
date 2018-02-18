@@ -6,6 +6,7 @@ import { RouterStore } from 'mobx-router';
 import { MobxRouter, startRouter } from 'mobx-router';
 import views from './Views';
 import Navbar from './components/Navbar';
+import SystemMessage from './components/SystemMessage';
 import Button from 'material-ui/Button';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { red } from 'material-ui/colors';
@@ -32,6 +33,7 @@ ReactDOM.render(
         <MobxRouter/>
       </Provider>
     </MuiThemeProvider>
+    <SystemMessage store={store} />
   </div>,
   document.getElementById('root')
 );

@@ -20,6 +20,8 @@ export class Store {
   @observable selectedPaymentOption: TPaymentOptions;
   @observable telephoneNumber: string;
   @observable localComplementLabel: string = 'Apartamento';
+  @observable isSnackbarOpen: boolean = false;
+  @observable snackbarMsg: string = '';
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -57,6 +59,14 @@ export class Store {
     } else {
       this.itemQty.set(id, qty);
     }
+  }
+
+  setSnackbarMsg(msg: string) {
+    this.snackbarMsg = msg;
+    this.isSnackbarOpen = true;
+    setTimeout(() => { 
+      this.isSnackbarOpen = false;
+    }, 5000);
   }
 
   @computed
@@ -107,15 +117,21 @@ export class Store {
   }
 
   async onSendOrderRequested() {
-    const request:IOrderRequest = {
-      orderSummary: this.orderSummary,
-      local: this.selectedLocal,
-      localComplement: this.localComplement,
-      paymentOption: this.selectedPaymentOption,
-      telephoneNumber: this.telephoneNumber,
-    };
-    await ns.sendOrderRequest(request);
-    this.reset();
+    try {
+      const request:IOrderRequest = {
+        orderSummary: this.orderSummary,
+        local: this.selectedLocal,
+        localComplement: this.localComplement,
+        paymentOption: this.selectedPaymentOption,
+        telephoneNumber: this.telephoneNumber,
+      };
+      await ns.sendOrderRequest(request);
+      this.reset();
+      this.setSnackbarMsg('Pedido recebido com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao enviar o pedido');
+    }
   }
 
 }
