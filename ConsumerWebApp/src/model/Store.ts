@@ -115,6 +115,7 @@ export class Store {
       telephoneNumber: this.telephoneNumber,
     };
     await ns.sendOrderRequest(request);
+    this.reset();
   }
 
 }
