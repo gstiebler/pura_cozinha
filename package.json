@@ -69,6 +69,7 @@
     "tsify": "^3.0.4",
     "tslint": "^5.9.1",
     "tslint-config-airbnb-base": "^0.1.0",
+    "twit": "^2.2.9",
     "typescript": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "vinyl-buffer": "^1.0.1",
