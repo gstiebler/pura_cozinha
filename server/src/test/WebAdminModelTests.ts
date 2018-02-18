@@ -8,6 +8,7 @@ import * as KitchenSchema from '../db/models/kitchen';
 import * as MenuItemSchema from '../db/models/menuItem';
 import * as TestUtils from './lib/TestUtils';
 
+/*
 import { Model, Kitchen, FoodMenuItem } from '../WebAdmin/lib/Model';
 import { Network } from '../WebAdmin/lib/Network';
 
@@ -175,3 +176,5 @@ describe('Web Admin model test', function() {
   });
 
 });
+
+*/
