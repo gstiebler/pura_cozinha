@@ -11,4 +11,11 @@ export default {
       store.onOrdersOpen();
     },
   }),
+  homeKitchen: new Route({
+    path: '/cozinha',
+    component: <Orders store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      store.onOrdersOpen();
+    },
+  }),
 };

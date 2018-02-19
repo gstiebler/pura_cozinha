@@ -5,7 +5,7 @@ import Button from 'material-ui/Button';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
-import { formatCurrency } from '../lib/Utils';
+import { formatCurrency } from '../../../common/util';
 
 function onItemClicked(store: Store, id: string) {
   store.router.goTo(views.itemDetail, { id }, store);
