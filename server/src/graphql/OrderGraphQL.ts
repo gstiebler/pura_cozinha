@@ -5,13 +5,14 @@ import {
   GraphQLID,
   GraphQLString,
   GraphQLFloat,
-  GraphQLList
+  GraphQLList,
 } from 'graphql';
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
 import { menuItemTypeFields } from './FoodMenuItemGraphql';
 import { Order, IOrder } from '../db/models/Order';
 import * as resolvers from './resolvers/OrderResolver';
+import { getProjection } from '../lib/Util';
 
 const menuItemInputType = new GraphQLInputObjectType({
   name: 'menuItemInputType',
@@ -45,6 +46,36 @@ const OrderRequestInputType = new GraphQLInputObjectType({
     orderSummary: { type: new GraphQLNonNull(OrderSummaryInputType) },
   }
 });
+
+const OrderInListType = new GraphQLObjectType({
+  name: 'OrderInListType',
+  fields: {
+    _id: { type: GraphQLID },
+    local: { type: GraphQLString },
+    localComplement: { type: GraphQLString },
+    status: { type: GraphQLString },
+    totalAmount: { type: GraphQLFloat },
+    createdOn: { type: GraphQLFloat },
+  }
+});
+
+export const Query = {
+  orders: {
+    type: new GraphQLList(OrderInListType),
+    args: {
+      offset: { type: GraphQLFloat },
+      limit: { type: GraphQLFloat }
+    },
+    resolve: async function(root, { offset, limit }, source, fieldASTs) {
+      const projection = getProjection(fieldASTs);
+      return await Order.find({}, projection)
+          .sort({ createdOn: -1 })
+          .skip(offset)
+          .limit(limit)
+          .lean();
+    }
+  }
+};
 
 export const Mutation = {
   saveOrder: {

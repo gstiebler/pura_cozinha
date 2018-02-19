@@ -17,6 +17,6 @@ export async function initFixtures() {
 
   await MenuItem.insertMany(await menuItemFixtures());
   await Kitchen.insertMany(await kitchenFixtures());
-  // await Order.insertMany(await OrderFixtures());
+  await Order.insertMany(await OrderFixtures());
   await UserFixtures();
 }

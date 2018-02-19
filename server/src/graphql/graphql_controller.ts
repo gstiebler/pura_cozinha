@@ -20,6 +20,7 @@ export const schema = new GraphQLSchema({
     name: 'RootQueryType',
     fields: {
       ...FoodMenuItemGraphql.Query,
+      ...OrderGraphQL.Query,
     }
   }),
   mutation: new GraphQLObjectType({

@@ -7,13 +7,13 @@ import {} from '../../../common/Interfaces';
 export class Store {
 
   @observable router;
-  @observable orders;
+  @observable orders: any[];
 
   constructor() {
   }
 
-  onOrdersOpen() {
-    
+  async onOrdersOpen() {
+    this.orders = await ns.getOrders();
   }
 
 }
