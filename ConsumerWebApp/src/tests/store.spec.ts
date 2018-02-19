@@ -6,7 +6,7 @@ import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import * as logger from 'winston';
 import { Order } from '../../../server/src/db/models/Order';
 
-describe('store', () => {
+describe('consumer web app store', () => {
 
   const twitterSendMessageStub = sinon.stub(Twitter, 'sendTwit', () => {});
 

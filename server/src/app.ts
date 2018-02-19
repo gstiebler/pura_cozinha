@@ -60,12 +60,15 @@ const consumerWebAppDir = path.join(__dirname, '/../../../ConsumerWebApp/');
 const cwaDistDirName = consumerWebAppDir + 'dist';
 app.use('/', express.static(cwaDistDirName));
 
-/*
-app.get('/*', function (req, res) {
-  console.log(req.url);
-  return res.redirect('/?url=' + encodeURIComponent(req.url));
+const kitchenWebAppDir = path.join(__dirname, '/../../../KitchenWebApp/');
+const kwaDistDirName = kitchenWebAppDir + 'dist';
+app.use('/cozinha', express.static(kwaDistDirName));
+
+app.get('/cozinha/*', function (req, res) {
+  logger.debug(req.url);
+  return res.redirect('/cozinha');
+  // return res.redirect('/cozinha?url=' + encodeURIComponent(req.url));
 });
-*/
 
 app.use(function(error, req, res, next) {
   logger.debug(req);

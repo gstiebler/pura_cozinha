@@ -1,11 +1,11 @@
-import * as network from '../lib/network';
+import * as network from '../../../common/network';
 import { 
   TfmiId,
   FoodMenuItem,
   IOrderSummary,
   IOrderRequest,
 } from '../../../common/Interfaces';
-import { objToGrahqlStr } from './util';
+import { objToGrahqlStr } from '../../../common/util';
 
 export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
   const fields = '_id, title, price, description, imgURL';

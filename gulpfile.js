@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const tslint = require("gulp-tslint");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
-const tsConsumerProject = ts.createProject("tsconfig.consumer.json");
+// const tsConsumerProject = ts.createProject("tsconfig.consumer.json");
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
@@ -26,6 +26,7 @@ gulp.task("transpile", gulp.series('clean:transpiled', function () {
     .pipe(gulp.dest("out"));
 }));
 
+/*
 gulp.task("transpile:consumer:prod", gulp.series('clean:transpiled', function () {
   return tsConsumerProject.src()
     .pipe(tsConsumerProject())
@@ -33,6 +34,7 @@ gulp.task("transpile:consumer:prod", gulp.series('clean:transpiled', function ()
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest("out"));
 }));
+*/
 
 gulp.task('test:nc', function () {
   process.env.NODE_ENV = 'TEST';
@@ -41,12 +43,14 @@ gulp.task('test:nc', function () {
     // grep: ''
   }
   const consumerWebAppTestFiles = 'out/ConsumerWebApp/src/tests/**/*.spec.js';
+  const kitchenWebAppTestFiles = 'out/KitchenWebApp/src/tests/**/*.spec.js';
   const serverTestFiles = 'out/server/src/test/**/*.spec.js';
   const srcFiles = [
     'out/server/src/test/lib/TestUtils.js',
     consumerWebAppTestFiles,
+    kitchenWebAppTestFiles,
     serverTestFiles,
-  ];
+  ].map(f => __dirname + '/' + f);
   return gulp.src(srcFiles, { read: false })
     // .pipe(print())
     .pipe(mocha(mochaOptions))
@@ -75,6 +79,7 @@ gulp.task("bundle:consumer:nc", function () {
 
 gulp.task("bundle:consumer", gulp.series('transpile', "bundle:consumer:nc"));
 
+/*
 gulp.task("bundle:consumer:prod", gulp.series('transpile:consumer:prod', function () {
   return browserify({
     basedir: '.',
@@ -94,6 +99,7 @@ gulp.task("bundle:consumer:prod", gulp.series('transpile:consumer:prod', functio
   .pipe(uglify())
   .pipe(gulp.dest("./ConsumerWebApp/dist"));
 }));
+*/
 
 gulp.task('start:server', function () {
   return require('./out/server/src/startServer').start();

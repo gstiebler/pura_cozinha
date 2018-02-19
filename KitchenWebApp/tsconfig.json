@@ -1,19 +1,12 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2015",
     "module": "commonjs",
     "preserveConstEnums": true,
-    "sourceMap": true,
     "outDir": "./out",
     "allowJs": true,
     "jsx": "react",
     "experimentalDecorators": true,
     "removeComments": true
-  },
-  "include": [
-      "server/src/**/*.ts",
-      "ConsumerWebApp/src/**/*.ts",
-      "KitchenWebApp/src/**/*.ts",
-      "common/**/*.ts",
-  ]
+  }
 }
