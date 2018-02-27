@@ -1,6 +1,3 @@
-cd ..
-git pull
-yarn
 
 cd ConsumerWebApp
 node ../node_modules/webpack/bin/webpack.js --config webpack.prod.js

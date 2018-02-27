@@ -24,4 +24,4 @@ RUN yarn
 RUN yarn global add typescript
 
 WORKDIR /usr/src/pura_cozinha/infrastructure
-CMD ./startServer.sh
+CMD ./updateAndRun.sh
