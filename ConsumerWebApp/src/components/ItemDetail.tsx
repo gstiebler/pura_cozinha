@@ -8,7 +8,7 @@ import Grid from 'material-ui/Grid';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
-import { formatCurrency } from '../lib/Utils';
+import { formatCurrency } from '../../../common/util';
 
 const styles = theme => ({
   root: {},
