@@ -10,10 +10,15 @@ export class Store {
   @observable orders: any[];
 
   constructor() {
+    this.reset()
   }
 
   async onOrdersOpen() {
     this.orders = await ns.getOrders();
+  }
+
+  reset() {
+    this.orders = [];
   }
 
 }

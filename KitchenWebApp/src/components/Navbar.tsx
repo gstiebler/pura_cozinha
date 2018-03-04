@@ -7,7 +7,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'mobx-router';
-
+import Views from '../Views';
 
 const styles = {
   root: {
@@ -35,6 +35,11 @@ function Navbar(props: IProps) {
         <Typography variant="title" color="inherit">
           Admin Cozinha
         </Typography>
+        <Link view={Views.orders} store={store} >
+          <Typography variant="title" color="inherit">
+            Pedidos
+          </Typography>  
+        </Link>
       </Toolbar>
     </AppBar>
   );
