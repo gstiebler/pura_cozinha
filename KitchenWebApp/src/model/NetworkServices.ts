@@ -20,3 +20,23 @@ export async function getOrders(): Promise<any[]> {
   const result = await network.fetchQuery(query);
   return result.orders;
 }
+
+export async function getOrderDetails(orderId: number): Promise<any> {
+  const params = `
+    orderId: "${orderId}"
+  `;
+  const fields = [
+    'local',
+    'localComplement',
+    'status',
+    'totalAmount',
+    'createdOn',
+    'paymentOption',
+    'telephoneNumber',
+    'items { qty, itemTotalPrice, foodMenuItem { title, description, price } }'
+  ];
+  const fieldsStr = fields.join(', ');
+  const query = `query { orderDetails( ${params} ) { ${fieldsStr} } }`;
+  const result = await network.fetchQuery(query);
+  return result.orderDetails;
+}

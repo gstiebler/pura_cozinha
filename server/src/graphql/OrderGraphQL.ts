@@ -9,7 +9,7 @@ import {
 } from 'graphql';
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
-import { menuItemTypeFields } from './FoodMenuItemGraphql';
+import { menuItemTypeFields, menuItemType } from './FoodMenuItemGraphql';
 import { Order, IOrder } from '../db/models/Order';
 import * as resolvers from './resolvers/OrderResolver';
 import { getProjection } from '../lib/Util';
@@ -59,6 +59,30 @@ const OrderInListType = new GraphQLObjectType({
   }
 });
 
+const OrderItemType = new GraphQLObjectType({
+  name: 'OrderItemType',
+  fields: {
+    qty: { type: GraphQLFloat },
+    itemTotalPrice: { type: GraphQLFloat },
+    foodMenuItem: { type: menuItemType },
+  }
+});
+
+const OrderCompleteType = new GraphQLObjectType({
+  name: 'OrderCompleteType',
+  fields: {
+    _id: { type: GraphQLID },
+    local: { type: GraphQLString },
+    localComplement: { type: GraphQLString },
+    status: { type: GraphQLString },
+    totalAmount: { type: GraphQLFloat },
+    paymentOption: { type: GraphQLString },
+    telephoneNumber: { type: GraphQLString },
+    createdOn: { type: GraphQLFloat },
+    items: { type: new GraphQLList(OrderItemType) },
+  }
+});
+
 export const Query = {
   orders: {
     type: new GraphQLList(OrderInListType),
@@ -73,6 +97,16 @@ export const Query = {
           .skip(offset)
           .limit(limit)
           .lean();
+    }
+  },
+  orderDetails: {
+    type: OrderCompleteType,
+    args: {
+      orderId: { type: GraphQLID },
+    },
+    resolve: async function(root, { orderId }, source, fieldASTs) {
+      const projection = getProjection(fieldASTs);
+      return await Order.findById(orderId, projection).lean();
     }
   }
 };

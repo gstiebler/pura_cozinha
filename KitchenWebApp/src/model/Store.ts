@@ -8,17 +8,23 @@ export class Store {
 
   @observable router;
   @observable orders: any[];
+  @observable currentOrder;
 
   constructor() {
     this.reset()
+  }
+
+  reset() {
+    this.orders = [];
+    this.currentOrder = null;
   }
 
   async onOrdersOpen() {
     this.orders = await ns.getOrders();
   }
 
-  reset() {
-    this.orders = [];
+  async onOrderSelected(orderId: number) {
+    this.currentOrder = await ns.getOrderDetails(orderId);
   }
 
 }

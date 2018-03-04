@@ -18,7 +18,7 @@ export const menuItemTypeFields = {
   imgURL: { type: GraphQLString },
 };
 
-const menuItemType = new GraphQLObjectType({
+export const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
   fields: menuItemTypeFields,
 });
