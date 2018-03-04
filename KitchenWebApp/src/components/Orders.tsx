@@ -4,6 +4,7 @@ import { Store } from '../model/Store';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import { formatCurrency } from '../../../common/util';
+import * as moment from 'moment';
 
 function onItemClicked(store: Store, id: string) {
 
@@ -22,9 +23,11 @@ function Orders(props: IProps) {
   const { classes, store } = props;
 
   const items = store.orders.map(order => {
+    const date = moment(order.createdOn).format('DD/MM/YY - HH:mm');
+    const secondary = `${order.local} - ${order.localComplement}`;
     return (
       <ListItem key={order._id} button divider onClick={() => onItemClicked(store, order._id)} >
-        <ListItemText primary={order.createdOn} secondary={formatCurrency(order.totalAmount)}/>
+        <ListItemText primary={date} secondary={secondary}/>
       </ListItem>
     );
   });
