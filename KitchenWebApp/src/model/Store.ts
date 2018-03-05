@@ -31,8 +31,9 @@ export class Store {
   }
 
   async onOrderSelected(orderId: number) {
-    this.currentOrder = await ns.getOrderDetails(orderId);
-    this.currentOrder.readableStatus = readableStatus.get(this.currentOrder.status);
+    const order = await ns.getOrderDetails(orderId);
+    order.readableStatus = readableStatus.get(order.status);
+    this.currentOrder = order;
   }
 
 }

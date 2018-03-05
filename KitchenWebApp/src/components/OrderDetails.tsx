@@ -7,7 +7,9 @@ import { formatCurrency } from '../../../common/util';
 import * as moment from 'moment';
 
 const styles = {
-  root: {}
+  root: {
+    padding: 16,
+  }
 };
 
 interface IProps {
@@ -23,13 +25,13 @@ function OrderDetails(props: IProps) {
   }
   return (
     <div className={classes.root}>
-      <Typography>
+      <Typography component="p">
         Status: {order.readableStatus}
       </Typography>
-      <Typography>
+      <Typography component="p">
         Local: {order.local}
       </Typography>
-      <Typography>
+      <Typography component="p">
         Complemento: {order.localComplement}
       </Typography>
     </div>
