@@ -23,7 +23,8 @@ export default async (): Promise<IOrder[]> => {
             price: 25.0
           }
         }
-      ]
+      ],
+      statusHistory: [],
     },
   ];
 }

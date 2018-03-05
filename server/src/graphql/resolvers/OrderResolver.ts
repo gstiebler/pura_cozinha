@@ -22,6 +22,7 @@ export async function saveOrder(fmiData: IOrderRequest) {
     telephoneNumber: fmiData.telephoneNumber,
     totalAmount: fmiData.orderSummary.totalAmount,
     items,
+    statusHistory: [],
   };
   const order = new Order(orderObj);
   const formattedOrder = OrderProcess.formatOrder(orderObj);

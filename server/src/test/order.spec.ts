@@ -36,6 +36,7 @@ describe('order', () => {
           }
         }
       ],
+      statusHistory: [],
     };
     const formattedOrder = OrderProcess.formatOrder(order);
     expect(formattedOrder).to.equal('Primeiro item: 2\nSegundo item: 1');
