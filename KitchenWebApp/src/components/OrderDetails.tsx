@@ -11,6 +11,9 @@ const styles = {
   root: {
     padding: 16,
     margin: 8,
+  },
+  foodMenuItem: {
+    paddingLeft: 24,
   }
 };
 
@@ -25,6 +28,14 @@ function OrderDetails(props: IProps) {
   if (!order) {
     return <div />;
   }
+  const items = order.items.map(item => {
+    return (
+      <Typography component="p"  key={ item.foodMenuItem.title } className={classes.foodMenuItem} >
+        {item.qty} x {item.foodMenuItem.title}
+      </Typography>
+    );
+  });
+  const date = moment(order.createdOn).format('DD/MM/YY - HH:mm');
   return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -32,11 +43,27 @@ function OrderDetails(props: IProps) {
           Status: {order.readableStatus}
         </Typography>
         <Typography component="p">
+          Momento: {date}
+        </Typography>
+        <Typography component="p">
           Local: {order.local}
         </Typography>
         <Typography component="p">
           Complemento: {order.localComplement}
         </Typography>
+        <Typography component="p">
+          Pagamento: {order.paymentOption}
+        </Typography>
+        <Typography component="p">
+          Telefone: {order.telephoneNumber}
+        </Typography>
+        <Typography component="p">
+          Total: {formatCurrency(order.totalAmount)}
+        </Typography>
+        <Typography component="p">
+          Itens:
+        </Typography>
+        { items }
       </Paper>
     </div>
   );
