@@ -35,11 +35,7 @@ function Navbar(props: IProps) {
         <Typography variant="title" color="inherit">
           Admin Cozinha
         </Typography>
-        <Link view={Views.orders} store={store} >
-          <Typography variant="title" color="inherit">
-            Pedidos
-          </Typography>  
-        </Link>
+        <Button onClick={ () => { store.router.goTo(Views.orders, {}, store); } }>Pedidos</Button>
       </Toolbar>
     </AppBar>
   );

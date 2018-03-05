@@ -4,10 +4,11 @@ import { Store } from '../model/Store';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import { formatCurrency } from '../../../common/util';
+import views from '../Views';
 import * as moment from 'moment';
 
-function onItemClicked(store: Store, id: string) {
-
+function onItemClicked(store: Store, orderId: string) {
+  store.router.goTo(views.orderDetails, { orderId }, store);
 }
 
 const styles = {
