@@ -120,4 +120,17 @@ export const Mutation = {
       return { msg: 'OK' };
     }
   },
+  changeOrderStatus: {
+    type: GraphQLString,
+    args: { 
+      orderId: { type: GraphQLID },
+      status: { type: GraphQLString },
+    },
+    async resolve(value, { orderId, status }) {
+      const order = await Order.findById(orderId);
+      order.status = status;
+      await order.save();
+      return 'OK';
+    }
+  },
 };

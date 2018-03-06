@@ -1,5 +1,6 @@
 import { Document, Schema, Model, model } from 'mongoose';
 import { menuItemSchema } from './menuItem';
+import { TOrderStatus } from '../../../../common/Interfaces';
 import * as _ from 'lodash';
 const ObjectId = Schema.Types.ObjectId;
 const availableStatuses = [
@@ -10,13 +11,11 @@ const availableStatuses = [
   'CANCELED',
 ];
 
-type TStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' | 'CANCELED';
-
 export interface IOrder {
   userId: string;
   local: string;
   localComplement: string;
-  status?: TStatus;
+  status?: TOrderStatus;
   paymentOption: 'Dinheiro' | 'Cartão';
   telephoneNumber: string;
   totalAmount: number;
@@ -31,7 +30,7 @@ export interface IOrder {
     };
   }[];
   statusHistory: {
-    status: TStatus;
+    status: TOrderStatus;
     updatedOn: Date;
   }[];
   createdOn?: Date;
@@ -64,7 +63,7 @@ const OrderSchema = new Schema({
   }],
 });
 
-OrderSchema.pre('save', async (next) => {
+OrderSchema.pre('save', function (next) {
   try {
     if (_.isEmpty(this.statusHistory)) {
       this.statusHistory = [];

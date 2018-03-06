@@ -1,6 +1,7 @@
 
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
+export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' | 'CANCELED';
 
 export interface FoodMenuItem {
   _id?: TfmiId;

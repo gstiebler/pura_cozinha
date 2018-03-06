@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import {} from '../../../common/Interfaces';
+import { TOrderStatus } from '../../../common/Interfaces';
 
 const readableStatus = new Map([
   ['PENDING', 'pendente'],
@@ -18,10 +18,10 @@ export class Store {
   @observable currentOrder;
 
   constructor() {
-    this.reset();
+    this._reset();
   }
 
-  reset() {
+  _reset() {
     this.orders = [];
     this.currentOrder = null;
   }
@@ -30,10 +30,14 @@ export class Store {
     this.orders = await ns.getOrders();
   }
 
-  async onOrderSelected(orderId: number) {
+  async onOrderSelected(orderId: string) {
     const order = await ns.getOrderDetails(orderId);
     order.readableStatus = readableStatus.get(order.status);
     this.currentOrder = order;
+  }
+
+  async onStatusChanged(orderId: string, status: TOrderStatus) {
+    await ns.changeOrderStatus(orderId, status);
   }
 
 }
