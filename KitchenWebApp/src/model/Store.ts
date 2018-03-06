@@ -5,11 +5,15 @@ import * as ns from './NetworkServices';
 import * as _ from 'lodash';
 import { TOrderStatus } from '../../../common/Interfaces';
 
-const readableStatus = new Map([
-  ['PENDING', 'pendente'],
-  ['DELIVERED', 'entregue'],
-  ['CANCELED', 'cancelado'],
-]);
+export const availableStatuses = [
+  ['PENDING', 'Pendente'],
+  ['PREPARING', 'Em preparo'],
+  ['DELIVERING', 'Em entrega'],
+  ['DELIVERED', 'Entregue'],
+  ['CANCELED', 'Cancelado'],
+];
+
+export const readableStatus = new Map(availableStatuses as any);
 
 export class Store {
 
@@ -26,6 +30,12 @@ export class Store {
     this.currentOrder = null;
   }
 
+  async _setCurrentOrder(orderId: string) {
+    const order = await ns.getOrderDetails(orderId);
+    order.readableStatus = readableStatus.get(order.status);
+    this.currentOrder = order;
+  }
+
   async onOrdersOpen() {
     this.orders = await ns.getOrders();
   }
@@ -35,13 +45,12 @@ export class Store {
   }
 
   async onOrderSelected(orderId: string) {
-    const order = await ns.getOrderDetails(orderId);
-    order.readableStatus = readableStatus.get(order.status);
-    this.currentOrder = order;
+    await this._setCurrentOrder(orderId);
   }
 
-  async onStatusChanged(orderId: string, status: TOrderStatus) {
-    await ns.changeOrderStatus(orderId, status);
+  async onStatusChanged(status: TOrderStatus) {
+    await ns.changeOrderStatus(this.currentOrder._id, status);
+    await this._setCurrentOrder(this.currentOrder._id);
   }
 
 }

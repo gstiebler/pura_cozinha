@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Store } from '../model/Store';
+import { Store, availableStatuses } from '../model/Store';
 import Typography from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 import { formatCurrency } from '../../../common/util';
+import { TOrderStatus } from '../../../common/Interfaces';
 import * as moment from 'moment';
+
+function onStatusChanged(store: Store, newStatus: TOrderStatus) {
+  store.onStatusChanged(newStatus);
+}
 
 const styles = {
   root: {
@@ -36,6 +43,9 @@ function OrderDetails(props: IProps) {
     );
   });
   const date = moment(order.createdOn).format('DD/MM/YY - HH:mm');
+  const statusesRadioOptions = availableStatuses.map(status => {
+    return <FormControlLabel value={status[0]} label={status[1]} control={<Radio />} key={status[0]}/>;
+  });
   return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -64,6 +74,17 @@ function OrderDetails(props: IProps) {
           Itens:
         </Typography>
         { items }
+
+        <br />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Status</FormLabel>
+          <RadioGroup
+              name="statusRadio"
+              value={store.currentOrder.status}
+              onChange={(event, value) => onStatusChanged(store, value as TOrderStatus)} >
+            { statusesRadioOptions }
+          </RadioGroup>
+        </FormControl>
       </Paper>
     </div>
   );

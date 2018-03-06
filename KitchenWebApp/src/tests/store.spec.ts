@@ -38,7 +38,8 @@ describe('kitchen web app store', () => {
   it('update order status', async () => {
     const store = new Store();
     await store.onOrdersOpen();
-    await store.onStatusChanged(store.orders[0]._id, 'DELIVERED');
+    await store.onOrderSelected(store.orders[0]._id);
+    await store.onStatusChanged('DELIVERED');
     const order = await Order.findById(store.orders[0]._id);
     expect(order.statusHistory).to.have.lengthOf(1);
     expect(order.statusHistory[0].status).to.equal('DELIVERED');

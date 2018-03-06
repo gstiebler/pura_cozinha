@@ -40,6 +40,7 @@ export async function getOrderDetails(orderId: string): Promise<any> {
     orderId: "${orderId}"
   `;
   const fields = [
+    '_id',
     'local',
     'localComplement',
     'status',
