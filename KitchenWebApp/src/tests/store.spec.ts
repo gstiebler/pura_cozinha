@@ -7,13 +7,21 @@ import * as moment from 'moment-timezone';
 
 describe('kitchen web app store', () => {
 
-  before(async () => {
+  beforeEach(async () => {
     await initFixtures();
   });
 
-  it('getOrders', async () => {
+  it('get all orders', async () => {
     const store = new Store();
     await store.onOrdersOpen();
+    expect(store.orders).to.have.lengthOf(1);
+    expect(store.orders[0].local).to.equal('Prédio 1');
+    expect(store.orders[0].totalAmount).to.equal(50.0);
+  });
+
+  it('get orders by status', async () => {
+    const store = new Store();
+    await store.onOrdersByStatus('PENDING');
     expect(store.orders).to.have.lengthOf(1);
     expect(store.orders[0].local).to.equal('Prédio 1');
     expect(store.orders[0].totalAmount).to.equal(50.0);

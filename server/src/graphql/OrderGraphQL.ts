@@ -88,11 +88,27 @@ export const Query = {
     type: new GraphQLList(OrderInListType),
     args: {
       offset: { type: GraphQLFloat },
-      limit: { type: GraphQLFloat }
+      limit: { type: GraphQLFloat },
     },
     resolve: async function(root, { offset, limit }, source, fieldASTs) {
       const projection = getProjection(fieldASTs);
       return await Order.find({}, projection)
+          .sort({ createdOn: -1 })
+          .skip(offset)
+          .limit(limit)
+          .lean();
+    }
+  },
+  ordersByStatus: {
+    type: new GraphQLList(OrderInListType),
+    args: {
+      status: { type: GraphQLString },
+      offset: { type: GraphQLFloat },
+      limit: { type: GraphQLFloat },
+    },
+    resolve: async function(root, { status, offset, limit }, source, fieldASTs) {
+      const projection = getProjection(fieldASTs);
+      return await Order.find({ status }, projection)
           .sort({ createdOn: -1 })
           .skip(offset)
           .limit(limit)

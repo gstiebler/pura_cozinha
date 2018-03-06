@@ -30,6 +30,10 @@ export class Store {
     this.orders = await ns.getOrders();
   }
 
+  async onOrdersByStatus(status: TOrderStatus) {
+    this.orders = await ns.getOrdersByStatus(status);
+  }
+
   async onOrderSelected(orderId: string) {
     const order = await ns.getOrderDetails(orderId);
     order.readableStatus = readableStatus.get(order.status);
