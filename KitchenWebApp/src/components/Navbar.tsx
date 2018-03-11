@@ -22,7 +22,7 @@ function handleDrawer(store: Store, isOpen: boolean) {
   store.isDrawerOpen = isOpen;
 }
 
-const styles: StyleRules = {
+const styles = theme => ({
   root: {
     width: '100%',
   },
@@ -32,15 +32,11 @@ const styles: StyleRules = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawerPaper: {
-    position: 'relative',
-    width: drawerWidth,
-  },
-};
+  },  
+  list: {
+    width: 250
+  }
+});
 
 interface IProps {
   store: Store;
@@ -51,26 +47,18 @@ function Navbar(props: IProps) {
   const { classes, store } = props;
 
   const drawer = (
-    <Drawer
-      open={store.isDrawerOpen}
-      classes={{
-        paper: classes.drawerPaper,
-      }} >
-      <div className={classes.drawerHeader}>
-        <IconButton onClick={() => handleDrawer(store, false)}>
-          <ChevronLeftIcon />
-        </IconButton>
+    <Drawer open={store.isDrawerOpen} onClose={() => handleDrawer(store, false)}>
+      <div
+          tabIndex={0}
+          role="button"
+          onClick={() => handleDrawer(store, false)}
+          onKeyDown={() => handleDrawer(store, false)} >
+        <Divider />
+        <List className={classes.list}>
+          <ListItemText>a</ListItemText>
+          <ListItemText>b</ListItemText>
+        </List>
       </div>
-      <Divider />
-      <List>
-        <ListItemText>a</ListItemText>
-        <ListItemText>b</ListItemText>
-      </List>
-      <Divider />
-      <List>
-        <ListItemText>c</ListItemText>
-        <ListItemText>d</ListItemText>
-      </List>
     </Drawer>
   );
 
@@ -82,7 +70,7 @@ function Navbar(props: IProps) {
             color="inherit"
             aria-label="open drawer"
             onClick={() => handleDrawer(store, true)}
-            className={classNames(classes.menuButton, store.isDrawerOpen && classes.hide)} >
+            className={classes.menuButton} >
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit">
@@ -96,4 +84,4 @@ function Navbar(props: IProps) {
   );
 }
 
-export default withStyles(styles)(Navbar);
+export default withStyles(styles)(observer(Navbar));
