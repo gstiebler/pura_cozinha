@@ -8,7 +8,7 @@ import views from '../Views';
 import * as moment from 'moment';
 
 function onItemClicked(store: Store, orderId: string) {
-  store.router.goTo(views.orderDetails, { orderId }, store);
+  store.router.goTo(views.orderDetails, { order_id: orderId }, store);
 }
 
 const styles = {

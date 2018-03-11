@@ -39,12 +39,13 @@ export class Store {
     this.currentOrder = order;
   }
 
-  async onOrdersOpen() {
-    this.orders = await ns.getOrders();
-  }
-
-  async onOrdersByStatus(status: TOrderStatus) {
-    this.orders = await ns.getOrdersByStatus(status);
+  async onOrdersOpen(ordersType: string) {
+    const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
+    const closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
+    const orderTypes = ordersType === 'OPEN' ? openOrderTypes :
+                       ordersType === 'CLOSED' ? closedOrderTypes :
+                       ['Error: unkonwn order type'];
+    this.orders = await ns.getOrders(orderTypes);
   }
 
   async onOrderSelected(orderId: string) {

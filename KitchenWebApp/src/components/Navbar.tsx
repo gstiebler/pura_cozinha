@@ -22,6 +22,11 @@ function handleDrawer(store: Store, isOpen: boolean) {
   store.isDrawerOpen = isOpen;
 }
 
+function viewOrders(store: Store, type: string) {
+  store.router.goTo(Views.orders, { type }, store);
+  store.isDrawerOpen = false;
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -50,13 +55,17 @@ function Navbar(props: IProps) {
     <Drawer open={store.isDrawerOpen} onClose={() => handleDrawer(store, false)}>
       <div
           tabIndex={0}
-          role="button"
-          onClick={() => handleDrawer(store, false)}
-          onKeyDown={() => handleDrawer(store, false)} >
+          role="button" >
         <Divider />
         <List className={classes.list}>
-          <ListItemText>a</ListItemText>
-          <ListItemText>b</ListItemText>
+          <ListItem>
+            <ListItemText primary='Pedidos em aberto'
+            onClick={() => viewOrders(store, 'OPEN')}/>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary='Pedidos fechados'
+            onClick={() => viewOrders(store, 'CLOSED')}/>
+          </ListItem>
         </List>
       </div>
     </Drawer>
@@ -76,7 +85,6 @@ function Navbar(props: IProps) {
           <Typography variant="title" color="inherit">
             Admin Cozinha
           </Typography>
-          <Button onClick={ () => { store.router.goTo(Views.orders, {}, store); } }>Pedidos</Button>
         </Toolbar>
       </AppBar>
       { drawer }

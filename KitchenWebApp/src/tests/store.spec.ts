@@ -11,25 +11,17 @@ describe('kitchen web app store', () => {
     await initFixtures();
   });
 
-  it('get all orders', async () => {
+  it('get open orders', async () => {
     const store = new Store();
-    await store.onOrdersOpen();
+    await store.onOrdersOpen('CLOSED');
     expect(store.orders).to.have.lengthOf(1);
-    expect(store.orders[0].local).to.equal('Prédio 1');
-    expect(store.orders[0].totalAmount).to.equal(50.0);
-  });
-
-  it('get orders by status', async () => {
-    const store = new Store();
-    await store.onOrdersByStatus('PENDING');
-    expect(store.orders).to.have.lengthOf(1);
-    expect(store.orders[0].local).to.equal('Prédio 1');
-    expect(store.orders[0].totalAmount).to.equal(50.0);
+    expect(store.orders[0].local).to.equal('Prédio 2');
+    expect(store.orders[0].totalAmount).to.equal(48.0);
   });
 
   it('getOrderDetails', async () => {
     const store = new Store();
-    await store.onOrdersOpen();
+    await store.onOrdersOpen('OPEN');
     await store.onOrderSelected(store.orders[0]._id);
     expect(store.currentOrder.local).equal('Prédio 1');
     expect(store.currentOrder.items[0].qty).equal(2);
@@ -37,7 +29,7 @@ describe('kitchen web app store', () => {
 
   it('update order status', async () => {
     const store = new Store();
-    await store.onOrdersOpen();
+    await store.onOrdersOpen('OPEN');
     await store.onOrderSelected(store.orders[0]._id);
     await store.onStatusChanged('DELIVERED');
     const order = await Order.findById(store.orders[0]._id);

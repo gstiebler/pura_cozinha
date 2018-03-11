@@ -12,27 +12,16 @@ const ordersStatusFields = [
   'createdOn',
 ];
 
-export async function getOrders(): Promise<any[]> {
+export async function getOrders(orderTypes: string[]): Promise<any[]> {
   const params = `
     offset: ${0},
-    limit: ${100}
+    limit: ${100},
+    orderTypes: [${orderTypes.map(ot => `"${ot}"`).join(', ')}]
   `;
   const fieldsStr = ordersStatusFields.join(', ');
   const query = `query { orders( ${params} ) { ${fieldsStr} } }`;
   const result = await network.fetchQuery(query);
   return result.orders;
-}
-
-export async function getOrdersByStatus(status: TOrderStatus): Promise<any[]> {
-  const params = `
-    status: "${status}",
-    offset: ${0},
-    limit: ${100}
-  `;
-  const fieldsStr = ordersStatusFields.join(', ');
-  const query = `query { ordersByStatus( ${params} ) { ${fieldsStr} } }`;
-  const result = await network.fetchQuery(query);
-  return result.ordersByStatus;
 }
 
 export async function getOrderDetails(orderId: string): Promise<any> {
