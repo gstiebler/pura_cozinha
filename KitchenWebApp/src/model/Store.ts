@@ -21,6 +21,9 @@ export class Store {
   @observable orders: any[];
   @observable currentOrder;
 
+  // visual properties
+  @observable isDrawerOpen = false;
+
   constructor() {
     this._reset();
   }
