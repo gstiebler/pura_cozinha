@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
+import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
 import { observer } from 'mobx-react';
@@ -33,7 +34,11 @@ const styles = theme => ({
   },
   qtyContainer: {
     flexGrow: 1,
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+    horizontalAlignment: 'center',
+  },
 });
 
 interface IProps {
@@ -85,6 +90,14 @@ function ItemDetail(props: IProps) {
             </Grid>
           </Grid>
         </Grid>
+        <Button variant="raised" className={classes.button} 
+                onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}>
+          Finalizar pedido
+        </Button>
+        <Button variant="raised" className={classes.button} 
+                onClick={ () => store.router.goTo(views.home, {}, store) } >
+          Continuar comprando
+        </Button>
       </div>
     </div>
   );
