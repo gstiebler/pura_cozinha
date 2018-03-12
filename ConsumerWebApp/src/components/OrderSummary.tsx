@@ -10,11 +10,7 @@ import { formatCurrency } from '../../../common/util';
 
 const styles = theme => ({
   root: {
-    padding: 16,
-  },
-  price: {
-    width: '100%',
-    textAlign: 'right',
+    paddingLeft: 16,
   },
   itemLine: {
     width: '100%'
@@ -36,8 +32,9 @@ function OrderSummary(props: IProps) {
   const items = store.orderSummary.items.map(item => {
     return (
       <div key={item.fmi._id} className={classes.itemLine}>
-        <span>{item.fmi.title} ({item.qty}):</span>
-        <span className={classes.price}> { formatCurrency(item.itemTotalPrice) }</span>
+        <Typography gutterBottom >
+          {item.fmi.title} ({item.qty}): { formatCurrency(item.itemTotalPrice) }
+        </Typography>
       </div>
     );
   });
@@ -46,11 +43,9 @@ function OrderSummary(props: IProps) {
     <div className={classes.root}>
       { items }
       <br />
-      Total: { formatCurrency(store.orderSummary.totalAmount) } 
-      <Button variant="raised" className={classes.button} 
-              onClick={ () => store.router.goTo(views.addressPayment, {}, store) } >
-        Próximo
-      </Button>
+      <Typography gutterBottom >
+        Total: { formatCurrency(store.orderSummary.totalAmount) }
+      </Typography>
     </div>
   );
 }

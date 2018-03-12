@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
+import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+import OrderSummary from './OrderSummary';
 
 function onItemClicked(store: Store, id: string) {
   store.router.goTo(views.itemDetail, { id }, store);
@@ -23,6 +25,9 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     horizontalAlignment: 'center',
+  },
+  summaryLabel: {
+    padding: 16,
   },
 });
 
@@ -51,9 +56,12 @@ function FoodMenu(props: IProps) {
       <List>
         {items}
       </List>
-
+      <Typography variant="subheading" gutterBottom className={classes.summaryLabel}>
+        Resumo
+      </Typography>
+      <OrderSummary store={store}/>
       <Button variant="raised" className={classes.button} 
-              onClick={ () => store.router.goTo(views.orderSummary, {}, store) } disabled={store.orderSummary.items.length === 0}>
+              onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}>
         Finalizar pedido
       </Button>
     </div>
