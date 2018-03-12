@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Store } from '../model/Store';
+import { Store, readableStatus } from '../model/Store';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import { formatCurrency } from '../../../common/util';
@@ -25,10 +25,11 @@ function Orders(props: IProps) {
 
   const items = store.orders.map(order => {
     const date = moment(order.createdOn).format('DD/MM/YY - HH:mm');
+    const primary = `${date} - ${readableStatus.get(order.status)}`;
     const secondary = `${order.local} - ${order.localComplement}`;
     return (
       <ListItem key={order._id} button divider onClick={() => onItemClicked(store, order._id)} >
-        <ListItemText primary={date} secondary={secondary}/>
+        <ListItemText primary={primary} secondary={secondary}/>
       </ListItem>
     );
   });
