@@ -35,9 +35,12 @@ function FoodMenu(props: IProps) {
   const { store, classes } = props;
 
   const items = store.foodMenuItems.map(fmi => {
+    const qty = store.getItemQty(fmi._id);
+    const formattedPrice = formatCurrency(fmi.price);
+    const secondary =  qty > 0 ? `${formattedPrice} - Qtd: ${qty}` : formattedPrice;
     return (
       <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
-        <ListItemText primary={fmi.title} secondary={formatCurrency(fmi.price)}/>
+        <ListItemText primary={fmi.title} secondary={secondary}/>
         <img src={fmi.imgURL} className={classes.image}/>
       </ListItem>
     );
