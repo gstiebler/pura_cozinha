@@ -27,4 +27,5 @@ export interface IOrderRequest {
   localComplement: string;
   paymentOption: TPaymentOptions;
   telephoneNumber: string;
+  comments: string;
 }

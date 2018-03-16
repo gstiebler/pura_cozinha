@@ -15,6 +15,7 @@ export interface IOrder {
   userId: string;
   local: string;
   localComplement: string;
+  comments: string;
   status?: TOrderStatus;
   paymentOption: 'Dinheiro' | 'Cartão';
   telephoneNumber: string;
@@ -47,6 +48,7 @@ const OrderSchema = new Schema({
   userId: { type: String, required: true },
   local: { type: String, required: true },
   localComplement: { type: String },
+  comments: { type: String },
   status: { type: String, enum: availableStatuses, default: 'PENDING' },
   paymentOption: { type: String, enum: ['Dinheiro', 'Cartão'], required: true },
   telephoneNumber: { type: String },

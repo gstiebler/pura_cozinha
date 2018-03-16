@@ -2,7 +2,7 @@
 import { computed, observable } from 'mobx';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { 
+import {
   TfmiId,
   TPaymentOptions,
   FoodMenuItem,
@@ -22,6 +22,7 @@ export class Store {
   @observable localComplementLabel: string = 'Apartamento';
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
+  @observable comments: string = '';
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -42,6 +43,7 @@ export class Store {
 
   reset() {
     this.itemQty = new Map();
+    this.comments = '';
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -64,7 +66,7 @@ export class Store {
   setSnackbarMsg(msg: string) {
     this.snackbarMsg = msg;
     this.isSnackbarOpen = true;
-    setTimeout(() => { 
+    setTimeout(() => {
       this.isSnackbarOpen = false;
     }, 5000);
   }
@@ -111,9 +113,13 @@ export class Store {
   onPaymentOptionSelected(paymentOption: TPaymentOptions) {
     this.selectedPaymentOption = paymentOption;
   }
-  
+
   onTelNumberChanged(telNumber: string) {
     this.telephoneNumber = telNumber;
+  }
+
+  onCommentsChanged(comment: string) {
+    this.comments = comment;
   }
 
   async onSendOrderRequested() {
@@ -124,7 +130,9 @@ export class Store {
         localComplement: this.localComplement,
         paymentOption: this.selectedPaymentOption,
         telephoneNumber: this.telephoneNumber,
+        comments: this.comments,
       };
+      console.log("foi ou nao" + this.comments);
       await ns.sendOrderRequest(request);
       this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');

@@ -10,6 +10,7 @@ describe('order', () => {
       userId: '',
       local: '',
       localComplement: '',
+      comments: '',
       status: 'PENDING',
       paymentOption: 'Dinheiro',
       telephoneNumber: '',

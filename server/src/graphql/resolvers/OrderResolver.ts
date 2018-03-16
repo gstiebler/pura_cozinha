@@ -18,6 +18,7 @@ export async function saveOrder(fmiData: IOrderRequest) {
     userId: 'coffee_shop',
     local: fmiData.local,
     localComplement: fmiData.localComplement,
+    comments: fmiData.comments,
     paymentOption: fmiData.paymentOption,
     telephoneNumber: fmiData.telephoneNumber,
     totalAmount: fmiData.orderSummary.totalAmount,

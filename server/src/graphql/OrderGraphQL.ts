@@ -43,6 +43,7 @@ const OrderRequestInputType = new GraphQLInputObjectType({
     localComplement: { type: GraphQLString },
     paymentOption: { type: new GraphQLNonNull(GraphQLString) },
     telephoneNumber: { type: GraphQLString },
+    comments: { type: GraphQLString },
     orderSummary: { type: new GraphQLNonNull(OrderSummaryInputType) },
   }
 });
@@ -124,7 +125,7 @@ export const Mutation = {
   },
   changeOrderStatus: {
     type: GraphQLString,
-    args: { 
+    args: {
       orderId: { type: GraphQLID },
       status: { type: GraphQLString },
     },
