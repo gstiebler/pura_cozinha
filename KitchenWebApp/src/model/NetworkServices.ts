@@ -37,6 +37,7 @@ export async function getOrderDetails(orderId: string): Promise<any> {
     'createdOn',
     'paymentOption',
     'telephoneNumber',
+    'comments',
     'items { qty, itemTotalPrice, foodMenuItem { title, description, price } }'
   ];
   const fieldsStr = fields.join(', ');

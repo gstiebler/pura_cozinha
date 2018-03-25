@@ -79,6 +79,7 @@ const OrderCompleteType = new GraphQLObjectType({
     totalAmount: { type: GraphQLFloat },
     paymentOption: { type: GraphQLString },
     telephoneNumber: { type: GraphQLString },
+    comments: { type: GraphQLString },
     createdOn: { type: GraphQLFloat },
     items: { type: new GraphQLList(OrderItemType) },
   }
