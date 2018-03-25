@@ -71,6 +71,11 @@ export class Store {
     }, 5000);
   }
 
+  isBackButtonVisible(): string
+  {
+    return this.router.currentView.path === '/' ? 'none' : 'block';
+  }
+
   @computed
   get orderSummary(): IOrderSummary {
     const selectedItems = [...this.itemQty.entries()];
