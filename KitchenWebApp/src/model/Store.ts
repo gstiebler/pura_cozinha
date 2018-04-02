@@ -4,6 +4,7 @@ import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
 import { TOrderStatus } from '../../../common/Interfaces';
+import views from '../Views';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],
@@ -20,6 +21,9 @@ export class Store {
   @observable router: RouterStore;
   @observable orders: any[];
   @observable currentOrder;
+  @observable email: string = '';
+  @observable password: string = '';
+  @observable isLoggedIn: boolean = false;
 
   // visual properties
   @observable isDrawerOpen = false;
@@ -50,6 +54,20 @@ export class Store {
 
   async onOrderSelected(orderId: string) {
     await this._setCurrentOrder(orderId);
+  }
+
+  onLoginSubmit() {
+    console.log(this.email + ' ' + this.password);
+    this.isLoggedIn = true;
+    
+  }
+
+  emailChanged(email: string){
+    this.email = email;
+  }
+
+  passwordChanged(password: string){
+    this.password = password;
   }
 
   async onStatusChanged(status: TOrderStatus) {

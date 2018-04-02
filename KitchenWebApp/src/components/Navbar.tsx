@@ -27,6 +27,11 @@ function viewOrders(store: Store, type: string) {
   store.isDrawerOpen = false;
 }
 
+function viewHome(store: Store, type: string) {
+  store.router.goTo(Views.home, { type }, store);
+  store.isDrawerOpen = false;
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -50,6 +55,8 @@ interface IProps {
 
 function Navbar(props: IProps) {
   const { classes, store } = props;
+  const hidden = store.isLoggedIn == false ? 'none' : 'block';
+  const hiddenLoginButton = store.isLoggedIn == false ? 'block' : 'none';
 
   const drawer = (
     <Drawer open={store.isDrawerOpen} onClose={() => handleDrawer(store, false)}>
@@ -57,7 +64,7 @@ function Navbar(props: IProps) {
           tabIndex={0}
           role="button" >
         <Divider />
-        <List className={classes.list}>
+        <List className={classes.list} >
           <ListItem>
             <ListItemText primary='Pedidos em aberto'
             onClick={() => viewOrders(store, 'OPEN')}/>
@@ -66,6 +73,7 @@ function Navbar(props: IProps) {
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
           </ListItem>
+          
         </List>
       </div>
     </Drawer>
@@ -79,12 +87,19 @@ function Navbar(props: IProps) {
             color="inherit"
             aria-label="open drawer"
             onClick={() => handleDrawer(store, true)}
+            style={{display: hidden}}
             className={classes.menuButton} >
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit">
             Admin Cozinha
           </Typography>
+          <Button className={classes.button}  
+                  style={{display: hiddenLoginButton, marginLeft: 20}}
+                  onClick={() => viewHome(store, 'CLOSED')} 
+                  variant="raised" color="default">
+              Login
+          </Button>
         </Toolbar>
       </AppBar>
       { drawer }

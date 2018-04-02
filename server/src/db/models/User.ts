@@ -6,6 +6,7 @@ interface IUserModel extends mongoose.Document {
   name: string;
   role: string;
   password: string;
+  token: string;
   setPassword(newPassword: string);
   passwordMatch(password: string): boolean;
 }
@@ -22,6 +23,10 @@ const userSchema = new mongoose.Schema({
    name: {
      type: String,
      required: true
+   },
+   token: {
+    type: String,
+    required: true
    },
    role: {
      type: String,

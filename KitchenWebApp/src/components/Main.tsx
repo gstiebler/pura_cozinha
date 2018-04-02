@@ -15,8 +15,11 @@ interface IProps {
   classes?: any;
 }
 
+
+
 function Main(props: IProps) {
   const { classes, store } = props;
+  console.log("main");
   return (
     <main>
       <Provider store={store}>
