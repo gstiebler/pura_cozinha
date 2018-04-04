@@ -19,7 +19,23 @@ export default async () => {
       title: 'Sanduíche de Mignon',
       description: 'Melhor não tem',
       price: 15.00,
-      imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg'
+      imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg',
+      options: [
+        {
+          label: 'Molho',
+          key: 'MOLHO',
+          optionItems: [
+            {
+              label: 'Barbecue',
+              key: 'BARBECUE',
+            },
+            {
+              label: 'Italiano',
+              key: 'ITALIANO',
+            },
+          ],
+        }
+      ],
     },
   ];
 }

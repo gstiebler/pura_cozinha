@@ -5,7 +5,7 @@ import { IOrder } from '../db/models/Order';
 
 describe('order', () => {
 
-  it('format order as string', async () => {
+  it('format order as string', () => {
     const order: IOrder = {
       userId: '',
       local: '',
