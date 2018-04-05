@@ -5,7 +5,7 @@ import { Store, readableStatus } from '../model/Store';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import { formatCurrency } from '../../../common/util';
-import views from '../Views';
+import Views from '../Views';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import * as moment from 'moment';
@@ -45,13 +45,16 @@ function onPasswordChange(store: Store, event) {
 
 function onSubmit(store: Store){
     store.onLoginSubmit();
-    store.router.goTo(views.homeKitchen, {}, store);
+    const type = 'OPEN';
+    if(store.isLoggedIn)
+        store.router.goTo(Views.orders, { type }, store);
+    else{ console.log("tentando");
+        store.router.goTo(Views.home, {}, store);}
 };
 
 function Login(props: IProps) {
     const { classes, store } = props;
     const {email, password} = this;
-    console.log("login component");
     return (
         <div>
             <Card className={classes.card}>

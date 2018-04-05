@@ -23,7 +23,8 @@ export class Store {
   @observable currentOrder;
   @observable email: string = '';
   @observable password: string = '';
-  @observable isLoggedIn: boolean = false;
+  @observable isLoggedIn: boolean = true;
+  @observable user: any[] = null;
 
   // visual properties
   @observable isDrawerOpen = false;
@@ -35,6 +36,8 @@ export class Store {
   _reset() {
     this.orders = [];
     this.currentOrder = null;
+    this.user = null;
+    this.isLoggedIn = false;
   }
 
   async _setCurrentOrder(orderId: string) {
@@ -56,10 +59,13 @@ export class Store {
     await this._setCurrentOrder(orderId);
   }
 
-  onLoginSubmit() {
+  async onLoginSubmit() {
     console.log(this.email + ' ' + this.password);
-    this.isLoggedIn = true;
-    
+    this.user = await ns.findUser(this.email, this.password);
+    console.log(await ns.findUser(this.email, this.password));
+    if(this.user != null)
+      this.isLoggedIn = true;
+    else this._reset();
   }
 
   emailChanged(email: string){
