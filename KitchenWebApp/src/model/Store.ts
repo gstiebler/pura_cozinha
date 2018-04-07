@@ -78,7 +78,6 @@ export class Store {
   {
     const token = this.getLocalStorageToken('token');
     this.user = await ns.findUserByToken(token);
-    console.log(await ns.findUserByToken(token));
     if(this.user != null)
       this.isLoggedIn = true;
     else{
@@ -98,7 +97,6 @@ export class Store {
   getLocalStorageToken(chave): string
   {
       var itemValue = localStorage.getItem(chave);
-      console.log(itemValue);
        if (itemValue && /^\{(.*?)\}$/.test(itemValue)) {
           var current = JSON.parse(itemValue);
           return current.token;
