@@ -55,11 +55,22 @@ function onSubmit(store: Store){
     store.router.goTo(Views.orders, { type }, store);
 };
 
+function checkRememberToken(store: Store)
+{
+    const token  = store.getLocalStorageToken('token');
+    if(token != undefined)
+    {
+        console.log('user know. Already logged in');
+        const type = 'OPEN';
+        store.router.goTo(Views.orders, { type }, store);
+    }
+        
+}
+
 function Login(props: IProps) {
     const { classes, store } = props;
     const {email, password} = this;
-    const message = `Truncation should be conditionally applicable on this long line of text
-                    as this is a much longer line than what the container can support. `;
+    checkRememberToken(store);
     return (
         <div className={classes.root}>
             <div className={classes.wrapper}>

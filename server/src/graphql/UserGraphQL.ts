@@ -29,13 +29,20 @@ import {
       type: UserCompleteType,
       args: {
         login: { type: GraphQLString },
-        password: { type: GraphQLString }
+        password: { type: GraphQLString },
+        token: { type: GraphQLString }
       },
-      resolve: async function(root, { login, password }, source, fieldASTs) {
+      resolve: async function(root, { login, password, token }, source, fieldASTs) {
         const user = await User.findOne({'login' : login});
         if(user != null) 
           if(user.passwordMatch(password))
+          {
+            if(user.token ==  undefined || user.token == null){
+              user.token = token;
+              await user.save();
+            }
             return user;
+          }
         return null;
       }
     }

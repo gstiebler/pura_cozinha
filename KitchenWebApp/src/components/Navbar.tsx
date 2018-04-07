@@ -28,6 +28,8 @@ function viewOrders(store: Store, type: string) {
 }
 
 function viewHome(store: Store, type: string) {
+  // getter
+  //console.log(store.getLocalStorageToken('token'));
   store.router.goTo(Views.home, { type }, store);
   store.isDrawerOpen = false;
 }

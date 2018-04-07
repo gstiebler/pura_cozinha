@@ -5,6 +5,7 @@ import * as ns from './NetworkServices';
 import * as _ from 'lodash';
 import { TOrderStatus } from '../../../common/Interfaces';
 import views from '../Views';
+import { User, IUserModel } from  '../../../server/src/db/models/User';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],
@@ -24,7 +25,7 @@ export class Store {
   @observable email: string = '';
   @observable password: string = '';
   @observable isLoggedIn: boolean = true;
-  @observable user: any[] = null;
+  @observable user: IUserModel = null;
 
   // visual properties
   @observable isDrawerOpen = false;
@@ -60,14 +61,47 @@ export class Store {
   }
 
   async onLoginSubmit() {
-    console.log(this.email + ' ' + this.password);
-    this.user = await ns.findUser(this.email, this.password);
-    console.log(await ns.findUser(this.email, this.password));
+    const token = this.generateRememberToken();
+    this.user = await ns.findUser(this.email, this.password, token);
+    if(this.user.token != undefined || this.user.token != null)
+    {
+      this.setLocalStorageToken(this.user.token);
+    }
     if(this.user != null)
       this.isLoggedIn = true;
     else{
       this._reset();
     } 
+  }
+
+  setLocalStorageToken(token: string)
+  {
+    const userToken = {
+      'created_at': new Date(),
+      'token': token
+    }
+    localStorage.setItem('token', JSON.stringify(userToken));
+  }
+
+  getLocalStorageToken(chave): string
+  {
+      var itemValue = localStorage.getItem(chave);
+      console.log(itemValue);
+       if (itemValue && /^\{(.*?)\}$/.test(itemValue)) {
+          var current = JSON.parse(itemValue);
+          return current.token;
+      }
+      return null;
+  }
+
+  generateRememberToken(): string {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
   }
 
   emailChanged(email: string){
