@@ -65,7 +65,9 @@ export class Store {
     console.log(await ns.findUser(this.email, this.password));
     if(this.user != null)
       this.isLoggedIn = true;
-    else this._reset();
+    else{
+      this._reset();
+    } 
   }
 
   emailChanged(email: string){

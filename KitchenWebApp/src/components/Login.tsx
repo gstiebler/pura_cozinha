@@ -46,10 +46,7 @@ function onPasswordChange(store: Store, event) {
 function onSubmit(store: Store){
     store.onLoginSubmit();
     const type = 'OPEN';
-    if(store.isLoggedIn)
-        store.router.goTo(Views.orders, { type }, store);
-    else{ console.log("tentando");
-        store.router.goTo(Views.home, {}, store);}
+    store.router.goTo(Views.orders, { type }, store);
 };
 
 function Login(props: IProps) {

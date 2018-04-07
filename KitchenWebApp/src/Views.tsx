@@ -25,6 +25,9 @@ export default {
   orders: new Route({
     path: basePath + '/orders/:type',
     component: <Orders store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      console.log("store log " + store.user);
+    },
     onEnter: (route, params, store: Store, queryParams) => {
       store.onOrdersOpen(params.type);
     },
