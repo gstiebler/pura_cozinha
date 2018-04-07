@@ -45,6 +45,18 @@ import {
           }
         return null;
       }
+    },
+    getUserByToken: {
+      type: UserCompleteType,
+      args: {
+        token: { type: GraphQLString }
+      },
+      resolve: async function(root, { token }, source, fieldASTs) {
+        const user = await User.findOne({'token' : token});
+        if(user != null) 
+            return user;
+        return null;
+      }
     }
   };
   

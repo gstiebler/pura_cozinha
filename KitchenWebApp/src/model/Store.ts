@@ -74,6 +74,18 @@ export class Store {
     } 
   }
 
+  async findUserByToken()
+  {
+    const token = this.getLocalStorageToken('token');
+    this.user = await ns.findUserByToken(token);
+    console.log(await ns.findUserByToken(token));
+    if(this.user != null)
+      this.isLoggedIn = true;
+    else{
+      this._reset();
+    } 
+  }
+
   setLocalStorageToken(token: string)
   {
     const userToken = {

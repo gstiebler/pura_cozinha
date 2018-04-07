@@ -67,6 +67,25 @@ export async function findUser(login: string, password: string, token: string): 
   return result.getUser;
 }
 
+export async function findUserByToken( token: string): Promise<any> {
+  const params = `
+    token: "${token}"
+  `;
+  const fields = [
+    '_id',
+    'login',
+    'password',
+    'name',
+    'token',
+    'role',
+  ];
+  
+  const fieldsStr = fields.join(', ');
+  const query = `query { getUserByToken( ${params} ) { ${fieldsStr} } }`;
+  const result = await network.fetchQuery(query);
+  return result.getUserByToken;
+}
+
 export async function changeOrderStatus(orderId: string, status: TOrderStatus): Promise<string> {
   const mutation = `mutation { changeOrderStatus( orderId: "${orderId}", status: "${status}" ) }`;
   const result = await network.fetchQuery(mutation);

@@ -60,7 +60,7 @@ function checkRememberToken(store: Store)
     const token  = store.getLocalStorageToken('token');
     if(token != undefined)
     {
-        console.log('user know. Already logged in');
+        store.findUserByToken();
         const type = 'OPEN';
         store.router.goTo(Views.orders, { type }, store);
     }
