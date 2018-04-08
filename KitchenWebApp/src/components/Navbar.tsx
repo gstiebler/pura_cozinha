@@ -95,7 +95,8 @@ function Navbar(props: IProps) {
             Admin Cozinha
           </Typography>
           <Button className={classes.button}  
-                  style={{display: hiddenLoginButton, marginLeft: 20}}
+                  size = 'small'
+                  style={{display: hiddenLoginButton, marginLeft: 30, float: 'right'}}
                   onClick={() => viewHome(store, 'CLOSED')} 
                   variant="raised" color="default">
               Login
