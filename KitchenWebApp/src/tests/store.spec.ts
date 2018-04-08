@@ -11,10 +11,10 @@ describe('kitchen web app store', () => {
     await initFixtures();
   });
 
-  it('get open orders', async () => {
+  it('get closed orders', async () => {
     const store = new Store();
     await store.onOrdersOpen('CLOSED');
-    expect(store.orders).to.have.lengthOf(1);
+    expect(store.orders).to.have.lengthOf(3);
     expect(store.orders[0].local).to.equal('Prédio 2');
     expect(store.orders[0].totalAmount).to.equal(48.0);
   });

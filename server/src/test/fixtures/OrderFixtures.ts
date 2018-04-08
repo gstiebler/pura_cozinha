@@ -48,5 +48,49 @@ export default async (): Promise<IOrder[]> => {
       ],
       statusHistory: [],
     },
+    {
+      userId: 'userid',
+      local: 'Prédio 2',
+      localComplement: 'apt 903',
+      status: 'DELIVERED',
+      paymentOption: 'Cartão',
+      telephoneNumber: '94345',
+      totalAmount: 15.0,
+      items: [
+        {
+          qty: 1,
+          itemTotalPrice: 15.0,
+          foodMenuItem: {
+            id: await idByValue(MenuItem, 'title', 'Sanduíche de Mignon'),
+            title: 'Sanduíche de Mignon',
+            description: 'Melhor não tem',
+            price: 15.0
+          }
+        }
+      ],
+      statusHistory: [],
+    },
+    {
+      userId: 'userid',
+      local: 'Prédio 2',
+      localComplement: 'apt 903',
+      status: 'DELIVERED',
+      paymentOption: 'Cartão',
+      telephoneNumber: '94345',
+      totalAmount: 8.0,
+      items: [
+        {
+          qty: 1,
+          itemTotalPrice: 8.0,
+          foodMenuItem: {
+            id: await idByValue(MenuItem, 'title', 'Açai'),
+            title: 'Açai',
+            description: 'Açai batido com banana e morango, vem cheião.',
+            price: 8.0
+          }
+        }
+      ],
+      statusHistory: [],
+    },
   ];
 }

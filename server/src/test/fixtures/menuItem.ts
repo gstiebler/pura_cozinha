@@ -13,7 +13,13 @@ export default async () => {
       title: 'Açai',
       description: 'Açai batido com banana e morango, vem cheião.',
       price: 8.00,
-      imgURL: 'http://www.mundoboaforma.com.br/wp-content/uploads/2015/04/Acai-na-Tigela-500x330.jpg'
+      imgURL: 'http://www.mundoboaforma.com.br/wp-content/uploads/2015/04/Acai-na-Tigela-500x330.jpg',
+      boolOptions: [
+        {
+          key: 'GRANOLA',
+          label: 'Granola',
+        }
+      ],
     },
     {
       title: 'Sanduíche de Mignon',

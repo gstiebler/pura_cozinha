@@ -8,6 +8,7 @@ import {
   FoodMenuItem,
   IOrderSummary,
   IOrderRequest,
+  ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
 
 export class Store {
@@ -15,6 +16,7 @@ export class Store {
   @observable router;
   @observable foodMenuItems: FoodMenuItem[] = [];
   @observable itemQty: Map<TfmiId, number> = new Map();
+  @observable selectedOptions: ISelectedMenuItemOption[] = [];
   @observable selectedLocal: string;
   @observable localComplement: string;
   @observable selectedPaymentOption: TPaymentOptions;
@@ -42,6 +44,7 @@ export class Store {
 
   reset() {
     this.itemQty = new Map();
+    this.selectedOptions = [];
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -132,6 +135,10 @@ export class Store {
       console.error(error);
       this.setSnackbarMsg('Erro ao enviar o pedido');
     }
+  }
+
+  onMenuItemOptionSelected(id: TfmiId, optionKey: string, optionItem: string) {
+    
   }
 
 }

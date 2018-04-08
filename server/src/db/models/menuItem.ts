@@ -13,6 +13,10 @@ export const menuItemSchema = new mongoose.Schema({
       key: { type: String, required: true },
     }],
   }],
+  boolOptions: [{
+    label: { type: String, required: true },
+    key: { type: String, required: true },
+  }],
 });
 
 export const MenuItem = mongoose.model('MenuItem', menuItemSchema);

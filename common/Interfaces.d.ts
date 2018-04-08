@@ -9,6 +9,14 @@ export interface FoodMenuItem {
   description: string;
   price: number;
   imgURL: string;
+  options: {
+    label: string;
+    key: string;
+    optionItems: {
+      label: string;
+      key: string;
+    }[];
+  }[];
 }
 
 export interface IOrderSummary {
@@ -20,11 +28,16 @@ export interface IOrderSummary {
   totalAmount: number;
 }
 
-
 export interface IOrderRequest {
   orderSummary: IOrderSummary;
   local: string;
   localComplement: string;
   paymentOption: TPaymentOptions;
   telephoneNumber: string;
+}
+
+export interface ISelectedMenuItemOption {
+  _id: TfmiId;
+  optionKey: string;
+  selectedItem: string;
 }
