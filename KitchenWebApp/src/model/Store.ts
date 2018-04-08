@@ -26,9 +26,10 @@ export class Store {
   @observable password: string = '';
   @observable isLoggedIn: boolean = true;
   @observable user: IUserModel = null;
-
+  @observable snackbarMsg: string = '';
   // visual properties
   @observable isDrawerOpen = false;
+  @observable isSnackbarOpen: boolean = false;
 
   constructor() {
     this._reset();
@@ -71,6 +72,7 @@ export class Store {
       this.isLoggedIn = true;
     }
     else{
+      this.setSnackbarMsg("Usuário e/ou senha incorreto(s)");
       this._reset();
     } 
   }
@@ -126,6 +128,14 @@ export class Store {
   async onStatusChanged(status: TOrderStatus) {
     await ns.changeOrderStatus(this.currentOrder._id, status);
     await this._setCurrentOrder(this.currentOrder._id);
+  }
+
+  setSnackbarMsg(msg: string) {
+    this.snackbarMsg = msg;
+    this.isSnackbarOpen = true;
+    setTimeout(() => {
+      this.isSnackbarOpen = false;
+    }, 5000);
   }
 
 }
