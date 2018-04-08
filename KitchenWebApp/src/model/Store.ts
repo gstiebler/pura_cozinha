@@ -63,12 +63,13 @@ export class Store {
   async onLoginSubmit() {
     const token = this.generateRememberToken();
     this.user = await ns.findUser(this.email, this.password, token);
-    if(this.user.token != undefined || this.user.token != null)
-    {
-      this.setLocalStorageToken(this.user.token);
-    }
-    if(this.user != null)
+    if(this.user != null){
+      if(this.user.token != undefined || this.user.token != null)
+      {
+        this.setLocalStorageToken(this.user.token);
+      }
       this.isLoggedIn = true;
+    }
     else{
       this._reset();
     } 

@@ -49,10 +49,17 @@ function onPasswordChange(store: Store, event) {
     store.passwordChanged(event.target.value);
 }
 
-function onSubmit(store: Store){
-    store.onLoginSubmit();
-    const type = 'OPEN';
-    store.router.goTo(Views.orders, { type }, store);
+async function onSubmit(store: Store){
+    await store.onLoginSubmit();
+    if(store.isLoggedIn)
+    {
+        const type = 'OPEN';
+        store.router.goTo(Views.orders, { type }, store);
+    }
+    else
+    {
+        //Slack bar
+    }
 };
 
 function checkRememberToken(store: Store)
@@ -70,6 +77,7 @@ function checkRememberToken(store: Store)
 function Login(props: IProps) {
     const { classes, store } = props;
     const {email, password} = this;
+    localStorage.removeItem('token');
     checkRememberToken(store);
     return (
         <div className={classes.root}>
