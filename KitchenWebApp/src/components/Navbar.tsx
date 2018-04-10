@@ -15,6 +15,7 @@ import * as classNames from 'classnames';
 import { withStyles, StyleRules } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 import Views from '../Views';
+import grey from 'material-ui/colors/grey';
 
 export const drawerWidth = 240;
 
@@ -36,6 +37,7 @@ function logOut(store: Store)
 {
   store.onLogOut();
   store.router.goTo(Views.home, { }, store);
+  store.isDrawerOpen = false;
 }
 
 const styles = theme => ({
@@ -79,7 +81,12 @@ function Navbar(props: IProps) {
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
           </ListItem>
-          
+          <hr style={{color: grey[500]}}/>
+          <ListItem>
+            <ListItemText primary='Sair'
+            style={{display: hidden}}
+            onClick={() => logOut(store)}/>
+          </ListItem>
         </List>
       </div>
     </Drawer>
@@ -106,13 +113,6 @@ function Navbar(props: IProps) {
                    onClick={() => viewHome(store)} 
                   variant="raised" color="default">
               Login
-          </Button>
-          <Button className={classes.button}  
-                  size = 'small'
-                  style={{display: hidden, marginLeft: 30, float: 'right'}}
-                   onClick={() => logOut(store)} 
-                  variant="raised" color="default">
-              Sair
           </Button>
         </Toolbar>
       </AppBar>
