@@ -11,9 +11,9 @@ export default {
   home: new Route({
     path: basePath,
     component: <Login store={store}/>,
-    onEnter: () => {
-      //console.log('entering login route');
-    }
+    beforeEnter: (route, params, store: Store) => {
+      console.log("entering ");
+    },
   }),
   homeKitchen: new Route({
     path: basePath + '/home',

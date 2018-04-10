@@ -46,11 +46,10 @@ export async function getOrderDetails(orderId: string): Promise<any> {
   return result.orderDetails;
 }
 
-export async function findUser(login: string, password: string, token: string): Promise<any> {
+export async function findUser(login: string, password: string): Promise<any> {
   const params = `
     login: "${login}",
-    password: "${password}",
-    token: "${token}"
+    password: "${password}"
   `;
   const fields = [
     '_id',

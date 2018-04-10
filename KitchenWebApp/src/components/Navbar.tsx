@@ -27,9 +27,15 @@ function viewOrders(store: Store, type: string) {
   store.isDrawerOpen = false;
 }
 
-function viewHome(store: Store, type: string) {
-  store.router.goTo(Views.home, { type }, store);
+function viewHome(store: Store) {
+  store.router.goTo(Views.home, { }, store);
   store.isDrawerOpen = false;
+}
+
+function logOut(store: Store)
+{
+  store.onLogOut();
+  store.router.goTo(Views.home, { }, store);
 }
 
 const styles = theme => ({
@@ -78,7 +84,7 @@ function Navbar(props: IProps) {
       </div>
     </Drawer>
   );
-
+  
   return (
     <div>
       <AppBar className={classes.root} position="static" color="default">
@@ -97,9 +103,16 @@ function Navbar(props: IProps) {
           <Button className={classes.button}  
                   size = 'small'
                   style={{display: hiddenLoginButton, marginLeft: 30, float: 'right'}}
-                  onClick={() => viewHome(store, 'CLOSED')} 
+                   onClick={() => viewHome(store)} 
                   variant="raised" color="default">
               Login
+          </Button>
+          <Button className={classes.button}  
+                  size = 'small'
+                  style={{display: hidden, marginLeft: 30, float: 'right'}}
+                   onClick={() => logOut(store)} 
+                  variant="raised" color="default">
+              Sair
           </Button>
         </Toolbar>
       </AppBar>

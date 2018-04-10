@@ -40,7 +40,11 @@ export class Store {
     this.currentOrder = null;
     this.user = null;
     this.isLoggedIn = false;
+    this.email = '';
+    this.password = '';
   }
+
+
 
   async _setCurrentOrder(orderId: string) {
     const order = await ns.getOrderDetails(orderId);
@@ -62,19 +66,29 @@ export class Store {
   }
 
   async onLoginSubmit() {
-    const token = this.generateRememberToken();
-    this.user = await ns.findUser(this.email, this.password, token);
+    this.user = await ns.findUser(this.email, this.password);
     if(this.user != null){
-      if(this.user.token != undefined || this.user.token != null)
-      {
-        this.setLocalStorageToken(this.user.token);
-      }
+      this.setLocalStorageToken(this.user.token);
       this.isLoggedIn = true;
     }
     else{
       this.setSnackbarMsg("Usuário e/ou senha incorreto(s)");
       this._reset();
     } 
+  }
+
+  setLocalStorageToken(token: string) {
+    const userToken = {
+      'created_at': new Date(),
+      'token': token
+    }
+    localStorage.setItem('token', JSON.stringify(userToken));
+  }
+
+  onLogOut()
+  {
+    localStorage.removeItem('token');
+    this._reset();
   }
 
   async findUserByToken()
@@ -88,15 +102,6 @@ export class Store {
     } 
   }
 
-  setLocalStorageToken(token: string)
-  {
-    const userToken = {
-      'created_at': new Date(),
-      'token': token
-    }
-    localStorage.setItem('token', JSON.stringify(userToken));
-  }
-
   getLocalStorageToken(chave): string
   {
       var itemValue = localStorage.getItem(chave);
@@ -105,16 +110,6 @@ export class Store {
           return current.token;
       }
       return null;
-  }
-
-  generateRememberToken(): string {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-    for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-    return text;
   }
 
   emailChanged(email: string){
