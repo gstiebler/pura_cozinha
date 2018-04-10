@@ -137,7 +137,6 @@ export class Store {
         telephoneNumber: this.telephoneNumber,
         comments: this.comments,
       };
-      console.log("foi ou nao" + this.comments);
       await ns.sendOrderRequest(request);
       this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');

@@ -12,7 +12,7 @@ export default {
     path: basePath,
     component: <Login store={store}/>,
     beforeEnter: (route, params, store: Store) => {
-      console.log("entering ");
+      
     },
   }),
   homeKitchen: new Route({
@@ -26,7 +26,7 @@ export default {
     path: basePath + '/orders/:type',
     component: <Orders store={store}/>,
     beforeEnter: (route, params, store: Store) => {
-      console.log("store log " + store.user);
+      
     },
     onEnter: (route, params, store: Store, queryParams) => {
       store.onOrdersOpen(params.type);
