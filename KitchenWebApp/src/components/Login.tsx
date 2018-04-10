@@ -17,7 +17,7 @@ import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
   root: {
-    padding: '0'+ (theme.spacing.unit * 3)+'px'
+    padding: '0' + (theme.spacing.unit * 3) + 'px'
   },
   button: {
     margin: theme.spacing.unit,
@@ -42,87 +42,84 @@ interface IProps {
 }
 
 function onEmailChange(store: Store, event) {
-    store.emailChanged(event.target.value);
+  store.emailChanged(event.target.value);
 }
 
 function onPasswordChange(store: Store, event) {
-    store.passwordChanged(event.target.value);
+  store.passwordChanged(event.target.value);
 }
 
-async function onSubmit(store: Store){
-    await store.onLoginSubmit();
-    if(store.isLoggedIn)
-    {
-        const type = 'OPEN';
-        store.router.goTo(Views.orders, { type }, store);
-    }
+async function onSubmit(store: Store) {
+  await store.onLoginSubmit();
+  if (store.isLoggedIn) {
+    const type = 'OPEN';
+    store.router.goTo(Views.orders, { type }, store);
+  }
 };
 
-function checkRememberToken(store: Store)
-{
-    const token  = store.getLocalStorageToken('token');
-    if(!!token)
-    {
-        store.findUserByToken();
-        const type = 'OPEN';
-        store.router.goTo(Views.orders, { type }, store);
-    }
+function checkRememberToken(store: Store) {
+  const token = store.getLocalStorageToken('token');
+  if (!!token) {
+    store.findUserByToken();
+    const type = 'OPEN';
+    store.router.goTo(Views.orders, { type }, store);
+  }
 }
 
 function Login(props: IProps) {
-    const { classes, store } = props;
-    const {email, password} = this;
-    checkRememberToken(store);
-    return (
-        <div className={classes.root}>
-            <div className={classes.wrapper}>
-                <Paper className={classes.paper}>
-                    <Grid container spacing={16}>
-                        <Grid item xs>
-                            <Typography noWrap>
-                                <TextField
-                                    required
-                                    id="email-input"
-                                    label="Usuário"
-                                    value={store.email}
-                                    onChange={onEmailChange.bind(null, store)}
-                                    type="email"
-                                    className={classes.textField}
-                                    margin="normal"
-                                />
-                            </Typography>
-                        </Grid>
-                        <br/>
-                        <Grid item xs>
-                            <Typography noWrap>
-                                <TextField
-                                    required
-                                    id="password-input"
-                                    label="Senha"
-                                    value={store.password}
-                                    onChange={onPasswordChange.bind(null, store)}
-                                    className={classes.textField}
-                                    type="password"
-                                    autoComplete="current-password"
-                                    margin="normal"
-                                />
-                            </Typography>
-                        </Grid>
-                        <br/>
-                        <Grid item xs>
-                            <Typography noWrap>
-                                <Button className={classes.button} 
-                                        onClick={onSubmit.bind(null, store)} 
-                                        variant="raised" color="default">
-                                    Entrar
-                                </Button>
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </div>
-        </div>
-    );
+  const { classes, store } = props;
+  const { email, password } = this;
+  checkRememberToken(store);
+  return (
+    <div className={classes.root}>
+      <div className={classes.wrapper}>
+        <Paper className={classes.paper}>
+          <Grid container spacing={16}>
+            <Grid item xs>
+              <Typography noWrap>
+                <TextField
+                  required
+                  id="email-input"
+                  label="Usuário"
+                  value={store.email}
+                  onChange={onEmailChange.bind(null, store)}
+                  type="email"
+                  className={classes.textField}
+                  margin="normal"
+                />
+              </Typography>
+            </Grid>
+            <br />
+            <Grid item xs>
+              <Typography noWrap>
+                <TextField
+                  required
+                  id="password-input"
+                  label="Senha"
+                  value={store.password}
+                  onChange={onPasswordChange.bind(null, store)}
+                  className={classes.textField}
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                />
+              </Typography>
+            </Grid>
+            <br />
+            <Grid item xs>
+              <Typography noWrap>
+                <Button className={classes.button}
+                  onClick={onSubmit.bind(null, store)}
+                  variant="raised" color="default">
+                  Entrar
+                </Button>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
+    </div>
+  );
 }
 
 export default withStyles(styles)(observer(Login));

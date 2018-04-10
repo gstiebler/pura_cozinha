@@ -104,12 +104,12 @@ export class Store {
 
   getLocalStorageToken(chave): string
   {
-      var itemValue = localStorage.getItem(chave);
-       if (itemValue && /^\{(.*?)\}$/.test(itemValue)) {
-          var current = JSON.parse(itemValue);
-          return current.token;
-      }
-      return null;
+    var itemValue = localStorage.getItem(chave);
+    if (itemValue && /^\{(.*?)\}$/.test(itemValue)) {
+      var current = JSON.parse(itemValue);
+      return current.token;
+    }
+    return null;
   }
 
   emailChanged(email: string){
