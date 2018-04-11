@@ -7,6 +7,7 @@ import * as MongoInit from './db/index';
 import { schema } from './graphql/graphql_controller';
 import * as db from './db';
 import { initializeTwitter } from './lib/Twitter';
+import OrderRoutes from './routes/OrderRoutes';
 
 import * as bodyParser from 'body-parser';
 
@@ -44,6 +45,8 @@ app.use('/graphql', graphqlHTTP({
     path: error.path
   })
 }));
+
+OrderRoutes(app);
 
 /*
 const webAdminDir = path.join(__dirname, '/../../WebAdmin/');

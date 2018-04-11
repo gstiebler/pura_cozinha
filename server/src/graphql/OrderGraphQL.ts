@@ -6,17 +6,56 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLList,
+  GraphQLBoolean,
 } from 'graphql';
 import * as logger from 'winston';
 import { IOrderRequest } from '../../../common/Interfaces';
-import { menuItemTypeFields, menuItemType } from './FoodMenuItemGraphql';
 import { Order, IOrder } from '../db/models/Order';
 import * as resolvers from './resolvers/OrderResolver';
 import { getProjection } from '../lib/Util';
 
+const selectedOptionsInputType = new GraphQLInputObjectType({
+  name: 'selectedOptionsInputType',
+  fields: {
+    optionKey: { type: GraphQLString },
+    selectedOptionItemKey: { type: GraphQLString },
+  }
+});
+
+const selectedBoolOptionsInputType = new GraphQLInputObjectType({
+  name: 'selectedBoolOptionsInputType',
+  fields: {
+    optionKey: { type: GraphQLString },
+    value: { type: GraphQLBoolean },
+  }
+});
+
+const menuItemInputTypeFields = {
+  _id: { type: new GraphQLNonNull(GraphQLID) },
+  title: { type: GraphQLString },
+  description: { type: GraphQLString },
+  price: { type: GraphQLFloat },
+  imgURL: { type: GraphQLString },
+  selectedOptions: { type: new GraphQLList(selectedOptionsInputType) },
+  selectedBoolOptions: { type: new GraphQLList(selectedBoolOptionsInputType) },
+};
+
+const menuItemTypeFields = {
+  _id: { type: new GraphQLNonNull(GraphQLID) },
+  title: { type: GraphQLString },
+  description: { type: GraphQLString },
+  price: { type: GraphQLFloat },
+  imgURL: { type: GraphQLString },
+};
+
 const menuItemInputType = new GraphQLInputObjectType({
-  name: 'menuItemInputType',
-  fields: menuItemTypeFields
+  name: 'menuItemInputTypeOrder',
+  fields: menuItemInputTypeFields
+});
+
+const menuItemType = new GraphQLObjectType({
+  name: 'menuItemTypeOrder',
+  fields: menuItemTypeFields,
 });
 
 const OrderItemInputType = new GraphQLInputObjectType({

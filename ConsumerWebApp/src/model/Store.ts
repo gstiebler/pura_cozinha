@@ -80,7 +80,15 @@ export class Store {
       const qty = item[1];
       const itemTotalPrice = fmi.price * qty;
       return {
-        fmi,
+        fmi: {
+          _id: fmi._id,
+          title: fmi.title,
+          description: fmi.description,
+          price: fmi.price,
+          imgURL: fmi.imgURL,
+          selectedOptions: [],
+          selectedBoolOptions: [],
+        },
         qty,
         itemTotalPrice,
       }

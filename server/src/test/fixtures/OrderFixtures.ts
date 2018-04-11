@@ -25,6 +25,7 @@ export default async (): Promise<IOrder[]> => {
         }
       ],
       statusHistory: [],
+      createdOn: new Date('2018-01-02'),
     },
     {
       userId: 'userid',
@@ -47,6 +48,7 @@ export default async (): Promise<IOrder[]> => {
         }
       ],
       statusHistory: [],
+      createdOn: new Date('2018-01-03'),
     },
     {
       userId: 'userid',
@@ -68,6 +70,7 @@ export default async (): Promise<IOrder[]> => {
           }
         }
       ],
+      createdOn: new Date('2018-01-04'),
       statusHistory: [],
     },
     {
@@ -91,6 +94,7 @@ export default async (): Promise<IOrder[]> => {
         }
       ],
       statusHistory: [],
+      createdOn: new Date('2018-01-06'),
     },
   ];
 }
