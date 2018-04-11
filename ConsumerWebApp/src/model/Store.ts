@@ -24,6 +24,8 @@ export class Store {
   @observable localComplementLabel: string = 'Apartamento';
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
+  // fmi id => option key => value
+  @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -45,6 +47,7 @@ export class Store {
   reset() {
     this.itemQty = new Map();
     this.selectedOptions = [];
+    this.selectedBoolOptions = new Map();
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -97,6 +100,11 @@ export class Store {
     return { items, totalAmount };
   }
 
+  boolOption(id: TfmiId, optionKey: string):boolean {
+    const fmiBoolOptions = this.selectedBoolOptions.get(id);
+    return fmiBoolOptions ? fmiBoolOptions.get(optionKey) : false;
+  }
+
   onItemQtyIncreased(fmiId: TfmiId) {
     this.setItemQty(fmiId, this.getItemQty(fmiId) + 1);
   }
@@ -143,6 +151,12 @@ export class Store {
       console.error(error);
       this.setSnackbarMsg('Erro ao enviar o pedido');
     }
+  }
+
+  boolOptionSelected(id: TfmiId, optionKey: string) {
+    let item = this.selectedBoolOptions.get(id) || new Map();
+    item.set(optionKey, !item.get(optionKey));
+    this.selectedBoolOptions.set(id, item);
   }
 
   onMenuItemOptionSelected(id: TfmiId, optionKey: string, optionItem: string) {

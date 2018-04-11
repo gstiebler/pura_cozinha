@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
+import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
@@ -51,6 +52,24 @@ function ItemDetail(props: IProps) {
   const itemId = store.router.params.id;
   const foodMenuItem = store.getFoodMenuItem(itemId);
 
+  const boolOptions = foodMenuItem.boolOptions.map(boolOption => {
+    return (
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <Typography variant="body1" component="p" className={classes.price}>
+            { boolOption.label }
+          </Typography>
+        </Grid>
+        <Grid item xs>
+          <Switch
+            checked={ store.boolOption(foodMenuItem._id, boolOption.key) }
+            onChange={() => store.boolOptionSelected(foodMenuItem._id, boolOption.key)}
+          />
+        </Grid>
+      </Grid>
+    );
+  });
+
   return (
     <div className={classes.root}>
       <img src={foodMenuItem.imgURL} className={classes.image}/>
@@ -61,6 +80,7 @@ function ItemDetail(props: IProps) {
         <Typography variant="subheading" component="p" className={classes.description}>
           { foodMenuItem.description }
         </Typography>
+        { boolOptions }
         <Typography variant="body1" component="p" className={classes.price}>
           { formatCurrency(foodMenuItem.price) }
         </Typography>
