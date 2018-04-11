@@ -24,8 +24,10 @@ export class Store {
   @observable localComplementLabel: string = 'Apartamento';
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
-  // fmi id => option key => value
+  // fmi id => option key => boolean value
   @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
+  // fmi id => option key => option key string value
+  @observable selectedMultipleOptions: Map<TfmiId, Map<string, string>> = new Map();
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -48,6 +50,7 @@ export class Store {
     this.itemQty = new Map();
     this.selectedOptions = [];
     this.selectedBoolOptions = new Map();
+    this.selectedMultipleOptions = new Map();
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -100,9 +103,14 @@ export class Store {
     return { items, totalAmount };
   }
 
-  boolOption(id: TfmiId, optionKey: string):boolean {
+  getBoolOption(id: TfmiId, optionKey: string):boolean {
     const fmiBoolOptions = this.selectedBoolOptions.get(id);
     return fmiBoolOptions ? fmiBoolOptions.get(optionKey) : false;
+  }
+
+  getMultipleOption(id: TfmiId, optionKey: string):string {
+    const fmiMultipleOptions = this.selectedMultipleOptions.get(id);
+    return fmiMultipleOptions ? fmiMultipleOptions.get(optionKey) : undefined;
   }
 
   onItemQtyIncreased(fmiId: TfmiId) {
@@ -153,14 +161,16 @@ export class Store {
     }
   }
 
-  boolOptionSelected(id: TfmiId, optionKey: string) {
-    let item = this.selectedBoolOptions.get(id) || new Map();
+  onBoolOptionSelected(id: TfmiId, optionKey: string) {
+    let item = this.selectedBoolOptions.get(id) || new Map<string, boolean>();
     item.set(optionKey, !item.get(optionKey));
     this.selectedBoolOptions.set(id, item);
   }
 
   onMenuItemOptionSelected(id: TfmiId, optionKey: string, optionItem: string) {
-    
+    let item = this.selectedMultipleOptions.get(id) || new Map<string, string>();
+    item.set(optionKey, optionItem);
+    this.selectedMultipleOptions.set(id, item);
   }
 
 }

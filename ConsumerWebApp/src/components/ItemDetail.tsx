@@ -70,8 +70,8 @@ function ItemDetail(props: IProps) {
         </Grid>
         <Grid item xs>
           <Switch
-            checked={ store.boolOption(foodMenuItem._id, boolOption.key) }
-            onChange={() => store.boolOptionSelected(foodMenuItem._id, boolOption.key)}
+            checked={ store.getBoolOption(foodMenuItem._id, boolOption.key) }
+            onChange={() => store.onBoolOptionSelected(foodMenuItem._id, boolOption.key)}
           />
         </Grid>
       </Grid>
@@ -80,15 +80,15 @@ function ItemDetail(props: IProps) {
 
   const multipleOptions = foodMenuItem.options.map(option => {
     const items = option.optionItems.map(optionItem => {
-      return <FormControlLabel value={optionItem.key} control={<Radio />} label={optionItem.label} />;
+      return <FormControlLabel value={optionItem.key} control={<Radio />} label={optionItem.label} key={optionItem.key}/>;
     });
     return (
-      <FormControl component="fieldset" required className={classes.formControl}>
+      <FormControl component="fieldset" required className={classes.formControl} key={option.key}>
         <FormLabel component="legend">{ option.label }</FormLabel>
         <RadioGroup
           className={classes.group}
-          value="teste"
-          onChange={this.handleChange}
+          value={ store.getMultipleOption(foodMenuItem._id, option.key) }
+          onChange={(event:any) => store.onMenuItemOptionSelected(foodMenuItem._id, option.key, event.target.value)}
         >
           { items }
         </RadioGroup>
