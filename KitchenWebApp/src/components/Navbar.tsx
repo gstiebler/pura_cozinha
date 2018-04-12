@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
+import KitchenIcon from 'material-ui-icons/Kitchen';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import Divider from 'material-ui/Divider';
@@ -16,6 +17,7 @@ import { withStyles, StyleRules } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 import Views from '../Views';
 import grey from 'material-ui/colors/grey';
+import Avatar from 'material-ui/Avatar';
 
 export const drawerWidth = 240;
 
@@ -32,6 +34,8 @@ function viewHome(store: Store) {
   store.router.goTo(Views.home, { }, store);
   store.isDrawerOpen = false;
 }
+
+
 
 function logOut(store: Store)
 {
@@ -56,6 +60,7 @@ const styles = theme => ({
   }
 });
 
+
 interface IProps {
   store: Store;
   classes?: any;
@@ -65,7 +70,8 @@ function Navbar(props: IProps) {
   const { classes, store } = props;
   const hidden = store.isLoggedIn == false ? 'none' : 'block';
   const hiddenLoginButton = store.isLoggedIn == false ? 'block' : 'none';
-
+  const statusBtnText = store.kitchenActive == true ? "Fechar Cozinha" : "Abrir Cozinha";
+  const statusKitchenColor = store.kitchenActive == true ? "#4CAF50" : '#F44336';
   const drawer = (
     <Drawer open={store.isDrawerOpen} onClose={() => handleDrawer(store, false)}>
       <div
@@ -81,7 +87,14 @@ function Navbar(props: IProps) {
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
           </ListItem>
-          <hr style={{color: grey[500]}}/>
+          <Divider />
+          <ListItem >
+            <Avatar style={{backgroundColor: statusKitchenColor}}>
+              <KitchenIcon />
+            </Avatar>
+            <ListItemText  primary={statusBtnText}/>
+          </ListItem>
+          <Divider />
           <ListItem>
             <ListItemText primary='Sair'
             style={{display: hidden}}

@@ -25,12 +25,13 @@ export class Store {
   @observable email: string = '';
   @observable password: string = '';
   @observable isLoggedIn: boolean = true;
+  @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
   @observable snackbarMsg: string = '';
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
-
+  
   constructor() {
     this._reset();
   }
