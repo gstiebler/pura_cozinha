@@ -9,10 +9,6 @@ import { withStyles } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 import views from '../Views';
 
-function isBackButtonVisible(store: Store): string  {
-  return store.isBackButtonVisible();
-}
-
 const styles = {
   root: {
     width: '100%',
@@ -34,9 +30,8 @@ interface IProps {
 class BackButton extends React.Component<IProps> {
     render() {
         const { classes, store } = this.props;
-        var hidden = isBackButtonVisible(store);
         return (
-            <IconButton className={classes.button} style={{display: hidden}}
+            <IconButton className={classes.button} style={{display: store.isBackButtonVisible()}}
                 onClick={ () => store.router.goTo(views.home, {}, store) }>
                 <KeyboardArrowLeft />
             </IconButton>
