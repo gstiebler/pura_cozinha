@@ -35,7 +35,11 @@ function viewHome(store: Store) {
   store.isDrawerOpen = false;
 }
 
-
+function onActivityStatusChange(store: Store)
+{
+  store.onKitchenStatusChange();
+  store.isDrawerOpen = false;
+}
 
 function logOut(store: Store)
 {
@@ -92,13 +96,15 @@ function Navbar(props: IProps) {
             <Avatar style={{backgroundColor: statusKitchenColor}}>
               <KitchenIcon />
             </Avatar>
-            <ListItemText  primary={statusBtnText}/>
+            <ListItemText 
+              primary={statusBtnText}
+              onClick={() => onActivityStatusChange(store)}/>
           </ListItem>
           <Divider />
           <ListItem>
             <ListItemText primary='Sair'
             style={{display: hidden}}
-            onClick={() => logOut(store)}/>
+            onClick={() => onActivityStatusChange(store)}/>
           </ListItem>
         </List>
       </div>

@@ -66,6 +66,11 @@ export class Store {
     await this._setCurrentOrder(orderId);
   }
 
+  onKitchenStatusChange()
+  {
+    this.kitchenActive = !this.kitchenActive;
+  }
+
   async onLoginSubmit() {
     this.user = await ns.findUser(this.email, this.password);
     if(this.user != null){
