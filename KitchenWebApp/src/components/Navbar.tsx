@@ -104,7 +104,7 @@ function Navbar(props: IProps) {
           <ListItem>
             <ListItemText primary='Sair'
             style={{display: hidden}}
-            onClick={() => onActivityStatusChange(store)}/>
+            onClick={() => logOut(store)}/>
           </ListItem>
         </List>
       </div>
