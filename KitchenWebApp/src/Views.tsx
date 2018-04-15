@@ -29,6 +29,7 @@ export default {
       
     },
     onEnter: (route, params, store: Store, queryParams) => {
+      
       store.onOrdersOpen(params.type);
     },
     onParamsChange: (route, params, store: Store, queryParams) => {

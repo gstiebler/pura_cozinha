@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { TOrderStatus } from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
+import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],
@@ -27,6 +28,7 @@ export class Store {
   @observable isLoggedIn: boolean = true;
   @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
+  @observable kitchen: IKitchenModel = null;
   @observable snackbarMsg: string = '';
   // visual properties
   @observable isDrawerOpen = false;
@@ -53,6 +55,11 @@ export class Store {
     this.currentOrder = order;
   }
 
+  async getDefaultKitchen()
+  {
+    this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+    this.kitchenActive = this.kitchen.active;
+  }
   async onOrdersOpen(ordersType: string) {
     const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
     const closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
@@ -69,6 +76,7 @@ export class Store {
   onKitchenStatusChange()
   {
     this.kitchenActive = !this.kitchenActive;
+    ns.updateKitchenStatus(this.kitchen._id, this.kitchenActive);
   }
 
   async onLoginSubmit() {

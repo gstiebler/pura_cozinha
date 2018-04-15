@@ -90,3 +90,25 @@ export async function changeOrderStatus(orderId: string, status: TOrderStatus): 
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }
+
+export async function updateKitchenStatus(kitchenId: string, status: boolean): Promise<string> {
+  const mutation = `mutation { updateKitchenStatus( id: "${kitchenId}", active: ${status} ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function findKitchenById(kitchenId: string): Promise<any> {
+  const params = `
+    id: "${kitchenId}"
+  `;
+  const fields = [
+    '_id',
+    'name',
+    'address',
+    'active',
+  ];
+  
+  const query = `query { kitchen( ${params} ) { ${fields} }  }`;
+  const result = await network.fetchQuery(query);
+  return result.kitchen;
+}
