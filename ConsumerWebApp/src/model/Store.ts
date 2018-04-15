@@ -9,6 +9,7 @@ import {
   IOrderSummary,
   IOrderRequest,
 } from '../../../common/Interfaces';
+import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
 export class Store {
 
@@ -23,6 +24,7 @@ export class Store {
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
+  @observable kitchen: IKitchenModel = null;
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -46,6 +48,16 @@ export class Store {
     this.comments = '';
   }
 
+  getKitchenActive(): boolean
+  {
+    return this.kitchen.active;
+  }
+
+  async getDefaultKitchen()
+  {
+    console.log('chamando cozinha');
+    this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+  }
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
   }
