@@ -8,7 +8,7 @@ import {
 const Header = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Pura Cozinha</Text>
+      <Text style={styles.text}>Burg & Bowl</Text>
     </View>
   );
 }

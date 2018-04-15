@@ -35,7 +35,7 @@ class Navbar extends React.Component<IProps> {
       <AppBar className={classes.root} position="static" color="default">
         <Toolbar>
           <Typography variant="title" color="inherit">
-            Pura Cozinha
+            Burg & Bowl
           </Typography>
         </Toolbar>
       </AppBar>
