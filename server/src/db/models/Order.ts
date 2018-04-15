@@ -28,6 +28,14 @@ export interface IOrder {
       title: string;
       description: string;
       price: number;
+      selectedOptions?: {
+        optionKey: string;
+        selectedOptionItemKey: string;
+      }[];
+      selectedBoolOptions?: {
+        optionKey: string;
+        value: boolean;
+      }[];
     };
   }[];
   statusHistory: {
@@ -42,6 +50,14 @@ const completeMenuItemSchema = {
   title: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
+  selectedOptions: [{
+    optionKey: { type: String, required: true },
+    selectedOptionItemKey: { type: String, required: true },
+  }],
+  selectedBoolOptions: [{
+    optionKey: { type: String, required: true },
+    value: { type: Boolean, required: true },
+  }],
 };
 
 const OrderSchema = new Schema({

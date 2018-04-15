@@ -26,6 +26,7 @@ export default async (): Promise<IOrder[]> => {
         }
       ],
       statusHistory: [],
+      createdOn: new Date('2018-01-02'),
     },
     {
       userId: 'userid',
@@ -49,6 +50,55 @@ export default async (): Promise<IOrder[]> => {
         }
       ],
       statusHistory: [],
+      createdOn: new Date('2018-01-03'),
+    },
+    {
+      userId: 'userid',
+      local: 'Prédio 2',
+      localComplement: 'apt 903',
+      comments: '',
+      status: 'DELIVERED',
+      paymentOption: 'Cartão',
+      telephoneNumber: '94345',
+      totalAmount: 15.0,
+      items: [
+        {
+          qty: 1,
+          itemTotalPrice: 15.0,
+          foodMenuItem: {
+            id: await idByValue(MenuItem, 'title', 'Sanduíche de Mignon'),
+            title: 'Sanduíche de Mignon',
+            description: 'Melhor não tem',
+            price: 15.0
+          }
+        }
+      ],
+      createdOn: new Date('2018-01-04'),
+      statusHistory: [],
+    },
+    {
+      userId: 'userid',
+      local: 'Prédio 2',
+      localComplement: 'apt 903',
+      comments: '',
+      status: 'DELIVERED',
+      paymentOption: 'Cartão',
+      telephoneNumber: '94345',
+      totalAmount: 8.0,
+      items: [
+        {
+          qty: 1,
+          itemTotalPrice: 8.0,
+          foodMenuItem: {
+            id: await idByValue(MenuItem, 'title', 'Açai'),
+            title: 'Açai',
+            description: 'Açai batido com banana e morango, vem cheião.',
+            price: 8.0
+          }
+        }
+      ],
+      statusHistory: [],
+      createdOn: new Date('2018-01-06'),
     },
   ];
 }

@@ -8,7 +8,9 @@ import {
 import { objToGrahqlStr } from '../../../common/util';
 
 export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
-  const fields = '_id, title, price, description, imgURL';
+  const fields = `_id, title, price, description, imgURL, 
+      boolOptions { label, key }, 
+      options { key, label, optionItems { key, label } }`;
   const query = `query { menuItems(lat: ${0.0}, lng: ${0.0}) { ${fields} } }`;
   const result = await network.fetchQuery(query);
   return result.menuItems;
