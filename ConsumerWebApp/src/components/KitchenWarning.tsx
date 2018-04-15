@@ -13,27 +13,16 @@ import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
 import PriorityHigh from 'material-ui-icons/PriorityHigh';
 
-
-
-function onItemClicked(store: Store, id: string) {
-  store.router.goTo(views.itemDetail, { id }, store);
-}
-
 const styles = theme => ({
   root: {
-    width: '100%',
-    // maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    padding: '0' + (theme.spacing.unit * 3) + 'px'
   },
-  image: {
-    maxWidth: 40
+  wrapper: {
+    maxWidth: 400,
   },
-  button: {
+  paper: {
     margin: theme.spacing.unit,
-    horizontalAlignment: 'center',
-  },
-  summaryLabel: {
-    padding: 16,
+    padding: theme.spacing.unit * 2,
   },
 });
 
@@ -47,16 +36,18 @@ function KitchenWarning(props: IProps) {
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
-        <Paper className={classes.paper}>
-          <Grid container spacing={16}>
-            <Avatar>
-              <PriorityHigh/>
-            </Avatar>
-            <Typography >
-                Esta cozinha encontra-se temporariamente fechada. Tente novamente mais tarde.
-              </Typography>
-          </Grid>
-        </Paper>
+          <Paper className={classes.paper}>
+            <Grid container wrap="nowrap" spacing={16}>
+              <Grid item>
+              <Avatar className={classes.button}>
+                <PriorityHigh/>
+              </Avatar>
+              </Grid>
+              <Grid item xs>
+                <Typography>Esta cozinha encontra-se temporariamente fechada. Tente novamente mais tarde.</Typography>
+              </Grid>
+            </Grid>
+          </Paper>
       </div>
     </div>
   );
