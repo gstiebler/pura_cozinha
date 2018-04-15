@@ -82,6 +82,7 @@ const OrderRequestInputType = new GraphQLInputObjectType({
     localComplement: { type: GraphQLString },
     paymentOption: { type: new GraphQLNonNull(GraphQLString) },
     telephoneNumber: { type: GraphQLString },
+    comments: { type: GraphQLString },
     orderSummary: { type: new GraphQLNonNull(OrderSummaryInputType) },
   }
 });
@@ -117,6 +118,7 @@ const OrderCompleteType = new GraphQLObjectType({
     totalAmount: { type: GraphQLFloat },
     paymentOption: { type: GraphQLString },
     telephoneNumber: { type: GraphQLString },
+    comments: { type: GraphQLString },
     createdOn: { type: GraphQLFloat },
     items: { type: new GraphQLList(OrderItemType) },
   }
@@ -163,7 +165,7 @@ export const Mutation = {
   },
   changeOrderStatus: {
     type: GraphQLString,
-    args: { 
+    args: {
       orderId: { type: GraphQLID },
       status: { type: GraphQLString },
     },

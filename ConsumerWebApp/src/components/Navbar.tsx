@@ -6,9 +6,15 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import BackButton from './BackButton';
+import IconButton from 'material-ui/IconButton';
+import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 
+function isBackButtonVisible(store: Store) {
+  store.isBackButtonVisible();
+}
 
 const styles = {
   root: {
@@ -34,6 +40,7 @@ class Navbar extends React.Component<IProps> {
     return (
       <AppBar className={classes.root} position="static" color="default">
         <Toolbar>
+          <BackButton store={store}/>
           <Typography variant="title" color="inherit">
             Burg & Bowl
           </Typography>

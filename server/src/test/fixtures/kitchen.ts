@@ -12,6 +12,7 @@ export default async () => {
         lng: -43.321984
       },
       phoneNumber: '234-5697',
+      comments: 'Testando',
       telegramUsernames: ['marcel'],
       active: true,
       stock: [
@@ -37,6 +38,7 @@ export default async () => {
         lng: -43.186143
       },
       phoneNumber: '+55 21 99401-1944',
+      comments: 'Testando2',
       telegramUsernames: ['gstiebler'],
       active: true,
       stock: [
@@ -58,6 +60,7 @@ export default async () => {
         lng: -43.183318
       },
       phoneNumber: '99999-8888',
+      comments: 'Testando3',
       telegramUsernames: ['jose'],
       active: false,
       stock: [
@@ -83,6 +86,7 @@ export default async () => {
         lng: -43.183318
       },
       phoneNumber: '99999-8888',
+      comments: 'Testando4',
       telegramUsernames: ['gstiebler'],
       active: true,
       stock: []

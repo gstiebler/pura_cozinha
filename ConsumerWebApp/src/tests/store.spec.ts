@@ -62,6 +62,7 @@ describe('consumer web app store', () => {
     store.onLocalSelected('Stella Vita');
     store.onPaymentOptionSelected('Dinheiro');
     store.onTelNumberChanged('1234');
+    store.onCommentsChanged('Comida muito boa!');
     await store.onSendOrderRequested();
 
     const orders = await Order.find().sort({createdOn:-1}).limit(1);
@@ -70,6 +71,7 @@ describe('consumer web app store', () => {
     expect(lastOrder.userId).to.equal('coffee_shop');
     expect(lastOrder.paymentOption).to.equal('Dinheiro');
     expect(lastOrder.telephoneNumber).to.equal('1234');
+    expect(lastOrder.comments).to.equal('Comida muito boa!');
     expect(lastOrder.totalAmount).to.equal(23.98);
     expect(lastOrder.items).to.have.lengthOf(1);
     expect(lastOrder.items[0].qty).to.equal(2);

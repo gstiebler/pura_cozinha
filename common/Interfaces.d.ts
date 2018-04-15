@@ -54,6 +54,7 @@ export interface IOrderRequest {
   localComplement: string;
   paymentOption: TPaymentOptions;
   telephoneNumber: string;
+  comments: string;
 }
 
 export interface ISelectedMenuItemOption {

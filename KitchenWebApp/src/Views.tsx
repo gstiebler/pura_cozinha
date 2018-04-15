@@ -3,12 +3,20 @@ import { Route } from 'mobx-router';
 import { store, Store } from './model/Store';
 import Orders from './components/Orders';
 import OrderDetails from './components/OrderDetails';
+import Login from './components/Login';
 
 const basePath = '/cozinha';
 
 export default {
-  homeKitchen: new Route({
+  home: new Route({
     path: basePath,
+    component: <Login store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      
+    },
+  }),
+  homeKitchen: new Route({
+    path: basePath + '/home',
     component: <Orders store={store}/>,
     beforeEnter: (route, params, store: Store) => {
       store.onOrdersOpen('OPEN');
@@ -17,6 +25,9 @@ export default {
   orders: new Route({
     path: basePath + '/orders/:type',
     component: <Orders store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      
+    },
     onEnter: (route, params, store: Store, queryParams) => {
       store.onOrdersOpen(params.type);
     },
@@ -30,5 +41,5 @@ export default {
     onParamsChange: (route, params) => {
       store.onOrderSelected(params.order_id);
     }
-  }),
+  })
 };

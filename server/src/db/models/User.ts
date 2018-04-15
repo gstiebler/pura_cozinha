@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-interface IUserModel extends mongoose.Document {
+export interface IUserModel extends mongoose.Document {
   login: string;
   name: string;
   role: string;
   password: string;
+  token: string;
   setPassword(newPassword: string);
   passwordMatch(password: string): boolean;
 }
@@ -22,6 +23,9 @@ const userSchema = new mongoose.Schema({
    name: {
      type: String,
      required: true
+   },
+   token: {
+    type: String,
    },
    role: {
      type: String,
