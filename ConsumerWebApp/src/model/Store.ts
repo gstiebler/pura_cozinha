@@ -8,6 +8,7 @@ import {
   FoodMenuItem,
   IOrderSummary,
   IOrderRequest,
+  ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
 
 export class Store {
@@ -15,6 +16,7 @@ export class Store {
   @observable router;
   @observable foodMenuItems: FoodMenuItem[] = [];
   @observable itemQty: Map<TfmiId, number> = new Map();
+  @observable selectedOptions: ISelectedMenuItemOption[] = [];
   @observable selectedLocal: string;
   @observable localComplement: string;
   @observable selectedPaymentOption: TPaymentOptions;
@@ -23,6 +25,10 @@ export class Store {
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
+  // fmi id => option key => boolean value
+  @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
+  // fmi id => option key => option key string value
+  @observable selectedMultipleOptions: Map<TfmiId, Map<string, string>> = new Map();
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -44,6 +50,9 @@ export class Store {
   reset() {
     this.itemQty = new Map();
     this.comments = '';
+    this.selectedOptions = [];
+    this.selectedBoolOptions = new Map();
+    this.selectedMultipleOptions = new Map();
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -84,13 +93,31 @@ export class Store {
       const qty = item[1];
       const itemTotalPrice = fmi.price * qty;
       return {
-        fmi,
+        fmi: {
+          _id: fmi._id,
+          title: fmi.title,
+          description: fmi.description,
+          price: fmi.price,
+          imgURL: fmi.imgURL,
+          selectedOptions: [],
+          selectedBoolOptions: [],
+        },
         qty,
         itemTotalPrice,
       }
     });
     const totalAmount = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
     return { items, totalAmount };
+  }
+
+  getBoolOption(id: TfmiId, optionKey: string):boolean {
+    const fmiBoolOptions = this.selectedBoolOptions.get(id);
+    return fmiBoolOptions ? fmiBoolOptions.get(optionKey) : false;
+  }
+
+  getMultipleOption(id: TfmiId, optionKey: string):string {
+    const fmiMultipleOptions = this.selectedMultipleOptions.get(id);
+    return fmiMultipleOptions ? fmiMultipleOptions.get(optionKey) : undefined;
   }
 
   onItemQtyIncreased(fmiId: TfmiId) {
@@ -145,6 +172,18 @@ export class Store {
       console.error(error);
       this.setSnackbarMsg('Erro ao enviar o pedido');
     }
+  }
+
+  onBoolOptionSelected(id: TfmiId, optionKey: string) {
+    let item = this.selectedBoolOptions.get(id) || new Map<string, boolean>();
+    item.set(optionKey, !item.get(optionKey));
+    this.selectedBoolOptions.set(id, item);
+  }
+
+  onMenuItemOptionSelected(id: TfmiId, optionKey: string, optionItem: string) {
+    let item = this.selectedMultipleOptions.get(id) || new Map<string, string>();
+    item.set(optionKey, optionItem);
+    this.selectedMultipleOptions.set(id, item);
   }
 
 }

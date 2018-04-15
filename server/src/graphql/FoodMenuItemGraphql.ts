@@ -10,15 +10,42 @@ import {
 import { MenuItem } from '../db/models/menuItem';
 import { Kitchen } from '../db/models/kitchen';
 
-export const menuItemTypeFields = {
+const boolOptionsItemsType = new GraphQLObjectType({
+  name: 'boolOptionsType',
+  fields: {
+    label: { type: GraphQLString },
+    key: { type: GraphQLString },
+  },
+});
+
+const optionsItemsType = new GraphQLObjectType({
+  name: 'optionItemsType',
+  fields: {
+    label: { type: GraphQLString },
+    key: { type: GraphQLString },
+  },
+});
+
+const optionsType = new GraphQLObjectType({
+  name: 'optionsType',
+  fields: {
+    label: { type: GraphQLString },
+    key: { type: GraphQLString },
+    optionItems: { type: new GraphQLList(optionsItemsType) },
+  },
+});
+
+const menuItemTypeFields = {
   _id: { type: new GraphQLNonNull(GraphQLID) },
   title: { type: GraphQLString },
   description: { type: GraphQLString },
   price: { type: GraphQLFloat },
   imgURL: { type: GraphQLString },
+  options: { type: new GraphQLList(optionsType) },
+  boolOptions: { type: new GraphQLList(boolOptionsItemsType) },
 };
 
-export const menuItemType = new GraphQLObjectType({
+const menuItemType = new GraphQLObjectType({
   name: 'menuItemType',
   fields: menuItemTypeFields,
 });
