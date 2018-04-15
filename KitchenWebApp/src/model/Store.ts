@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { TOrderStatus } from '../../../common/Interfaces';
+import { TOrderStatus, FoodMenuItem, } from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
@@ -29,6 +29,7 @@ export class Store {
   @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
   @observable kitchen: IKitchenModel = null;
+  @observable foodMenuItems: FoodMenuItem[] = [];
   @observable snackbarMsg: string = '';
   // visual properties
   @observable isDrawerOpen = false;
@@ -137,6 +138,11 @@ export class Store {
   async onStatusChanged(status: TOrderStatus) {
     await ns.changeOrderStatus(this.currentOrder._id, status);
     await this._setCurrentOrder(this.currentOrder._id);
+  }
+
+  async getItemsByKitchen()
+  {
+    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
   setSnackbarMsg(msg: string) {

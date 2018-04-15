@@ -41,6 +41,13 @@ function onActivityStatusChange(store: Store)
   store.isDrawerOpen = false;
 }
 
+function viewStockItems(store: Store)
+{
+  store.router.goTo(Views.availableMenuItems, { }, store);
+  store.getItemsByKitchen();
+  store.isDrawerOpen = false;
+}
+
 function logOut(store: Store)
 {
   store.onLogOut();
@@ -90,6 +97,10 @@ function Navbar(props: IProps) {
           <ListItem>
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary='Menu'
+            onClick={() => viewStockItems(store)}/>
           </ListItem>
           <Divider />
           <ListItem >

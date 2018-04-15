@@ -4,6 +4,7 @@ import { store, Store } from './model/Store';
 import Orders from './components/Orders';
 import OrderDetails from './components/OrderDetails';
 import Login from './components/Login';
+import AvailableMenuItems from './components/AvailableMenuItems';
 
 const basePath = '/cozinha';
 
@@ -21,6 +22,10 @@ export default {
     beforeEnter: (route, params, store: Store) => {
       store.onOrdersOpen('OPEN');
     },
+  }),
+  availableMenuItems: new Route({
+    path: basePath + '/menu_items',
+    component: <AvailableMenuItems store={store}/>,
   }),
   orders: new Route({
     path: basePath + '/orders/:type',

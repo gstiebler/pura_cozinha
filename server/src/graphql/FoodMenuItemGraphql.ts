@@ -69,6 +69,20 @@ export const Query = {
       }
       return MenuItem.find({ _id: { $in: menuItemIds }  });
     }
+  },
+  fullMenuItemsByKitchen: {
+    type: new GraphQLList(menuItemType),
+    args: {
+      kitchen_id: { type: GraphQLID },
+    },
+    resolve: async function(root, { kitchen_id }) {
+      const kitchen: any = await Kitchen.findById(kitchen_id);
+      const menuItemIds = [];
+      for (let stockItem of kitchen.stock) {
+        menuItemIds.push(stockItem.menu_item);
+      }
+      return MenuItem.find({ _id: { $in: menuItemIds }  });
+    }
   }
 };
 
