@@ -2,7 +2,7 @@
 import { computed, observable } from 'mobx';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { 
+import {
   TfmiId,
   TPaymentOptions,
   FoodMenuItem,
@@ -24,6 +24,7 @@ export class Store {
   @observable localComplementLabel: string = 'Apartamento';
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
+  @observable comments: string = '';
   // fmi id => option key => boolean value
   @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
   // fmi id => option key => option key string value
@@ -48,6 +49,7 @@ export class Store {
 
   reset() {
     this.itemQty = new Map();
+    this.comments = '';
     this.selectedOptions = [];
     this.selectedBoolOptions = new Map();
     this.selectedMultipleOptions = new Map();
@@ -73,9 +75,14 @@ export class Store {
   setSnackbarMsg(msg: string) {
     this.snackbarMsg = msg;
     this.isSnackbarOpen = true;
-    setTimeout(() => { 
+    setTimeout(() => {
       this.isSnackbarOpen = false;
     }, 5000);
+  }
+
+  isBackButtonVisible(): string
+  {
+    return this.router.currentView.path === '/' ? 'none' : 'block';
   }
 
   @computed
@@ -138,9 +145,13 @@ export class Store {
   onPaymentOptionSelected(paymentOption: TPaymentOptions) {
     this.selectedPaymentOption = paymentOption;
   }
-  
+
   onTelNumberChanged(telNumber: string) {
     this.telephoneNumber = telNumber;
+  }
+
+  onCommentsChanged(comment: string) {
+    this.comments = comment;
   }
 
   async onSendOrderRequested() {
@@ -151,6 +162,7 @@ export class Store {
         localComplement: this.localComplement,
         paymentOption: this.selectedPaymentOption,
         telephoneNumber: this.telephoneNumber,
+        comments: this.comments,
       };
       await ns.sendOrderRequest(request);
       this.reset();

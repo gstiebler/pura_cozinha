@@ -13,7 +13,10 @@ import Grid from 'material-ui/Grid';
 import purple from 'material-ui/colors/purple';
 import green from 'material-ui/colors/green';
 import Main from './components/Main';
+import Login from './components/Login';
 import Navbar from './components/Navbar';
+import { MobxRouter } from 'mobx-router';
+import { Provider } from 'mobx-react';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,7 +32,9 @@ ReactDOM.render(
   <div>
   <MuiThemeProvider theme={theme}>
     <Navbar store={store} />
-    <Main store={store}/>
+    <Provider store={store}>
+      <MobxRouter/>
+    </Provider>
   </MuiThemeProvider>
   <SystemMessage store={store} />
   </div>,

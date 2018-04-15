@@ -21,6 +21,11 @@ function telNumberChanged(store: Store, event) {
   store.onTelNumberChanged(event.target.value);
 }
 
+
+function onCommentsChanged(store: Store, event) {
+  store.onCommentsChanged(event.target.value);
+}
+
 function localComplementChanged(store: Store, event) {
   store.onLocalComplementChanged(event.target.value);
 }
@@ -73,7 +78,7 @@ function AddressPayment(props: IProps) {
   });
 
   return (
-    <div className={classes.root}>  
+    <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="local">Local</InputLabel>
         <Select
@@ -109,7 +114,7 @@ function AddressPayment(props: IProps) {
         >
           { paymentOptionsHTML }
         </Select>
-      </FormControl> 
+      </FormControl>
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="telephone"
@@ -120,7 +125,18 @@ function AddressPayment(props: IProps) {
           margin="normal"
         />
       </form>
-      <Button variant="raised" className={classes.button} 
+
+      <TextField
+          id="comments-flexible"
+          label="Comentários"
+          multiline
+          rowsMax="4"
+          value={store.comments}
+          onChange={(event) => onCommentsChanged(store, event)}
+          className={classes.textField}
+          margin="normal"
+        />
+      <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
         Enviar pedido
       </Button>

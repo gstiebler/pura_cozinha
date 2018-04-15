@@ -68,6 +68,9 @@ function OrderDetails(props: IProps) {
           Telefone: {order.telephoneNumber}
         </Typography>
         <Typography component="p">
+          Comentários: {order.comments}
+        </Typography>
+        <Typography component="p">
           Total: {formatCurrency(order.totalAmount)}
         </Typography>
         <Typography component="p">

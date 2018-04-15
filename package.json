@@ -82,5 +82,7 @@
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack-cli": "^2.0.12"
+  }
 }

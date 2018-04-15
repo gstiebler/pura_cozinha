@@ -15,6 +15,7 @@ import * as classNames from 'classnames';
 import { withStyles, StyleRules } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 import Views from '../Views';
+import grey from 'material-ui/colors/grey';
 
 export const drawerWidth = 240;
 
@@ -24,6 +25,18 @@ function handleDrawer(store: Store, isOpen: boolean) {
 
 function viewOrders(store: Store, type: string) {
   store.router.goTo(Views.orders, { type }, store);
+  store.isDrawerOpen = false;
+}
+
+function viewHome(store: Store) {
+  store.router.goTo(Views.home, { }, store);
+  store.isDrawerOpen = false;
+}
+
+function logOut(store: Store)
+{
+  store.onLogOut();
+  store.router.goTo(Views.home, { }, store);
   store.isDrawerOpen = false;
 }
 
@@ -50,6 +63,8 @@ interface IProps {
 
 function Navbar(props: IProps) {
   const { classes, store } = props;
+  const hidden = store.isLoggedIn == false ? 'none' : 'block';
+  const hiddenLoginButton = store.isLoggedIn == false ? 'block' : 'none';
 
   const drawer = (
     <Drawer open={store.isDrawerOpen} onClose={() => handleDrawer(store, false)}>
@@ -57,7 +72,7 @@ function Navbar(props: IProps) {
           tabIndex={0}
           role="button" >
         <Divider />
-        <List className={classes.list}>
+        <List className={classes.list} >
           <ListItem>
             <ListItemText primary='Pedidos em aberto'
             onClick={() => viewOrders(store, 'OPEN')}/>
@@ -66,11 +81,17 @@ function Navbar(props: IProps) {
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
           </ListItem>
+          <hr style={{color: grey[500]}}/>
+          <ListItem>
+            <ListItemText primary='Sair'
+            style={{display: hidden}}
+            onClick={() => logOut(store)}/>
+          </ListItem>
         </List>
       </div>
     </Drawer>
   );
-
+  
   return (
     <div>
       <AppBar className={classes.root} position="static" color="default">
@@ -79,12 +100,20 @@ function Navbar(props: IProps) {
             color="inherit"
             aria-label="open drawer"
             onClick={() => handleDrawer(store, true)}
+            style={{display: hidden}}
             className={classes.menuButton} >
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit">
             Admin Cozinha
           </Typography>
+          <Button className={classes.button}  
+                  size = 'small'
+                  style={{display: hiddenLoginButton, marginLeft: 30, float: 'right'}}
+                   onClick={() => viewHome(store)} 
+                  variant="raised" color="default">
+              Login
+          </Button>
         </Toolbar>
       </AppBar>
       { drawer }
