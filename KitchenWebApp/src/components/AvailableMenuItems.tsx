@@ -20,7 +20,7 @@ function isChecked(quantity: number): boolean
 
 function handleToggle(store: Store, menu_item: string)
 {
-  console.log(menu_item);
+  store.updateItemAvailabilityInStock(menu_item);
 }
 
 const styles = theme => ({

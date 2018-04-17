@@ -160,17 +160,10 @@ export class Store {
   {
     if(this.kitchen != null)
     {
-      let i: number = 0;
-      let newQty;
-      for(let stockItem of this.kitchen.stock)
-      {
-        if(stockItem.menu_item === menu_item){
-          newQty = stockItem.quantity;
-          break;
-        }
-        i++;
-      }
-      this.kitchen.stock[i].quantity = (newQty != 0) ? 0 : 1;
+      let i = this.kitchen.stock.findIndex( obj => obj.menu_item === menu_item);
+      var result = this.kitchen.stock.filter( obj => obj.menu_item === menu_item)[0];
+      this.kitchen.stock[i].quantity = (result.quantity != 0) ? 0 : 1;
+      console.log(this.kitchen.stock[i].quantity);
     }
   }
 
