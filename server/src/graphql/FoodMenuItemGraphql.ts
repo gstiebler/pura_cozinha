@@ -5,7 +5,8 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLInputObjectType,
-  GraphQLList
+  GraphQLList,
+  GraphQLBoolean
 } from 'graphql';
 import { MenuItem } from '../db/models/menuItem';
 import { Kitchen } from '../db/models/kitchen';

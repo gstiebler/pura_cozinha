@@ -29,7 +29,7 @@ export class Store {
   @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
   @observable kitchen: IKitchenModel = null;
-  @observable foodMenuItems: FoodMenuItem[] = [];
+  @observable foodMenuItems: any[] = [];
   @observable snackbarMsg: string = '';
   // visual properties
   @observable isDrawerOpen = false;
@@ -143,6 +143,24 @@ export class Store {
   async getItemsByKitchen()
   {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
+  }
+
+  getQuantityStockItemValue(_id: string): number
+  {
+    if(this.kitchen != null)
+    {
+      const stock = this.kitchen.stock;
+      for(let stockItem of stock)
+      {
+        console.log(stockItem.menu_item);
+        console.log(stockItem.quantity);
+        // if(stockItem.menu_item === _id)
+        // {
+        //   return stockItem.quantity;
+        // }
+      }
+    }
+    return -1;
   }
 
   setSnackbarMsg(msg: string) {

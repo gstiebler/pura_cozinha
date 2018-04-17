@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Switch from 'material-ui/Switch';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
@@ -35,12 +36,6 @@ interface IProps {
   classes?: any;
 }
 
-function isKitchenActive(store: Store) {
-  if (store.kitchen != null)
-    return store.kitchen.active;
-  else return false;
-}
-
 
 function FoodMenu(props: IProps) {
   const { store, classes } = props;
@@ -49,9 +44,11 @@ function FoodMenu(props: IProps) {
   const items = store.foodMenuItems.map(fmi => {
     const formattedPrice = formatCurrency(fmi.price);
     const secondary = formattedPrice;
+    store.getQuantityStockItemValue(fmi._id);
     return (
-      <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
+      <ListItem key={fmi._id} divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={secondary} />
+        <Switch/>
         <img src={fmi.imgURL} className={classes.image} />
       </ListItem>
     );

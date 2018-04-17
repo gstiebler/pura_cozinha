@@ -11,6 +11,7 @@ import {
 import * as geolib from 'geolib';
 import { Kitchen } from '../db/models/kitchen';
 import { ObjectId } from 'bson';
+import { getProjection } from '../lib/Util';
 
 const geolocationType = new GraphQLObjectType({
   name: 'geolocationType',
@@ -28,13 +29,22 @@ const geolocationInputType = new GraphQLInputObjectType({
   }
 });
 
+const KitchenStockType = new GraphQLObjectType({
+  name: 'KitchenStockType',
+  fields: {
+    menu_item: { type: new GraphQLNonNull(GraphQLID) },
+    quantity: { type: GraphQLFloat }
+  }
+});
+
 const KitchenCompleteType = new GraphQLObjectType({
   name: 'KitchenCompleteType',
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLID) },
     name: { type: GraphQLString },
     address: { type: GraphQLString },
-    active: {type: GraphQLBoolean}
+    active: {type: GraphQLBoolean},
+    stock: { type: new GraphQLList(KitchenStockType) }
   }
 });
 
@@ -98,9 +108,10 @@ export const KitchenQuery = {
     args: {
       id: { type: GraphQLID }
     },
-    resolve: async function(root, { id }) {
-      console.log('entrou na consulta');
-      return Kitchen.findOne({ '_id': new ObjectId(id) });
+    resolve: async function(root, { id }, source, fieldASTs) {
+      const projection = getProjection(fieldASTs);
+      const kitchen =  await Kitchen.findById(id, projection).lean();
+      return kitchen;
     }
   },
 };

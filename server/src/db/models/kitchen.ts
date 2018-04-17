@@ -11,7 +11,10 @@ export interface IKitchenModel extends mongoose.Document {
   telegramUsernames: [string];
   phoneNumber: string;
   active: boolean;
-  stock: object;
+  stock: {
+    menu_item: string;
+    quantity: number;
+  }[];
 }
 
 const kitSchema = new mongoose.Schema({

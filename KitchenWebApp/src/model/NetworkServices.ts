@@ -106,6 +106,7 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
     'name',
     'address',
     'active',
+    'stock { menu_item, quantity }'
   ];
   
   const query = `query { kitchen( ${params} ) { ${fields} }  }`;
