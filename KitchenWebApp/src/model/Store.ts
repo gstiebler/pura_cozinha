@@ -156,14 +156,22 @@ export class Store {
     return -1;
   }
 
-  updateItemAvailabilityInStock(menu_item: string)
+  async updateItemAvailabilityInStock(menu_item: string)
   {
     if(this.kitchen != null)
     {
       let i = this.kitchen.stock.findIndex( obj => obj.menu_item === menu_item);
       var result = this.kitchen.stock.filter( obj => obj.menu_item === menu_item)[0];
       this.kitchen.stock[i].quantity = (result.quantity != 0) ? 0 : 1;
-      console.log(ns.updateKitchen(this.kitchen));
+      try{
+        const msg = await ns.updateKitchen(this.kitchen);
+        const snackMsg = 'Item ' + ((result.quantity != 0) ? 'habilitado': 'desabilitado') + ' com sucesso!';
+        this.setSnackbarMsg(snackMsg);
+      }
+      catch(error) {
+        console.error(error);
+        this.setSnackbarMsg('Erro ao executar esta função!');
+      }
     }
   }
 
