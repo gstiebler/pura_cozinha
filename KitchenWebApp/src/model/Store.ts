@@ -150,15 +150,28 @@ export class Store {
     if(this.kitchen != null)
     {
       const stock = this.kitchen.stock;
-      for(let stockItem of stock)
-      {
-        if(stockItem.menu_item === _id)
-        {
-          return stockItem.quantity;
-        }
-      }
+      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      return result.quantity;
     }
     return -1;
+  }
+
+  updateItemAvailabilityInStock(menu_item: string)
+  {
+    if(this.kitchen != null)
+    {
+      let i: number = 0;
+      let newQty;
+      for(let stockItem of this.kitchen.stock)
+      {
+        if(stockItem.menu_item === menu_item){
+          newQty = stockItem.quantity;
+          break;
+        }
+        i++;
+      }
+      this.kitchen.stock[i].quantity = (newQty != 0) ? 0 : 1;
+    }
   }
 
   setSnackbarMsg(msg: string) {

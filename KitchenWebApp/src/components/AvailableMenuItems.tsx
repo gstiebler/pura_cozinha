@@ -18,6 +18,11 @@ function isChecked(quantity: number): boolean
   return (quantity === 0) ? false : true;
 }
 
+function handleToggle(store: Store, menu_item: string)
+{
+  console.log(menu_item);
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -53,7 +58,8 @@ function FoodMenu(props: IProps) {
     return (
       <ListItem key={fmi._id} divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={secondary} />
-        <Switch checked={isChecked(quantity)}/>
+        <Switch onChange={handleToggle.bind(null, store, fmi._id)}
+          checked={isChecked(quantity)}/>
         <img src={fmi.imgURL} className={classes.image} />
       </ListItem>
     );
