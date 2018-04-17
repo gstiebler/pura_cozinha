@@ -55,8 +55,8 @@ export class Store {
 
   async getDefaultKitchen()
   {
-    console.log('chamando cozinha');
     this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
@@ -114,7 +114,7 @@ export class Store {
   }
 
   async onMenuPageLoad() {
-    this.foodMenuItems = await ns.fetchFoodMenu();
+    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
   onLocalSelected(local: string) {

@@ -36,3 +36,20 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
   const result = await network.fetchQuery(query);
   return result.kitchen;
 }
+
+export async function getItemsByKitchen(kitchenId: string): Promise<any> {
+  const params = `
+    kitchen_id: "${kitchenId}"
+  `;
+  const fields = [
+    '_id',
+    'title',
+    'description',
+    'price',
+    'imgURL',
+  ];
+  const fieldsStr = fields.join(', ');
+  const query = `query { fullMenuItemsByKitchen( ${params} ) { ${fieldsStr} } }`;
+  const result = await network.fetchQuery(query);
+  return result.fullMenuItemsByKitchen;
+}

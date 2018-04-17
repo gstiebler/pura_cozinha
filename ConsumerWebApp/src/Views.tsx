@@ -12,7 +12,6 @@ export default {
     component: <FoodMenu store={store}/>,
     beforeEnter: async (route, params, store: Store) => {
       await store.getDefaultKitchen();
-      store.onMenuPageLoad();
     },
   }),
   itemDetail: new Route({
