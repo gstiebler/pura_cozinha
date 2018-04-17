@@ -37,6 +37,14 @@ const KitchenStockType = new GraphQLObjectType({
   }
 });
 
+const KitchenStockInputType = new GraphQLInputObjectType({
+  name: 'KitchenStockInputType',
+  fields: {
+    menu_item: { type: new GraphQLNonNull(GraphQLID) },
+    quantity: { type: GraphQLFloat }
+  }
+});
+
 const KitchenCompleteType = new GraphQLObjectType({
   name: 'KitchenCompleteType',
   fields: {
@@ -66,6 +74,18 @@ const KitchenInputType = new GraphQLInputObjectType({
     name: { type: GraphQLString },
     address: { type: GraphQLString },
     coordinates: { type: geolocationInputType }
+  }
+});
+
+const KitchenWithStockInputType = new GraphQLInputObjectType({
+  name: 'KitchenWithStockInputType',
+  fields: {
+    _id: { type: new GraphQLNonNull(GraphQLID) },
+    name: { type: GraphQLString },
+    address: { type: GraphQLString },
+    coordinates: { type: geolocationInputType },
+    active: {type: GraphQLBoolean},
+    stock: { type: new GraphQLList(KitchenStockInputType) }
   }
 });
 
@@ -126,14 +146,22 @@ export const KitchenMutation = {
   //     return newKitchen.save();
   //   }
   // },
-  // updateKitchen: {
-  //   type: GraphQLString,
-  //   args: { newKitchenData: { type: KitchenInputType } },
-  //   resolve: async (value, { newKitchenData }) => {
-  //     await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
-  //     return 'OK';
-  //   }
-  // },
+  updateKitchen: {
+    type: GraphQLString,
+    args: { newKitchenData: { type: KitchenInputType } },
+    resolve: async (value, { newKitchenData }) => {
+      await Kitchen.update({ _id: newKitchenData.id }, { $set: newKitchenData });
+      return 'OK';
+    }
+  },
+  updateKitchenStock: {
+    type: GraphQLString,
+    args: { newKitchenData: { type: KitchenWithStockInputType } },
+    resolve: async (value, { newKitchenData }) => {
+      await Kitchen.update({ _id: newKitchenData._id }, { $set: newKitchenData });
+      return 'OK';
+    }
+  },
   updateKitchenStatus: {
     type: GraphQLString,
     args: { 

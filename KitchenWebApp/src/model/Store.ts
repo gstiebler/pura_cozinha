@@ -163,7 +163,7 @@ export class Store {
       let i = this.kitchen.stock.findIndex( obj => obj.menu_item === menu_item);
       var result = this.kitchen.stock.filter( obj => obj.menu_item === menu_item)[0];
       this.kitchen.stock[i].quantity = (result.quantity != 0) ? 0 : 1;
-      console.log(this.kitchen.stock[i].quantity);
+      console.log(ns.updateKitchen(this.kitchen));
     }
   }
 
