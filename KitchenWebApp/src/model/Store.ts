@@ -152,12 +152,10 @@ export class Store {
       const stock = this.kitchen.stock;
       for(let stockItem of stock)
       {
-        console.log(stockItem.menu_item);
-        console.log(stockItem.quantity);
-        // if(stockItem.menu_item === _id)
-        // {
-        //   return stockItem.quantity;
-        // }
+        if(stockItem.menu_item === _id)
+        {
+          return stockItem.quantity;
+        }
       }
     }
     return -1;

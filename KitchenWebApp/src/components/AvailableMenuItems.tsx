@@ -13,6 +13,11 @@ function onItemClicked(store: Store, id: string) {
   //store.router.goTo(views.itemDetail, { id }, store);
 }
 
+function isChecked(quantity: number): boolean
+{
+  return (quantity === 0) ? false : true;
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -44,11 +49,11 @@ function FoodMenu(props: IProps) {
   const items = store.foodMenuItems.map(fmi => {
     const formattedPrice = formatCurrency(fmi.price);
     const secondary = formattedPrice;
-    store.getQuantityStockItemValue(fmi._id);
+    const quantity = store.getQuantityStockItemValue(fmi._id);
     return (
       <ListItem key={fmi._id} divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={secondary} />
-        <Switch/>
+        <Switch checked={isChecked(quantity)}/>
         <img src={fmi.imgURL} className={classes.image} />
       </ListItem>
     );
