@@ -6,10 +6,13 @@ import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
+import Drawer from 'material-ui/Drawer';
+import Paper from 'material-ui/Paper';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+
 
 const styles = theme => ({
   root: {},
@@ -50,7 +53,8 @@ function ItemDetail(props: IProps) {
   const { store, classes } = props;
   const itemId = store.router.params.id;
   const foodMenuItem = store.getFoodMenuItem(itemId);
-
+  const hiddenControllers = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'block' : 'none';
+  const hiddenUnavailableItem = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'none' : 'block';
   return (
     <div className={classes.root}>
       <img src={foodMenuItem.imgURL} className={classes.image}/>
@@ -66,27 +70,39 @@ function ItemDetail(props: IProps) {
         </Typography>
         <Divider />
         <Grid container className={classes.qtyContainer}>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{display: hiddenControllers}}>
             <Grid container            
                 alignItems="center"
                 direction="row"
-                justify='flex-start' >
-              <Grid item>
-                <Typography variant="subheading" gutterBottom>
-                  Quantidade:
-                </Typography>
-              </Grid>
-              <Grid item>
-                <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
-              </Grid>
-              <Grid item>
-                <Typography className={classes.quantity} variant="body2">
-                  { store.getItemQty(foodMenuItem._id) }
-                </Typography>
-              </Grid>
-              <Grid item>
-                <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
-              </Grid>
+                justify='flex-start'  >
+                <Grid item>
+                  <Typography variant="subheading" gutterBottom>
+                    Quantidade:
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.quantity} variant="body2">
+                    { store.getItemQty(foodMenuItem._id) }
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+                </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} style={{display: hiddenUnavailableItem}}>
+            <Grid container            
+                alignItems="center"
+                direction="row"
+                justify='flex-start'  >
+                <Grid item>
+                  <Typography variant="subheading" gutterBottom>
+                    Produto temporariamente indisponível.
+                  </Typography>
+                </Grid>
             </Grid>
           </Grid>
         </Grid>

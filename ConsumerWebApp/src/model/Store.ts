@@ -53,6 +53,17 @@ export class Store {
     return this.kitchen.active;
   }
 
+  getQuantityStockItemValue(_id: string): number
+  {
+    if(this.kitchen != null)
+    {
+      const stock = this.kitchen.stock;
+      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      return result.quantity;
+    }
+    return -1;
+  }
+
   async getDefaultKitchen()
   {
     this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
