@@ -60,6 +60,7 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
           },
           local: "${orderRequest.local}",
           paymentOption: "${orderRequest.paymentOption}",
+          comments: "${orderRequest.comments}",
           telephoneNumber: "${orderRequest.telephoneNumber}"
         }
       ) 

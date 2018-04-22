@@ -27,6 +27,8 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
       'description',
       'price',
       'imgURL',
+      'boolOptions {  label,  key  }', 
+      'options { key, label, optionItems { key,  label } }', 
     ];
     const fieldsStr = fields.join(', ');
     const query = `query { fullMenuItemsByKitchen( ${params} ) { ${fieldsStr} } }`;
