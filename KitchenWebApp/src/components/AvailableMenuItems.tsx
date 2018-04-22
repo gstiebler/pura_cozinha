@@ -47,7 +47,7 @@ interface IProps {
 }
 
 
-function FoodMenu(props: IProps) {
+function AvailableMenuItems(props: IProps) {
   const { store, classes } = props;
 
 
@@ -76,4 +76,4 @@ function FoodMenu(props: IProps) {
   );
 }
 
-export default withStyles(styles)(observer(FoodMenu));
+export default withStyles(styles)(observer(AvailableMenuItems));

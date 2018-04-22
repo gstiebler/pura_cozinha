@@ -17,13 +17,41 @@ describe('kitchen web app store', () => {
     expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
   });
 
-
   it('get open orders', async () => {
     const store = new Store();
     await store.onOrdersOpen('CLOSED');
     expect(store.orders).to.have.lengthOf(1);
     expect(store.orders[0].local).to.equal('Prédio 2');
     expect(store.orders[0].totalAmount).to.equal(48.0);
+  });
+
+  it('get menu items by kitchen', async () => {
+    const store = new Store();
+    await store.getDefaultKitchen();
+    expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
+    await store.getItemsByKitchen();
+    expect(store.foodMenuItems[0].title).to.equal('Sanduba de frango');
+    expect(store.foodMenuItems[1].title).to.equal('Açai');
+    expect(store.foodMenuItems[2].title).to.equal('Sanduíche de Mignon');
+  });
+
+  it('update items availability', async () => {
+    const store = new Store();
+    await store.getDefaultKitchen();
+    expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
+    await store.getItemsByKitchen();
+    await store.updateItemAvailabilityInStock(store.foodMenuItems[0]._id);
+    await store.updateItemAvailabilityInStock(store.foodMenuItems[1]._id);
+    expect(store.kitchen.stock[0].quantity).to.equal(0);
+    expect(store.kitchen.stock[1].quantity).to.equal(1);
+  });
+
+  it('update kitchen activeness', async () => {
+    const store = new Store();
+    await store.getDefaultKitchen();
+    expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
+    await store.onKitchenStatusChange();
+    expect(store.kitchen.active).to.equal(false);
   });
 
   it('getOrderDetails', async () => {

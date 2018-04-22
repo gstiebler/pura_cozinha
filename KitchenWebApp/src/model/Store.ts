@@ -74,10 +74,11 @@ export class Store {
     await this._setCurrentOrder(orderId);
   }
 
-  onKitchenStatusChange()
+  async onKitchenStatusChange()
   {
     this.kitchenActive = !this.kitchenActive;
-    ns.updateKitchenStatus(this.kitchen._id, this.kitchenActive);
+    await ns.updateKitchenStatus(this.kitchen._id, this.kitchenActive);
+    await this.getDefaultKitchen();
   }
 
   async onLoginSubmit() {
