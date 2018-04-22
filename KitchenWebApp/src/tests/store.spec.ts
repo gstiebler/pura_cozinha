@@ -11,6 +11,13 @@ describe('kitchen web app store', () => {
     await initFixtures();
   });
 
+  it('get default kitchen', async () => {
+    const store = new Store();
+    await store.getDefaultKitchen();
+    expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
+  });
+
+
   it('get open orders', async () => {
     const store = new Store();
     await store.onOrdersOpen('CLOSED');

@@ -109,11 +109,13 @@ export class Store {
   async findUserByToken()
   {
     const token = this.getLocalStorageToken('token');
+    console.log(token);
     this.user = await ns.findUserByToken(token);
+    console.log(this.user);
     if(this.user != null)
       this.isLoggedIn = true;
     else{
-      this._reset();
+      this.onLogOut();
     } 
   }
 

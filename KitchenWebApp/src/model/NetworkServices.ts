@@ -110,5 +110,5 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
 }
 
 export async function getItemsByKitchen(kitchenId: string): Promise<any> {
-  ns.getItemsByKitchen(kitchenId);
+  return ns.getItemsByKitchen(kitchenId);
 }
