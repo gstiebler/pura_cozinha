@@ -23,7 +23,7 @@ export default class FinalOkPage extends Component<IAppProps, IAppState> {
   render() {
     return (
       <MessagePageComponent
-        message='Obrigado por comprar com o Pura Cozinha! Em breve seu pedido será entregue'
+        message='Obrigado por comprar com o Burg & Bowl! Em breve seu pedido será entregue'
         onOkClicked={finalOkPageFlowControl.onOkClicked}
       />
     );

@@ -34,6 +34,15 @@ describe('consumer web app store', () => {
     expect(store.foodMenuItems[0].title).to.equal('Sanduba de frango');
     expect(store.foodMenuItems[1].title).to.equal('Açai');
     expect(store.foodMenuItems[2].title).to.equal('Sanduíche de Mignon');
+
+    expect(store.foodMenuItems[1].boolOptions).to.have.lengthOf(1);
+    expect(store.foodMenuItems[1].boolOptions[0].label).to.equal('Granola');
+
+    expect(store.foodMenuItems[2].options).to.have.lengthOf(1);
+    expect(store.foodMenuItems[2].options[0].optionItems).to.have.lengthOf(2);
+
+    expect(store.foodMenuItems[2].options[0].label).to.equal('Molho');
+    expect(store.foodMenuItems[2].options[0].optionItems[0].label).to.equal('Barbecue');
   });
 
   it('order summary', async () => {

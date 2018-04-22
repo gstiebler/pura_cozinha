@@ -9,17 +9,44 @@ export interface FoodMenuItem {
   description: string;
   price: number;
   imgURL: string;
+  options: {
+    label: string;
+    key: string;
+    optionItems: {
+      label: string;
+      key: string;
+    }[];
+  }[];
+  boolOptions: {
+    label: string;
+    key: string;
+  }[];
+}
+
+export interface SelectedFoodMenuItem {
+  _id?: TfmiId;
+  title: string;
+  description: string;
+  price: number;
+  imgURL: string;
+  selectedOptions: {
+    optionKey: string;
+    selectedOptionItemKey: string;
+  }[];
+  selectedBoolOptions: {
+    optionKey: string;
+    value: boolean;
+  }[];
 }
 
 export interface IOrderSummary {
   items: {
-    fmi: FoodMenuItem;
+    fmi: SelectedFoodMenuItem;
     qty: number;
     itemTotalPrice: number;
   }[];
   totalAmount: number;
 }
-
 
 export interface IOrderRequest {
   orderSummary: IOrderSummary;
@@ -28,4 +55,10 @@ export interface IOrderRequest {
   paymentOption: TPaymentOptions;
   telephoneNumber: string;
   comments: string;
+}
+
+export interface ISelectedMenuItemOption {
+  _id: TfmiId;
+  optionKey: string;
+  selectedItem: string;
 }

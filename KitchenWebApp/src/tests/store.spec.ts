@@ -17,12 +17,12 @@ describe('kitchen web app store', () => {
     expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
   });
 
-  it('get open orders', async () => {
+  it('get closed orders', async () => {
     const store = new Store();
     await store.onOrdersOpen('CLOSED');
-    expect(store.orders).to.have.lengthOf(1);
-    expect(store.orders[0].local).to.equal('Prédio 2');
-    expect(store.orders[0].totalAmount).to.equal(48.0);
+    expect(store.orders).to.have.lengthOf(3);
+    expect(store.orders[2].local).to.equal('Prédio 2');
+    expect(store.orders[2].totalAmount).to.equal(48.0);
   });
 
   it('get menu items by kitchen', async () => {

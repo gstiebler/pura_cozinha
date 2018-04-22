@@ -1,6 +1,6 @@
 
 export function objToGrahqlStr(obj: any): string {
-  const str = JSON.stringify(obj);
+  const str = JSON.stringify(obj, null, 2);
   return str.replace(/\"([^(\")"]+)\":/g, '$1:');
 }
 

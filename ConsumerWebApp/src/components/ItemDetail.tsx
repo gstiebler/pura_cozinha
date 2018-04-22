@@ -3,9 +3,12 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
+import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 import Drawer from 'material-ui/Drawer';
 import Paper from 'material-ui/Paper';
 import { observer } from 'mobx-react';
@@ -42,6 +45,12 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     horizontalAlignment: 'center',
   },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+  },
 });
 
 interface IProps {
@@ -53,6 +62,71 @@ function ItemDetail(props: IProps) {
   const { store, classes } = props;
   const itemId = store.router.params.id;
   const foodMenuItem = store.getFoodMenuItem(itemId);
+
+  const boolOptions = foodMenuItem.boolOptions.map(boolOption => {
+    return (
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <Typography variant="body1" component="p" className={classes.price}>
+            { boolOption.label }
+          </Typography>
+        </Grid>
+        <Grid item xs>
+          <Switch
+            checked={ store.getBoolOption(foodMenuItem._id, boolOption.key) }
+            onChange={() => store.onBoolOptionSelected(foodMenuItem._id, boolOption.key)}
+          />
+        </Grid>
+      </Grid>
+    );
+  });
+
+  const multipleOptions = foodMenuItem.options.map(option => {
+    const items = option.optionItems.map(optionItem => {
+      return <FormControlLabel value={optionItem.key} control={<Radio />} label={optionItem.label} key={optionItem.key}/>;
+    });
+    return (
+      <FormControl component="fieldset" required className={classes.formControl} key={option.key}>
+        <FormLabel component="legend">{ option.label }</FormLabel>
+        <RadioGroup
+          className={classes.group}
+          value={ store.getMultipleOption(foodMenuItem._id, option.key) }
+          onChange={(event:any) => store.onMenuItemOptionSelected(foodMenuItem._id, option.key, event.target.value)}
+        >
+          { items }
+        </RadioGroup>
+      </FormControl>
+    );
+  });
+
+  const quantityChooser = (
+    <Grid container className={classes.qtyContainer}>
+      <Grid item xs={12}>
+        <Grid container            
+            alignItems="center"
+            direction="row"
+            justify='flex-start' >
+          <Grid item>
+            <Typography variant="subheading" gutterBottom>
+              Quantidade:
+            </Typography>
+          </Grid>
+          <Grid item>
+            <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+          </Grid>
+          <Grid item>
+            <Typography className={classes.quantity} variant="body2">
+              { store.getItemQty(foodMenuItem._id) }
+            </Typography>
+          </Grid>
+          <Grid item>
+            <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
   const hiddenControllers = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'block' : 'none';
   const hiddenUnavailableItem = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'none' : 'block';
   return (
@@ -65,10 +139,13 @@ function ItemDetail(props: IProps) {
         <Typography variant="subheading" component="p" className={classes.description}>
           { foodMenuItem.description }
         </Typography>
+        { multipleOptions }
+        { boolOptions }
         <Typography variant="body1" component="p" className={classes.price}>
           { formatCurrency(foodMenuItem.price) }
         </Typography>
         <Divider />
+        { quantityChooser }
         <Grid container className={classes.qtyContainer}>
           <Grid item xs={12} style={{display: hiddenControllers}}>
             <Grid container            
