@@ -94,7 +94,6 @@ export const KitchenQuery = {
   kitchens: {
     type: new GraphQLList(KitchenCompleteType),
     resolve: async function(root) {
-      console.log('vai dar merda aqui ');
       return Kitchen.find();
     }
   },

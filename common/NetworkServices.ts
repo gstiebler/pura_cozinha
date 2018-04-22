@@ -28,7 +28,6 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
       'price',
       'imgURL',
     ];
-    console.log(kitchenId);
     const fieldsStr = fields.join(', ');
     const query = `query { fullMenuItemsByKitchen( ${params} ) { ${fieldsStr} } }`;
     const result = await network.fetchQuery(query);
