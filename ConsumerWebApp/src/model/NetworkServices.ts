@@ -1,4 +1,5 @@
 import * as network from '../../../common/network';
+import * as ns from '../../../common/NetworkServices';
 import { 
   TfmiId,
   FoodMenuItem,
@@ -22,35 +23,9 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
 
 
 export async function findKitchenById(kitchenId: string): Promise<any> {
-  const params = `
-    id: "${kitchenId}"
-  `;
-  const fields = [
-    '_id',
-    'name',
-    'address',
-    'active',
-    'stock { menu_item, quantity }'
-  ];
-  
-  const query = `query { kitchen( ${params} ) { ${fields} }  }`;
-  const result = await network.fetchQuery(query);
-  return result.kitchen;
+  return ns.findKitchenById(kitchenId);
 }
 
 export async function getItemsByKitchen(kitchenId: string): Promise<any> {
-  const params = `
-    kitchen_id: "${kitchenId}"
-  `;
-  const fields = [
-    '_id',
-    'title',
-    'description',
-    'price',
-    'imgURL',
-  ];
-  const fieldsStr = fields.join(', ');
-  const query = `query { fullMenuItemsByKitchen( ${params} ) { ${fieldsStr} } }`;
-  const result = await network.fetchQuery(query);
-  return result.fullMenuItemsByKitchen;
+  return ns.getItemsByKitchen(kitchenId);
 }

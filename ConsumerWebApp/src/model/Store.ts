@@ -64,11 +64,22 @@ export class Store {
     return -1;
   }
 
-  async getDefaultKitchen()
+  async onMenuPageLoad()
+  {
+    await this.getKitchen();
+    await this.getFoodMenuItems();
+  }
+
+  async getKitchen()
   {
     this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+  }
+
+  async getFoodMenuItems()
+  {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
+
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
   }
@@ -122,10 +133,6 @@ export class Store {
 
   onItemQtyDecreased(fmiId: TfmiId) {
     this.setItemQty(fmiId, this.getItemQty(fmiId) - 1);
-  }
-
-  async onMenuPageLoad() {
-    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
   onLocalSelected(local: string) {

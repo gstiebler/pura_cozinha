@@ -1,10 +1,12 @@
 import { Kitchen } from '../../db/models/kitchen';
 import { MenuItem } from '../../db/models/menuItem';
 import { idByValue } from '../lib/TestUtils';
+import { ObjectId } from 'bson';
 
 export default async () => {
   return [
     {
+      _id: new ObjectId('5aa9b17fe5a77b0c7ba3145e'),
       name: 'Cozinha do Marcel',
       address: 'R. Jorn. Henrique Cordeiro, 310',
       coordinates: {

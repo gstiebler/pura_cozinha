@@ -22,9 +22,17 @@ describe('consumer web app store', () => {
     // twitterSendMessageStub.restore();
   })
 
+  it('get default kitchen', async () => {
+    const store = new Store();
+    await store.getKitchen();    
+    expect(store.kitchen._id).to.equal('5aa9b17fe5a77b0c7ba3145e');
+  });
+
   it('get food menu items', async () => {
     const store = new Store();
     await store.onMenuPageLoad();
+    // console.log(store.kitchen.stock[0]);
+    // console.log(store.foodMenuItems);
     expect(store.foodMenuItems[0].title).to.equal('Sanduba de frango');
     expect(store.foodMenuItems[1].title).to.equal('Açai');
     expect(store.foodMenuItems[2].title).to.equal('Sanduíche de Mignon');
