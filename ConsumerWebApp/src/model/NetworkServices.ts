@@ -58,6 +58,8 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
             totalAmount: ${orderRequest.orderSummary.totalAmount}
           },
           local: "${orderRequest.local}",
+          localComplement: "${orderRequest.localComplement}",
+          comments: "${orderRequest.comments}",
           paymentOption: "${orderRequest.paymentOption}",
           telephoneNumber: "${orderRequest.telephoneNumber}"
         }
