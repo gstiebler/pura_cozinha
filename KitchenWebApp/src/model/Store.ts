@@ -50,7 +50,7 @@ export class Store {
   async _setCurrentOrder(orderId: string) {
     const order = await ns.getOrderDetails(orderId);
     order.readableStatus = readableStatus.get(order.status);
-    this.kitchenComments = (!!order.kitchenComments) ? order.kitchenComments : '';
+    this.kitchenComments = order.kitchenComments;
     this.currentOrder = order;
   }
 
