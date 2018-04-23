@@ -27,6 +27,7 @@ export class Store {
   @observable isLoggedIn: boolean = true;
   @observable user: IUserModel = null;
   @observable snackbarMsg: string = '';
+  @observable kitchenComments: string = '';
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
@@ -49,6 +50,7 @@ export class Store {
   async _setCurrentOrder(orderId: string) {
     const order = await ns.getOrderDetails(orderId);
     order.readableStatus = readableStatus.get(order.status);
+    this.kitchenComments = (!!order.kitchenComments) ? order.kitchenComments : '';
     this.currentOrder = order;
   }
 
@@ -122,6 +124,16 @@ export class Store {
 
   async onStatusChanged(status: TOrderStatus) {
     await ns.changeOrderStatus(this.currentOrder._id, status);
+    await this._setCurrentOrder(this.currentOrder._id);
+  }
+
+  async onCommentsChanged(comment: string) {
+    this.kitchenComments = comment;
+  }
+
+  async saveKitchenComments()
+  {
+    await ns.changeKitchenComments(this.currentOrder._id, this.kitchenComments);
     await this._setCurrentOrder(this.currentOrder._id);
   }
 

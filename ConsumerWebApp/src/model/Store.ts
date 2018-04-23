@@ -163,6 +163,7 @@ export class Store {
         paymentOption: this.selectedPaymentOption,
         telephoneNumber: this.telephoneNumber,
         comments: this.comments,
+        kitchenComments: null,
       };
       await ns.sendOrderRequest(request);
       this.reset();

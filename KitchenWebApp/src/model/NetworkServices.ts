@@ -90,3 +90,9 @@ export async function changeOrderStatus(orderId: string, status: TOrderStatus): 
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }
+
+export async function changeKitchenComments(orderId: string, comments: string): Promise<string> {
+  const mutation = `mutation { changeKitchenComments( orderId: "${orderId}", kitchenComments: "${comments}" ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
