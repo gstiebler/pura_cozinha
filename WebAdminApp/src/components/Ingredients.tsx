@@ -39,10 +39,10 @@ function Ingredients(props: IProps) {
   const { store, classes } = props;
 
   const items = store.ingredients.map(fmi => {
+    const secondary = fmi.amount;
     return (
       <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={secondary}/>
-        <img src={fmi.imgURL} className={classes.image}/>
       </ListItem>
     );
   });
@@ -52,13 +52,10 @@ function Ingredients(props: IProps) {
       <List>
         {items}
       </List>
-      <Typography variant="subheading" gutterBottom className={classes.summaryLabel}>
-        Resumo
-      </Typography>
       <Button variant="raised" className={classes.button} 
             //   onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}
               >
-        Finalizar pedido
+        Criar Insumo
       </Button>
     </div>
   );

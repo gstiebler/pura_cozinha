@@ -27,6 +27,11 @@ export class Store {
     this.ingredients = await ns.fetchIngredients();
   }
 
+  async findUnitById()
+  {
+    
+  }
+
 }
 
 export let store: Store = new Store();
