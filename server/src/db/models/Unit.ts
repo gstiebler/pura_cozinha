@@ -8,4 +8,4 @@ export const unitSchema = new mongoose.Schema({
   title: { type: String, required: true },
 });
 
-export const MenuItem = mongoose.model('Unit', unitSchema);
+export const Unit = mongoose.model('Unit', unitSchema);

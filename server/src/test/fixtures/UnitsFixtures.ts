@@ -10,7 +10,7 @@ export default async () => {
       title: 'Litros (l)',
     },
     {
-      title: 'Litros (l)',
+      title: 'Caixas (cx)',
     }
   ];
 }
