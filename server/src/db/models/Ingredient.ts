@@ -5,7 +5,7 @@ import {Unit} from './Unit';
 import * as _ from 'lodash';
 const ObjectId = Schema.Types.ObjectId;
 
-export interface IIngredient {
+export interface Ingredient {
   title: string;
   amount: number;
   unit?: object;
@@ -17,6 +17,6 @@ const IngredientSchema = new Schema({
   unit: { type: Object }
 });
 
-interface IIngredientModel extends IIngredient, Document {}
+interface IIngredientModel extends Ingredient, Document {}
 
-export const Order: Model<IIngredientModel> = model<IIngredientModel>('Ingredient', IngredientSchema);
+export const Ingredient: Model<IIngredientModel> = model<IIngredientModel>('Ingredient', IngredientSchema);
