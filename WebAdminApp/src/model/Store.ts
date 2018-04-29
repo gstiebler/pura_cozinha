@@ -10,14 +10,21 @@ import {
   IOrderRequest,
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
-
+import { Ingredient } from '../../../server/src/db/models/Ingredient';
 export class Store {
 
   @observable router;
   @observable isDrawerOpen = false;
+  @observable ingredients: Ingredient[] = [];
 
   constructor() {
     
+  }
+
+  async onIngredientsPageLoad()
+  {
+    console.log(await ns.fetchIngredients());
+    this.ingredients = await ns.fetchIngredients();
   }
 
 }

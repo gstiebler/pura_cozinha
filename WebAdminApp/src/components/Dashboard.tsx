@@ -27,8 +27,8 @@ function Dashboard(props: IProps){
       <Grid container>
 
         <Grid item xs={12} sm={6} md={3}>
-          <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
-            <InfoBox Icon={}
+          <div className="col-xs-10 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+            <InfoBox Icon={SkipNextIcon}
                     color='#2196F3'
                     title="Total Profit"
                     value="1500k"

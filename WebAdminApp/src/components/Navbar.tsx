@@ -8,8 +8,10 @@ import Typography from 'material-ui/Typography';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
+import Dashboard from 'material-ui-icons/Dashboard';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import ShoppingCart from 'material-ui-icons/ShoppingCart';
 import Divider from 'material-ui/Divider';
 import * as classNames from 'classnames';
 import { withStyles, StyleRules } from 'material-ui/styles';
@@ -27,6 +29,12 @@ function handleDrawer(store: Store, isOpen: boolean) {
 function viewDashboard(store: Store)
 {
   store.router.goTo(Views.home, { }, store);
+  store.isDrawerOpen = false;
+}
+
+function viewIngredients(store: Store)
+{
+  store.router.goTo(Views.ingredients, { }, store);
   store.isDrawerOpen = false;
 }
 
@@ -70,7 +78,10 @@ const styles = theme => ({
       color: 'white',
       fontWeight: 300,
       textShadow: '1px 1px #444'
-    }
+    },
+    leftIcon: {
+      marginRight: theme.spacing.unit,
+    },
   }
 });
 
@@ -91,16 +102,14 @@ function Navbar(props: IProps) {
         <Divider />
         <List className={classes.list} >
           <ListItem>
-            {/* <div className={classes.logo}>
-              Admin
-            </div>
-            <div className={classes.avatar.div}>
-              <Avatar src="http://www.material-ui.com/images/uxceo-128.jpg"
-                      className={classes.avatar.icon}/>
-              <span className={classes.avatar.span}>Cozinha do Marcel</span>
-            </div> */}
-              <ListItemText primary='Dashboard'
-              onClick={() => viewDashboard(store)}/>
+            <Dashboard className={classes.leftIcon}/>
+            <ListItemText primary='Dashboard'
+            onClick={() => viewDashboard(store)}/>
+          </ListItem>
+          <ListItem>
+            <ShoppingCart className={classes.leftIcon}/>
+            <ListItemText primary='Insumos'
+            onClick={() => viewIngredients(store)}/>
           </ListItem>
         </List>
       </div>

@@ -3,9 +3,13 @@ import { menuItemSchema } from './menuItem';
 import { TOrderStatus } from '../../../../common/Interfaces';
 import {Unit} from './Unit';
 import * as _ from 'lodash';
+import * as mongoose from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 
+export type TfmiId = string;
+
 export interface Ingredient {
+  _id?: TfmiId;
   title: string;
   amount: number;
   unit?: object;
@@ -17,6 +21,5 @@ const IngredientSchema = new Schema({
   unit: { type: Object }
 });
 
-interface IIngredientModel extends Ingredient, Document {}
 
-export const Ingredient: Model<IIngredientModel> = model<IIngredientModel>('Ingredient', IngredientSchema);
+export const Ingredient = mongoose.model('Ingredient', IngredientSchema);
