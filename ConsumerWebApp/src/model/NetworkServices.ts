@@ -1,4 +1,5 @@
 import * as network from '../../../common/network';
+import * as ns from '../../../common/NetworkServices';
 import { 
   TfmiId,
   FoodMenuItem,
@@ -59,6 +60,7 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
           },
           local: "${orderRequest.local}",
           paymentOption: "${orderRequest.paymentOption}",
+          comments: "${orderRequest.comments}",
           telephoneNumber: "${orderRequest.telephoneNumber}"
         }
       ) 
@@ -66,4 +68,13 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
   `;
   const result = await network.fetchQuery(mutation);
   return result.msg;
+}
+
+
+export async function findKitchenById(kitchenId: string): Promise<any> {
+  return ns.findKitchenById(kitchenId);
+}
+
+export async function getItemsByKitchen(kitchenId: string): Promise<any> {
+  return ns.getItemsByKitchen(kitchenId);
 }

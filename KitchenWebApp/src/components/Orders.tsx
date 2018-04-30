@@ -22,7 +22,7 @@ interface IProps {
 
 function Orders(props: IProps) {
   const { classes, store } = props;
-
+  store.getDefaultKitchen();
   const items = store.orders.map(order => {
     const date = moment(order.createdOn).format('DD/MM/YY - HH:mm');
     const primary = `${date} - ${readableStatus.get(order.status)}`;

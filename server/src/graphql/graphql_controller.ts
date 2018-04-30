@@ -15,6 +15,7 @@ import logger from 'winston';
 import * as FoodMenuItemGraphql from './FoodMenuItemGraphql';
 import * as OrderGraphQL from './OrderGraphQL';
 import * as UserGraphQL from './UserGraphQL';
+import * as KitchenGraphql from './KitchenGraphql';
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -23,12 +24,14 @@ export const schema = new GraphQLSchema({
       ...FoodMenuItemGraphql.Query,
       ...OrderGraphQL.Query,
       ...UserGraphQL.Query,
+      ...KitchenGraphql.KitchenQuery
     }
   }),
   mutation: new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-      ...OrderGraphQL.Mutation
+      ...OrderGraphQL.Mutation,
+      ...KitchenGraphql.KitchenMutation
     },
   })
 });
