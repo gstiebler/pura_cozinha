@@ -8,6 +8,7 @@ import { schema } from './graphql/graphql_controller';
 import * as db from './db';
 import { initializeTwitter } from './lib/Twitter';
 import OrderRoutes from './routes/OrderRoutes';
+import * as mongoose from 'mongoose';
 
 import * as bodyParser from 'body-parser';
 
@@ -19,6 +20,26 @@ MongoInit.init({
   dbName: process.env.MONGODB_DB_NAME,
   port: process.env.MONGODB_PORT,
 });
+
+mongoose.set( "debug", function(coll, method, query, doc, options) {
+  if (method === 'ensureIndex') { return }
+  const ObjectId                   = require('mongoose').Types.ObjectId;
+  function formatter (key, value) {
+    if (this[key] instanceof ObjectId) {
+      return `!*ObjectId('${value}')!*`;
+    } else if (this[key] instanceof Date) {
+      return `!*ISODate('${value}')!*`;
+    }
+    return value;
+  }
+  let strQuery = JSON.stringify(query, formatter, 2);
+  if (strQuery.length > 10000) {
+    strQuery = `${strQuery.substr(0, 1000)} **cut ${strQuery.length} ** ${strQuery.slice(-1000)}`;
+  }
+
+  console.log(`db.${coll}.${method}( ${strQuery} )`);
+  console.log(' *** doc: ' + JSON.stringify(doc, null, 2));
+} );
 
 const app = express();
 
