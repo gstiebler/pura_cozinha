@@ -3,6 +3,8 @@ import { observer } from 'mobx-react';
 import { Store, availableStatuses } from '../model/Store';
 import Typography from 'material-ui/List';
 import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
 import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
@@ -14,15 +16,35 @@ function onStatusChanged(store: Store, newStatus: TOrderStatus) {
   store.onStatusChanged(newStatus);
 }
 
-const styles = {
+function isSaveCommentsBtnDisabled(store: Store): boolean
+{
+  if(store.kitchenComments === '' || store.kitchenComments === store.currentOrder.kitchenComments)
+    return true;
+  return false;
+}
+
+function onCommentsChanged(store: Store, event) {
+  store.onCommentsChanged(event.target.value);
+}
+
+function saveKitchenComments(store: Store) {
+  store.saveKitchenComments();
+}
+
+const styles = theme => ({
   root: {
     padding: 16,
     margin: 8,
   },
   foodMenuItem: {
     paddingLeft: 24,
-  }
-};
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '90%',
+  },
+});
 
 interface IProps {
   store: Store;
@@ -88,6 +110,23 @@ function OrderDetails(props: IProps) {
             { statusesRadioOptions }
           </RadioGroup>
         </FormControl>
+        <Typography component="p">
+          <TextField
+            id="comments-flexible"
+            label="Comentários"
+            multiline
+            rowsMax="4"
+            value={store.kitchenComments}
+            onChange={(event) => onCommentsChanged(store, event)}
+            className={classes.textField}
+            margin="normal"
+          />
+          <Button size='small' variant="raised" className={classes.button}
+                  disabled={isSaveCommentsBtnDisabled(store)}
+                  onClick={ saveKitchenComments.bind(null, store) }>
+            Salvar Comentários
+          </Button>
+        </Typography>
       </Paper>
     </div>
   );

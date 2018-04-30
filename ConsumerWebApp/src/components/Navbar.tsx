@@ -42,7 +42,7 @@ class Navbar extends React.Component<IProps> {
         <Toolbar>
           <BackButton store={store}/>
           <Typography variant="title" color="inherit">
-            Pura Cozinha
+            Burg & Bowl
           </Typography>
         </Toolbar>
       </AppBar>

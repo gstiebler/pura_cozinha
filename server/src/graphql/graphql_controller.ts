@@ -14,6 +14,7 @@ import logger from 'winston';
 
 import * as FoodMenuItemGraphql from './FoodMenuItemGraphql';
 import * as OrderGraphQL from './OrderGraphQL';
+import * as UserGraphQL from './UserGraphQL';
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -21,6 +22,7 @@ export const schema = new GraphQLSchema({
     fields: {
       ...FoodMenuItemGraphql.Query,
       ...OrderGraphQL.Query,
+      ...UserGraphQL.Query,
     }
   }),
   mutation: new GraphQLObjectType({

@@ -15,6 +15,7 @@ import * as classNames from 'classnames';
 import { withStyles, StyleRules } from 'material-ui/styles';
 import { Link } from 'mobx-router';
 import Views from '../Views';
+import grey from 'material-ui/colors/grey';
 
 export const drawerWidth = 240;
 
@@ -27,8 +28,15 @@ function viewOrders(store: Store, type: string) {
   store.isDrawerOpen = false;
 }
 
-function viewHome(store: Store, type: string) {
-  store.router.goTo(Views.home, { type }, store);
+function viewHome(store: Store) {
+  store.router.goTo(Views.home, { }, store);
+  store.isDrawerOpen = false;
+}
+
+function logOut(store: Store)
+{
+  store.onLogOut();
+  store.router.goTo(Views.home, { }, store);
   store.isDrawerOpen = false;
 }
 
@@ -73,12 +81,17 @@ function Navbar(props: IProps) {
             <ListItemText primary='Pedidos fechados'
             onClick={() => viewOrders(store, 'CLOSED')}/>
           </ListItem>
-          
+          <hr style={{color: grey[500]}}/>
+          <ListItem>
+            <ListItemText primary='Sair'
+            style={{display: hidden}}
+            onClick={() => logOut(store)}/>
+          </ListItem>
         </List>
       </div>
     </Drawer>
   );
-
+  
   return (
     <div>
       <AppBar className={classes.root} position="static" color="default">
@@ -95,8 +108,9 @@ function Navbar(props: IProps) {
             Admin Cozinha
           </Typography>
           <Button className={classes.button}  
-                  style={{display: hiddenLoginButton, marginLeft: 20}}
-                  onClick={() => viewHome(store, 'CLOSED')} 
+                  size = 'small'
+                  style={{display: hiddenLoginButton, marginLeft: 30, float: 'right'}}
+                   onClick={() => viewHome(store)} 
                   variant="raised" color="default">
               Login
           </Button>

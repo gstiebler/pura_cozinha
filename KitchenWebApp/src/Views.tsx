@@ -11,9 +11,9 @@ export default {
   home: new Route({
     path: basePath,
     component: <Login store={store}/>,
-    onEnter: () => {
-      //console.log('entering login route');
-    }
+    beforeEnter: (route, params, store: Store) => {
+      
+    },
   }),
   homeKitchen: new Route({
     path: basePath + '/home',
@@ -25,6 +25,9 @@ export default {
   orders: new Route({
     path: basePath + '/orders/:type',
     component: <Orders store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      
+    },
     onEnter: (route, params, store: Store, queryParams) => {
       store.onOrdersOpen(params.type);
     },

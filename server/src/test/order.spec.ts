@@ -11,6 +11,7 @@ describe('order', () => {
       local: '',
       localComplement: '',
       comments: '',
+      kitchenComments: null,
       status: 'PENDING',
       paymentOption: 'Dinheiro',
       telephoneNumber: '',

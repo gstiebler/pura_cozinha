@@ -163,8 +163,8 @@ export class Store {
         paymentOption: this.selectedPaymentOption,
         telephoneNumber: this.telephoneNumber,
         comments: this.comments,
+        kitchenComments: null,
       };
-      console.log("foi ou nao" + this.comments);
       await ns.sendOrderRequest(request);
       this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');

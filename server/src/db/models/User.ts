@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-interface IUserModel extends mongoose.Document {
+export interface IUserModel extends mongoose.Document {
   login: string;
   name: string;
   role: string;
