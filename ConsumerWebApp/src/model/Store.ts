@@ -12,6 +12,8 @@ import {
 } from '../../../common/Interfaces';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
+const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
+
 export class Store {
 
   @observable router;
@@ -81,7 +83,7 @@ export class Store {
 
   async getKitchen()
   {
-    this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+    this.kitchen = await ns.findKitchenById(MAIN_KITCHEN_ID);
   }
 
   async getFoodMenuItems()
