@@ -3,11 +3,12 @@ import {
   TfmiId,
   FoodMenuItem,
   IOrderSummary,
-  IOrderRequest,
+  IIngredientRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { Ingredient } from '../../../server/src/db/models/Ingredient';
 import { Unit } from '../../../server/src/db/models/Unit';
+import { ObjectID } from 'bson';
 
 export async function fetchIngredients(): Promise<Ingredient[]> {
   const query = `
@@ -39,6 +40,26 @@ export async function fetchUnits(): Promise<Unit[]> {
   return result.allUnits;
 }
 
+
+
+export async function sendIngredientRequest(ingredientRequest: IIngredientRequest) {
+  
+  const mutation = `
+    mutation {
+      saveIngredient (
+        fmiData: {
+          title: "${ingredientRequest.title}",
+          amount: ${ingredientRequest.amount}, 
+          unit: { 
+            id: "${ingredientRequest.unit}",
+          }
+        }
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
 
 export async function findUnitById( id: string): Promise<any> {
   const params = `

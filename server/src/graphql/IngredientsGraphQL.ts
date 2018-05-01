@@ -8,6 +8,7 @@ import {
     GraphQLFloat,
   } from 'graphql';
   import { Ingredient } from '../db/models/Ingredient';
+  import { IIngredientRequest } from '../../../common/Interfaces';
   
   export const UnitType = new GraphQLObjectType({
     name: 'UnitType',
@@ -26,6 +27,21 @@ import {
     }
   });
   
+  export const UnitInputType = new GraphQLInputObjectType({
+    name: 'UnitInputType',
+    fields: {
+      id: { type: new GraphQLNonNull(GraphQLID) }
+    }
+  });
+
+  const IngredientRequestInputType = new GraphQLInputObjectType({
+    name: 'IngredientRequestInputType',
+    fields: {
+      title: { type: new GraphQLNonNull(GraphQLString) },
+      amount: { type: GraphQLFloat },
+      unit: { type: UnitInputType }
+    }
+  });
   
   export const Query = {
     allIngredients: {
@@ -36,7 +52,19 @@ import {
     }
   };
   
-  
   export const Mutation = {
-    
+    saveIngredient: {
+      type: GraphQLString,
+      args: { fmiData: { type: IngredientRequestInputType } },
+      async resolve(value, { fmiData }) {
+        const ingredientObj: Ingredient = {
+          title: fmiData.title,
+          amount: fmiData.amount,
+          unit: {id: fmiData.unit},
+        };
+        const ingredient = new Ingredient(ingredientObj);
+        ingredient.save();
+        return { msg: 'OK' };
+      }
+    },
   };

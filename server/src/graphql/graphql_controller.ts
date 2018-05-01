@@ -32,7 +32,8 @@ export const schema = new GraphQLSchema({
   mutation: new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-      ...OrderGraphQL.Mutation
+      ...OrderGraphQL.Mutation,
+      ...IngredientsGraphQL.Mutation,
     },
   })
 });

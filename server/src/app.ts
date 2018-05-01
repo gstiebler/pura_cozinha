@@ -54,7 +54,6 @@ const distDirName = webAdminDir + 'dist';
 console.log('so ' + express.static(distDirName));
 app.use('/admin_app', express.static(distDirName));
 app.get('/admin_app/*', function (req, res) {
-  console.log('trying to get web admin app');
   logger.debug(req.url);
   return res.redirect('/admin_app');
   // return res.redirect('/cozinha?url=' + encodeURIComponent(req.url));

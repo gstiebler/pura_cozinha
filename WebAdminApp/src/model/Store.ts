@@ -6,8 +6,8 @@ import {
   TfmiId,
   TPaymentOptions,
   FoodMenuItem,
-  IOrderSummary,
-  IOrderRequest,
+  IUnit,
+  IIngredientRequest,
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
 import { Ingredient } from '../../../server/src/db/models/Ingredient';
@@ -21,19 +21,30 @@ export class Store {
   @observable openDialogForm: boolean = false;
   //New ingredient variables
   @observable title: string = '';
-  @observable amount: number;
+  @observable amount: string= '';
   @observable selectedUnit;
+  //snack bar message settings
+  @observable isSnackbarOpen: boolean = false;
+  @observable snackbarMsg: string = '';
 
 
   constructor() {
     
   }
 
+
+  async reset() {
+    this.title = '';
+    this.amount = '';
+    this.selectedUnit = '';
+    this.snackbarMsg = '';
+    this.ingredients = await ns.fetchIngredients();
+  }
+
   async onIngredientsPageLoad()
   {
     this.ingredients = await ns.fetchIngredients();
-    this.units = await ns.fetchUnits()
-    console.log(this.units);
+    this.units = await ns.fetchUnits();
   }
 
   async findUnitById(id: string)
@@ -49,9 +60,40 @@ export class Store {
     this.title = title;
   }
 
-  ingredientAmountChanged(amount: number)
+  ingredientAmountChanged(amount: string)
   {
     this.amount = amount;
+  }
+
+  unitSelected(unit: string)
+  {
+    this.selectedUnit = unit;
+  }
+
+  async onSendIngredientRequested() {
+    try {
+      const totalAmount: number = parseFloat(this.amount);
+      const request:IIngredientRequest = {
+        title: this.title,
+        amount: totalAmount,
+        unit: this.selectedUnit
+      };
+      await ns.sendIngredientRequest(request);
+      await this.reset();
+      this.setSnackbarMsg('Ingrediente salvo com sucesso');
+      this.openDialogForm = false;
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao salvar ingrediente');
+    }
+  }
+
+  setSnackbarMsg(msg: string) {
+    this.snackbarMsg = msg;
+    this.isSnackbarOpen = true;
+    setTimeout(() => {
+      this.isSnackbarOpen = false;
+    }, 5000);
   }
 
 }

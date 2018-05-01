@@ -22,9 +22,12 @@ function handleClose(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
 
+function onSendIngredient(store: Store) {
+  store.onSendIngredientRequested();
+}
 
 function onUnitSlected(store: Store, event) {
-  console.log(event.target.value);
+  store.unitSelected(event.target.value);
 }
 
 function onIngredientTitleChange(store: Store, event) {
@@ -107,7 +110,7 @@ function Ingredients(props: IProps) {
             <Button onClick={handleClose.bind(null, store)} color="primary">
               Cancelar
             </Button>
-            <Button onClick={handleClose.bind(null, store)} color="primary">
+            <Button onClick={onSendIngredient.bind(null, store)} color="primary">
               Salvar
             </Button>
           </DialogActions>
