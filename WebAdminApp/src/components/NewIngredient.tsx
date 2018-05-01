@@ -48,7 +48,7 @@ function Ingredients(props: IProps) {
   const { store, classes } = props;
   
   const unitsOptions = store.units.map(unit => {
-    return <option key={unit._id} value={unit.title}>{unit.title}</option>;
+    return <option key={unit._id} value={unit._id}>{unit.title}</option>;
   });
 
   return (

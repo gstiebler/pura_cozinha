@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export interface Unit {
+  _id: string;
   title: string;
 }
 

@@ -7,6 +7,7 @@ import {
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { Ingredient } from '../../../server/src/db/models/Ingredient';
+import { Unit } from '../../../server/src/db/models/Unit';
 
 export async function fetchIngredients(): Promise<Ingredient[]> {
   const query = `
@@ -25,7 +26,7 @@ export async function fetchIngredients(): Promise<Ingredient[]> {
   return result.allIngredients;
 }
 
-export async function fetchUnits(): Promise<Ingredient[]> {
+export async function fetchUnits(): Promise<Unit[]> {
   const query = `
     query {
       allUnits { 

@@ -17,9 +17,9 @@ export class Store {
   @observable router;
   @observable isDrawerOpen = false;
   @observable ingredients: Ingredient[] = [];
-  @observable units: any[] = [];
-  @observable selectedUnit;
+  @observable units: Unit[] = [];
   @observable openDialogForm: boolean = false;
+  @observable selectedUnit;
 
 
   constructor() {
@@ -29,7 +29,8 @@ export class Store {
   async onIngredientsPageLoad()
   {
     this.ingredients = await ns.fetchIngredients();
-    this.units = await ns.fetchUnits();
+    this.units = await ns.fetchUnits()
+    console.log(this.units);
   }
 
   async findUnitById(id: string)
