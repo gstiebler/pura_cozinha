@@ -21,10 +21,18 @@ import TextField from 'material-ui/TextField';
 function handleClose(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
-onUnitSlected
+
 
 function onUnitSlected(store: Store, event) {
   console.log(event.target.value);
+}
+
+function onIngredientTitleChange(store: Store, event) {
+  store.ingredientTitleChanged(event.target.value);
+}
+
+function onIngredientAmountChange(store: Store, event) {
+  store.ingredientAmountChanged(event.target.value);
 }
 
 const styles = theme => ({
@@ -69,6 +77,7 @@ function Ingredients(props: IProps) {
               id="title"
               label="Nome"
               type="text"
+              onChange={onIngredientTitleChange.bind(null, store)}
               fullWidth
             />
             <TextField
@@ -76,7 +85,7 @@ function Ingredients(props: IProps) {
               margin="dense"
               id="amount"
               label="Quantidade"
-              type="text"
+              onChange={onIngredientAmountChange.bind(null, store)}
               fullWidth
             />
             <FormControl className={classes.formControl}>

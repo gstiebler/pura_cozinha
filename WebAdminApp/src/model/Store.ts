@@ -19,6 +19,9 @@ export class Store {
   @observable ingredients: Ingredient[] = [];
   @observable units: Unit[] = [];
   @observable openDialogForm: boolean = false;
+  //New ingredient variables
+  @observable title: string = '';
+  @observable amount: number;
   @observable selectedUnit;
 
 
@@ -40,6 +43,17 @@ export class Store {
       return unit.title;
     return null;
   }
+
+  ingredientTitleChanged(title: string)
+  {
+    this.title = title;
+  }
+
+  ingredientAmountChanged(amount: number)
+  {
+    this.amount = amount;
+  }
+
 }
 
 export let store: Store = new Store();
