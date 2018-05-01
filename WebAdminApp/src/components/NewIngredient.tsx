@@ -3,6 +3,9 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Select from 'material-ui/Select';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
@@ -18,12 +21,21 @@ import TextField from 'material-ui/TextField';
 function handleClose(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
+onUnitSlected
+
+function onUnitSlected(store: Store, event) {
+  console.log(event.target.value);
+}
 
 const styles = theme => ({
   root: {
     width: '100%',
     // maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  formControl: {
+    marginTop: theme.spacing.unit,
+    width: '100%',
   },
 });
 
@@ -35,6 +47,10 @@ interface IProps {
 function Ingredients(props: IProps) {
   const { store, classes } = props;
   
+  const unitsOptions = store.units.map(unit => {
+    return <option key={unit._id} value={unit.title}>{unit.title}</option>;
+  });
+
   return (
     <div className={classes.root}>
       <Dialog
@@ -63,6 +79,20 @@ function Ingredients(props: IProps) {
               type="text"
               fullWidth
             />
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="local">Unidade</InputLabel>
+              <Select
+                native
+                value={store.selectedUnit}
+                onChange={onUnitSlected.bind(null, store)}
+                inputProps={{
+                  id: 'local',
+                }}
+                fullWidth
+              >
+                { unitsOptions }
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose.bind(null, store)} color="primary">

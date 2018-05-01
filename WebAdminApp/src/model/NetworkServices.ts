@@ -25,6 +25,19 @@ export async function fetchIngredients(): Promise<Ingredient[]> {
   return result.allIngredients;
 }
 
+export async function fetchUnits(): Promise<Ingredient[]> {
+  const query = `
+    query {
+      allUnits { 
+        _id, 
+        title,
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.allUnits;
+}
+
 
 export async function findUnitById( id: string): Promise<any> {
   const params = `

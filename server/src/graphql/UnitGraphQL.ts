@@ -10,7 +10,7 @@ import {
 import { Unit } from '../db/models/Unit';
 
 export const UnitCompleteType = new GraphQLObjectType({
-  name: 'UnitType',
+  name: 'UnitCompleteType',
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLID) },
     title: { type: GraphQLString },

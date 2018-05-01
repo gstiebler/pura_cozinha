@@ -11,12 +11,16 @@ import {
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
 import { Ingredient } from '../../../server/src/db/models/Ingredient';
+import { Unit } from '../../../server/src/db/models/Unit';
 export class Store {
 
   @observable router;
   @observable isDrawerOpen = false;
   @observable ingredients: Ingredient[] = [];
+  @observable units: any[] = [];
+  @observable selectedUnit;
   @observable openDialogForm: boolean = false;
+
 
   constructor() {
     
@@ -25,6 +29,7 @@ export class Store {
   async onIngredientsPageLoad()
   {
     this.ingredients = await ns.fetchIngredients();
+    this.units = await ns.fetchUnits();
   }
 
   async findUnitById(id: string)
@@ -34,9 +39,6 @@ export class Store {
       return unit.title;
     return null;
   }
-
-
-
 }
 
 export let store: Store = new Store();
