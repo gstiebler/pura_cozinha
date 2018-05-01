@@ -37,6 +37,6 @@ import {
   };
   
   
-  export const KitchenMutation = {
+  export const Mutation = {
     
   };

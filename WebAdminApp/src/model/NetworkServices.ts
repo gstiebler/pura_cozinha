@@ -24,3 +24,19 @@ export async function fetchIngredients(): Promise<Ingredient[]> {
   const result = await network.fetchQuery(query);
   return result.allIngredients;
 }
+
+
+export async function findUnitById( id: string): Promise<any> {
+  const params = `
+    id: "${id}"
+  `;
+  const fields = [
+    '_id',
+    'title',
+  ];
+  
+  const fieldsStr = fields.join(', ');
+  const query = `query { unit( ${params} ) { ${fieldsStr} } }`;
+  const result = await network.fetchQuery(query);
+  return result.unit;
+}

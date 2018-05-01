@@ -7,9 +7,22 @@ import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
+import NewIngredient from './NewIngredient';
+
 
 function onItemClicked(store: Store, id: string) {
   // store.router.goTo(views.itemDetail, { id }, store);
+}
+
+function handleFormOpen(store: Store) {
+  store.openDialogForm = !store.openDialogForm;
 }
 
 const styles = theme => ({
@@ -37,7 +50,7 @@ interface IProps {
 
 function Ingredients(props: IProps) {
   const { store, classes } = props;
-
+  
   const items = store.ingredients.map(fmi => {
     const secondary = fmi.amount;
     return (
@@ -53,10 +66,11 @@ function Ingredients(props: IProps) {
         {items}
       </List>
       <Button variant="raised" className={classes.button} 
-            //   onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}
+              onClick={handleFormOpen.bind(null, store)}
               >
         Criar Insumo
       </Button>
+      <NewIngredient store={store}/>
     </div>
   );
 }

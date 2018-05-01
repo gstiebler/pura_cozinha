@@ -16,6 +16,7 @@ export class Store {
   @observable router;
   @observable isDrawerOpen = false;
   @observable ingredients: Ingredient[] = [];
+  @observable openDialogForm: boolean = false;
 
   constructor() {
     
@@ -23,14 +24,18 @@ export class Store {
 
   async onIngredientsPageLoad()
   {
-    console.log(await ns.fetchIngredients());
     this.ingredients = await ns.fetchIngredients();
   }
 
-  async findUnitById()
+  async findUnitById(id: string)
   {
-    
+    const unit = await ns.findUnitById(id);
+    if (!!unit)
+      return unit.title;
+    return null;
   }
+
+
 
 }
 

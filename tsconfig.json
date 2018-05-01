@@ -14,6 +14,7 @@
       "server/src/**/*.ts",
       "ConsumerWebApp/src/**/*.ts",
       "KitchenWebApp/src/**/*.ts",
+      "WebAdminApp/src/**/*.ts",
       "common/**/*.ts",
   ]
 }

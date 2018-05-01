@@ -16,6 +16,7 @@ import * as FoodMenuItemGraphql from './FoodMenuItemGraphql';
 import * as OrderGraphQL from './OrderGraphQL';
 import * as UserGraphQL from './UserGraphQL';
 import * as IngredientsGraphQL from './IngredientsGraphQL';
+import * as UnitGraphQL from './UnitGraphQL';
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -25,6 +26,7 @@ export const schema = new GraphQLSchema({
       ...OrderGraphQL.Query,
       ...UserGraphQL.Query,
       ...IngredientsGraphQL.Query,
+      ...UnitGraphQL.Query,
     }
   }),
   mutation: new GraphQLObjectType({
