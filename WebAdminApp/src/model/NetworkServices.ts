@@ -43,7 +43,6 @@ export async function fetchUnits(): Promise<Unit[]> {
 
 
 export async function sendIngredientRequest(ingredientRequest: IIngredientRequest) {
-  console.log(ingredientRequest.unit);
   const mutation = `
     mutation {
       saveIngredient (

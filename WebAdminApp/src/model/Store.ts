@@ -36,9 +36,9 @@ export class Store {
   async reset() {
     this.title = '';
     this.amount = '';
-    this.selectedUnit = '';
     this.snackbarMsg = '';
     this.ingredients = await ns.fetchIngredients();
+    this.units = await ns.fetchUnits();
   }
 
   async onIngredientsPageLoad()

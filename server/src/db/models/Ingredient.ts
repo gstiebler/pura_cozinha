@@ -15,11 +15,18 @@ export interface Ingredient {
   unit?: object;
 }
 
+export interface IIngredient {
+  title: string;
+  amount: number;
+  unit?: object;
+}
+
 const IngredientSchema = new Schema({
   title: { type: String, required: true },
   amount: { type: Number, required: true },
   unit: { type: Object }
 });
 
+interface IIngredientModel extends IIngredient, Document {}
 
-export const Ingredient = mongoose.model('Ingredient', IngredientSchema);
+export const Ingredient: Model<IIngredientModel> = model<IIngredientModel>('Ingredient', IngredientSchema);
