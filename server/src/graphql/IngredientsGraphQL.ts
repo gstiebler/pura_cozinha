@@ -9,6 +9,7 @@ import {
   } from 'graphql';
   import { Ingredient } from '../db/models/Ingredient';
   import { IIngredientRequest } from '../../../common/Interfaces';
+  import { ObjectId } from 'bson';
   
   export const UnitType = new GraphQLObjectType({
     name: 'UnitType',
@@ -60,7 +61,7 @@ import {
         const ingredientObj: Ingredient = {
           title: fmiData.title,
           amount: fmiData.amount,
-          unit: {id: fmiData.unit},
+          unit: {id: new ObjectId(fmiData.unit.id) },
         };
         const ingredient = new Ingredient(ingredientObj);
         ingredient.save();
