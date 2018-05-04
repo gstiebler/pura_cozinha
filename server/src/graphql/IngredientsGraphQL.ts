@@ -61,7 +61,7 @@ import {
         const ingredientObj: Ingredient = {
           title: fmiData.title,
           amount: fmiData.amount,
-          unit: {id: new ObjectId(fmiData.unit.id) },
+          unit: {id: fmiData.unit.id },
         };
         const ingredient = new Ingredient(ingredientObj);
         ingredient.save();

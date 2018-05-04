@@ -12,13 +12,13 @@ export interface Ingredient {
   _id?: TfmiId;
   title: string;
   amount: number;
-  unit?: object;
+  unit?: { id: string};
 }
 
 export interface IIngredient {
   title: string;
   amount: number;
-  unit?: object;
+  unit?: { id: string};
 }
 
 const IngredientSchema = new Schema({
