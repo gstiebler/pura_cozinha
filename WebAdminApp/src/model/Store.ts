@@ -59,9 +59,10 @@ export class Store {
 
   async findIngredientById(id: string)
   {
-    console.log(id);
     this.currentIngredient = await ns.findIngredientById(id);
-    console.log(await ns.findIngredientById(id));
+    this.title = this.currentIngredient.title;
+    this.amount = this.currentIngredient.amount;
+    this.selectedUnit = this.currentIngredient.unit.id;
   }
 
   ingredientTitleChanged(title: string)

@@ -76,6 +76,7 @@ function EditIngredient(props: IProps) {
         id="title"
         label="Nome"
         type="text"
+        value={store.title}
         onChange={onIngredientTitleChange.bind(null, store)}
         className={classes.formControl}
         fullWidth
@@ -85,6 +86,7 @@ function EditIngredient(props: IProps) {
         margin="dense"
         id="amount"
         label="Quantidade"
+        value={store.amount}
         onChange={onIngredientAmountChange.bind(null, store)}
         className={classes.formControl}
         fullWidth

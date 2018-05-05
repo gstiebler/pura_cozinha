@@ -21,8 +21,9 @@ import NewIngredient from './NewIngredient';
 import Views from '../Views';
 
 
-function handleClick(store: Store, event) {
+function handleClick(store: Store, id: string, event) {
   store.anchorEL = event.currentTarget;
+  store.findIngredientById(id);
 }
 
 function handleClose(store: Store) {
@@ -31,8 +32,6 @@ function handleClose(store: Store) {
 
 function onEditIngredient(store: Store, id: string) {
   store.anchorEL = null;
-  console.log('2 ' + id);
-  //store.findIngredientById(id);
   store.router.goTo(Views.editIngredient, { }, store);
 }
 
@@ -74,7 +73,6 @@ function Ingredients(props: IProps) {
   const { store, classes } = props;
   const ITEM_HEIGHT = 25;
   const items = store.ingredients.map(fmi => {
-    console.log(fmi._id);
     const unit = store.units.filter(unit => unit._id === fmi.unit.id)[0];
     const secondary = fmi.amount + ' ' +  unit.title;
     return (
@@ -84,7 +82,8 @@ function Ingredients(props: IProps) {
           aria-label="More"
           aria-owns={store.anchorEL ? 'long-menu' : null}
           aria-haspopup="true"
-          onClick={handleClick.bind(null, store)}
+          key={fmi._id}
+          onClick={handleClick.bind(null, store, fmi._id)}
         >
           <MoreVertIcon />
         </IconButton>
