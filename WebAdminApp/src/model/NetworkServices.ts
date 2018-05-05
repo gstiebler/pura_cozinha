@@ -41,6 +41,23 @@ export async function fetchUnits(): Promise<Unit[]> {
 }
 
 
+export async function findIngredientById(id: string): Promise<Unit[]> {
+  const query = `
+    query {
+      ingredient (id: "${id}") { 
+        title,
+        amount,
+        unit { 
+          id
+        }
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.ingredient;
+}
+
+
 
 export async function sendIngredientRequest(ingredientRequest: IIngredientRequest) {
   const mutation = `

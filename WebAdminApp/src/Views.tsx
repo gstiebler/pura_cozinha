@@ -22,5 +22,8 @@ export default {
   editIngredient: new Route({
     path: '/edit_ingredient',
     component: <EditIngredient store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      store.onIngredientsPageLoad();
+    },
   }),
 };

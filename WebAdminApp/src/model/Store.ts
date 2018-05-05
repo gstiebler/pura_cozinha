@@ -20,6 +20,7 @@ export class Store {
   @observable ingredients: Ingredient[] = [];
   @observable units: Unit[] = [];
   @observable openDialogForm: boolean = false;
+  @observable currentIngredient = null;
   //New ingredient variables
   @observable title: string = '';
   @observable amount: string= '';
@@ -54,6 +55,13 @@ export class Store {
     if (!!unit)
       return unit;
     return null;
+  }
+
+  async findIngredientById(id: string)
+  {
+    console.log(id);
+    this.currentIngredient = await ns.findIngredientById(id);
+    console.log(await ns.findIngredientById(id));
   }
 
   ingredientTitleChanged(title: string)

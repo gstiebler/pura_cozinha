@@ -17,9 +17,11 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import Views from '../Views';
 
 function handleCancel(store: Store) {
-  store.openDialogForm = !store.openDialogForm;
+  store.reset();
+  store.router.goTo(Views.ingredients, { }, store);
 }
 
 function onEditIngredientRequested(store: Store) {

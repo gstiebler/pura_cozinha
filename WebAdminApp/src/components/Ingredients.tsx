@@ -29,10 +29,13 @@ function handleClose(store: Store) {
   store.anchorEL = null;
 }
 
-function onEditIngredient(store: Store, id: String) {
+function onEditIngredient(store: Store, id: string) {
   store.anchorEL = null;
+  console.log('2 ' + id);
+  //store.findIngredientById(id);
   store.router.goTo(Views.editIngredient, { }, store);
 }
+
 
 async function getUnitTitle(store: Store, id: string)
 {
@@ -71,6 +74,7 @@ function Ingredients(props: IProps) {
   const { store, classes } = props;
   const ITEM_HEIGHT = 25;
   const items = store.ingredients.map(fmi => {
+    console.log(fmi._id);
     const unit = store.units.filter(unit => unit._id === fmi.unit.id)[0];
     const secondary = fmi.amount + ' ' +  unit.title;
     return (
@@ -96,7 +100,7 @@ function Ingredients(props: IProps) {
             },
           }}
         >
-          <MenuItem key='edit' onClick={onEditIngredient.bind(null, store, fmi._id)}>
+          <MenuItem key={fmi._id} value={fmi._id} onClick={() => onEditIngredient(store, fmi._id)}>
               Editar
           </MenuItem>
           <MenuItem key='delete' onClick={this.handleClose}>

@@ -50,6 +50,15 @@ import {
       resolve: async function() {
         return await Ingredient.find();
       }
+    },
+    ingredient: {
+      type: IngredientsCompleteType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve: async function(root, { id }) {
+        return await Ingredient.findOne({ '_id': id });
+      }
     }
   };
   
