@@ -39,6 +39,8 @@ export class Store {
     this.title = '';
     this.amount = '';
     this.snackbarMsg = '';
+    this.currentIngredient = null;
+    this.selectedUnit = '';
     this.ingredients = await ns.fetchIngredients();
     this.units = await ns.fetchUnits();
   }
