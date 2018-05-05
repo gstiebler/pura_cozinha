@@ -38,6 +38,7 @@ import {
   const IngredientRequestInputType = new GraphQLInputObjectType({
     name: 'IngredientRequestInputType',
     fields: {
+      id: { type: GraphQLID },
       title: { type: new GraphQLNonNull(GraphQLString) },
       amount: { type: GraphQLFloat },
       unit: { type: UnitInputType }
@@ -76,5 +77,18 @@ import {
         await ingredient.save();
         return { msg: 'OK' };
       }
+    },
+    updateIngredient: {
+      type: GraphQLString,
+      args: { fmiData: { type: IngredientRequestInputType } },
+      resolve: async (value, { fmiData }) => { 
+        const ingredientObj: Ingredient = {
+          title: fmiData.title,
+          amount: fmiData.amount,
+          unit: {id: fmiData.unit.id },
+        };
+        await Ingredient.update({ _id: fmiData.id }, { $set: ingredientObj }); 
+        return 'OK'; 
+      } 
     },
   };

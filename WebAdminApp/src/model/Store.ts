@@ -98,6 +98,23 @@ export class Store {
     }
   }
 
+  async onUpdateIngredientRequested() {
+    try {
+      const totalAmount: number = parseFloat(this.amount);
+      const request:IIngredientRequest = {
+        title: this.title,
+        amount: totalAmount,
+        unit: this.selectedUnit
+      };
+      await ns.updateIngredientRequest(request, this.currentIngredient._id);
+      await this.reset();
+      this.setSnackbarMsg('Ingrediente editado com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao editar ingrediente');
+    }
+  }
+
   setSnackbarMsg(msg: string) {
     this.snackbarMsg = msg;
     this.isSnackbarOpen = true;

@@ -25,7 +25,8 @@ function handleCancel(store: Store) {
 }
 
 function onEditIngredientRequested(store: Store) {
-  //store.onSendIngredientRequested();
+  store.onUpdateIngredientRequested();
+  store.router.goTo(Views.ingredients, {}, store);
 }
 
 function onUnitSlected(store: Store, event) {

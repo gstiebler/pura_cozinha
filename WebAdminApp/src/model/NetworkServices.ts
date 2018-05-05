@@ -44,7 +44,8 @@ export async function fetchUnits(): Promise<Unit[]> {
 export async function findIngredientById(id: string): Promise<Unit[]> {
   const query = `
     query {
-      ingredient (id: "${id}") { 
+      ingredient (id: "${id}") {
+        _id, 
         title,
         amount,
         unit { 
@@ -64,6 +65,25 @@ export async function sendIngredientRequest(ingredientRequest: IIngredientReques
     mutation {
       saveIngredient (
         fmiData: {
+          title: "${ingredientRequest.title}",
+          amount: ${ingredientRequest.amount}, 
+          unit: { 
+            id: "${ingredientRequest.unit}",
+          }
+        }
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function updateIngredientRequest(ingredientRequest: IIngredientRequest, id: string) {
+  const mutation = `
+    mutation {
+      updateIngredient (
+        fmiData: {
+          id: "${id}"
           title: "${ingredientRequest.title}",
           amount: ${ingredientRequest.amount}, 
           unit: { 
