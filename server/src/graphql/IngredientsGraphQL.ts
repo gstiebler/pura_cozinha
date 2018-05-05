@@ -91,4 +91,12 @@ import {
         return 'OK'; 
       } 
     },
+    deleteIngredient: {
+      type: GraphQLString,
+      args: { id: { type: GraphQLID } },
+      resolve: async (value, { id }) => {
+        await Ingredient.remove({ _id: id });
+        return 'OK';
+      }
+    },
   };

@@ -30,7 +30,12 @@ function handleClose(store: Store) {
   store.anchorEL = null;
 }
 
-function onEditIngredient(store: Store, id: string) {
+function onDeleteIngredient(store: Store) {
+  store.anchorEL = null;
+  store.onDeleteIngredientRequested();
+}
+
+function onEditIngredient(store: Store) {
   store.anchorEL = null;
   store.router.goTo(Views.editIngredient, { }, store);
 }
@@ -99,10 +104,10 @@ function Ingredients(props: IProps) {
             },
           }}
         >
-          <MenuItem key={fmi._id} value={fmi._id} onClick={() => onEditIngredient(store, fmi._id)}>
+          <MenuItem key={fmi._id} value={fmi._id} onClick={() => onEditIngredient(store)}>
               Editar
           </MenuItem>
-          <MenuItem key='delete' onClick={this.handleClose}>
+          <MenuItem key='delete' onClick={() => onDeleteIngredient(store)}>
               Deletar
           </MenuItem>
         </Menu>

@@ -97,6 +97,18 @@ export async function updateIngredientRequest(ingredientRequest: IIngredientRequ
   return result.msg;
 }
 
+export async function deleteIngredient( id: string): Promise<any> {
+  const mutation = `
+    mutation {
+      deleteIngredient (
+        id: "${id}"
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
 export async function findUnitById( id: string): Promise<any> {
   const params = `
     id: "${id}"

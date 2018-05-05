@@ -92,11 +92,22 @@ export class Store {
       };
       await ns.sendIngredientRequest(request);
       await this.reset();
-      this.setSnackbarMsg('Ingrediente salvo com sucesso');
+      this.setSnackbarMsg('Insumo salvo com sucesso');
       this.openDialogForm = false;
     } catch(error) {
       console.error(error);
-      this.setSnackbarMsg('Erro ao salvar ingrediente');
+      this.setSnackbarMsg('Erro ao salvar Insumo');
+    }
+  }
+
+  async onDeleteIngredientRequested() {
+    try {
+      await ns.deleteIngredient(this.currentIngredient._id);
+      this.reset();
+      this.setSnackbarMsg('Insumo removido com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao remover Insumo');
     }
   }
 
@@ -110,10 +121,10 @@ export class Store {
       };
       await ns.updateIngredientRequest(request, this.currentIngredient._id);
       await this.reset();
-      this.setSnackbarMsg('Ingrediente editado com sucesso');
+      this.setSnackbarMsg('Insumo editado com sucesso');
     } catch(error) {
       console.error(error);
-      this.setSnackbarMsg('Erro ao editar ingrediente');
+      this.setSnackbarMsg('Erro ao editar Insumo');
     }
   }
 
