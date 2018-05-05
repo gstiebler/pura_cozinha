@@ -21,6 +21,12 @@ function onItemClicked(store: Store, id: string) {
   // store.router.goTo(views.itemDetail, { id }, store);
 }
 
+async function getUnitTitle(store: Store, id: string)
+{
+  const unit = await store.findUnitById(id);
+  return unit.title;
+}
+
 function handleFormOpen(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
@@ -50,9 +56,9 @@ interface IProps {
 
 function Ingredients(props: IProps) {
   const { store, classes } = props;
-  
   const items = store.ingredients.map(fmi => {
-    const secondary = fmi.amount;
+    const unit = store.units.filter(unit => unit._id === fmi.unit.id)[0];
+    const secondary = fmi.amount + ' ' +  unit.title;
     return (
       <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
         <ListItemText primary={fmi.title} secondary={secondary}/>

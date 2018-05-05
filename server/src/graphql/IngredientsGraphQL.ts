@@ -47,8 +47,8 @@ import {
   export const Query = {
     allIngredients: {
       type: new GraphQLList(IngredientsCompleteType),
-      resolve: function() {
-        return Ingredient.find();
+      resolve: async function() {
+        return await Ingredient.find();
       }
     }
   };
@@ -64,7 +64,7 @@ import {
           unit: {id: fmiData.unit.id },
         };
         const ingredient = new Ingredient(ingredientObj);
-        ingredient.save();
+        await ingredient.save();
         return { msg: 'OK' };
       }
     },

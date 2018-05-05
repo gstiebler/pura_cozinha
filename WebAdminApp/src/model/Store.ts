@@ -43,15 +43,15 @@ export class Store {
 
   async onIngredientsPageLoad()
   {
-    this.ingredients = await ns.fetchIngredients();
     this.units = await ns.fetchUnits();
+    this.ingredients = await ns.fetchIngredients();
   }
 
   async findUnitById(id: string)
   {
     const unit = await ns.findUnitById(id);
     if (!!unit)
-      return unit.title;
+      return unit;
     return null;
   }
 
