@@ -16,6 +16,7 @@ export class Store {
 
   @observable router;
   @observable isDrawerOpen = false;
+  @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
   @observable ingredients: Ingredient[] = [];
   @observable units: Unit[] = [];
   @observable openDialogForm: boolean = false;

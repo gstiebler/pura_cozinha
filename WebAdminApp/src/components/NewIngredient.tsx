@@ -55,7 +55,7 @@ interface IProps {
   classes?: any;
 }
 
-function Ingredients(props: IProps) {
+function NewIngredient(props: IProps) {
   const { store, classes } = props;
   
   const unitsOptions = store.units.map(unit => {
@@ -119,4 +119,4 @@ function Ingredients(props: IProps) {
   );
 }
 
-export default withStyles(styles)(observer(Ingredients));
+export default withStyles(styles)(observer(NewIngredient));

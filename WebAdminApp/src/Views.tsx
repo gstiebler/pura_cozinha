@@ -3,6 +3,7 @@ import { Route } from 'mobx-router';
 import { store, Store } from './model/Store';
 import Dashboard from './components/Dashboard';
 import Ingredients from './components/Ingredients';
+import EditIngredient from './components/EditIngredient';
 
 
 
@@ -17,5 +18,9 @@ export default {
     beforeEnter: (route, params, store: Store) => {
       store.onIngredientsPageLoad();
     },
+  }),
+  editIngredient: new Route({
+    path: '/edit_ingredient',
+    component: <EditIngredient store={store}/>,
   }),
 };

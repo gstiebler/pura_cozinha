@@ -3,6 +3,9 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import IconButton from 'material-ui/IconButton';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
@@ -15,10 +18,20 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import NewIngredient from './NewIngredient';
+import Views from '../Views';
 
 
-function onItemClicked(store: Store, id: string) {
-  // store.router.goTo(views.itemDetail, { id }, store);
+function handleClick(store: Store, event) {
+  store.anchorEL = event.currentTarget;
+}
+
+function handleClose(store: Store) {
+  store.anchorEL = null;
+}
+
+function onEditIngredient(store: Store, id: String) {
+  store.anchorEL = null;
+  store.router.goTo(Views.editIngredient, { }, store);
 }
 
 async function getUnitTitle(store: Store, id: string)
@@ -56,12 +69,40 @@ interface IProps {
 
 function Ingredients(props: IProps) {
   const { store, classes } = props;
+  const ITEM_HEIGHT = 25;
   const items = store.ingredients.map(fmi => {
     const unit = store.units.filter(unit => unit._id === fmi.unit.id)[0];
     const secondary = fmi.amount + ' ' +  unit.title;
     return (
-      <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
+      <ListItem key={fmi._id} divider >
         <ListItemText primary={fmi.title} secondary={secondary}/>
+        <IconButton
+          aria-label="More"
+          aria-owns={store.anchorEL ? 'long-menu' : null}
+          aria-haspopup="true"
+          onClick={handleClick.bind(null, store)}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id="long-menu"
+          anchorEl={store.anchorEL}
+          open={Boolean(store.anchorEL)}
+          onClose={handleClose.bind(null, store)}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: 80,
+            },
+          }}
+        >
+          <MenuItem key='edit' onClick={onEditIngredient.bind(null, store, fmi._id)}>
+              Editar
+          </MenuItem>
+          <MenuItem key='delete' onClick={this.handleClose}>
+              Deletar
+          </MenuItem>
+        </Menu>
       </ListItem>
     );
   });
