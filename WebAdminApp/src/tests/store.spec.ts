@@ -40,7 +40,39 @@ describe('admin web app store', () => {
     const lastIngredient = ingredients[0];
     expect(lastIngredient.title).to.equal('Tomate');
     expect(lastIngredient.amount).to.equal(2);
-    // expect(lastIngredient.unit._id).to.equal(2);
+  });
+
+  it('edit ingredient', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    const ingredients = await Ingredient.find().sort({_id:-1}).limit(1);
+    const lastIngredient = ingredients[0];
+    expect(lastIngredient.title).to.equal('Tomate');
+    await store.findIngredientById(lastIngredient._id);
+    store.ingredientTitleChanged('Suco de tomate');
+    store.ingredientAmountChanged('1');
+    store.unitSelected(store.units[1]._id); //Litros
+    await store.onUpdateIngredientRequested();
+
+    const updatedIngredients = await Ingredient.find().sort({_id:-1}).limit(1);
+    const lastIngredientUpdated = updatedIngredients[0];
+    expect(lastIngredientUpdated.title).to.equal('Suco de tomate');
+    expect(lastIngredientUpdated.amount).to.equal(1);
+    expect(lastIngredientUpdated.unit.id).to.equal(store.units[1]._id);
+  });
+
+  it('delete ingredient', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    const ingredients = await Ingredient.find().sort({_id:-1}).limit(1);
+    const lastIngredient = ingredients[0];
+    expect(lastIngredient.title).to.equal('Suco de tomate');
+    await store.findIngredientById(lastIngredient._id);
+    await store.onDeleteIngredientRequested();
+
+    const updatedIngredients = await Ingredient.find().sort({_id:-1}).limit(1);
+    const lastIngredientUpdated = updatedIngredients[0];
+    expect(lastIngredientUpdated.title).to.not.equal('Suco de tomate');
   });
 
 });

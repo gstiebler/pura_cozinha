@@ -51,7 +51,6 @@ OrderRoutes(app);
 
 const webAdminDir = path.join(__dirname, '/../../../WebAdminApp/');
 const distDirName = webAdminDir + 'dist';
-console.log('so ' + express.static(distDirName));
 app.use('/admin_app', express.static(distDirName));
 app.get('/admin_app/*', function (req, res) {
   logger.debug(req.url);
