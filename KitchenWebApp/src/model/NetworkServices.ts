@@ -2,6 +2,8 @@ import * as network from '../../../common/network';
 import { IOrderSummary } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
+import { IKitchenModel } from '../../../server/src/db/models/kitchen';
+import * as ns from '../../../common/NetworkServices';
 
 const ordersStatusFields = [
   '_id',
@@ -38,6 +40,7 @@ export async function getOrderDetails(orderId: string): Promise<any> {
     'paymentOption',
     'telephoneNumber',
     'comments',
+    'kitchenComments',
     'items { qty, itemTotalPrice, foodMenuItem { title, description, price } }'
   ];
   const fieldsStr = fields.join(', ');
@@ -89,4 +92,30 @@ export async function changeOrderStatus(orderId: string, status: TOrderStatus): 
   const mutation = `mutation { changeOrderStatus( orderId: "${orderId}", status: "${status}" ) }`;
   const result = await network.fetchQuery(mutation);
   return result.msg;
+}
+
+export async function changeKitchenComments(orderId: string, comments: string): Promise<string> {
+  const mutation = `mutation { changeKitchenComments( orderId: "${orderId}", kitchenComments: "${comments}" ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function updateKitchenStatus(kitchenId: string, status: boolean): Promise<string> {
+  const mutation = `mutation { updateKitchenStatus( id: "${kitchenId}", active: ${status} ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function updateKitchen(kitchen: IKitchenModel): Promise<string> {
+  const mutation = `mutation { updateKitchenStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function findKitchenById(kitchenId: string): Promise<any> {
+  return ns.findKitchenById(kitchenId);
+}
+
+export async function getItemsByKitchen(kitchenId: string): Promise<any> {
+  return ns.getItemsByKitchen(kitchenId);
 }

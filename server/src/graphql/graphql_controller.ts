@@ -15,6 +15,7 @@ import logger from 'winston';
 import * as FoodMenuItemGraphql from './FoodMenuItemGraphql';
 import * as OrderGraphQL from './OrderGraphQL';
 import * as UserGraphQL from './UserGraphQL';
+import * as KitchenGraphql from './KitchenGraphql';
 import * as IngredientsGraphQL from './IngredientsGraphQL';
 import * as UnitGraphQL from './UnitGraphQL';
 
@@ -27,6 +28,7 @@ export const schema = new GraphQLSchema({
       ...UserGraphQL.Query,
       ...IngredientsGraphQL.Query,
       ...UnitGraphQL.Query,
+      ...KitchenGraphql.KitchenQuery
     }
   }),
   mutation: new GraphQLObjectType({
@@ -34,6 +36,7 @@ export const schema = new GraphQLSchema({
     fields: {
       ...OrderGraphQL.Mutation,
       ...IngredientsGraphQL.Mutation,
+      ...KitchenGraphql.KitchenMutation
     },
   })
 });

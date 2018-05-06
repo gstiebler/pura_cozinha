@@ -5,7 +5,8 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLInputObjectType,
-  GraphQLList
+  GraphQLList,
+  GraphQLBoolean
 } from 'graphql';
 import { MenuItem } from '../db/models/menuItem';
 import { Kitchen } from '../db/models/kitchen';
@@ -94,6 +95,19 @@ export const Query = {
           menuItemIds.push(stockItem.menu_item);
         }
       }
+      return MenuItem.find({ _id: { $in: menuItemIds }  });
+    }
+  },
+  fullMenuItemsByKitchen: {
+    type: new GraphQLList(menuItemType),
+    args: {
+      kitchen_id: { type: GraphQLID },
+    },
+    resolve: async function(root, { kitchen_id }) {
+      const kitchen: any = await Kitchen.findById(kitchen_id);
+      const menuItemIds = kitchen.stock
+        .filter(stockItem => stockItem.quantity > 0)
+        .map(stockItem => stockItem.menu_item);
       return MenuItem.find({ _id: { $in: menuItemIds }  });
     }
   }

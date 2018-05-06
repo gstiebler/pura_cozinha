@@ -83,6 +83,7 @@ const OrderRequestInputType = new GraphQLInputObjectType({
     paymentOption: { type: new GraphQLNonNull(GraphQLString) },
     telephoneNumber: { type: GraphQLString },
     comments: { type: GraphQLString },
+    kitchenComments: { type: GraphQLString },
     orderSummary: { type: new GraphQLNonNull(OrderSummaryInputType) },
   }
 });
@@ -119,6 +120,7 @@ const OrderCompleteType = new GraphQLObjectType({
     paymentOption: { type: GraphQLString },
     telephoneNumber: { type: GraphQLString },
     comments: { type: GraphQLString },
+    kitchenComments: { type: GraphQLString },
     createdOn: { type: GraphQLFloat },
     items: { type: new GraphQLList(OrderItemType) },
   }
@@ -172,6 +174,19 @@ export const Mutation = {
     async resolve(value, { orderId, status }) {
       const order = await Order.findById(orderId);
       order.status = status;
+      await order.save();
+      return 'OK';
+    }
+  },
+  changeKitchenComments: {
+    type: GraphQLString,
+    args: {
+      orderId: { type: GraphQLID },
+      kitchenComments: { type: GraphQLString },
+    },
+    async resolve(value, { orderId, kitchenComments }) {
+      const order = await Order.findById(orderId);
+      order.kitchenComments = kitchenComments;
       await order.save();
       return 'OK';
     }

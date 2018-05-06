@@ -55,6 +55,7 @@ export interface IOrderRequest {
   paymentOption: TPaymentOptions;
   telephoneNumber: string;
   comments: string;
+  kitchenComments: string;
 }
 
 export interface IUnit {

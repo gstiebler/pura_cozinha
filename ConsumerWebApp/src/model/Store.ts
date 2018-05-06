@@ -10,6 +10,9 @@ import {
   IOrderRequest,
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
+import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
+
+const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
 export class Store {
 
@@ -25,6 +28,7 @@ export class Store {
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
+  @observable kitchen: IKitchenModel = null;
   // fmi id => option key => boolean value
   @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
   // fmi id => option key => option key string value
@@ -53,6 +57,38 @@ export class Store {
     this.selectedOptions = [];
     this.selectedBoolOptions = new Map();
     this.selectedMultipleOptions = new Map();
+  }
+
+  getKitchenActive(): boolean
+  {
+    return this.kitchen.active;
+  }
+
+  getQuantityStockItemValue(_id: string): number
+  {
+    if(this.kitchen != null)
+    {
+      const stock = this.kitchen.stock;
+      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      return result.quantity;
+    }
+    return -1;
+  }
+
+  async onMenuPageLoad()
+  {
+    await this.getKitchen();
+    await this.getFoodMenuItems();
+  }
+
+  async getKitchen()
+  {
+    this.kitchen = await ns.findKitchenById(MAIN_KITCHEN_ID);
+  }
+
+  async getFoodMenuItems()
+  {
+    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
   getFoodMenuItem(id: TfmiId): FoodMenuItem {
@@ -128,10 +164,6 @@ export class Store {
     this.setItemQty(fmiId, this.getItemQty(fmiId) - 1);
   }
 
-  async onMenuPageLoad() {
-    this.foodMenuItems = await ns.fetchFoodMenu();
-  }
-
   onLocalSelected(local: string) {
     this.selectedLocal = local;
     this.localComplementLabel = local === 'Piscina' ? 'Como te localizar na piscina' :
@@ -163,6 +195,7 @@ export class Store {
         paymentOption: this.selectedPaymentOption,
         telephoneNumber: this.telephoneNumber,
         comments: this.comments,
+        kitchenComments: null,
       };
       await ns.sendOrderRequest(request);
       this.reset();
