@@ -3,14 +3,17 @@ import {
   GraphQLNonNull,
   GraphQLID,
   GraphQLString,
+  GraphQLBoolean,
   GraphQLInputObjectType,
   GraphQLList,
   GraphQLFloat
 } from 'graphql';
 import * as geolib from 'geolib';
 import { Kitchen } from '../db/models/kitchen';
+import { ObjectId } from 'bson';
+import { getProjection } from '../lib/Util';
 
-export const geolocationType = new GraphQLObjectType({
+const geolocationType = new GraphQLObjectType({
   name: 'geolocationType',
   fields: {
     lat: { type: GraphQLFloat },
@@ -18,7 +21,7 @@ export const geolocationType = new GraphQLObjectType({
   }
 });
 
-export const geolocationInputType = new GraphQLInputObjectType({
+const geolocationInputType = new GraphQLInputObjectType({
   name: 'geolocationInputType',
   fields: {
     lat: { type: GraphQLFloat },
@@ -26,17 +29,34 @@ export const geolocationInputType = new GraphQLInputObjectType({
   }
 });
 
-export const kitchenType = new GraphQLObjectType({
-  name: 'kitchenType',
+const KitchenStockType = new GraphQLObjectType({
+  name: 'KitchenStockType',
+  fields: {
+    menu_item: { type: new GraphQLNonNull(GraphQLID) },
+    quantity: { type: GraphQLFloat }
+  }
+});
+
+const KitchenStockInputType = new GraphQLInputObjectType({
+  name: 'KitchenStockInputType',
+  fields: {
+    menu_item: { type: new GraphQLNonNull(GraphQLID) },
+    quantity: { type: GraphQLFloat }
+  }
+});
+
+const KitchenCompleteType = new GraphQLObjectType({
+  name: 'KitchenCompleteType',
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLID) },
     name: { type: GraphQLString },
     address: { type: GraphQLString },
-    coordinates: { type: geolocationType }
+    active: {type: GraphQLBoolean},
+    stock: { type: new GraphQLList(KitchenStockType) }
   }
 });
 
-export const kitchenWithDistType = new GraphQLObjectType({
+const kitchenWithDistType = new GraphQLObjectType({
   name: 'kitchenWithDistType',
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLID) },
@@ -57,11 +77,23 @@ const KitchenInputType = new GraphQLInputObjectType({
   }
 });
 
+const KitchenWithStockInputType = new GraphQLInputObjectType({
+  name: 'KitchenWithStockInputType',
+  fields: {
+    _id: { type: new GraphQLNonNull(GraphQLID) },
+    name: { type: GraphQLString },
+    address: { type: GraphQLString },
+    coordinates: { type: geolocationInputType },
+    active: {type: GraphQLBoolean},
+    stock: { type: new GraphQLList(KitchenStockInputType) }
+  }
+});
+
 
 export const KitchenQuery = {
   kitchens: {
-    type: new GraphQLList(kitchenType),
-    resolve: function() {
+    type: new GraphQLList(KitchenCompleteType),
+    resolve: async function(root) {
       return Kitchen.find();
     }
   },
@@ -91,26 +123,28 @@ export const KitchenQuery = {
     }
   },
   kitchen: {
-    type: kitchenType,
+    type: KitchenCompleteType,
     args: {
       id: { type: GraphQLID }
     },
-    resolve: async function(root, { id }) {
-      return Kitchen.findOne({ '_id': id });
+    resolve: async function(root, { id }, source, fieldASTs) {
+      const projection = getProjection(fieldASTs);
+      const kitchen =  await Kitchen.findById(id, projection).lean();
+      return kitchen;
     }
   },
 };
 
 
 export const KitchenMutation = {
-  saveKitchen: {
-    type: GraphQLString,
-    args: { newKitchenData: { type: KitchenInputType } },
-    resolve(value, { newKitchenData }) {
-      const newKitchen = new Kitchen(newKitchenData);
-      return newKitchen.save();
-    }
-  },
+  // saveKitchen: {
+  //   type: GraphQLString,
+  //   args: { newKitchenData: { type: KitchenInputType } },
+  //   resolve(value, { newKitchenData }) {
+  //     const newKitchen = new Kitchen(newKitchenData);
+  //     return newKitchen.save();
+  //   }
+  // },
   updateKitchen: {
     type: GraphQLString,
     args: { newKitchenData: { type: KitchenInputType } },
@@ -119,12 +153,31 @@ export const KitchenMutation = {
       return 'OK';
     }
   },
-  deleteKitchen: {
+  updateKitchenStock: {
     type: GraphQLString,
-    args: { kitchenId: { type: GraphQLID } },
-    resolve: async (value, { kitchenId }) => {
-      await Kitchen.remove({ _id: kitchenId });
+    args: { newKitchenData: { type: KitchenWithStockInputType } },
+    resolve: async (value, { newKitchenData }) => {
+      await Kitchen.update({ _id: newKitchenData._id }, { $set: newKitchenData });
       return 'OK';
     }
   },
+  updateKitchenStatus: {
+    type: GraphQLString,
+    args: { 
+      id:  {type: GraphQLID},
+      active: {type: GraphQLBoolean}
+    },
+    resolve: async (value, { id, active}) => {
+      await Kitchen.update({ _id: id }, { active: active });
+      return 'OK';
+    }
+  },
+  // deleteKitchen: {
+  //   type: GraphQLString,
+  //   args: { kitchenId: { type: GraphQLID } },
+  //   resolve: async (value, { kitchenId }) => {
+  //     await Kitchen.remove({ _id: kitchenId });
+  //     return 'OK';
+  //   }
+  // },
 };

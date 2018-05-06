@@ -10,8 +10,8 @@ export default {
   home: new Route({
     path: '/',
     component: <FoodMenu store={store}/>,
-    beforeEnter: (route, params, store: Store) => {
-      store.onMenuPageLoad();
+    beforeEnter: async (route, params, store: Store) => {
+      await store.onMenuPageLoad();
     },
   }),
   itemDetail: new Route({

@@ -9,10 +9,13 @@ import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+import Drawer from 'material-ui/Drawer';
+import Paper from 'material-ui/Paper';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+
 
 const styles = theme => ({
   root: {},
@@ -59,10 +62,12 @@ function ItemDetail(props: IProps) {
   const { store, classes } = props;
   const itemId = store.router.params.id;
   const foodMenuItem = store.getFoodMenuItem(itemId);
+  const hiddenControllers = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'block' : 'none';
+  const hiddenUnavailableItem = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'none' : 'block';
 
   const boolOptions = foodMenuItem.boolOptions.map(boolOption => {
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={24} style={{display: hiddenControllers}}>
         <Grid item xs>
           <Typography variant="body1" component="p" className={classes.price}>
             { boolOption.label }
@@ -83,7 +88,7 @@ function ItemDetail(props: IProps) {
       return <FormControlLabel value={optionItem.key} control={<Radio />} label={optionItem.label} key={optionItem.key}/>;
     });
     return (
-      <FormControl component="fieldset" required className={classes.formControl} key={option.key}>
+      <FormControl component="fieldset" required className={classes.formControl} key={option.key} style={{display: hiddenControllers}}>
         <FormLabel component="legend">{ option.label }</FormLabel>
         <RadioGroup
           className={classes.group}
@@ -95,35 +100,6 @@ function ItemDetail(props: IProps) {
       </FormControl>
     );
   });
-
-  const quantityChooser = (
-    <Grid container className={classes.qtyContainer}>
-      <Grid item xs={12}>
-        <Grid container            
-            alignItems="center"
-            direction="row"
-            justify='flex-start' >
-          <Grid item>
-            <Typography variant="subheading" gutterBottom>
-              Quantidade:
-            </Typography>
-          </Grid>
-          <Grid item>
-            <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
-          </Grid>
-          <Grid item>
-            <Typography className={classes.quantity} variant="body2">
-              { store.getItemQty(foodMenuItem._id) }
-            </Typography>
-          </Grid>
-          <Grid item>
-            <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-
   return (
     <div className={classes.root}>
       <img src={foodMenuItem.imgURL} className={classes.image}/>
@@ -140,7 +116,43 @@ function ItemDetail(props: IProps) {
           { formatCurrency(foodMenuItem.price) }
         </Typography>
         <Divider />
-        { quantityChooser }
+        <Grid container className={classes.qtyContainer}>
+          <Grid item xs={12} style={{display: hiddenControllers}}>
+            <Grid container            
+                alignItems="center"
+                direction="row"
+                justify='flex-start'  >
+                <Grid item>
+                  <Typography variant="subheading" gutterBottom>
+                    Quantidade:
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.quantity} variant="body2">
+                    { store.getItemQty(foodMenuItem._id) }
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+                </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} style={{display: hiddenUnavailableItem}}>
+            <Grid container            
+                alignItems="center"
+                direction="row"
+                justify='flex-start'  >
+                <Grid item>
+                  <Typography variant="subheading" gutterBottom>
+                    Produto temporariamente indisponível.
+                  </Typography>
+                </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
         <Button variant="raised" className={classes.button} 
                 onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}>
           Finalizar pedido

@@ -3,9 +3,10 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { TOrderStatus } from '../../../common/Interfaces';
+import { TOrderStatus, FoodMenuItem, } from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
+import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],
@@ -25,13 +26,16 @@ export class Store {
   @observable email: string = '';
   @observable password: string = '';
   @observable isLoggedIn: boolean = true;
+  @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
+  @observable kitchen: IKitchenModel = null;
+  @observable foodMenuItems: any[] = [];
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
-
+  
   constructor() {
     this._reset();
   }
@@ -54,6 +58,11 @@ export class Store {
     this.currentOrder = order;
   }
 
+  async getDefaultKitchen()
+  {
+    this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
+    this.kitchenActive = this.kitchen.active;
+  }
   async onOrdersOpen(ordersType: string) {
     const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
     const closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
@@ -65,6 +74,13 @@ export class Store {
 
   async onOrderSelected(orderId: string) {
     await this._setCurrentOrder(orderId);
+  }
+
+  async onKitchenStatusChange()
+  {
+    this.kitchenActive = !this.kitchenActive;
+    await ns.updateKitchenStatus(this.kitchen._id, this.kitchenActive);
+    await this.getDefaultKitchen();
   }
 
   async onLoginSubmit() {
@@ -96,11 +112,13 @@ export class Store {
   async findUserByToken()
   {
     const token = this.getLocalStorageToken('token');
+    console.log(token);
     this.user = await ns.findUserByToken(token);
+    console.log(this.user);
     if(this.user != null)
       this.isLoggedIn = true;
     else{
-      this._reset();
+      this.onLogOut();
     } 
   }
 
@@ -140,6 +158,41 @@ export class Store {
     } catch(error) {
       console.error(error);
       this.setSnackbarMsg('Erro ao salvar comentário!');
+    }
+  }
+  
+  async getItemsByKitchen()
+  {
+    this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
+  }
+
+  getQuantityStockItemValue(_id: string): number
+  {
+    if(this.kitchen != null)
+    {
+      const stock = this.kitchen.stock;
+      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      return result.quantity;
+    }
+    return -1;
+  }
+
+  async updateItemAvailabilityInStock(menu_item: string)
+  {
+    if(this.kitchen != null)
+    {
+      let i = this.kitchen.stock.findIndex( obj => obj.menu_item === menu_item);
+      var result = this.kitchen.stock.filter( obj => obj.menu_item === menu_item)[0];
+      this.kitchen.stock[i].quantity = (result.quantity != 0) ? 0 : 1;
+      try{
+        const msg = await ns.updateKitchen(this.kitchen);
+        const snackMsg = 'Item ' + ((result.quantity != 0) ? 'habilitado': 'desabilitado') + ' com sucesso!';
+        this.setSnackbarMsg(snackMsg);
+      }
+      catch(error) {
+        console.error(error);
+        this.setSnackbarMsg('Erro ao executar esta função!');
+      }
     }
   }
 

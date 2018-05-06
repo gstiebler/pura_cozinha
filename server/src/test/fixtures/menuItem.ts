@@ -7,7 +7,7 @@ export default async () => {
       title: 'Sanduba de frango',
       description: 'Muito gostoso, feito com frango desfiado',
       price: 11.99,
-      imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg'
+      imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg',
     },
     {
       title: 'Açai',
