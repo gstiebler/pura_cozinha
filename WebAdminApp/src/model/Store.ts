@@ -40,7 +40,6 @@ export class Store {
     this.amount = '';
     this.snackbarMsg = '';
     this.currentIngredient = null;
-    this.selectedUnit = '';
     this.ingredients = await ns.fetchIngredients();
     this.units = await ns.fetchUnits();
   }
@@ -49,6 +48,7 @@ export class Store {
   {
     this.units = await ns.fetchUnits();
     this.ingredients = await ns.fetchIngredients();
+    this.selectedUnit = this.units[0]._id;
   }
 
   async findUnitById(id: string)
