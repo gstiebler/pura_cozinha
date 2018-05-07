@@ -5,22 +5,22 @@ import Dashboard from './components/Dashboard';
 import Ingredients from './components/Ingredients';
 import EditIngredient from './components/EditIngredient';
 
-
+const base_path = '/admin_app';
 
 export default {
   home: new Route({
-    path: '/',
+    path: base_path,
     component: <Dashboard store={store}/>
   }),
   ingredients: new Route({
-    path: '/ingredients',
+    path: base_path + '/ingredients',
     component: <Ingredients store={store}/>,
     beforeEnter: (route, params, store: Store) => {
       store.onIngredientsPageLoad();
     },
   }),
   editIngredient: new Route({
-    path: '/edit_ingredient',
+    path: base_path + '/edit_ingredient',
     component: <EditIngredient store={store}/>,
     beforeEnter: (route, params, store: Store) => {
       store.onIngredientsPageLoad();
