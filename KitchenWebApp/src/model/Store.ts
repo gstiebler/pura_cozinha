@@ -151,8 +151,14 @@ export class Store {
 
   async saveKitchenComments()
   {
-    await ns.changeKitchenComments(this.currentOrder._id, this.kitchenComments);
-    await this._setCurrentOrder(this.currentOrder._id);
+    try{
+      await ns.changeKitchenComments(this.currentOrder._id, this.kitchenComments);
+      await this._setCurrentOrder(this.currentOrder._id);
+      this.setSnackbarMsg('Comentário salvo com sucesso!');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao salvar comentário!');
+    }
   }
   
   async getItemsByKitchen()

@@ -72,4 +72,13 @@ describe('kitchen web app store', () => {
     expect(order.statusHistory[0].status).to.equal('DELIVERED');
   });
 
+  it('save kitchen comments', async () => {
+    const store = new Store();
+    await store.onOrdersOpen('OPEN');
+    await store.onOrderSelected(store.orders[0]._id);
+    store.onCommentsChanged('Cliente pediu sem cebola');
+    await store.saveKitchenComments();
+    expect(store.currentOrder.kitchenComments).to.equal('Cliente pediu sem cebola');
+  });
+
 });
