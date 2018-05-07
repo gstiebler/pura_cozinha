@@ -17,11 +17,11 @@ export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
         price, 
         description, 
         imgURL, 
-        boolOptions {  label,  key  }, 
+        boolOptions {  label, key, price  }, 
         options { 
           key, 
           label, 
-          optionItems { key,  label }
+          optionItems { label, key, price }
         }
       } 
     }

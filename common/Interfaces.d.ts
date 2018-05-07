@@ -15,11 +15,13 @@ export interface FoodMenuItem {
     optionItems: {
       label: string;
       key: string;
+      price: number;
     }[];
   }[];
   boolOptions: {
     label: string;
     key: string;
+    price: number;
   }[];
 }
 

@@ -11,11 +11,13 @@ export const menuItemSchema = new mongoose.Schema({
     optionItems: [{
       label: { type: String, required: true },
       key: { type: String, required: true },
+      price: { type: Number, required: true },
     }],
   }],
   boolOptions: [{
     label: { type: String, required: true },
     key: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
 });
 

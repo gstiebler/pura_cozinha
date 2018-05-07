@@ -37,12 +37,18 @@ describe('consumer web app store', () => {
 
     expect(store.foodMenuItems[1].boolOptions).to.have.lengthOf(1);
     expect(store.foodMenuItems[1].boolOptions[0].label).to.equal('Granola');
+    expect(store.foodMenuItems[1].boolOptions[0].price).to.equal(2.00);
 
-    expect(store.foodMenuItems[2].options).to.have.lengthOf(1);
-    expect(store.foodMenuItems[2].options[0].optionItems).to.have.lengthOf(2);
+    const sanduicheMignonItem = store.foodMenuItems[2];
+    expect(sanduicheMignonItem.options).to.have.lengthOf(1);
+    expect(sanduicheMignonItem.options[0].optionItems).to.have.lengthOf(2);
 
-    expect(store.foodMenuItems[2].options[0].label).to.equal('Molho');
-    expect(store.foodMenuItems[2].options[0].optionItems[0].label).to.equal('Barbecue');
+    const sanduicheMignonItemSauce = sanduicheMignonItem.options[0];
+    expect(sanduicheMignonItemSauce.label).to.equal('Molho');
+
+    const barbecueSauce = sanduicheMignonItemSauce.optionItems[0];
+    expect(barbecueSauce.label).to.equal('Barbecue');
+    expect(barbecueSauce.price).to.equal(1.00);
   });
 
   it('order summary', async () => {
