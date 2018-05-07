@@ -105,9 +105,7 @@ export const Query = {
     },
     resolve: async function(root, { kitchen_id }) {
       const kitchen: any = await Kitchen.findById(kitchen_id);
-      const menuItemIds = kitchen.stock
-        .filter(stockItem => stockItem.quantity > 0)
-        .map(stockItem => stockItem.menu_item);
+      const menuItemIds = kitchen.stock.map(stockItem => stockItem.menu_item);
       return MenuItem.find({ _id: { $in: menuItemIds }  });
     }
   }
