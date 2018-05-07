@@ -58,6 +58,18 @@ export interface IOrderRequest {
   kitchenComments: string;
 }
 
+export interface IUnit {
+  unit: {
+    _id: string;
+  };
+}
+
+export interface IIngredientRequest {
+  unit: string;
+  title: string;
+  amount: number;
+}
+
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
   optionKey: string;

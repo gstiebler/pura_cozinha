@@ -1,0 +1,141 @@
+
+import { computed, observable } from 'mobx';
+import * as ns from './NetworkServices';
+import * as _ from 'lodash';
+import {
+  TfmiId,
+  TPaymentOptions,
+  FoodMenuItem,
+  IUnit,
+  IIngredientRequest,
+  ISelectedMenuItemOption,
+} from '../../../common/Interfaces';
+import { Ingredient } from '../../../server/src/db/models/Ingredient';
+import { Unit } from '../../../server/src/db/models/Unit';
+export class Store {
+
+  @observable router;
+  @observable isDrawerOpen = false;
+  @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
+  @observable ingredients: Ingredient[] = [];
+  @observable units: Unit[] = [];
+  @observable openDialogForm: boolean = false;
+  @observable currentIngredient = null;
+  //New ingredient variables
+  @observable title: string = '';
+  @observable amount: string= '';
+  @observable selectedUnit;
+  //snack bar message settings
+  @observable isSnackbarOpen: boolean = false;
+  @observable snackbarMsg: string = '';
+
+
+  constructor() {
+    
+  }
+
+
+  async reset() {
+    this.title = '';
+    this.amount = '';
+    this.snackbarMsg = '';
+    this.currentIngredient = null;
+    this.ingredients = await ns.fetchIngredients();
+    this.units = await ns.fetchUnits();
+  }
+
+  async onIngredientsPageLoad()
+  {
+    this.units = await ns.fetchUnits();
+    this.ingredients = await ns.fetchIngredients();
+    this.selectedUnit = this.units[0]._id;
+  }
+
+  async findUnitById(id: string)
+  {
+    const unit = await ns.findUnitById(id);
+    if (!!unit)
+      return unit;
+    return null;
+  }
+
+  async findIngredientById(id: string)
+  {
+    this.currentIngredient = await ns.findIngredientById(id);
+    this.title = this.currentIngredient.title;
+    this.amount = this.currentIngredient.amount;
+    this.selectedUnit = this.currentIngredient.unit.id;
+  }
+
+  ingredientTitleChanged(title: string)
+  {
+    this.title = title;
+  }
+
+  ingredientAmountChanged(amount: string)
+  {
+    this.amount = amount;
+  }
+
+  unitSelected(unit: string)
+  {
+    this.selectedUnit = unit;
+  }
+
+  async onSendIngredientRequested() {
+    try {
+      const totalAmount: number = parseFloat(this.amount);
+      const request:IIngredientRequest = {
+        title: this.title,
+        amount: totalAmount,
+        unit: this.selectedUnit
+      };
+      await ns.sendIngredientRequest(request);
+      await this.reset();
+      this.setSnackbarMsg('Insumo salvo com sucesso');
+      this.openDialogForm = false;
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao salvar Insumo');
+    }
+  }
+
+  async onDeleteIngredientRequested() {
+    try {
+      await ns.deleteIngredient(this.currentIngredient._id);
+      this.reset();
+      this.setSnackbarMsg('Insumo removido com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao remover Insumo');
+    }
+  }
+
+  async onUpdateIngredientRequested() {
+    try {
+      const totalAmount: number = parseFloat(this.amount);
+      const request:IIngredientRequest = {
+        title: this.title,
+        amount: totalAmount,
+        unit: this.selectedUnit
+      };
+      await ns.updateIngredientRequest(request, this.currentIngredient._id);
+      await this.reset();
+      this.setSnackbarMsg('Insumo editado com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao editar Insumo');
+    }
+  }
+
+  setSnackbarMsg(msg: string) {
+    this.snackbarMsg = msg;
+    this.isSnackbarOpen = true;
+    setTimeout(() => {
+      this.isSnackbarOpen = false;
+    }, 5000);
+  }
+
+}
+
+export let store: Store = new Store();
