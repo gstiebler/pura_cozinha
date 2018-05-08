@@ -66,11 +66,12 @@ function ItemDetail(props: IProps) {
   const hiddenUnavailableItem = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'none' : 'block';
 
   const boolOptions = foodMenuItem.boolOptions.map(boolOption => {
+    const label = `${boolOption.label} - ${formatCurrency(boolOption.price)}`;
     return (
       <Grid container spacing={24} style={{display: hiddenControllers}}>
         <Grid item xs>
           <Typography variant="body1" component="p" className={classes.price}>
-            { boolOption.label }
+            { label }
           </Typography>
         </Grid>
         <Grid item xs>
@@ -85,7 +86,8 @@ function ItemDetail(props: IProps) {
 
   const multipleOptions = foodMenuItem.options.map(option => {
     const items = option.optionItems.map(optionItem => {
-      return <FormControlLabel value={optionItem.key} control={<Radio />} label={optionItem.label} key={optionItem.key}/>;
+      const label = `${optionItem.label} - ${formatCurrency(optionItem.price)}`;
+      return <FormControlLabel value={optionItem.key} control={<Radio />} label={label} key={optionItem.key}/>;
     });
     return (
       <FormControl component="fieldset" required className={classes.formControl} key={option.key} style={{display: hiddenControllers}}>
