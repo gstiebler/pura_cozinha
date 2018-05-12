@@ -7,6 +7,21 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Mocha Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "tdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/out/ConsumerWebApp/src/tests/**/*.spec.js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
       "cwd": "${workspaceRoot}",
@@ -18,34 +33,5 @@
         "LOG_LEVEL": "debug"
       }
     },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Mocha tests",
-      "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
-      "cwd": "${workspaceRoot}",
-      "args": [
-        "test:nc",
-      ],
-      "env": {
-      }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Seed",
-      "program": "${workspaceRoot}/out/db/seed.js",
-      "cwd": "${workspaceRoot}",
-      "args": [],
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach to Process",
-      "port": 5858
-    }
   ]
 }

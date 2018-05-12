@@ -2,8 +2,10 @@
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
 export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' | 'CANCELED';
+export type TOptionGroupKey = string;
+export type TSelectedItemKey = string;
 
-export interface FoodMenuItem {
+export interface IFoodMenuItem {
   _id?: TfmiId;
   title: string;
   description: string;
@@ -25,25 +27,30 @@ export interface FoodMenuItem {
   }[];
 }
 
-export interface SelectedFoodMenuItem {
+export interface ISelectedFoodMenuItem {
   _id?: TfmiId;
   title: string;
   description: string;
   price: number;
   imgURL: string;
   selectedOptions: {
-    optionKey: string;
-    selectedOptionItemKey: string;
+    /** Key of the group of options */
+    optionKey: TOptionGroupKey;
+    /** Key of the selected option item by the user */
+    selectedOptionItemKey: TSelectedItemKey;
+    price: number;
+    label: string;
   }[];
   selectedBoolOptions: {
     optionKey: string;
-    value: boolean;
+    price: number;
+    label: string;
   }[];
 }
 
 export interface IOrderSummary {
   items: {
-    fmi: SelectedFoodMenuItem;
+    fmi: ISelectedFoodMenuItem;
     qty: number;
     itemTotalPrice: number;
   }[];

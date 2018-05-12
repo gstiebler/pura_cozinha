@@ -26,7 +26,8 @@ const selectedBoolOptionsInputType = new GraphQLInputObjectType({
   name: 'selectedBoolOptionsInputType',
   fields: {
     optionKey: { type: GraphQLString },
-    value: { type: GraphQLBoolean },
+    label: { type: GraphQLString },
+    price: { type: GraphQLFloat },
   }
 });
 

@@ -10,10 +10,12 @@ import { Order } from '../../db/models/Order';
 import { User } from '../../db/models/User';
 
 export async function initFixtures() {
-  await User.remove({});
-  await Order.remove({});
-  await Kitchen.remove({});
-  await MenuItem.remove({});
+  await Promise.all([
+    User.remove({}),
+    Order.remove({}),
+    Kitchen.remove({}),
+    MenuItem.remove({}),
+  ]);
 
   await MenuItem.insertMany(await menuItemFixtures());
   await Kitchen.insertMany(await kitchenFixtures());

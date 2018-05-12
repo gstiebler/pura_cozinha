@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { TOrderStatus, FoodMenuItem, } from '../../../common/Interfaces';
+import { TOrderStatus, IFoodMenuItem, } from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';

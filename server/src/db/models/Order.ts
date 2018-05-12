@@ -30,12 +30,15 @@ export interface IOrder {
       description: string;
       price: number;
       selectedOptions?: {
-        optionKey: string;
-        selectedOptionItemKey: string;
+        key: string;
+        label: string;
+        value: string;
+        price: number;
       }[];
       selectedBoolOptions?: {
-        optionKey: string;
-        value: boolean;
+        key: string;
+        label: string;
+        price: number;
       }[];
     };
   }[];
@@ -52,12 +55,15 @@ const completeMenuItemSchema = {
   description: { type: String, required: true },
   price: { type: Number, required: true },
   selectedOptions: [{
-    optionKey: { type: String, required: true },
-    selectedOptionItemKey: { type: String, required: true },
+    key: { type: String, required: true },
+    label: { type: String, required: true },
+    value: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
   selectedBoolOptions: [{
-    optionKey: { type: String, required: true },
-    value: { type: Boolean, required: true },
+    key: { type: String, required: true },
+    label: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
 };
 

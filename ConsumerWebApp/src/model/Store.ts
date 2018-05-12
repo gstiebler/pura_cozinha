@@ -5,10 +5,12 @@ import * as _ from 'lodash';
 import {
   TfmiId,
   TPaymentOptions,
-  FoodMenuItem,
+  IFoodMenuItem,
   IOrderSummary,
   IOrderRequest,
   ISelectedMenuItemOption,
+  ISelectedFoodMenuItem,
+  TOptionGroupKey,
 } from '../../../common/Interfaces';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
@@ -17,7 +19,7 @@ const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 export class Store {
 
   @observable router;
-  @observable foodMenuItems: FoodMenuItem[] = [];
+  @observable foodMenuItems: IFoodMenuItem[] = [];
   @observable itemQty: Map<TfmiId, number> = new Map();
   @observable selectedOptions: ISelectedMenuItemOption[] = [];
   @observable selectedLocal: string;
@@ -29,10 +31,10 @@ export class Store {
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
   @observable kitchen: IKitchenModel = null;
-  // fmi id => option key => boolean value
-  @observable selectedBoolOptions: Map<TfmiId, Map<string, boolean>> = new Map();
+  // fmi id => Set of selected option keys
+  @observable selectedBoolOptions: Map<TfmiId, Set<string>> = new Map();
   // fmi id => option key => option key string value
-  @observable selectedMultipleOptions: Map<TfmiId, Map<string, string>> = new Map();
+  @observable selectedMultipleOptions: Map<TfmiId, Map<TOptionGroupKey, string>> = new Map();
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -91,7 +93,7 @@ export class Store {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
-  getFoodMenuItem(id: TfmiId): FoodMenuItem {
+  getFoodMenuItem(id: TfmiId): IFoodMenuItem {
     return this.foodMenuItems.find(fmi => fmi._id === id);
   }
 
@@ -124,23 +126,57 @@ export class Store {
   @computed
   get orderSummary(): IOrderSummary {
     const selectedItems = [...this.itemQty.entries()];
+    const selectedBoolOptionsMap = this.selectedBoolOptions;
+    const selectedOptionsMap = this.selectedMultipleOptions;
     const items = selectedItems.map(item => {
-      const fmi = this.getFoodMenuItem(item[0]);
+      const selectedFmi = this.getFoodMenuItem(item[0]);
       const qty = item[1];
-      const itemTotalPrice = fmi.price * qty;
-      return {
-        fmi: {
-          _id: fmi._id,
-          title: fmi.title,
-          description: fmi.description,
-          price: fmi.price,
-          imgURL: fmi.imgURL,
-          selectedOptions: [],
-          selectedBoolOptions: [],
-        },
-        qty,
-        itemTotalPrice,
+
+      const selectedBoolOptionsSet = selectedBoolOptionsMap.get(selectedFmi._id);
+      const selBoolOptArray = selectedBoolOptionsSet ? Array.from(selectedBoolOptionsSet) : [];
+      const selectedBoolOptions = selBoolOptArray.map(key => {
+        const boolOption = selectedFmi.boolOptions.find(bo => bo.key === key);
+        return {
+          optionKey: key,
+          price: boolOption.price,
+          label: boolOption.label,
+        }
+      });
+      // sum the values for all selected bool options
+      const boolOptionsPrice = selectedBoolOptions.reduce((sum, selectedBoolOption) => sum + selectedBoolOption.price, 0.0);
+
+      const selectedMultipleOptionsMap = selectedOptionsMap.get(selectedFmi._id);
+      const selMultiOptArray = selectedMultipleOptionsMap ? Array.from(selectedMultipleOptionsMap) : [];
+      const selectedOptions = selMultiOptArray.map(key_val => {
+        const optionKey = key_val[0];
+        const selectedOptionItemKey = key_val[1];
+        const multipleOptionGroup = selectedFmi.options.find(optGroup => optGroup.key === optionKey);
+        const selectedOption = multipleOptionGroup.optionItems.find(opt => opt.key === selectedOptionItemKey);
+        return {
+          optionKey,
+          selectedOptionItemKey,
+          label: selectedOption.label,
+          price: selectedOption.price,
+        };
+      });
+      const multipleOptionsPrice = selectedOptions.reduce((sum, selOpt) => sum + selOpt.price, 0.0);
+
+      const mainItemPrice = selectedFmi.price * qty;
+      const fmi:ISelectedFoodMenuItem = {
+        _id: selectedFmi._id,
+        title: selectedFmi.title,
+        description: selectedFmi.description,
+        price: selectedFmi.price,
+        imgURL: selectedFmi.imgURL,
+        selectedOptions,
+        selectedBoolOptions,
       }
+      const orderRequest = {
+        fmi,
+        qty,
+        itemTotalPrice: mainItemPrice + boolOptionsPrice + multipleOptionsPrice,
+      }
+      return orderRequest;
     });
     const totalAmount = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
     return { items, totalAmount };
@@ -148,7 +184,7 @@ export class Store {
 
   getBoolOption(id: TfmiId, optionKey: string):boolean {
     const fmiBoolOptions = this.selectedBoolOptions.get(id);
-    return fmiBoolOptions ? fmiBoolOptions.get(optionKey) : false;
+    return fmiBoolOptions ? fmiBoolOptions.has(optionKey) : false;
   }
 
   getMultipleOption(id: TfmiId, optionKey: string):string {
@@ -207,8 +243,13 @@ export class Store {
   }
 
   onBoolOptionSelected(id: TfmiId, optionKey: string) {
-    let item = this.selectedBoolOptions.get(id) || new Map<string, boolean>();
-    item.set(optionKey, !item.get(optionKey));
+    let item = this.selectedBoolOptions.get(id) || new Set<string>();
+    // if "item" has optionKey, the option is selected
+    if (item.has(optionKey)) {
+      item.delete(optionKey);
+    } else {
+      item.add(optionKey);
+    }
     this.selectedBoolOptions.set(id, item);
   }
 

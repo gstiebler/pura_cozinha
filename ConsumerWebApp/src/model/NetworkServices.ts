@@ -2,13 +2,13 @@ import * as network from '../../../common/network';
 import * as ns from '../../../common/NetworkServices';
 import { 
   TfmiId,
-  FoodMenuItem,
+  IFoodMenuItem,
   IOrderSummary,
   IOrderRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 
-export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
+export async function fetchFoodMenu(): Promise<IFoodMenuItem[]> {
   const query = `
     query {
       menuItems( lat: ${0.0}, lng: ${0.0} ) { 
@@ -32,6 +32,15 @@ export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
 
 export async function sendOrderRequest(orderRequest: IOrderRequest) {
   const items = orderRequest.orderSummary.items.map(item => {
+    const selectedBoolOptions = item.fmi.selectedBoolOptions.map(selBOpt => {
+      return `
+        {
+          optionKey: "${selBOpt.optionKey}",
+          price: ${selBOpt.price},
+          label: "${selBOpt.label}"
+        }
+      `;
+    });
     return `
       {
         fmi: {
@@ -40,8 +49,8 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
           description: "${item.fmi.description}",
           price: ${item.fmi.price},
           imgURL: "${item.fmi.imgURL}",
-          selectedOptions: [${item.fmi.selectedOptions}],
-          selectedBoolOptions: [${item.fmi.selectedBoolOptions}]
+          selectedOptions: [],
+          selectedBoolOptions: [${selectedBoolOptions.join(',')}]
         },
         qty: ${item.qty},
         itemTotalPrice: ${item.itemTotalPrice}
