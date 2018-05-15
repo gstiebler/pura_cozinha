@@ -20,58 +20,54 @@ describe('admin web app store', () => {
     // twitterSendMessageStub.restore();
   })
 
-//   it('get ingredients', async () => {
-//     const store = new Store();
-//     await store.onIngredientsPageLoad();
-//     expect(store.ingredients[0].title).to.equal('Carne moída');
-//     expect(store.ingredients[1].title).to.equal('Leite');
-//     expect(store.ingredients[2].title).to.equal('Seleta de Legumes');
-//   });
+  it('get ingredients', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    expect(store.ingredients[0].title).to.equal('Carne moída');
+    expect(store.ingredients[1].title).to.equal('Leite');
+    expect(store.ingredients[2].title).to.equal('Seleta de Legumes');
+  });
 
-//   it('create ingredient', async () => {
-//     const store = new Store();
-//     await store.onIngredientsPageLoad();
-//     store.ingredientTitleChanged('Tomate');
-//     store.unitSelected(store.units[0]._id);
-//     await store.onSendIngredientRequested();
+  it('create ingredient', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    store.ingredientTitleChanged('Tomate');
+    store.unitSelected('CX');
+    await store.onSendIngredientRequested();
 
-//     const ingredients = await Ingredient.find().sort({_id:-1}).limit(1);
-//     const lastIngredient = ingredients[0];
-//     expect(lastIngredient.title).to.equal('Tomate');
-//     expect(lastIngredient.amount).to.equal(2);
-//   });
+    const ingredients = await IngredientType.find().sort({_id:-1}).limit(1);
+    const lastIngredient = ingredients[0];
+    expect(lastIngredient.title).to.equal('Tomate');
+  });
 
-//   it('edit ingredient', async () => {
-//     const store = new Store();
-//     await store.onIngredientsPageLoad();
-//     const ingredients = await Ingredient.find().sort({_id:-1}).limit(1);
-//     const lastIngredient = ingredients[0];
-//     expect(lastIngredient.title).to.equal('Tomate');
-//     await store.findIngredientById(lastIngredient._id);
-//     store.ingredientTitleChanged('Suco de tomate');
-//     store.ingredientAmountChanged('1');
-//     store.unitSelected(store.units[1]._id); //Litros
-//     await store.onUpdateIngredientRequested();
+  it('edit ingredient', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    const ingredients = await IngredientType.find().sort({_id:-1}).limit(1);
+    const lastIngredient = ingredients[0];
+    expect(lastIngredient.title).to.equal('Tomate');
+    await store.findIngredientById(lastIngredient._id);
+    store.ingredientTitleChanged('Suco de tomate');
+    store.unitSelected('L');
+    await store.onUpdateIngredientRequested();
 
-//     const updatedIngredients = await Ingredient.find().sort({_id:-1}).limit(1);
-//     const lastIngredientUpdated = updatedIngredients[0];
-//     expect(lastIngredientUpdated.title).to.equal('Suco de tomate');
-//     expect(lastIngredientUpdated.amount).to.equal(1);
-//     expect(lastIngredientUpdated.unit.id).to.equal(store.units[1]._id);
-//   });
+    const updatedIngredients = await IngredientType.find().sort({_id:-1}).limit(1);
+    const lastIngredientUpdated = updatedIngredients[0];
+    expect(lastIngredientUpdated.title).to.equal('Suco de tomate');
+    expect(lastIngredientUpdated.unit).to.equal('L');
+  });
 
-//   it('delete ingredient', async () => {
-//     const store = new Store();
-//     await store.onIngredientsPageLoad();
-//     const ingredients = await Ingredient.find().sort({_id:-1}).limit(1);
-//     const lastIngredient = ingredients[0];
-//     expect(lastIngredient.title).to.equal('Suco de tomate');
-//     await store.findIngredientById(lastIngredient._id);
-//     await store.onDeleteIngredientRequested();
+  it('delete ingredient', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    const ingredients = await IngredientType.find({title: 'Suco de tomate'}).limit(1);
+    const tmp = ingredients[0];
+    expect(tmp.title).to.equal('Suco de tomate');
+    await store.findIngredientById(tmp._id);
+    await store.onDeleteIngredientRequested();
 
-//     const updatedIngredients = await Ingredient.find().sort({_id:-1}).limit(1);
-//     const lastIngredientUpdated = updatedIngredients[0];
-//     expect(lastIngredientUpdated.title).to.not.equal('Suco de tomate');
-//   });
+    const deletedIngredient = IngredientType.find({title: 'Suco de tomate'}).limit(1)[0];
+    expect(deletedIngredient).to.equal(undefined);
+  });
 
 });
