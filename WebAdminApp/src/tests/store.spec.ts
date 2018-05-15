@@ -36,7 +36,7 @@ describe('admin web app store', () => {
     await store.onSendIngredientRequested();
 
     const ingredients = await IngredientType.find().sort({_id:-1}).limit(1);
-    const lastIngredient = ingredients[0];
+    const lastIngredient = ingredients[0].toObject();
     expect(lastIngredient.title).to.equal('Tomate');
   });
 
@@ -44,7 +44,7 @@ describe('admin web app store', () => {
     const store = new Store();
     await store.onIngredientsPageLoad();
     const ingredients = await IngredientType.find().sort({_id:-1}).limit(1);
-    const lastIngredient = ingredients[0];
+    const lastIngredient = ingredients[0].toObject();
     expect(lastIngredient.title).to.equal('Tomate');
     await store.findIngredientById(lastIngredient._id);
     store.ingredientTitleChanged('Suco de tomate');
@@ -52,7 +52,7 @@ describe('admin web app store', () => {
     await store.onUpdateIngredientRequested();
 
     const updatedIngredients = await IngredientType.find().sort({_id:-1}).limit(1);
-    const lastIngredientUpdated = updatedIngredients[0];
+    const lastIngredientUpdated = updatedIngredients[0].toObject();
     expect(lastIngredientUpdated.title).to.equal('Suco de tomate');
     expect(lastIngredientUpdated.unit).to.equal('L');
   });
@@ -61,7 +61,7 @@ describe('admin web app store', () => {
     const store = new Store();
     await store.onIngredientsPageLoad();
     const ingredients = await IngredientType.find({title: 'Suco de tomate'}).limit(1);
-    const tmp = ingredients[0];
+    const tmp = ingredients[0].toObject();
     expect(tmp.title).to.equal('Suco de tomate');
     await store.findIngredientById(tmp._id);
     await store.onDeleteIngredientRequested();

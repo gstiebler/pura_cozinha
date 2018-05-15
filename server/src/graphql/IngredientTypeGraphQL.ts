@@ -53,11 +53,7 @@ import {
       type: GraphQLString,
       args: { fmiData: { type: IngredientTypeRequestInputType } },
       async resolve(value, { fmiData }) {
-        const ingredientObj: IngredientType = {
-          title: fmiData.title,
-          unit: fmiData.unit,
-        };
-        const ingredient = new IngredientType(ingredientObj);
+        const ingredient = new IngredientType(fmiData);
         await ingredient.save();
         return { msg: 'OK' };
       }
@@ -66,11 +62,7 @@ import {
       type: GraphQLString,
       args: { fmiData: { type: IngredientTypeRequestInputType } },
       resolve: async (value, { fmiData }) => { 
-        const ingredientObj: IngredientType = {
-          title: fmiData.title,
-          unit: fmiData.unit,
-        };
-        await IngredientType.update({ _id: fmiData.id }, { $set: ingredientObj }); 
+        await IngredientType.update({ _id: fmiData.id }, { $set: fmiData }); 
         return 'OK'; 
       } 
     },

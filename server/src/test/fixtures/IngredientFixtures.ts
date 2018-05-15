@@ -1,7 +1,7 @@
 import { IngredientType } from '../../db/models/IngredientType';
 import { idByValue } from '../lib/TestUtils';
 
-export default async (): Promise<IngredientType[]> => {
+export default async () =>  {
   return [
     {
       title: 'Carne moída',
