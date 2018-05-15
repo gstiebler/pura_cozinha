@@ -147,9 +147,7 @@ export class Store {
 
       const selectedMultipleOptionsMap = selectedOptionsMap.get(selectedFmi._id);
       const selMultiOptArray = selectedMultipleOptionsMap ? Array.from(selectedMultipleOptionsMap) : [];
-      const selectedOptions = selMultiOptArray.map(key_val => {
-        const optionKey = key_val[0];
-        const selectedOptionItemKey = key_val[1];
+      const selectedOptions = selMultiOptArray.map(([optionKey, selectedOptionItemKey]) => {
         const multipleOptionGroup = selectedFmi.options.find(optGroup => optGroup.key === optionKey);
         const selectedOption = multipleOptionGroup.optionItems.find(opt => opt.key === selectedOptionItemKey);
         return {
@@ -161,7 +159,7 @@ export class Store {
       });
       const multipleOptionsPrice = selectedOptions.reduce((sum, selOpt) => sum + selOpt.price, 0.0);
 
-      const mainItemPrice = selectedFmi.price * qty;
+      const mainItemPrice = selectedFmi.price;
       const fmi:ISelectedFoodMenuItem = {
         _id: selectedFmi._id,
         title: selectedFmi.title,
@@ -174,7 +172,7 @@ export class Store {
       const orderRequest = {
         fmi,
         qty,
-        itemTotalPrice: mainItemPrice + boolOptionsPrice + multipleOptionsPrice,
+        itemTotalPrice: (mainItemPrice + boolOptionsPrice + multipleOptionsPrice) * qty,
       }
       return orderRequest;
     });

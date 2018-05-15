@@ -65,17 +65,27 @@ describe('consumer web app store', () => {
   it('send order', async () => {
     const store = new Store();
     await store.onMenuPageLoad();
+
     const sandubaFrango = store.foodMenuItems[0];
     store.onItemQtyIncreased(sandubaFrango._id);
     store.onItemQtyIncreased(sandubaFrango._id);
+
     const acai = store.foodMenuItems[1];
     const granola = acai.boolOptions[0];
     store.onItemQtyIncreased(acai._id);
     store.onBoolOptionSelected(acai._id, granola.key);
+
+    const sandMignon = store.foodMenuItems[2];
+    const molho = sandMignon.options[0];
+    const italian = molho.optionItems[1];
+    store.onItemQtyIncreased(sandMignon._id);
+    store.onMenuItemOptionSelected(sandMignon._id, molho.key, italian.key);
+  
     expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
     expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
     expect(store.orderSummary.items[0].qty).to.equal(2);
-    expect(store.orderSummary.totalAmount).to.be.closeTo(33.98, 0.001);
+    // 2 * (11.99) + (8.00 + 2.00) + (15.00 + 1.20)
+    expect(store.orderSummary.totalAmount).to.be.closeTo(50.18, 0.001);
     store.onLocalSelected('Stella Vita');
     store.onPaymentOptionSelected('Dinheiro');
     store.onTelNumberChanged('1234');
@@ -89,8 +99,8 @@ describe('consumer web app store', () => {
     expect(lastOrder.paymentOption).to.equal('Dinheiro');
     expect(lastOrder.telephoneNumber).to.equal('1234');
     expect(lastOrder.comments).to.equal('Comida muito boa!');
-    expect(lastOrder.totalAmount).to.be.closeTo(33.98, 0.001);
-    expect(lastOrder.items).to.have.lengthOf(2);
+    expect(lastOrder.totalAmount).to.be.closeTo(50.18, 0.001);
+    expect(lastOrder.items).to.have.lengthOf(3);
     expect(lastOrder.items[0].qty).to.equal(2);
     expect(lastOrder.items[0].itemTotalPrice).to.be.closeTo(23.98, 0.001);
     expect(lastOrder.items[0].foodMenuItem.title).to.equal('Sanduba de frango');
