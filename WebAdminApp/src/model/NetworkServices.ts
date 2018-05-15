@@ -6,20 +6,16 @@ import {
   IIngredientRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
-import { Ingredient } from '../../../server/src/db/models/Ingredient';
-import { Unit } from '../../../server/src/db/models/Unit';
+import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { ObjectID } from 'bson';
 
-export async function fetchIngredients(): Promise<Ingredient[]> {
+export async function fetchIngredientTypes(): Promise<IngredientType[]> {
   const query = `
     query {
       allIngredients { 
         _id, 
         title,
-        amount, 
-        unit { 
-          id
-        }
+        unit 
       } 
     }
   `;
@@ -27,30 +23,13 @@ export async function fetchIngredients(): Promise<Ingredient[]> {
   return result.allIngredients;
 }
 
-export async function fetchUnits(): Promise<Unit[]> {
-  const query = `
-    query {
-      allUnits { 
-        _id, 
-        title,
-      } 
-    }
-  `;
-  const result = await network.fetchQuery(query);
-  return result.allUnits;
-}
-
-
-export async function findIngredientById(id: string): Promise<Unit[]> {
+export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
   const query = `
     query {
       ingredient (id: "${id}") {
         _id, 
         title,
-        amount,
-        unit { 
-          id
-        }
+        unit 
       } 
     }
   `;
@@ -60,16 +39,13 @@ export async function findIngredientById(id: string): Promise<Unit[]> {
 
 
 
-export async function sendIngredientRequest(ingredientRequest: IIngredientRequest) {
+export async function sendIngredientTypeRequest(ingredientRequest: IIngredientRequest) {
   const mutation = `
     mutation {
       saveIngredient (
         fmiData: {
-          title: "${ingredientRequest.title}",
-          amount: ${ingredientRequest.amount}, 
-          unit: { 
-            id: "${ingredientRequest.unit}",
-          }
+          title: "${ingredientRequest.title}", 
+          unit: "${ingredientRequest.unit}", 
         }
       ) 
     }
@@ -78,17 +54,14 @@ export async function sendIngredientRequest(ingredientRequest: IIngredientReques
   return result.msg;
 }
 
-export async function updateIngredientRequest(ingredientRequest: IIngredientRequest, id: string) {
+export async function updateIngredientTypeRequest(ingredientRequest: IIngredientRequest, id: string) {
   const mutation = `
     mutation {
       updateIngredient (
         fmiData: {
           id: "${id}"
           title: "${ingredientRequest.title}",
-          amount: ${ingredientRequest.amount}, 
-          unit: { 
-            id: "${ingredientRequest.unit}",
-          }
+          unit: "${ingredientRequest.unit}",
         }
       ) 
     }
@@ -97,7 +70,7 @@ export async function updateIngredientRequest(ingredientRequest: IIngredientRequ
   return result.msg;
 }
 
-export async function deleteIngredient( id: string): Promise<any> {
+export async function deleteIngredientType( id: string): Promise<any> {
   const mutation = `
     mutation {
       deleteIngredient (
@@ -107,19 +80,4 @@ export async function deleteIngredient( id: string): Promise<any> {
   `;
   const result = await network.fetchQuery(mutation);
   return result.msg;
-}
-
-export async function findUnitById( id: string): Promise<any> {
-  const params = `
-    id: "${id}"
-  `;
-  const fields = [
-    '_id',
-    'title',
-  ];
-  
-  const fieldsStr = fields.join(', ');
-  const query = `query { unit( ${params} ) { ${fieldsStr} } }`;
-  const result = await network.fetchQuery(query);
-  return result.unit;
 }

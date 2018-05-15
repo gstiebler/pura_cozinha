@@ -2,6 +2,7 @@
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
 export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' | 'CANCELED';
+export type TIngredientTypeUnit = 'KG' | 'L' | 'CX' | 'PCT' | 'UN' | 'G';
 
 export interface FoodMenuItem {
   _id?: TfmiId;
@@ -65,9 +66,8 @@ export interface IUnit {
 }
 
 export interface IIngredientRequest {
-  unit: string;
   title: string;
-  amount: number;
+  unit: string;
 }
 
 export interface ISelectedMenuItemOption {

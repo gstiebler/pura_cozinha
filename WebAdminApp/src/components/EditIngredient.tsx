@@ -8,7 +8,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { observer } from 'mobx-react';
 import views from '../Views';
-import { Store } from '../model/Store';
+import { Store, availableUnits } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
 import Dialog, {
   DialogActions,
@@ -37,10 +37,6 @@ function onIngredientTitleChange(store: Store, event) {
   store.ingredientTitleChanged(event.target.value);
 }
 
-function onIngredientAmountChange(store: Store, event) {
-  store.ingredientAmountChanged(event.target.value);
-}
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -65,8 +61,8 @@ interface IProps {
 function EditIngredient(props: IProps) {
   const { store, classes } = props;
 
-  const unitsOptions = store.units.map(unit => {
-    return <option key={unit._id} value={unit._id}>{unit.title}</option>;
+  const unitsOptions = availableUnits.map(unit => {
+    return <option key={unit[0]} value={unit[0]}>{unit[1]}</option>;
   });
 
   return (
@@ -79,16 +75,6 @@ function EditIngredient(props: IProps) {
         type="text"
         value={store.title}
         onChange={onIngredientTitleChange.bind(null, store)}
-        className={classes.formControl}
-        fullWidth
-      />
-      <TextField
-        autoFocus
-        margin="dense"
-        id="amount"
-        label="Quantidade"
-        value={store.amount}
-        onChange={onIngredientAmountChange.bind(null, store)}
         className={classes.formControl}
         fullWidth
       />

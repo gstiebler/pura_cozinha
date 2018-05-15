@@ -1,32 +1,36 @@
 import { Document, Schema, Model, model } from 'mongoose';
 import { menuItemSchema } from './menuItem';
 import { TOrderStatus } from '../../../../common/Interfaces';
-import {Unit} from './Unit';
 import * as _ from 'lodash';
 import * as mongoose from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 
+const availableUnits = [
+  'KG',
+  'L',
+  'CX',
+  'PCT',
+  'UN',
+  'G',
+];
 export type TfmiId = string;
 
-export interface Ingredient {
+export interface IngredientType {
   _id?: TfmiId;
   title: string;
-  amount: number;
-  unit?: { id: string};
+  unit?: string;
 }
 
 export interface IIngredient {
   title: string;
-  amount: number;
-  unit?: { id: string};
+  unit?: string;
 }
 
 const IngredientSchema = new Schema({
   title: { type: String, required: true },
-  amount: { type: Number, required: true },
-  unit: { type: Object }
+  unit: { type: String, enum: availableUnits, default: 'KG' },
 });
 
 interface IIngredientModel extends IIngredient, Document {}
 
-export const Ingredient: Model<IIngredientModel> = model<IIngredientModel>('Ingredient', IngredientSchema);
+export const IngredientType: Model<IIngredientModel> = model<IIngredientModel>('IngredientType', IngredientSchema);

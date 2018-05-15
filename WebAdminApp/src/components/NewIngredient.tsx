@@ -8,7 +8,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { observer } from 'mobx-react';
 import views from '../Views';
-import { Store } from '../model/Store';
+import { Store, availableUnits } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
 import Dialog, {
   DialogActions,
@@ -34,9 +34,6 @@ function onIngredientTitleChange(store: Store, event) {
   store.ingredientTitleChanged(event.target.value);
 }
 
-function onIngredientAmountChange(store: Store, event) {
-  store.ingredientAmountChanged(event.target.value);
-}
 
 const styles = theme => ({
   root: {
@@ -57,8 +54,8 @@ interface IProps {
 
 function NewIngredient(props: IProps) {
   const { store, classes } = props;
-  const unitsOptions = store.units.map(unit => {
-    return <option key={unit._id} value={unit._id}>{unit.title}</option>;
+  const unitsOptions = availableUnits.map(unit => {
+    return <option key={unit[0]} value={unit[0]}>{unit[1]}</option>;
   });
 
   return (
@@ -80,14 +77,6 @@ function NewIngredient(props: IProps) {
               label="Nome"
               type="text"
               onChange={onIngredientTitleChange.bind(null, store)}
-              fullWidth
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="amount"
-              label="Quantidade"
-              onChange={onIngredientAmountChange.bind(null, store)}
               fullWidth
             />
             <FormControl className={classes.formControl}>

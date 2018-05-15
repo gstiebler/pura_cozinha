@@ -1,29 +1,19 @@
-import { Ingredient } from '../../db/models/Ingredient';
+import { IngredientType } from '../../db/models/IngredientType';
 import { idByValue } from '../lib/TestUtils';
-import { Unit } from '../../db/models/Unit';
 
-export default async (): Promise<Ingredient[]> => {
+export default async (): Promise<IngredientType[]> => {
   return [
     {
       title: 'Carne moída',
-      amount: 2,
-      unit: {
-        id: await idByValue(Unit, 'title', 'Kilos (Kg)'),
-      },
+      unit: 'KG',
     },
     {
       title: 'Leite',
-      amount: 5,
-      unit: {
-        id: await idByValue(Unit, 'title', 'Litros (l)'),
-      },
+      unit: 'L',
     },
     {
       title: 'Seleta de Legumes',
-      amount: 8,
-      unit: {
-        id: await idByValue(Unit, 'title', 'Caixas (cx)'),
-      },
+      unit: 'CX',
     }
   ];
 }

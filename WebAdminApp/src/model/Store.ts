@@ -10,21 +10,31 @@ import {
   IIngredientRequest,
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
-import { Ingredient } from '../../../server/src/db/models/Ingredient';
-import { Unit } from '../../../server/src/db/models/Unit';
+import { IngredientType } from '../../../server/src/db/models/IngredientType';
+
+export const availableUnits = [
+  ['KG', '(Kg) - Kilo(s)'],
+  ['L', '(L) - Litro(s)'],
+  ['CX', '(Cx) - Caixa(s)'],
+  ['PCT', '(Pct) - Pacote(s)'],
+  ['UN', '(Un.) - Unidade(s)'],
+  ['G', '(g) - Grama(s)'],
+];
+
+export const readableUnits = new Map(availableUnits as any);
+
 export class Store {
 
   @observable router;
   @observable isDrawerOpen = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
-  @observable ingredients: Ingredient[] = [];
-  @observable units: Unit[] = [];
+  @observable ingredients: IngredientType[] = [];
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
+  
   //New ingredient variables
   @observable title: string = '';
-  @observable amount: string= '';
-  @observable selectedUnit;
+  @observable selectedUnit: string;
   //snack bar message settings
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
@@ -37,44 +47,26 @@ export class Store {
 
   async reset() {
     this.title = '';
-    this.amount = '';
     this.snackbarMsg = '';
     this.currentIngredient = null;
-    this.ingredients = await ns.fetchIngredients();
-    this.units = await ns.fetchUnits();
+    this.ingredients = await ns.fetchIngredientTypes();
   }
 
   async onIngredientsPageLoad()
   {
-    this.units = await ns.fetchUnits();
-    this.ingredients = await ns.fetchIngredients();
-    this.selectedUnit = this.units[0]._id;
-  }
-
-  async findUnitById(id: string)
-  {
-    const unit = await ns.findUnitById(id);
-    if (!!unit)
-      return unit;
-    return null;
+    this.ingredients = await ns.fetchIngredientTypes();
   }
 
   async findIngredientById(id: string)
   {
-    this.currentIngredient = await ns.findIngredientById(id);
+    this.currentIngredient = await ns.findIngredientTypeById(id);
     this.title = this.currentIngredient.title;
-    this.amount = this.currentIngredient.amount;
-    this.selectedUnit = this.currentIngredient.unit.id;
+    this.selectedUnit = this.currentIngredient.unit;
   }
 
   ingredientTitleChanged(title: string)
   {
     this.title = title;
-  }
-
-  ingredientAmountChanged(amount: string)
-  {
-    this.amount = amount;
   }
 
   unitSelected(unit: string)
@@ -84,13 +76,11 @@ export class Store {
 
   async onSendIngredientRequested() {
     try {
-      const totalAmount: number = parseFloat(this.amount);
       const request:IIngredientRequest = {
         title: this.title,
-        amount: totalAmount,
         unit: this.selectedUnit
       };
-      await ns.sendIngredientRequest(request);
+      await ns.sendIngredientTypeRequest(request);
       await this.reset();
       this.setSnackbarMsg('Insumo salvo com sucesso');
       this.openDialogForm = false;
@@ -102,7 +92,7 @@ export class Store {
 
   async onDeleteIngredientRequested() {
     try {
-      await ns.deleteIngredient(this.currentIngredient._id);
+      await ns.deleteIngredientType(this.currentIngredient._id);
       this.reset();
       this.setSnackbarMsg('Insumo removido com sucesso');
     } catch(error) {
@@ -113,13 +103,11 @@ export class Store {
 
   async onUpdateIngredientRequested() {
     try {
-      const totalAmount: number = parseFloat(this.amount);
       const request:IIngredientRequest = {
         title: this.title,
-        amount: totalAmount,
         unit: this.selectedUnit
       };
-      await ns.updateIngredientRequest(request, this.currentIngredient._id);
+      await ns.updateIngredientTypeRequest(request, this.currentIngredient._id);
       await this.reset();
       this.setSnackbarMsg('Insumo editado com sucesso');
     } catch(error) {

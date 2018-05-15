@@ -7,58 +7,43 @@ import {
     GraphQLList,
     GraphQLFloat,
   } from 'graphql';
-  import { Ingredient } from '../db/models/Ingredient';
+  import { IngredientType } from '../db/models/IngredientType';
   import { IIngredientRequest } from '../../../common/Interfaces';
   import { ObjectId } from 'bson';
   
-  export const UnitType = new GraphQLObjectType({
-    name: 'UnitType',
-    fields: {
-      id: { type: new GraphQLNonNull(GraphQLID) }
-    }
-  });
   
-  export const IngredientsCompleteType = new GraphQLObjectType({
+  export const IngredientTypeCompleteType = new GraphQLObjectType({
     name: 'IngredientsCompleteType',
     fields: {
       _id: { type: new GraphQLNonNull(GraphQLID) },
       title: { type: GraphQLString },
-      amount: { type: GraphQLFloat },
-      unit: { type: UnitType }
+      unit: { type: GraphQLString }
     }
   });
   
-  export const UnitInputType = new GraphQLInputObjectType({
-    name: 'UnitInputType',
-    fields: {
-      id: { type: new GraphQLNonNull(GraphQLID) }
-    }
-  });
-
-  const IngredientRequestInputType = new GraphQLInputObjectType({
+  const IngredientTypeRequestInputType = new GraphQLInputObjectType({
     name: 'IngredientRequestInputType',
     fields: {
       id: { type: GraphQLID },
       title: { type: new GraphQLNonNull(GraphQLString) },
-      amount: { type: GraphQLFloat },
-      unit: { type: UnitInputType }
+      unit: { type: new GraphQLNonNull(GraphQLString) },
     }
   });
   
   export const Query = {
     allIngredients: {
-      type: new GraphQLList(IngredientsCompleteType),
+      type: new GraphQLList(IngredientTypeCompleteType),
       resolve: async function() {
-        return await Ingredient.find();
+        return await IngredientType.find();
       }
     },
     ingredient: {
-      type: IngredientsCompleteType,
+      type: IngredientTypeCompleteType,
       args: {
         id: { type: GraphQLID }
       },
       resolve: async function(root, { id }) {
-        return await Ingredient.findOne({ '_id': id });
+        return await IngredientType.findOne({ '_id': id });
       }
     }
   };
@@ -66,28 +51,26 @@ import {
   export const Mutation = {
     saveIngredient: {
       type: GraphQLString,
-      args: { fmiData: { type: IngredientRequestInputType } },
+      args: { fmiData: { type: IngredientTypeRequestInputType } },
       async resolve(value, { fmiData }) {
-        const ingredientObj: Ingredient = {
+        const ingredientObj: IngredientType = {
           title: fmiData.title,
-          amount: fmiData.amount,
-          unit: {id: fmiData.unit.id },
+          unit: fmiData.unit,
         };
-        const ingredient = new Ingredient(ingredientObj);
+        const ingredient = new IngredientType(ingredientObj);
         await ingredient.save();
         return { msg: 'OK' };
       }
     },
     updateIngredient: {
       type: GraphQLString,
-      args: { fmiData: { type: IngredientRequestInputType } },
+      args: { fmiData: { type: IngredientTypeRequestInputType } },
       resolve: async (value, { fmiData }) => { 
-        const ingredientObj: Ingredient = {
+        const ingredientObj: IngredientType = {
           title: fmiData.title,
-          amount: fmiData.amount,
-          unit: {id: fmiData.unit.id },
+          unit: fmiData.unit,
         };
-        await Ingredient.update({ _id: fmiData.id }, { $set: ingredientObj }); 
+        await IngredientType.update({ _id: fmiData.id }, { $set: ingredientObj }); 
         return 'OK'; 
       } 
     },
@@ -95,7 +78,7 @@ import {
       type: GraphQLString,
       args: { id: { type: GraphQLID } },
       resolve: async (value, { id }) => {
-        await Ingredient.remove({ _id: id });
+        await IngredientType.remove({ _id: id });
         return 'OK';
       }
     },

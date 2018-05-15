@@ -8,7 +8,7 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
 import { observer } from 'mobx-react';
 import views from '../Views';
-import { Store } from '../model/Store';
+import { Store, availableUnits, readableUnits } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
 import Dialog, {
   DialogActions,
@@ -41,12 +41,6 @@ function onEditIngredient(store: Store) {
 }
 
 
-async function getUnitTitle(store: Store, id: string)
-{
-  const unit = await store.findUnitById(id);
-  return unit.title;
-}
-
 function handleFormOpen(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
@@ -78,8 +72,7 @@ function Ingredients(props: IProps) {
   const { store, classes } = props;
   const ITEM_HEIGHT = 25;
   const items = store.ingredients.map(fmi => {
-    const unit = store.units.filter(unit => unit._id === fmi.unit.id)[0];
-    const secondary = fmi.amount + ' ' +  unit.title;
+    const secondary = readableUnits.get(fmi.unit);
     return (
       <ListItem key={fmi._id} divider >
         <ListItemText primary={fmi.title} secondary={secondary}/>
