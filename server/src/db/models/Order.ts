@@ -11,6 +11,28 @@ const availableStatuses = [
   'CANCELED',
 ];
 
+export interface IOrderItem {
+  qty: number;
+  itemTotalPrice: number;
+  foodMenuItem: {
+    id: any;
+    title: string;
+    description: string;
+    price: number;
+    selectedOptions?: {
+      key: string;
+      label: string;
+      value: string;
+      price: number;
+    }[];
+    selectedBoolOptions?: {
+      key: string;
+      label: string;
+      price: number;
+    }[];
+  };
+}
+
 export interface IOrder {
   userId: string;
   local: string;
@@ -21,27 +43,7 @@ export interface IOrder {
   paymentOption: 'Dinheiro' | 'Cartão';
   telephoneNumber: string;
   totalAmount: number;
-  items: {
-    qty: number;
-    itemTotalPrice: number;
-    foodMenuItem: {
-      id: any;
-      title: string;
-      description: string;
-      price: number;
-      selectedOptions?: {
-        key: string;
-        label: string;
-        value: string;
-        price: number;
-      }[];
-      selectedBoolOptions?: {
-        key: string;
-        label: string;
-        price: number;
-      }[];
-    };
-  }[];
+  items: IOrderItem[];
   statusHistory: {
     status: TOrderStatus;
     updatedOn: Date;

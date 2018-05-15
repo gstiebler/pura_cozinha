@@ -17,15 +17,17 @@ import { getProjection } from '../lib/Util';
 const selectedOptionsInputType = new GraphQLInputObjectType({
   name: 'selectedOptionsInputType',
   fields: {
-    optionKey: { type: GraphQLString },
-    selectedOptionItemKey: { type: GraphQLString },
+    key: { type: GraphQLString },
+    value: { type: GraphQLString },
+    label: { type: GraphQLString },
+    price: { type: GraphQLFloat },
   }
 });
 
 const selectedBoolOptionsInputType = new GraphQLInputObjectType({
   name: 'selectedBoolOptionsInputType',
   fields: {
-    optionKey: { type: GraphQLString },
+    key: { type: GraphQLString },
     label: { type: GraphQLString },
     price: { type: GraphQLFloat },
   }

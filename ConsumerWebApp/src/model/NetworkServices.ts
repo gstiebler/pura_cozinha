@@ -35,9 +35,19 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
     const selectedBoolOptions = item.fmi.selectedBoolOptions.map(selBOpt => {
       return `
         {
-          optionKey: "${selBOpt.optionKey}",
+          key: "${selBOpt.key}",
           price: ${selBOpt.price},
           label: "${selBOpt.label}"
+        }
+      `;
+    });
+    const selectedOptions = item.fmi.selectedOptions.map(selGroupOption => {
+      return `
+        {
+          key: "${selGroupOption.key}",
+          value: "${selGroupOption.value}",
+          price: ${selGroupOption.price},
+          label: "${selGroupOption.label}"
         }
       `;
     });
@@ -49,7 +59,7 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
           description: "${item.fmi.description}",
           price: ${item.fmi.price},
           imgURL: "${item.fmi.imgURL}",
-          selectedOptions: [],
+          selectedOptions: [${selectedOptions.join(',')}],
           selectedBoolOptions: [${selectedBoolOptions.join(',')}]
         },
         qty: ${item.qty},

@@ -35,14 +35,14 @@ export interface ISelectedFoodMenuItem {
   imgURL: string;
   selectedOptions: {
     /** Key of the group of options */
-    optionKey: TOptionGroupKey;
+    key: TOptionGroupKey;
     /** Key of the selected option item by the user */
-    selectedOptionItemKey: TSelectedItemKey;
+    value: TSelectedItemKey;
     price: number;
     label: string;
   }[];
   selectedBoolOptions: {
-    optionKey: string;
+    key: string;
     price: number;
     label: string;
   }[];

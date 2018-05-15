@@ -137,7 +137,7 @@ export class Store {
       const selectedBoolOptions = selBoolOptArray.map(key => {
         const boolOption = selectedFmi.boolOptions.find(bo => bo.key === key);
         return {
-          optionKey: key,
+          key,
           price: boolOption.price,
           label: boolOption.label,
         }
@@ -147,12 +147,12 @@ export class Store {
 
       const selectedMultipleOptionsMap = selectedOptionsMap.get(selectedFmi._id);
       const selMultiOptArray = selectedMultipleOptionsMap ? Array.from(selectedMultipleOptionsMap) : [];
-      const selectedOptions = selMultiOptArray.map(([optionKey, selectedOptionItemKey]) => {
-        const multipleOptionGroup = selectedFmi.options.find(optGroup => optGroup.key === optionKey);
-        const selectedOption = multipleOptionGroup.optionItems.find(opt => opt.key === selectedOptionItemKey);
+      const selectedOptions = selMultiOptArray.map(([key, value]) => {
+        const multipleOptionGroup = selectedFmi.options.find(optGroup => optGroup.key === key);
+        const selectedOption = multipleOptionGroup.optionItems.find(opt => opt.key === value);
         return {
-          optionKey,
-          selectedOptionItemKey,
+          key: key,
+          value: value,
           label: selectedOption.label,
           price: selectedOption.price,
         };
