@@ -12,11 +12,11 @@ export interface Purchase extends mongoose.Document {
 }
 
 const purchaseSchema = new mongoose.Schema({
-  ingredientType: { type: Object },
+  ingredientType: { type: Object, required: true },
   quantity: { type: Number, required: true },
   value: { type: Number, required: true },
-  buyDate: { type: Date, default: Date.now },
-  createdAt: { type: Date, default: Date.now },
+  buyDate: { type: Date, required: true},
+  createdAt: { type: Date, default: Date.now, required: true },
 });
 
 export const Purchase = mongoose.model('Purchase', purchaseSchema);
