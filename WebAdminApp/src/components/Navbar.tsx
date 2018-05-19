@@ -38,6 +38,12 @@ function viewIngredients(store: Store)
   store.isDrawerOpen = false;
 }
 
+function viewPurchases(store: Store)
+{
+  store.router.goTo(Views.purchases, { }, store);
+  store.isDrawerOpen = false;
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -110,6 +116,11 @@ function Navbar(props: IProps) {
             <ShoppingCart className={classes.leftIcon}/>
             <ListItemText primary='Insumos'
             onClick={() => viewIngredients(store)}/>
+          </ListItem>
+          <ListItem>
+            <ShoppingCart className={classes.leftIcon}/>
+            <ListItemText primary='Purchases'
+            onClick={() => viewPurchases(store)}/>
           </ListItem>
         </List>
       </div>

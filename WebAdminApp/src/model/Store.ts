@@ -11,6 +11,7 @@ import {
   ISelectedMenuItemOption,
 } from '../../../common/Interfaces';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
+import { Purchase } from '../../../server/src/db/models/Purchase';
 
 export const availableUnits = [
   ['KG', '(Kg) - Kilo(s)'],
@@ -29,6 +30,7 @@ export class Store {
   @observable isDrawerOpen = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
   @observable ingredients: IngredientType[] = [];
+  @observable purchases: Purchase[] = [];
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   
@@ -55,6 +57,11 @@ export class Store {
   async onIngredientsPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
+  }
+
+  async onPurchasesPageLoad()
+  {
+    this.purchases = await ns.fetchPurchases();
   }
 
   async findIngredientById(id: string)
