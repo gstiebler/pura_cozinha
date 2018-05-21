@@ -43,6 +43,25 @@ export async function fetchPurchases(): Promise<Purchase[]> {
   return result.allPurchases;
 }
 
+export async function findPurchaseById(id: string): Promise<Purchase[]> {
+  const query = `
+    query {
+      purchase (id: "${id}") {
+        _id, 
+        quantity,
+        value,
+        buyDate,
+        createdAt,
+        ingredientType {
+          id
+        } 
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.purchase;
+}
+
 export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
   const query = `
     query {

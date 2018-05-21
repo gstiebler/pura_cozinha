@@ -46,6 +46,15 @@ import {
         return await Purchase.find();
       }
     },
+    purchase: {
+      type: PurchaseCompleteType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve: async function(root, { id }) {
+        return await Purchase.findOne({ '_id': id });
+      }
+    },
   };
   
   export const Mutation = {

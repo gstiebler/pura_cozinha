@@ -33,6 +33,7 @@ export class Store {
   @observable purchases: Purchase[] = [];
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
+  @observable currentPurchase = null;
   
   //New ingredient variables
   @observable title: string = '';
@@ -70,6 +71,11 @@ export class Store {
     this.currentIngredient = await ns.findIngredientTypeById(id);
     this.title = this.currentIngredient.title;
     this.selectedUnit = this.currentIngredient.unit;
+  }
+
+  async findPurchaseById(id: string)
+  {
+    this.currentPurchase = await ns.findPurchaseById(id);
   }
 
   ingredientTitleChanged(title: string)

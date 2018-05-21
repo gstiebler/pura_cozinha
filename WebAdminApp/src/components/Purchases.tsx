@@ -24,7 +24,7 @@ import Views from '../Views';
 
 function handleClick(store: Store, id: string, event) {
   store.anchorEL = event.currentTarget;
-  store.findIngredientById(id);
+  store.findPurchaseById(id);
 }
 
 function handleClose(store: Store) {
@@ -84,7 +84,31 @@ function Purchases(props: IProps) {
       <ListItem key={fmi._id} divider >
         <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
                                +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
-        
+        <IconButton
+          aria-label="More"
+          aria-owns={store.anchorEL ? 'long-menu' : null}
+          aria-haspopup="true"
+          key={fmi._id}
+          onClick={handleClick.bind(null, store, fmi._id)}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id="long-menu"
+          anchorEl={store.anchorEL}
+          open={Boolean(store.anchorEL)}
+          onClose={handleClose.bind(null, store)}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: 80,
+            },
+          }}
+        >
+          <MenuItem key='delete' onClick={() => onDeleteIngredient(store)}>
+              Deletar
+          </MenuItem>
+        </Menu>
       </ListItem>
     );
   });
