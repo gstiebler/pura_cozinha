@@ -120,3 +120,15 @@ export async function deleteIngredientType( id: string): Promise<any> {
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }
+
+export async function deletePurchase( id: string): Promise<any> {
+  const mutation = `
+    mutation {
+      deletePurchase (
+        id: "${id}"
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}

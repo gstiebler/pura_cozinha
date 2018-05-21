@@ -58,5 +58,12 @@ import {
   };
   
   export const Mutation = {
-    
+    deletePurchase: {
+      type: GraphQLString,
+      args: { id: { type: GraphQLID } },
+      resolve: async (value, { id }) => {
+        await Purchase.remove({ _id: id });
+        return 'OK';
+      }
+    },
   };

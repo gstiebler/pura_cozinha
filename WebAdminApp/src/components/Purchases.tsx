@@ -31,9 +31,9 @@ function handleClose(store: Store) {
   store.anchorEL = null;
 }
 
-function onDeleteIngredient(store: Store) {
+function onDeletePurchase(store: Store) {
   store.anchorEL = null;
-  store.onDeleteIngredientRequested();
+  store.onDeletePurchaseRequested();
 }
 
 function onEditIngredient(store: Store) {
@@ -105,7 +105,7 @@ function Purchases(props: IProps) {
             },
           }}
         >
-          <MenuItem key='delete' onClick={() => onDeleteIngredient(store)}>
+          <MenuItem key='delete' onClick={() => onDeletePurchase(store)}>
               Deletar
           </MenuItem>
         </Menu>

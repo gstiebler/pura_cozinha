@@ -53,6 +53,7 @@ export class Store {
     this.snackbarMsg = '';
     this.currentIngredient = null;
     this.ingredients = await ns.fetchIngredientTypes();
+    this.purchases = await ns.fetchPurchases();
   }
 
   async onIngredientsPageLoad()
@@ -117,6 +118,17 @@ export class Store {
     } catch(error) {
       console.error(error);
       this.setSnackbarMsg('Erro ao remover Insumo');
+    }
+  }
+
+  async onDeletePurchaseRequested() {
+    try {
+      await ns.deletePurchase(this.currentPurchase._id);
+      this.reset();
+      this.setSnackbarMsg('Compra removida com sucesso');
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao remover compra');
     }
   }
 
