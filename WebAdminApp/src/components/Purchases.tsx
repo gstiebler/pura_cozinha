@@ -10,6 +10,7 @@ import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store, availableUnits, readableUnits } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+import * as moment from 'moment';
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -78,10 +79,12 @@ function Purchases(props: IProps) {
   const items = store.purchases.map(fmi => {
     const secondary = fmi.value;
     const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType.id);
+    const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
     return (
       <ListItem key={fmi._id} divider >
         <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
-                               +' '+ingredientType.title} secondary={'R$ ' + secondary} />
+                               +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
+        
       </ListItem>
     );
   });
