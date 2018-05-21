@@ -40,6 +40,10 @@ function onEditIngredient(store: Store) {
   store.router.goTo(Views.editIngredient, {}, store);
 }
 
+function getPurchaseIngredientType(store: Store, id: string)
+{
+  return store.getPurchaseIngredientType(id);
+}
 
 function handleFormOpen(store: Store) {
   store.openDialogForm = !store.openDialogForm;
@@ -73,9 +77,11 @@ function Purchases(props: IProps) {
   const ITEM_HEIGHT = 25;
   const items = store.purchases.map(fmi => {
     const secondary = fmi.value;
+    const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType.id);
     return (
       <ListItem key={fmi._id} divider >
-        <ListItemText primary={fmi.ingredientType.id} secondary={secondary} />
+        <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
+                               +' '+ingredientType.title} secondary={'R$ ' + secondary} />
       </ListItem>
     );
   });

@@ -119,7 +119,7 @@ function Navbar(props: IProps) {
           </ListItem>
           <ListItem>
             <ShoppingCart className={classes.leftIcon}/>
-            <ListItemText primary='Purchases'
+            <ListItemText primary='Compras'
             onClick={() => viewPurchases(store)}/>
           </ListItem>
         </List>

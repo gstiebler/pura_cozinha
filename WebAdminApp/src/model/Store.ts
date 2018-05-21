@@ -61,6 +61,7 @@ export class Store {
 
   async onPurchasesPageLoad()
   {
+    this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchases();
   }
 
@@ -79,6 +80,11 @@ export class Store {
   unitSelected(unit: string)
   {
     this.selectedUnit = unit;
+  }
+
+  getPurchaseIngredientType(id: string): any
+  {
+    return this.ingredients.filter(obj => obj._id === id)[0]; 
   }
 
   async onSendIngredientRequested() {
