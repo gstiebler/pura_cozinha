@@ -123,9 +123,16 @@ export class Store {
       this.quantity--;
   }
 
+  removeFromNewPurchases(key: number)
+  {
+    const index = this.newPurchases.findIndex(obj => obj.key==key);
+    this.newPurchases.splice(index);
+  }
+
   addNewPurchase()
   {
     const newPurchase = {
+      key: this.newPurchases.length+1,
       quantity: this.quantity,
       buyDate: this.buyDate,
       value: this.value,
