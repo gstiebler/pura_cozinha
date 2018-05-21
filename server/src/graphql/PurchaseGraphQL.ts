@@ -17,6 +17,13 @@ import {
       id: { type: new GraphQLNonNull(GraphQLID) },
     }
   });
+
+  export const IngredientTypeInputType = new GraphQLInputObjectType({
+    name: 'IngredientTypeInputType',
+    fields: {
+      id: { type: new GraphQLNonNull(GraphQLID) },
+    }
+  });
   
   export const PurchaseCompleteType = new GraphQLObjectType({
     name: 'PurchaseCompleteType',
@@ -30,14 +37,16 @@ import {
     }
   });
   
-  // const PurchaseRequestInputType = new GraphQLInputObjectType({
-  //   name: 'PurchaseRequestInputType',
-  //   fields: {
-  //     id: { type: GraphQLID },
-  //     title: { type: new GraphQLNonNull(GraphQLString) },
-  //     unit: { type: new GraphQLNonNull(GraphQLString) },
-  //   }
-  // });
+  const PurchaseRequestInputType = new GraphQLInputObjectType({
+    name: 'PurchaseRequestInputType',
+    fields: {
+      quantity: { type: new GraphQLNonNull(GraphQLFloat) },
+      value: { type: new GraphQLNonNull(GraphQLString) },
+      buyDate: { type: new GraphQLNonNull(GraphQLString) },
+      createdAt: { type: new GraphQLNonNull(GraphQLString) },
+      ingredientType: { type: new GraphQLNonNull(IngredientTypeInputType) },
+    }
+  });
   
   export const Query = {
     allPurchases: {
@@ -58,6 +67,15 @@ import {
   };
   
   export const Mutation = {
+    savePurchase: {
+      type: GraphQLString,
+      args: { fmiData: { type: PurchaseRequestInputType } },
+      async resolve(value, { fmiData }) {
+        const purchase = new Purchase(fmiData);
+        await purchase.save();
+        return { msg: 'OK' };
+      }
+    },
     deletePurchase: {
       type: GraphQLString,
       args: { id: { type: GraphQLID } },

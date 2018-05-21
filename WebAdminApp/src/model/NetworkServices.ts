@@ -4,6 +4,7 @@ import {
   FoodMenuItem,
   IOrderSummary,
   IIngredientRequest,
+  IPurchaseRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
@@ -85,6 +86,26 @@ export async function sendIngredientTypeRequest(ingredientRequest: IIngredientRe
         fmiData: {
           title: "${ingredientRequest.title}", 
           unit: "${ingredientRequest.unit}", 
+        }
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
+export async function sendPurchaseRequest(purchaseRequest: IPurchaseRequest) {
+  const mutation = `
+    mutation {
+      savePurchase (
+        fmiData: {
+          value: ${purchaseRequest.value},
+          quantity: ${purchaseRequest.quantity},
+          buyDate: ${purchaseRequest.buyDate},
+          createdAt: ${purchaseRequest.createdAt},
+          ingredientType: {
+            id: "${purchaseRequest.ingredientType}"
+          } 
         }
       ) 
     }

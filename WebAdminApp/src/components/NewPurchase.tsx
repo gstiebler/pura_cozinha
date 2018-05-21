@@ -26,8 +26,8 @@ function handleClose(store: Store) {
   store.openDialogForm = !store.openDialogForm;
 }
 
-function onSendIngredient(store: Store) {
-  store.onSendIngredientRequested();
+function onSendPurchases(store: Store) {
+  store.onSendPurchaseRequested();
 }
 
 function onIngredientTypeSelected(store: Store, event) {
@@ -81,7 +81,7 @@ function NewIngredient(props: IProps) {
     return (
       <ListItem key={purchase._id} divider >
         <ListItemText primary={purchase.quantity +' '+purchase.ingredientType.unit 
-                              +' '+ purchase.ingredientType.title} secondary={purchase.value}/>
+                              +' '+ purchase.ingredientType.title} secondary={(purchase.value)}/>
       </ListItem>
     );
   });
@@ -146,7 +146,7 @@ function NewIngredient(props: IProps) {
               </Grid>
             </Grid>
             <TextField
-              id="date"
+              id="value"
               label="Valor"
               type="number"
               className={classes.formControl}
@@ -155,7 +155,7 @@ function NewIngredient(props: IProps) {
                 shrink: true,
               }}
             />
-            <Button onClick={onAddNewPurchase.bind(null, store)} className={classes.button}>
+            <Button onClick={onAddNewPurchase.bind(null, store)} color="primary" className={classes.button}>
               <AddIcon />
               Adicionar
             </Button>
@@ -173,7 +173,7 @@ function NewIngredient(props: IProps) {
             <Button onClick={handleClose.bind(null, store)} color="primary">
               Cancelar
             </Button>
-            <Button onClick={onSendIngredient.bind(null, store)} color="primary">
+            <Button onClick={onSendPurchases.bind(null, store)} color="primary">
               Salvar
             </Button>
           </DialogActions>

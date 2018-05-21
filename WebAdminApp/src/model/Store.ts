@@ -9,6 +9,7 @@ import {
   IUnit,
   IIngredientRequest,
   ISelectedMenuItemOption,
+  IPurchaseRequest,
 } from '../../../common/Interfaces';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
@@ -154,6 +155,28 @@ export class Store {
     } catch(error) {
       console.error(error);
       this.setSnackbarMsg('Erro ao salvar Insumo');
+    }
+  }
+
+  async onSendPurchaseRequested() {
+    try {
+      await this.newPurchases.map(async purchase => {
+        const request:IPurchaseRequest = {
+          value: purchase.value,
+          quantity: purchase.quantity,
+          createdAt: new Date(),
+          buyDate: purchase.buyDate,
+          ingredientType: purchase.ingredientType._id
+        };
+        await ns.sendPurchaseRequest(request);
+      });
+      
+      await this.reset();
+      this.setSnackbarMsg('Compras salvas com sucesso');
+      this.openDialogForm = false;
+    } catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao salvar compras');
     }
   }
 
