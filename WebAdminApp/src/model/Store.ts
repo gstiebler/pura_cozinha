@@ -38,6 +38,14 @@ export class Store {
   //New ingredient variables
   @observable title: string = '';
   @observable selectedUnit: string;
+
+  //New purchase variables
+  @observable quantity: number = 0;
+  @observable value: number;
+  @observable ingredientTypeId: string = '';
+  @observable buyDate: Date;
+  @observable newPurchases: any[] = [];
+
   //snack bar message settings
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
@@ -52,6 +60,7 @@ export class Store {
     this.title = '';
     this.snackbarMsg = '';
     this.currentIngredient = null;
+    this.newPurchases = [];
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchases();
   }
@@ -87,6 +96,44 @@ export class Store {
   unitSelected(unit: string)
   {
     this.selectedUnit = unit;
+  }
+
+  ingredientTypeSelected(it: string)
+  {
+    this.ingredientTypeId = it;
+  }
+
+  buyDateChanged(buyDate: Date)
+  {
+    this.buyDate = buyDate;
+  }
+
+  valueChanged(value: number)
+  {
+    this.value = value;
+  }
+
+  onItemQtyIncreased() {
+    this.quantity++;
+  }
+
+  onItemQtyDecreased() {
+    if(this.quantity != 0)
+      this.quantity--;
+  }
+
+  addNewPurchase()
+  {
+    const newPurchase = {
+      quantity: this.quantity,
+      buyDate: this.buyDate,
+      value: this.value,
+      ingredientType: this.getPurchaseIngredientType(this.ingredientTypeId)
+    }
+    this.newPurchases.push(newPurchase);
+    this.quantity = 0;
+    this.value = 0;
+    this.ingredientTypeId = '';
   }
 
   getPurchaseIngredientType(id: string): any

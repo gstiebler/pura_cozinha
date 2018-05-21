@@ -18,7 +18,7 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-import NewIngredient from './NewIngredient';
+import NewPurchase from './NewPurchase';
 import Views from '../Views';
 
 
@@ -118,12 +118,12 @@ function Purchases(props: IProps) {
       <List>
         {items}
       </List>
-      {/* <Button variant="raised" className={classes.button} 
+      <Button variant="raised" className={classes.button} 
               onClick={handleFormOpen.bind(null, store)}
               >
-        Criar Insumo
-      </Button> */}
-      <NewIngredient store={store} />
+        Cadastrar Compra
+      </Button>
+      <NewPurchase store={store} />
     </div>
   );
 }
