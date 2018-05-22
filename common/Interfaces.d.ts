@@ -73,7 +73,6 @@ export interface IPurchaseRequest {
   value: number;
   quantity: number;
   buyDate: Date;
-  createdAt: Date;
   ingredientType: string;
 }
 

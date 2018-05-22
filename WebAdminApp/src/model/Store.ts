@@ -75,6 +75,7 @@ export class Store {
   {
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchases();
+    this.ingredientTypeId = this.ingredients[0]._id;
   }
 
   async findIngredientById(id: string)
@@ -142,7 +143,7 @@ export class Store {
     this.newPurchases.push(newPurchase);
     this.quantity = 0;
     this.value = 0;
-    this.ingredientTypeId = '';
+    this.ingredientTypeId = this.ingredients[0]._id;
   }
 
   getPurchaseIngredientType(id: string): any
@@ -172,7 +173,6 @@ export class Store {
         const request:IPurchaseRequest = {
           value: purchase.value,
           quantity: purchase.quantity,
-          createdAt: new Date(),
           buyDate: new Date(),
           ingredientType: purchase.ingredientType._id
         };

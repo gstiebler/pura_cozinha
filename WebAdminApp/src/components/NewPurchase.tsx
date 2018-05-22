@@ -123,7 +123,7 @@ function NewIngredient(props: IProps) {
               <InputLabel htmlFor="local">Insumo</InputLabel>
               <Select
                 native
-                value={store.selectedUnit}
+                value={store.ingredientTypeId}
                 onChange={onIngredientTypeSelected.bind(null, store)}
                 inputProps={{
                   id: 'local',
@@ -162,7 +162,7 @@ function NewIngredient(props: IProps) {
             <TextField
               id="value"
               label="Valor"
-              type="number"
+              value={store.value}
               className={classes.formControl}
               onChange={onValueChanged.bind(null, store)}
               InputLabelProps={{
