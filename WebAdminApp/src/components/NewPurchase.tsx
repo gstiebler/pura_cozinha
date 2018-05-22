@@ -88,7 +88,7 @@ function NewIngredient(props: IProps) {
     return (
       <ListItem key={purchase.key} divider >
         <ListItemText primary={purchase.quantity +' '+purchase.ingredientType.unit 
-                              +' '+ purchase.ingredientType.title} secondary={(purchase.value)}/>
+                              +' '+ purchase.ingredientType.title} secondary={formatCurrency(purchase.value)}/>
         <IconButton
           aria-label="More"
           aria-haspopup="true"
