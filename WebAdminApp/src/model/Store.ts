@@ -175,7 +175,7 @@ export class Store {
         const request:IPurchaseRequest = {
           value: purchase.value,
           quantity: purchase.quantity,
-          buyDate: new Date(),
+          buyDate: new Date(this.buyDate),
           ingredientType: purchase.ingredientType._id
         };
         await ns.sendPurchaseRequest(request);

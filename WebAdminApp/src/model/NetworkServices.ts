@@ -101,6 +101,7 @@ export async function sendPurchaseRequest(purchaseRequest: IPurchaseRequest) {
         fmiData: {
           value: ${purchaseRequest.value},
           quantity: ${purchaseRequest.quantity},
+          buyDate: ${purchaseRequest.buyDate.getTime()},
           ingredientType: {
             id: "${purchaseRequest.ingredientType}"
           } 

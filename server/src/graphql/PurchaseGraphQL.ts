@@ -42,6 +42,7 @@ import {
     fields: {
       quantity: { type: new GraphQLNonNull(GraphQLFloat) },
       value: { type: new GraphQLNonNull(GraphQLFloat) },
+      buyDate: { type: new GraphQLNonNull(GraphQLFloat) },
       ingredientType: { type: new GraphQLNonNull(IngredientTypeInputType) },
     }
   });
