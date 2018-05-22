@@ -41,9 +41,7 @@ import {
     name: 'PurchaseRequestInputType',
     fields: {
       quantity: { type: new GraphQLNonNull(GraphQLFloat) },
-      value: { type: new GraphQLNonNull(GraphQLString) },
-      buyDate: { type: new GraphQLNonNull(GraphQLString) },
-      createdAt: { type: new GraphQLNonNull(GraphQLString) },
+      value: { type: new GraphQLNonNull(GraphQLFloat) },
       ingredientType: { type: new GraphQLNonNull(IngredientTypeInputType) },
     }
   });

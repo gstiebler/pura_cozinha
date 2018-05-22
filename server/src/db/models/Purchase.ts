@@ -15,7 +15,7 @@ const purchaseSchema = new mongoose.Schema({
   ingredientType: { type: Object, required: true },
   quantity: { type: Number, required: true },
   value: { type: Number, required: true },
-  buyDate: { type: Date, required: true},
+  buyDate: { type: Date, default: Date.now, required: true},
   createdAt: { type: Date, default: Date.now, required: true },
 });
 

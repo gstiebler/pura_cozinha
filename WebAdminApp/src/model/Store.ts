@@ -138,6 +138,7 @@ export class Store {
       value: this.value,
       ingredientType: this.getPurchaseIngredientType(this.ingredientTypeId)
     }
+    console.log(this.buyDate);
     this.newPurchases.push(newPurchase);
     this.quantity = 0;
     this.value = 0;
@@ -172,7 +173,7 @@ export class Store {
           value: purchase.value,
           quantity: purchase.quantity,
           createdAt: new Date(),
-          buyDate: purchase.buyDate,
+          buyDate: new Date(),
           ingredientType: purchase.ingredientType._id
         };
         await ns.sendPurchaseRequest(request);
