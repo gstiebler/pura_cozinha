@@ -95,12 +95,15 @@ describe('admin web app store', () => {
     store.onItemQtyIncreased();
     store.onItemQtyIncreased();
     store.valueChanged('56.5');
+    store.buyDateChanged(new Date('2018-03-18'));
     store.addNewPurchase();
     await store.onSendPurchaseRequested();
 
     const purchases = await Purchase.find().sort({_id:-1}).limit(1);
     const lastPurchase = purchases[0].toObject();
     expect(lastPurchase.value).to.equal(56.5);
+    const d2 = new Date('2018-03-18');
+    expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
     expect(lastPurchase.ingredientType.id).to.equal(store.ingredients[0]._id);
     expect(lastPurchase.quantity).to.equal(2);
   });
