@@ -178,9 +178,12 @@ function NewIngredient(props: IProps) {
               Insumos Adicionados
             </Typography>
             <div >
-            <List>
-              {purchases}
-            </List>
+              <List>
+                {purchases}
+              </List>
+              <Typography gutterBottom >
+                Total: { formatCurrency(store.totalAmount) }
+              </Typography>
             </div>
           </DialogContent>
           <DialogActions>

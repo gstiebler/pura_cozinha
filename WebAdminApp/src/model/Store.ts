@@ -42,10 +42,11 @@ export class Store {
 
   //New purchase variables
   @observable quantity: number = 0;
-  @observable value: number;
+  @observable value: string = '';
   @observable ingredientTypeId: string = '';
   @observable buyDate: Date;
   @observable newPurchases: any[] = [];
+  @observable totalAmount: number = 0;
 
   //snack bar message settings
   @observable isSnackbarOpen: boolean = false;
@@ -64,6 +65,7 @@ export class Store {
     this.newPurchases = [];
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchases();
+    this.totalAmount = 0;
   }
 
   async onIngredientsPageLoad()
@@ -110,7 +112,7 @@ export class Store {
     this.buyDate = buyDate;
   }
 
-  valueChanged(value: number)
+  valueChanged(value: string)
   {
     this.value = value;
   }
@@ -136,13 +138,13 @@ export class Store {
       key: this.newPurchases.length+1,
       quantity: this.quantity,
       buyDate: this.buyDate,
-      value: this.value,
+      value: parseFloat(this.value),
       ingredientType: this.getPurchaseIngredientType(this.ingredientTypeId)
     }
-    console.log(this.buyDate);
     this.newPurchases.push(newPurchase);
+    this.totalAmount += parseFloat(this.value);
     this.quantity = 0;
-    this.value = 0;
+    this.value = '';
     this.ingredientTypeId = this.ingredients[0]._id;
   }
 
