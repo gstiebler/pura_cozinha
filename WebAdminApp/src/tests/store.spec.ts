@@ -105,7 +105,7 @@ describe('admin web app store', () => {
     const d2 = new Date('2018-03-18');
     expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
     expect(lastPurchase.ingredientType.id).to.equal(store.ingredients[0]._id);
-    expect(lastPurchase.quantity).to.equal(2);
+    expect(lastPurchase.quantity).to.equal(3);
   });
 
   it('delete purchase', async () => {
@@ -118,5 +118,34 @@ describe('admin web app store', () => {
 
     const deletedPurchase = await Purchase.find({value: 56.5}).limit(1)[0];
     expect(deletedPurchase).to.equal(undefined);
+  });
+
+  it('check purchase total amount update', async () => {
+    const store = new Store();
+    await store.onPurchasesPageLoad();
+    store.ingredientTypeSelected(store.ingredients[0]._id);
+    store.buyDateChanged(new Date('2018-03-18'));
+
+    //1 purchase to list
+    store.valueChanged('10');
+    store.addNewPurchase();
+    //2 purchase to list
+    store.valueChanged('12');
+    store.addNewPurchase();
+    //3 purchase to list
+    store.valueChanged('9');
+    store.addNewPurchase();
+    //4 purchase to list
+    store.valueChanged('12');
+    store.addNewPurchase();
+    
+    expect(store.totalAmount).to.equal(43);
+
+    const key1 = store.newPurchases[0].key;
+    const key2 = store.newPurchases[1].key;
+    store.removeFromNewPurchases(key1);
+    store.removeFromNewPurchases(key2);
+
+    expect(store.totalAmount).to.equal(21);
   });
 });
