@@ -36,6 +36,14 @@ import {
       ingredientType: { type: IngredientTypeType },
     }
   });
+
+  export const IngredientTypesTotal = new GraphQLObjectType({
+    name: 'IngredientTypesTotal',
+    fields: {
+      _id: { type: GraphQLID },
+      total: { type: GraphQLFloat },
+    }
+  });
   
   const PurchaseRequestInputType = new GraphQLInputObjectType({
     name: 'PurchaseRequestInputType',
@@ -61,6 +69,18 @@ import {
       },
       resolve: async function(root, { id }) {
         return await Purchase.findOne({ '_id': id });
+      }
+    },
+    ingredientTypeSums: {
+      type: IngredientTypesTotal,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve: async function(root, { id }) {
+        return await Purchase.aggregate([
+                              { $group: { _id: null, id: "$ingredientType.id", total: { $sum: "$value" } } },
+                              { $sort: { total: -1 } }
+                            ]);
       }
     },
   };

@@ -3,6 +3,7 @@ import { IOrderSummary } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
+import { Purchase } from '../../../server/src/db/models/Purchase';
 import * as ns from '../../../common/NetworkServices';
 
 const ordersStatusFields = [
@@ -118,4 +119,17 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
 
 export async function getItemsByKitchen(kitchenId: string): Promise<any> {
   return ns.getItemsByKitchen(kitchenId);
+}
+
+export async function fetchIngredientTypesAmount(): Promise<Purchase[]> {
+  const query = `
+    query {
+      ingredientTypeSums { 
+        _id, 
+        total,
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.ingredientTypeSums;
 }
