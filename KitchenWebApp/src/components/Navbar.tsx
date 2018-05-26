@@ -102,6 +102,9 @@ function Navbar(props: IProps) {
             <ListItemText primary='Menu'
             onClick={() => viewStockItems(store)}/>
           </ListItem>
+          <ListItem>
+            <ListItemText primary='Estoque'/>
+          </ListItem>
           <Divider />
           <ListItem >
             <Avatar style={{backgroundColor: statusKitchenColor}}>
