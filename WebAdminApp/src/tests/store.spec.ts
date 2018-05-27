@@ -75,7 +75,7 @@ describe('admin web app store', () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
     expect(store.purchases[0].quantity).to.equal(3);
-    expect(store.purchases[1].quantity).to.equal(1);
+    expect(store.purchases[1].quantity).to.equal(2);
   });
 
   it('get purchase ingredient type', async () => {
@@ -104,7 +104,7 @@ describe('admin web app store', () => {
     expect(lastPurchase.value).to.equal(56.5);
     const d2 = new Date('2018-03-18');
     expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
-    expect(lastPurchase.ingredientType.id).to.equal(store.ingredients[0]._id);
+    expect(lastPurchase.ingredientType.id+'').to.equal(store.ingredients[0]._id);
     expect(lastPurchase.quantity).to.equal(3);
   });
 
