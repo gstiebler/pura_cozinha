@@ -81,4 +81,20 @@ describe('kitchen web app store', () => {
     expect(store.currentOrder.kitchenComments).to.equal('Cliente pediu sem cebola');
   });
 
+  it('get ingredient types stock', async () => {
+    const store = new Store();
+    await store.onIngredientTypesStockPage();
+    const it1 = store.ingredientTypes.filter(obj => obj.title === 'Carne moída')[0];
+    const itStock1 = store.ingredientTypesStock.filter(obj => obj._id === it1._id)[0];
+    expect(itStock1.total).to.equal(3);
+
+    const it2 = store.ingredientTypes.filter(obj => obj.title === 'Seleta de Legumes')[0];
+    const itStock2 = store.ingredientTypesStock.filter(obj => obj._id === it2._id)[0];
+    expect(itStock2.total).to.equal(15);
+
+    const it3 = store.ingredientTypes.filter(obj => obj.title === 'Leite')[0];
+    const itStock3 = store.ingredientTypesStock.filter(obj => obj._id === it3._id)[0];
+    expect(itStock3.total).to.equal(10);
+  });
+
 });
