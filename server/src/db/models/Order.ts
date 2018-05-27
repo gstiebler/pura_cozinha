@@ -11,6 +11,28 @@ const availableStatuses = [
   'CANCELED',
 ];
 
+export interface IOrderItem {
+  qty: number;
+  itemTotalPrice: number;
+  foodMenuItem: {
+    id: any;
+    title: string;
+    description: string;
+    price: number;
+    selectedOptions?: {
+      key: string;
+      label: string;
+      value: string;
+      price: number;
+    }[];
+    selectedBoolOptions?: {
+      key: string;
+      label: string;
+      price: number;
+    }[];
+  };
+}
+
 export interface IOrder {
   userId: string;
   local: string;
@@ -21,24 +43,7 @@ export interface IOrder {
   paymentOption: 'Dinheiro' | 'Cartão';
   telephoneNumber: string;
   totalAmount: number;
-  items: {
-    qty: number;
-    itemTotalPrice: number;
-    foodMenuItem: {
-      id: any;
-      title: string;
-      description: string;
-      price: number;
-      selectedOptions?: {
-        optionKey: string;
-        selectedOptionItemKey: string;
-      }[];
-      selectedBoolOptions?: {
-        optionKey: string;
-        value: boolean;
-      }[];
-    };
-  }[];
+  items: IOrderItem[];
   statusHistory: {
     status: TOrderStatus;
     updatedOn: Date;
@@ -52,12 +57,15 @@ const completeMenuItemSchema = {
   description: { type: String, required: true },
   price: { type: Number, required: true },
   selectedOptions: [{
-    optionKey: { type: String, required: true },
-    selectedOptionItemKey: { type: String, required: true },
+    key: { type: String, required: true },
+    label: { type: String, required: true },
+    value: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
   selectedBoolOptions: [{
-    optionKey: { type: String, required: true },
-    value: { type: Boolean, required: true },
+    key: { type: String, required: true },
+    label: { type: String, required: true },
+    price: { type: Number, required: true },
   }],
 };
 

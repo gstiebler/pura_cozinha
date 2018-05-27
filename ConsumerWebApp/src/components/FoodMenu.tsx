@@ -1,3 +1,7 @@
+/**
+ * Displays the list of all food menu items
+ */
+
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
@@ -50,12 +54,10 @@ function FoodMenu(props: IProps) {
   
   if(isKitchenActive(store)){
     const items = store.foodMenuItems.map(fmi => {
-      const qty = store.getItemQty(fmi._id);
       const formattedPrice = formatCurrency(fmi.price);
-      const secondary =  qty > 0 ? `${formattedPrice} - Qtd: ${qty}` : formattedPrice;
       return (
         <ListItem key={fmi._id} button divider onClick={() => onItemClicked(store, fmi._id)} >
-          <ListItemText primary={fmi.title} secondary={secondary}/>
+          <ListItemText primary={fmi.title} secondary={formattedPrice}/>
           <img src={fmi.imgURL} className={classes.image}/>
         </ListItem>
       );

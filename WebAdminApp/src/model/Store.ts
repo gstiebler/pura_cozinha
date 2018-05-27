@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 import {
   TfmiId,
   TPaymentOptions,
-  FoodMenuItem,
   IUnit,
   IIngredientRequest,
   ISelectedMenuItemOption,

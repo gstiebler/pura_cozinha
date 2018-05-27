@@ -14,13 +14,16 @@ import { IngredientType } from '../../db/models/IngredientType';
 import { Purchase } from '../../db/models/Purchase';
 
 export async function initFixtures() {
-  await User.remove({});
-  await Order.remove({});
-  await Kitchen.remove({});
-  await MenuItem.remove({});
+  await Promise.all([
+    User.remove({}),
+    Order.remove({}),
+    Kitchen.remove({}),
+    MenuItem.remove({}),
+    Purchase.remove({}),
+    IngredientType.remove({}),
+  ]);
+
   await Purchase.remove({});
-  await IngredientType.remove({});
-  
   await IngredientType.insertMany(await IngredientFixtures() );
   await Purchase.insertMany(await PurchaseFixtures() );
   await MenuItem.insertMany(await menuItemFixtures());

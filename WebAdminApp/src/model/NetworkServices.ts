@@ -1,7 +1,6 @@
 import * as network from '../../../common/network';
 import { 
   TfmiId,
-  FoodMenuItem,
   IOrderSummary,
   IIngredientRequest,
   IPurchaseRequest,

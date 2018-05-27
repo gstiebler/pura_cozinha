@@ -16,7 +16,13 @@ export default {
   }),
   itemDetail: new Route({
     path: '/item_detail',
-    component: <ItemDetail store={store}/>
+    component: <ItemDetail store={store}/>,
+    onEnter: (route, params, store: Store) => {
+      store.onFmiSelected(params.id);
+    },
+    onExit: () => {
+      store.onFmiPageClosed();
+    },
   }),
   orderSummary: new Route({
     path: '/order_summary',

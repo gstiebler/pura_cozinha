@@ -10,6 +10,15 @@ export default async () => {
   guilherme.setPassword('senha_guilherme123');
   await guilherme.save();
 
+  const roberto = new User({
+    login: 'roberto',
+    name: 'Roberto',
+    role: 'ADMIN',
+    token: 'fake'
+  });
+  roberto.setPassword('roberto1234');
+  await roberto.save();
+
   const julio = new User({
     login: 'julio',
     name: 'Julio Scarpatti',

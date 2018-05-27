@@ -18,6 +18,7 @@ export default async () => {
         {
           key: 'GRANOLA',
           label: 'Granola',
+          price: 2.00,
         }
       ],
     },
@@ -34,10 +35,12 @@ export default async () => {
             {
               label: 'Barbecue',
               key: 'BARBECUE',
+              price: 1.00,
             },
             {
               label: 'Italiano',
               key: 'ITALIANO',
+              price: 1.20,
             },
           ],
         }
