@@ -44,11 +44,13 @@ gulp.task('test:nc', function () {
   }
   const consumerWebAppTestFiles = 'out/ConsumerWebApp/src/tests/**/*.spec.js';
   const kitchenWebAppTestFiles = 'out/KitchenWebApp/src/tests/**/*.spec.js';
+  const webAdminAppTestFiles = 'out/WebAdminApp/src/tests/**/*.spec.js';
   const serverTestFiles = 'out/server/src/test/**/*.spec.js';
   const srcFiles = [
     'out/server/src/test/lib/TestUtils.js',
     consumerWebAppTestFiles,
     kitchenWebAppTestFiles,
+    webAdminAppTestFiles,
     serverTestFiles,
   ].map(f => __dirname + '/' + f);
   return gulp.src(srcFiles, { read: false })
