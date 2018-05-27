@@ -48,6 +48,12 @@ function viewStockItems(store: Store)
   store.isDrawerOpen = false;
 }
 
+function viewIngredientTypesStock(store: Store)
+{
+  store.router.goTo(Views.availableMenuItems, { }, store);
+  store.isDrawerOpen = false;
+}
+
 function logOut(store: Store)
 {
   store.onLogOut();

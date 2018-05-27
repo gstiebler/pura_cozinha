@@ -30,6 +30,7 @@ export class Store {
   @observable user: IUserModel = null;
   @observable kitchen: IKitchenModel = null;
   @observable foodMenuItems: any[] = [];
+  @observable ingredientTypesStock: any[] = [];
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
@@ -62,7 +63,6 @@ export class Store {
   {
     this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
     this.kitchenActive = this.kitchen.active;
-    console.log(await ns.fetchIngredientTypesAmount());
   }
   async onOrdersOpen(ordersType: string) {
     const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
@@ -165,6 +165,11 @@ export class Store {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
+  async getIngredientTypesStock()
+  {
+    this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
+  }
+
   getQuantityStockItemValue(_id: string): number
   {
     if(this.kitchen != null)
@@ -193,6 +198,11 @@ export class Store {
         this.setSnackbarMsg('Erro ao executar esta função!');
       }
     }
+  }
+
+  async findIngredientById(id: string): Promise<any>
+  {
+    return await ns.findIngredientTypeById(id);
   }
 
   setSnackbarMsg(msg: string) {
