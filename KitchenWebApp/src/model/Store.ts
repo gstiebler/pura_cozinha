@@ -62,6 +62,7 @@ export class Store {
   {
     this.kitchen = await ns.findKitchenById('5aa9b17fe5a77b0c7ba3145e');
     this.kitchenActive = this.kitchen.active;
+    console.log(await ns.fetchIngredientTypesAmount());
   }
   async onOrdersOpen(ordersType: string) {
     const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];

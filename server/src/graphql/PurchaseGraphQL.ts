@@ -9,7 +9,7 @@ import {
   } from 'graphql';
   import { Purchase } from '../db/models/Purchase';
   import { IIngredientRequest } from '../../../common/Interfaces';
-  import { ObjectId } from 'bson';
+  import { ObjectId, ObjectID } from 'bson';
   
   export const IngredientTypeType = new GraphQLObjectType({
     name: 'IngredientTypeType',
@@ -72,13 +72,10 @@ import {
       }
     },
     ingredientTypeSums: {
-      type: IngredientTypesTotal,
-      args: {
-        id: { type: GraphQLID }
-      },
-      resolve: async function(root, { id }) {
+      type: new GraphQLList(IngredientTypesTotal),
+      resolve: async function() {
         return await Purchase.aggregate([
-                              { $group: { _id: null, id: "$ingredientType.id", total: { $sum: "$value" } } },
+                              { $group: { _id: "$ingredientType.id", total: { $sum: "$value" } } },
                               { $sort: { total: -1 } }
                             ]);
       }
@@ -90,6 +87,7 @@ import {
       type: GraphQLString,
       args: { fmiData: { type: PurchaseRequestInputType } },
       async resolve(value, { fmiData }) {
+        fmiData.ingredientType.id = new ObjectID(fmiData.ingredientType.id);
         const purchase = new Purchase(fmiData);
         await purchase.save();
         return { msg: 'OK' };

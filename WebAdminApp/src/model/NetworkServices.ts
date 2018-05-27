@@ -109,6 +109,7 @@ export async function sendPurchaseRequest(purchaseRequest: IPurchaseRequest) {
       ) 
     }
   `;
+  console.log(mutation);
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }

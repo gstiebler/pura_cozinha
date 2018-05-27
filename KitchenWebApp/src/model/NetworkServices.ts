@@ -121,11 +121,11 @@ export async function getItemsByKitchen(kitchenId: string): Promise<any> {
   return ns.getItemsByKitchen(kitchenId);
 }
 
-export async function fetchIngredientTypesAmount(): Promise<Purchase[]> {
+export async function fetchIngredientTypesAmount(): Promise<any[]> {
   const query = `
     query {
       ingredientTypeSums { 
-        _id, 
+        _id,
         total,
       } 
     }
