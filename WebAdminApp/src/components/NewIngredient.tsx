@@ -68,7 +68,7 @@ function NewIngredient(props: IProps) {
           <DialogTitle id="form-dialog-title">Novo Insumo</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Insira os dados para um novo insumo em seu estoque.
+              Insira os dados para um novo tipo de insumo.
             </DialogContentText>
             <TextField
               autoFocus
