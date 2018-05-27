@@ -173,6 +173,11 @@ export class Store {
     this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
   }
 
+  getIngredientTypeInList(id: string)
+  {
+    return this.ingredientTypes.filter(it => it._id == id)[0];
+  }
+
   getQuantityStockItemValue(_id: string): number
   {
     if(this.kitchen != null)
