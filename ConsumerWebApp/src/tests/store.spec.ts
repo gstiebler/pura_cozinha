@@ -54,8 +54,9 @@ describe('consumer web app store', () => {
   it('order summary', async () => {
     const store = new Store();
     await store.onMenuPageLoad();
-    store.onItemQtyIncreased(store.foodMenuItems[0]._id);
-    store.onItemQtyIncreased(store.foodMenuItems[0]._id);
+    store.onFmiSelected(store.foodMenuItems[0]._id);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onItemQtyIncreased(store.lastItemIndex);
     expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
     expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
     expect(store.orderSummary.items[0].qty).to.equal(2);
@@ -67,19 +68,22 @@ describe('consumer web app store', () => {
     await store.onMenuPageLoad();
 
     const sandubaFrango = store.foodMenuItems[0];
-    store.onItemQtyIncreased(sandubaFrango._id);
-    store.onItemQtyIncreased(sandubaFrango._id);
+    store.onFmiSelected(sandubaFrango._id);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onItemQtyIncreased(store.lastItemIndex);
 
     const acai = store.foodMenuItems[1];
+    store.onFmiSelected(acai._id);
     const granola = acai.boolOptions[0];
-    store.onItemQtyIncreased(acai._id);
-    store.onBoolOptionSelected(acai._id, granola.key);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onBoolOptionSelected(store.lastItemIndex, granola.key);
 
     const sandMignon = store.foodMenuItems[2];
     const molho = sandMignon.options[0];
     const italian = molho.optionItems[1];
-    store.onItemQtyIncreased(sandMignon._id);
-    store.onMenuItemOptionSelected(sandMignon._id, molho.key, italian.key);
+    store.onFmiSelected(sandMignon._id);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onMenuItemOptionSelected(store.lastItemIndex, molho.key, italian.key);
   
     expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
     expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);

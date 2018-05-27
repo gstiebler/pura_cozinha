@@ -20,8 +20,7 @@ export class Store {
 
   @observable router;
   @observable foodMenuItems: IFoodMenuItem[] = [];
-  @observable itemQty: Map<TfmiId, number> = new Map();
-  @observable selectedOptions: ISelectedMenuItemOption[] = [];
+  @observable selectedFMIsAndOptions: ISelectedMenuItemOption[] = [];
   @observable selectedLocal: string;
   @observable localComplement: string;
   @observable selectedPaymentOption: TPaymentOptions;
@@ -31,10 +30,7 @@ export class Store {
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
   @observable kitchen: IKitchenModel = null;
-  // fmi id => Set of selected option keys
-  @observable selectedBoolOptions: Map<TfmiId, Set<string>> = new Map();
-  // fmi id => option key => option key string value
-  @observable selectedMultipleOptions: Map<TfmiId, Map<TOptionGroupKey, string>> = new Map();
+  lastItemIndex: number;
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -54,11 +50,8 @@ export class Store {
   }
 
   reset() {
-    this.itemQty = new Map();
     this.comments = '';
-    this.selectedOptions = [];
-    this.selectedBoolOptions = new Map();
-    this.selectedMultipleOptions = new Map();
+    this.selectedFMIsAndOptions = [];
   }
 
   getKitchenActive(): boolean
@@ -83,6 +76,22 @@ export class Store {
     await this.getFoodMenuItems();
   }
 
+  onFmiSelected(id: TfmiId) {
+    this.selectedFMIsAndOptions.push({
+      _id: id,
+      qty: 0,
+      boolOptions: new Set(),
+      multipleOptions: new Map(),
+    });
+    this.lastItemIndex = this.selectedFMIsAndOptions.length - 1;
+  }
+
+  onFmiPageClosed() {
+    if (this.selectedFMIsAndOptions[this.lastItemIndex].qty === 0) {
+      this.selectedFMIsAndOptions.pop();
+    }
+  }
+
   async getKitchen()
   {
     this.kitchen = await ns.findKitchenById(MAIN_KITCHEN_ID);
@@ -93,21 +102,20 @@ export class Store {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
-  getFoodMenuItem(id: TfmiId): IFoodMenuItem {
+  getFoodMenuItem(index: number): IFoodMenuItem {
+    const id = this.selectedFMIsAndOptions[index]._id;
     return this.foodMenuItems.find(fmi => fmi._id === id);
   }
 
-  getItemQty(id: TfmiId): number {
-    return this.itemQty.has(id) ? this.itemQty.get(id) : 0;
+  getItemQty(index: number): number {
+    return this.selectedFMIsAndOptions[index].qty;
   }
 
-  setItemQty(id: TfmiId, qty: number) {
+  setItemQty(index: number, qty: number) {
     if (qty < 0) {
-    } else if (qty === 0) {
-      this.itemQty.delete(id);
-    } else {
-      this.itemQty.set(id, qty);
+      return; 
     }
+    this.selectedFMIsAndOptions[index].qty = qty;
   }
 
   setSnackbarMsg(msg: string) {
@@ -125,16 +133,9 @@ export class Store {
 
   @computed
   get orderSummary(): IOrderSummary {
-    const selectedItems = [...this.itemQty.entries()];
-    const selectedBoolOptionsMap = this.selectedBoolOptions;
-    const selectedOptionsMap = this.selectedMultipleOptions;
-    const items = selectedItems.map(item => {
-      const selectedFmi = this.getFoodMenuItem(item[0]);
-      const qty = item[1];
-
-      const selectedBoolOptionsSet = selectedBoolOptionsMap.get(selectedFmi._id);
-      const selBoolOptArray = selectedBoolOptionsSet ? Array.from(selectedBoolOptionsSet) : [];
-      const selectedBoolOptions = selBoolOptArray.map(key => {
+    const items = this.selectedFMIsAndOptions.map(selectedFMIAndOptions => {
+      const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === selectedFMIAndOptions._id);
+      const selectedBoolOptions = [...selectedFMIAndOptions.boolOptions].map(key => {
         const boolOption = selectedFmi.boolOptions.find(bo => bo.key === key);
         return {
           key,
@@ -145,9 +146,8 @@ export class Store {
       // sum the values for all selected bool options
       const boolOptionsPrice = selectedBoolOptions.reduce((sum, selectedBoolOption) => sum + selectedBoolOption.price, 0.0);
 
-      const selectedMultipleOptionsMap = selectedOptionsMap.get(selectedFmi._id);
-      const selMultiOptArray = selectedMultipleOptionsMap ? Array.from(selectedMultipleOptionsMap) : [];
-      const selectedOptions = selMultiOptArray.map(([key, value]) => {
+      const selectedMultipleOptionsMap = selectedFMIAndOptions.multipleOptions;
+      const selectedOptions = [...selectedMultipleOptionsMap].map(([key, value]) => {
         const multipleOptionGroup = selectedFmi.options.find(optGroup => optGroup.key === key);
         const selectedOption = multipleOptionGroup.optionItems.find(opt => opt.key === value);
         return {
@@ -169,6 +169,7 @@ export class Store {
         selectedOptions,
         selectedBoolOptions,
       }
+      const qty = selectedFMIAndOptions.qty;
       const orderRequest = {
         fmi,
         qty,
@@ -180,22 +181,20 @@ export class Store {
     return { items, totalAmount };
   }
 
-  getBoolOption(id: TfmiId, optionKey: string):boolean {
-    const fmiBoolOptions = this.selectedBoolOptions.get(id);
-    return fmiBoolOptions ? fmiBoolOptions.has(optionKey) : false;
+  getBoolOption(index: number, optionKey: string):boolean {
+    return this.selectedFMIsAndOptions[index].boolOptions.has(optionKey);
   }
 
-  getMultipleOption(id: TfmiId, optionKey: string):string {
-    const fmiMultipleOptions = this.selectedMultipleOptions.get(id);
-    return fmiMultipleOptions ? fmiMultipleOptions.get(optionKey) : undefined;
+  getMultipleOption(index: number, optionKey: string):string {
+    return this.selectedFMIsAndOptions[index].multipleOptions.get(optionKey);
   }
 
-  onItemQtyIncreased(fmiId: TfmiId) {
-    this.setItemQty(fmiId, this.getItemQty(fmiId) + 1);
+  onItemQtyIncreased(index: number) {
+    this.setItemQty(index, this.getItemQty(index) + 1);
   }
 
-  onItemQtyDecreased(fmiId: TfmiId) {
-    this.setItemQty(fmiId, this.getItemQty(fmiId) - 1);
+  onItemQtyDecreased(index: number) {
+    this.setItemQty(index, this.getItemQty(index) - 1);
   }
 
   onLocalSelected(local: string) {
@@ -240,21 +239,18 @@ export class Store {
     }
   }
 
-  onBoolOptionSelected(id: TfmiId, optionKey: string) {
-    let item = this.selectedBoolOptions.get(id) || new Set<string>();
+  onBoolOptionSelected(index: number, optionKey: string) {
+    let boolOptions = this.selectedFMIsAndOptions[index].boolOptions;
     // if "item" has optionKey, the option is selected
-    if (item.has(optionKey)) {
-      item.delete(optionKey);
+    if (boolOptions.has(optionKey)) {
+      boolOptions.delete(optionKey);
     } else {
-      item.add(optionKey);
+      boolOptions.add(optionKey);
     }
-    this.selectedBoolOptions.set(id, item);
   }
 
-  onMenuItemOptionSelected(id: TfmiId, optionKey: string, optionItem: string) {
-    let item = this.selectedMultipleOptions.get(id) || new Map<string, string>();
-    item.set(optionKey, optionItem);
-    this.selectedMultipleOptions.set(id, item);
+  onMenuItemOptionSelected(index: number, optionKey: string, optionItem: string) {
+    this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
 
 }

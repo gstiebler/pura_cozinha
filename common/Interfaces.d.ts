@@ -69,6 +69,10 @@ export interface IOrderRequest {
 
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
-  optionKey: string;
-  selectedItem: string;
+  qty: number;
+
+  // Set of selected option keys
+  boolOptions: Set<string>;
+  // option key => option key string value
+  multipleOptions: Map<TOptionGroupKey, string>;
 }

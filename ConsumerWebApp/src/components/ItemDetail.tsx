@@ -1,3 +1,7 @@
+/**
+ * Displays the detail of a food menu item, where the consumer can choose the quantity and options
+ */
+
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
@@ -26,7 +30,6 @@ const styles = theme => ({
     padding: 16
   },
   description: {
-    paddingTop: 8
   },
   price: {
     paddingTop: 8,
@@ -60,8 +63,7 @@ interface IProps {
 
 function ItemDetail(props: IProps) {
   const { store, classes } = props;
-  const itemId = store.router.params.id;
-  const foodMenuItem = store.getFoodMenuItem(itemId);
+  const foodMenuItem = store.getFoodMenuItem(store.lastItemIndex);
   const hiddenControllers = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'block' : 'none';
   const hiddenUnavailableItem = (store.getQuantityStockItemValue(foodMenuItem._id)) ? 'none' : 'block';
 
@@ -76,8 +78,8 @@ function ItemDetail(props: IProps) {
         </Grid>
         <Grid item xs>
           <Switch
-            checked={ store.getBoolOption(foodMenuItem._id, boolOption.key) }
-            onChange={() => store.onBoolOptionSelected(foodMenuItem._id, boolOption.key)}
+            checked={ store.getBoolOption(store.lastItemIndex, boolOption.key) }
+            onChange={() => store.onBoolOptionSelected(store.lastItemIndex, boolOption.key)}
           />
         </Grid>
       </Grid>
@@ -94,8 +96,8 @@ function ItemDetail(props: IProps) {
         <FormLabel component="legend">{ option.label }</FormLabel>
         <RadioGroup
           className={classes.group}
-          value={ store.getMultipleOption(foodMenuItem._id, option.key) }
-          onChange={(event:any) => store.onMenuItemOptionSelected(foodMenuItem._id, option.key, event.target.value)}
+          value={ store.getMultipleOption(store.lastItemIndex, option.key) }
+          onChange={(event:any) => store.onMenuItemOptionSelected(store.lastItemIndex, option.key, event.target.value)}
         >
           { items }
         </RadioGroup>
@@ -130,15 +132,15 @@ function ItemDetail(props: IProps) {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(foodMenuItem._id) }/>
+                  <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased(store.lastItemIndex) }/>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.quantity} variant="body2">
-                    { store.getItemQty(foodMenuItem._id) }
+                    { store.getItemQty(store.lastItemIndex) }
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(foodMenuItem._id) }/>
+                  <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased(store.lastItemIndex) }/>
                 </Grid>
             </Grid>
           </Grid>
