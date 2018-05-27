@@ -75,7 +75,7 @@ import {
       type: new GraphQLList(IngredientTypesTotal),
       resolve: async function() {
         return await Purchase.aggregate([
-                              { $group: { _id: "$ingredientType.id", total: { $sum: "$value" } } },
+                              { $group: { _id: "$ingredientType.id", total: { $sum: "$quantity" } } },
                               { $sort: { total: -1 } }
                             ]);
       }

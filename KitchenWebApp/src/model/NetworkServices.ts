@@ -4,7 +4,9 @@ import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
 import { Purchase } from '../../../server/src/db/models/Purchase';
+import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import * as ns from '../../../common/NetworkServices';
+
 
 const ordersStatusFields = [
   '_id',
@@ -133,3 +135,9 @@ export async function fetchIngredientTypesAmount(): Promise<any[]> {
   const result = await network.fetchQuery(query);
   return result.ingredientTypeSums;
 }
+
+
+export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
+  return ns.findIngredientTypeById(id);
+}
+

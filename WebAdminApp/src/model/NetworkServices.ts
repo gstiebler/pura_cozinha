@@ -10,6 +10,7 @@ import { objToGrahqlStr } from '../../../common/util';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
 import { ObjectID } from 'bson';
+import * as ns from '../../../common/NetworkServices';
 
 export async function fetchIngredientTypes(): Promise<IngredientType[]> {
   const query = `
@@ -64,17 +65,7 @@ export async function findPurchaseById(id: string): Promise<Purchase[]> {
 }
 
 export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
-  const query = `
-    query {
-      ingredient (id: "${id}") {
-        _id, 
-        title,
-        unit 
-      } 
-    }
-  `;
-  const result = await network.fetchQuery(query);
-  return result.ingredient;
+  return ns.findIngredientTypeById(id);
 }
 
 
@@ -109,7 +100,6 @@ export async function sendPurchaseRequest(purchaseRequest: IPurchaseRequest) {
       ) 
     }
   `;
-  console.log(mutation);
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }

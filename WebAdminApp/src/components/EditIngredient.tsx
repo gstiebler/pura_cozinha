@@ -8,8 +8,10 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { observer } from 'mobx-react';
 import views from '../Views';
-import { Store, availableUnits } from '../model/Store';
+import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
+import { availableUnits } from '../../../common/statuesesMaps';
+
 import Dialog, {
   DialogActions,
   DialogContent,
