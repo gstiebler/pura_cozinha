@@ -14,12 +14,30 @@ export default async () => {
       }
     },
     {
-      quantity: 1,
+      quantity: 2,
       value: 1.20,
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
       ingredientType:{
         id: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
+      }
+    },
+    {
+      quantity: 13,
+      value: 5,
+      buyDate: new Date('2018-01-02'),
+      createdAt: new Date(),
+      ingredientType:{
+        id: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
+      }
+    },
+    {
+      quantity: 10,
+      value: 1.20,
+      buyDate: new Date('2018-01-02'),
+      createdAt: new Date(),
+      ingredientType:{
+        id: await idByValue(IngredientType, 'title', 'Leite'),
       }
     }
   ];
