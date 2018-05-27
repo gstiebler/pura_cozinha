@@ -12,18 +12,8 @@ import { Purchase } from '../../../server/src/db/models/Purchase';
 import { ObjectID } from 'bson';
 import * as ns from '../../../common/NetworkServices';
 
-export async function fetchIngredientTypes(): Promise<IngredientType[]> {
-  const query = `
-    query {
-      allIngredients { 
-        _id, 
-        title,
-        unit 
-      } 
-    }
-  `;
-  const result = await network.fetchQuery(query);
-  return result.allIngredients;
+export async function fetchIngredientTypes(): Promise<IngredientType[]> {  
+  return ns.fetchIngredientTypes();
 }
 
 export async function fetchPurchases(): Promise<Purchase[]> {
@@ -64,7 +54,7 @@ export async function findPurchaseById(id: string): Promise<Purchase[]> {
   return result.purchase;
 }
 
-export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
+export async function findIngredientTypeById(id: string): Promise<IngredientType> {
   return ns.findIngredientTypeById(id);
 }
 

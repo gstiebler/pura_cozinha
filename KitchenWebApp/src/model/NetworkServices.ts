@@ -137,7 +137,11 @@ export async function fetchIngredientTypesAmount(): Promise<any[]> {
 }
 
 
-export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
+export async function findIngredientTypeById(id: string): Promise<IngredientType> {
   return ns.findIngredientTypeById(id);
+}
+
+export async function fetchIngredientTypes(): Promise<IngredientType[]> {  
+  return ns.fetchIngredientTypes();
 }
 

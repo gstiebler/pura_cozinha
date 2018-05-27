@@ -8,7 +8,8 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
 import { observer } from 'mobx-react';
 import views from '../Views';
-import { Store, availableUnits, readableUnits } from '../model/Store';
+import { Store } from '../model/Store';
+import { availableUnits, readableUnits } from '../../../common/statuesesMaps';
 import { formatCurrency } from '../../../common/util';
 import * as moment from 'moment';
 import Dialog, {

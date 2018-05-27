@@ -8,20 +8,7 @@ import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
-
-function onItemClicked(store: Store, id: string) {
-  //store.router.goTo(views.itemDetail, { id }, store);
-}
-
-function isChecked(quantity: number): boolean
-{
-  return (quantity === 0) ? false : true;
-}
-
-function handleToggle(store: Store, menu_item: string)
-{
-  store.updateItemAvailabilityInStock(menu_item);
-}
+import { availableUnits, readableUnits } from '../../../common/statuesesMaps';
 
 const styles = theme => ({
   root: {
@@ -49,22 +36,20 @@ interface IProps {
 
 function IngredientTypesStock(props: IProps) {
   const { store, classes } = props;
-
-
-  const items = store.foodMenuItems.map(fmi => {
-    const formattedPrice = formatCurrency(fmi.price);
-    const secondary = formattedPrice;
-    const quantity = store.getQuantityStockItemValue(fmi._id);
+  const items = store.ingredientTypesStock.map(fmi =>{ 
+    const ingredientType = store.ingredientTypes.filter(it => it._id == fmi._id)[0];
+    const primary = ingredientType.title;
+    const secondary = `${fmi.total} ${readableUnits.get(ingredientType.unit)}`;
     return (
-      <ListItem key={fmi._id} divider onClick={() => onItemClicked(store, fmi._id)} >
-        <ListItemText primary={fmi.title} secondary={secondary} />
+      <ListItem key={fmi._id} divider >
+        <ListItemText primary={primary} secondary={secondary}/>
       </ListItem>
     );
   });
   return (
     <div className={classes.root}>
       <Typography variant="subheading" gutterBottom className={classes.summaryLabel}>
-        Itens oferecidos no menu
+        Estoque de tipos de insumo
       </Typography>
       <List>
         {items}

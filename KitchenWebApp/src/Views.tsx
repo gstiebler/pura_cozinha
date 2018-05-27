@@ -52,8 +52,5 @@ export default {
   ingredientTypesStock: new Route({
     path: basePath + '/ingredient_types',
     component: <IngredientTypesStock store={store}/>,
-    beforeEnter: (route, params, store: Store) => {
-      store.getIngredientTypesStock();
-    },
   }),
 };

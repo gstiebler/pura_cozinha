@@ -38,7 +38,7 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
   }
 
 
-export async function findIngredientTypeById(id: string): Promise<IngredientType[]> {
+export async function findIngredientTypeById(id: string): Promise<IngredientType> {
   const query = `
     query {
       ingredient (id: "${id}") {
@@ -50,4 +50,18 @@ export async function findIngredientTypeById(id: string): Promise<IngredientType
   `;
   const result = await network.fetchQuery(query);
   return result.ingredient;
+}
+
+export async function fetchIngredientTypes(): Promise<IngredientType[]> {
+  const query = `
+    query {
+      allIngredients { 
+        _id, 
+        title,
+        unit 
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.allIngredients;
 }
