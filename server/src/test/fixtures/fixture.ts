@@ -12,12 +12,14 @@ import { User } from '../../db/models/User';
 import { IngredientType } from '../../db/models/IngredientType';
 
 export async function initFixtures() {
-  await User.remove({});
-  await Order.remove({});
-  await Kitchen.remove({});
-  await MenuItem.remove({});
-  await IngredientType.remove({});
-  
+  await Promise.all([
+    User.remove({}),
+    Order.remove({}),
+    Kitchen.remove({}),
+    MenuItem.remove({}),
+    IngredientType.remove({}),
+  ]);
+
   await IngredientType.insertMany(await IngredientFixtures() );
   await MenuItem.insertMany(await menuItemFixtures());
   await Kitchen.insertMany(await kitchenFixtures());

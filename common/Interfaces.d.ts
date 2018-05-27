@@ -2,8 +2,10 @@
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
 export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' | 'CANCELED';
+export type TOptionGroupKey = string;
+export type TSelectedItemKey = string;
 
-export interface FoodMenuItem {
+export interface IFoodMenuItem {
   _id?: TfmiId;
   title: string;
   description: string;
@@ -15,33 +17,40 @@ export interface FoodMenuItem {
     optionItems: {
       label: string;
       key: string;
+      price: number;
     }[];
   }[];
   boolOptions: {
     label: string;
     key: string;
+    price: number;
   }[];
 }
 
-export interface SelectedFoodMenuItem {
+export interface ISelectedFoodMenuItem {
   _id?: TfmiId;
   title: string;
   description: string;
   price: number;
   imgURL: string;
   selectedOptions: {
-    optionKey: string;
-    selectedOptionItemKey: string;
+    /** Key of the group of options */
+    key: TOptionGroupKey;
+    /** Key of the selected option item by the user */
+    value: TSelectedItemKey;
+    price: number;
+    label: string;
   }[];
   selectedBoolOptions: {
-    optionKey: string;
-    value: boolean;
+    key: string;
+    price: number;
+    label: string;
   }[];
 }
 
 export interface IOrderSummary {
   items: {
-    fmi: SelectedFoodMenuItem;
+    fmi: ISelectedFoodMenuItem;
     qty: number;
     itemTotalPrice: number;
   }[];
@@ -71,6 +80,10 @@ export interface IIngredientRequest {
 
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
-  optionKey: string;
-  selectedItem: string;
+  qty: number;
+
+  // Set of selected option keys
+  boolOptions: Set<string>;
+  // option key => option key string value
+  multipleOptions: Map<TOptionGroupKey, string>;
 }

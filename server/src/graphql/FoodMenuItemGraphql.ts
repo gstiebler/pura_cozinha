@@ -10,12 +10,14 @@ import {
 } from 'graphql';
 import { MenuItem } from '../db/models/menuItem';
 import { Kitchen } from '../db/models/kitchen';
+import { getProjection } from '../lib/Util';
 
 const boolOptionsItemsType = new GraphQLObjectType({
   name: 'boolOptionsType',
   fields: {
     label: { type: GraphQLString },
     key: { type: GraphQLString },
+    price: { type: GraphQLFloat },
   },
 });
 
@@ -24,6 +26,7 @@ const optionsItemsType = new GraphQLObjectType({
   fields: {
     label: { type: GraphQLString },
     key: { type: GraphQLString },
+    price: { type: GraphQLFloat },
   },
 });
 
@@ -103,10 +106,11 @@ export const Query = {
     args: {
       kitchen_id: { type: GraphQLID },
     },
-    resolve: async function(root, { kitchen_id }) {
+    resolve: async function(root, { kitchen_id }, source, fieldASTs) {
       const kitchen: any = await Kitchen.findById(kitchen_id);
       const menuItemIds = kitchen.stock.map(stockItem => stockItem.menu_item);
-      return MenuItem.find({ _id: { $in: menuItemIds }  });
+      const projection = getProjection(fieldASTs);
+      return MenuItem.find({ _id: { $in: menuItemIds } }, projection);
     }
   }
 };

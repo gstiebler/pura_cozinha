@@ -27,11 +27,27 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
       'description',
       'price',
       'imgURL',
-      'boolOptions {  label,  key  }', 
-      'options { key, label, optionItems { key,  label } }', 
+      'boolOptions { label,  key }', 
+      'options { key, label, optionItems { key, label, price } }', 
     ];
     const fieldsStr = fields.join(', ');
-    const query = `query { fullMenuItemsByKitchen( ${params} ) { ${fieldsStr} } }`;
+    const query = `
+      query { 
+        fullMenuItemsByKitchen( kitchen_id: "${kitchenId}" ) {
+          _id,
+          title,
+          description,
+          price,
+          imgURL,
+          boolOptions { label, key, price }, 
+          options { 
+            key, 
+            label, 
+            optionItems { key, label, price } 
+          }, 
+        } 
+      }
+    `;
     const result = await network.fetchQuery(query);
     return result.fullMenuItemsByKitchen;
   }

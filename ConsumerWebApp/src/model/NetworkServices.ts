@@ -2,13 +2,13 @@ import * as network from '../../../common/network';
 import * as ns from '../../../common/NetworkServices';
 import { 
   TfmiId,
-  FoodMenuItem,
+  IFoodMenuItem,
   IOrderSummary,
   IOrderRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 
-export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
+export async function fetchFoodMenu(): Promise<IFoodMenuItem[]> {
   const query = `
     query {
       menuItems( lat: ${0.0}, lng: ${0.0} ) { 
@@ -17,11 +17,11 @@ export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
         price, 
         description, 
         imgURL, 
-        boolOptions {  label,  key  }, 
+        boolOptions {  label, key, price  }, 
         options { 
           key, 
           label, 
-          optionItems { key,  label }
+          optionItems { label, key, price }
         }
       } 
     }
@@ -32,6 +32,25 @@ export async function fetchFoodMenu(): Promise<FoodMenuItem[]> {
 
 export async function sendOrderRequest(orderRequest: IOrderRequest) {
   const items = orderRequest.orderSummary.items.map(item => {
+    const selectedBoolOptions = item.fmi.selectedBoolOptions.map(selBOpt => {
+      return `
+        {
+          key: "${selBOpt.key}",
+          price: ${selBOpt.price},
+          label: "${selBOpt.label}"
+        }
+      `;
+    });
+    const selectedOptions = item.fmi.selectedOptions.map(selGroupOption => {
+      return `
+        {
+          key: "${selGroupOption.key}",
+          value: "${selGroupOption.value}",
+          price: ${selGroupOption.price},
+          label: "${selGroupOption.label}"
+        }
+      `;
+    });
     return `
       {
         fmi: {
@@ -40,8 +59,8 @@ export async function sendOrderRequest(orderRequest: IOrderRequest) {
           description: "${item.fmi.description}",
           price: ${item.fmi.price},
           imgURL: "${item.fmi.imgURL}",
-          selectedOptions: [${item.fmi.selectedOptions}],
-          selectedBoolOptions: [${item.fmi.selectedBoolOptions}]
+          selectedOptions: [${selectedOptions.join(',')}],
+          selectedBoolOptions: [${selectedBoolOptions.join(',')}]
         },
         qty: ${item.qty},
         itemTotalPrice: ${item.itemTotalPrice}
