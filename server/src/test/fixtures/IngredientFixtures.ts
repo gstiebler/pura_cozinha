@@ -14,6 +14,14 @@ export default async () =>  {
     {
       title: 'Seleta de Legumes',
       unit: 'CX',
-    }
+    },
+    {
+      title: 'Açaí',
+      unit: 'L',
+    },
+    {
+      title: 'Filé Mignon',
+      unit: 'KG',
+    },
   ];
 }

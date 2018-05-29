@@ -19,6 +19,10 @@ export const menuItemSchema = new mongoose.Schema({
     key: { type: String, required: true },
     price: { type: Number, required: true },
   }],
+  usedIngredients: [{
+    ingredient: { type: String, required: true },
+    quantity: { type: Number, required: true },
+  }],
 });
 
 export const MenuItem = mongoose.model('MenuItem', menuItemSchema);
