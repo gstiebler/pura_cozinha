@@ -23,5 +23,9 @@ export default async () =>  {
       title: 'Filé Mignon',
       unit: 'KG',
     },
+    {
+      title: 'Peito de Frango',
+      unit: 'KG',
+    },
   ];
 }

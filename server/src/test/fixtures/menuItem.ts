@@ -1,5 +1,6 @@
 
 import { idByValue } from '../lib/TestUtils';
+import { IngredientType } from '../../db/models/IngredientType';
 
 export default async () => {
   return [
@@ -8,6 +9,10 @@ export default async () => {
       description: 'Muito gostoso, feito com frango desfiado',
       price: 11.99,
       imgURL: 'http://mms.businesswire.com/media/20151023005022/en/492519/4/Classic_Ultimate_Chicken_Sandwich.jpg',
+      usedIngredients: [{
+        ingredient: await idByValue(IngredientType, 'title', 'Peito de Frango'),
+        quantity: 0.150,
+      }],
     },
     {
       title: 'Açai',
@@ -20,6 +25,16 @@ export default async () => {
           label: 'Granola',
           price: 2.00,
         }
+      ],
+      usedIngredients: [
+        {
+          ingredient: await idByValue(IngredientType, 'title', 'Açaí'),
+          quantity: 0.2,
+        },
+        {
+          ingredient: await idByValue(IngredientType, 'title', 'Leite'),
+          quantity: 0.05,
+        },
       ],
     },
     {
@@ -45,6 +60,10 @@ export default async () => {
           ],
         }
       ],
+      usedIngredients: [{
+        ingredient: await idByValue(IngredientType, 'title', 'Filé Mignon'),
+        quantity: 0.2,
+      }],
     },
   ];
 }
