@@ -15,6 +15,7 @@ const ordersStatusFields = [
   'status',
   'totalAmount',
   'createdOn',
+  'items { qty, itemTotalPrice, foodMenuItem { id, title, description, price } }',
 ];
 
 export async function getOrders(orderTypes: string[]): Promise<any[]> {
@@ -44,7 +45,7 @@ export async function getOrderDetails(orderId: string): Promise<any> {
     'telephoneNumber',
     'comments',
     'kitchenComments',
-    'items { qty, itemTotalPrice, foodMenuItem { title, description, price } }'
+    'items { qty, itemTotalPrice, foodMenuItem { id, title, description, price } }'
   ];
   const fieldsStr = fields.join(', ');
   const query = `query { orderDetails( ${params} ) { ${fieldsStr} } }`;

@@ -44,7 +44,7 @@ const menuItemInputTypeFields = {
 };
 
 const menuItemTypeFields = {
-  _id: { type: new GraphQLNonNull(GraphQLID) },
+  id: { type: new GraphQLNonNull(GraphQLID) },
   title: { type: GraphQLString },
   description: { type: GraphQLString },
   price: { type: GraphQLFloat },
@@ -91,17 +91,6 @@ const OrderRequestInputType = new GraphQLInputObjectType({
   }
 });
 
-const OrderInListType = new GraphQLObjectType({
-  name: 'OrderInListType',
-  fields: {
-    _id: { type: GraphQLID },
-    local: { type: GraphQLString },
-    localComplement: { type: GraphQLString },
-    status: { type: GraphQLString },
-    totalAmount: { type: GraphQLFloat },
-    createdOn: { type: GraphQLFloat },
-  }
-});
 
 const OrderItemType = new GraphQLObjectType({
   name: 'OrderItemType',
@@ -124,6 +113,19 @@ const OrderCompleteType = new GraphQLObjectType({
     telephoneNumber: { type: GraphQLString },
     comments: { type: GraphQLString },
     kitchenComments: { type: GraphQLString },
+    createdOn: { type: GraphQLFloat },
+    items: { type: new GraphQLList(OrderItemType) },
+  }
+});
+
+const OrderInListType = new GraphQLObjectType({
+  name: 'OrderInListType',
+  fields: {
+    _id: { type: GraphQLID },
+    local: { type: GraphQLString },
+    localComplement: { type: GraphQLString },
+    status: { type: GraphQLString },
+    totalAmount: { type: GraphQLFloat },
     createdOn: { type: GraphQLFloat },
     items: { type: new GraphQLList(OrderItemType) },
   }
