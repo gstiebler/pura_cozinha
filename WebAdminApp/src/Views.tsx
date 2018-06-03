@@ -28,7 +28,7 @@ export default {
     },
   }),
   purchases: new Route({
-    path: base_path + '/ingredients',
+    path: base_path + '/purchases',
     component: <Purchases store={store}/>,
     beforeEnter: (route, params, store: Store) => {
       store.onPurchasesPageLoad();
