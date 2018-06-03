@@ -7,6 +7,7 @@ import { TOrderStatus, IFoodMenuItem, } from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
+import { IngredientType } from '../../../server/src/db/models/IngredientType';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],
@@ -30,6 +31,8 @@ export class Store {
   @observable user: IUserModel = null;
   @observable kitchen: IKitchenModel = null;
   @observable foodMenuItems: any[] = [];
+  @observable ingredientTypesStock: any[] = [];
+  @observable ingredientTypes: IngredientType[] = [];
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
@@ -164,6 +167,17 @@ export class Store {
     this.foodMenuItems = await ns.getItemsByKitchen(this.kitchen._id);
   }
 
+  async onIngredientTypesStockPage()
+  {
+    this.ingredientTypes = await ns.fetchIngredientTypes();
+    this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
+  }
+
+  getIngredientTypeInList(id: string)
+  {
+    return this.ingredientTypes.filter(it => it._id == id)[0];
+  }
+
   getQuantityStockItemValue(_id: string): number
   {
     if(this.kitchen != null)
@@ -192,6 +206,11 @@ export class Store {
         this.setSnackbarMsg('Erro ao executar esta função!');
       }
     }
+  }
+
+  async findIngredientById(id: string): Promise<IngredientType>
+  {
+    return await ns.findIngredientTypeById(id);
   }
 
   setSnackbarMsg(msg: string) {

@@ -78,6 +78,13 @@ export interface IIngredientRequest {
   unit: string;
 }
 
+export interface IPurchaseRequest {
+  value: number;
+  quantity: number;
+  buyDate: Date;
+  ingredientType: string;
+}
+
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
   qty: number;

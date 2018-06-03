@@ -17,6 +17,7 @@ import * as OrderGraphQL from './OrderGraphQL';
 import * as UserGraphQL from './UserGraphQL';
 import * as KitchenGraphql from './KitchenGraphql';
 import * as IngredientTypeGraphQL from './IngredientTypeGraphQL';
+import * as PurchaseGraphQL from './PurchaseGraphQL';
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -26,7 +27,8 @@ export const schema = new GraphQLSchema({
       ...OrderGraphQL.Query,
       ...UserGraphQL.Query,
       ...IngredientTypeGraphQL.Query,
-      ...KitchenGraphql.KitchenQuery
+      ...KitchenGraphql.KitchenQuery,
+      ...PurchaseGraphQL.Query
     }
   }),
   mutation: new GraphQLObjectType({
@@ -34,7 +36,8 @@ export const schema = new GraphQLSchema({
     fields: {
       ...OrderGraphQL.Mutation,
       ...IngredientTypeGraphQL.Mutation,
-      ...KitchenGraphql.KitchenMutation
+      ...KitchenGraphql.KitchenMutation,
+      ...PurchaseGraphQL.Mutation
     },
   })
 });

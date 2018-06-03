@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route } from 'mobx-router';
 import { store, Store } from './model/Store';
 import Dashboard from './components/Dashboard';
+import Purchases from './components/Purchases';
 import IngredientTypes from './components/IngredientTypes';
 import EditIngredient from './components/EditIngredient';
 
@@ -24,6 +25,13 @@ export default {
     component: <EditIngredient store={store}/>,
     beforeEnter: (route, params, store: Store) => {
       store.onIngredientsPageLoad();
+    },
+  }),
+  purchases: new Route({
+    path: base_path + '/ingredients',
+    component: <Purchases store={store}/>,
+    beforeEnter: (route, params, store: Store) => {
+      store.onPurchasesPageLoad();
     },
   }),
 };

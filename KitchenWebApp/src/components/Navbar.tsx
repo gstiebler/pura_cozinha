@@ -48,6 +48,13 @@ function viewStockItems(store: Store)
   store.isDrawerOpen = false;
 }
 
+function viewIngredientTypesStock(store: Store)
+{
+  store.router.goTo(Views.ingredientTypesStock, { }, store);
+  store.onIngredientTypesStockPage();
+  store.isDrawerOpen = false;
+}
+
 function logOut(store: Store)
 {
   store.onLogOut();
@@ -101,6 +108,10 @@ function Navbar(props: IProps) {
           <ListItem>
             <ListItemText primary='Menu'
             onClick={() => viewStockItems(store)}/>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary='Estoque'
+            onClick={() => viewIngredientTypesStock(store)} />
           </ListItem>
           <Divider />
           <ListItem >

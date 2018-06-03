@@ -1,4 +1,5 @@
 import * as network from './network';
+import { IngredientType } from '../server/src/db/models/IngredientType';
 
 export async function findKitchenById(kitchenId: string): Promise<any> {
     const params = `
@@ -51,3 +52,32 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
     const result = await network.fetchQuery(query);
     return result.fullMenuItemsByKitchen;
   }
+
+
+export async function findIngredientTypeById(id: string): Promise<IngredientType> {
+  const query = `
+    query {
+      ingredient (id: "${id}") {
+        _id, 
+        title,
+        unit 
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.ingredient;
+}
+
+export async function fetchIngredientTypes(): Promise<IngredientType[]> {
+  const query = `
+    query {
+      allIngredients { 
+        _id, 
+        title,
+        unit 
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.allIngredients;
+}

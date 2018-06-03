@@ -5,6 +5,7 @@ import Orders from './components/Orders';
 import OrderDetails from './components/OrderDetails';
 import Login from './components/Login';
 import AvailableMenuItems from './components/AvailableMenuItems';
+import IngredientTypesStock from './components/IngredientTypesStock';
 
 const basePath = '/cozinha';
 
@@ -47,5 +48,9 @@ export default {
     onParamsChange: (route, params) => {
       store.onOrderSelected(params.order_id);
     }
-  })
+  }),
+  ingredientTypesStock: new Route({
+    path: basePath + '/ingredient_types',
+    component: <IngredientTypesStock store={store}/>,
+  }),
 };
