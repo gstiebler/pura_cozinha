@@ -21,6 +21,14 @@ const boolOptionsItemsType = new GraphQLObjectType({
   },
 });
 
+const usedIngredients = new GraphQLObjectType({
+  name: 'usedIngredients',
+  fields: {
+    ingredient: { type: GraphQLString },
+    quantity: { type: GraphQLFloat },
+  },
+});
+
 const optionsItemsType = new GraphQLObjectType({
   name: 'optionItemsType',
   fields: {
@@ -47,6 +55,7 @@ const menuItemTypeFields = {
   imgURL: { type: GraphQLString },
   options: { type: new GraphQLList(optionsType) },
   boolOptions: { type: new GraphQLList(boolOptionsItemsType) },
+  usedIngredients: { type: new GraphQLList(usedIngredients) },
 };
 
 const menuItemType = new GraphQLObjectType({

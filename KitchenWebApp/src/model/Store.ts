@@ -179,8 +179,8 @@ export class Store {
     //Calculate difference between prepared items and ingredients stock remaining
     closedOrders.map(order => {
       console.log(order);
-      order.items.map(item => {
-        console.log(item.foodMenuItem.title);
+      order.items.map(async item => {
+        console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
       });
     })
   }

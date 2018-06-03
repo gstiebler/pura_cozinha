@@ -25,6 +25,10 @@ export interface IFoodMenuItem {
     key: string;
     price: number;
   }[];
+  usedIngredients: {
+    ingredient: string;
+    quantity: number;
+  }[];
 }
 
 export interface ISelectedFoodMenuItem {

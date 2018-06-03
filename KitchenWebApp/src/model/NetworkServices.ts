@@ -1,5 +1,5 @@
 import * as network from '../../../common/network';
-import { IOrderSummary } from '../../../common/Interfaces';
+import { IOrderSummary, IFoodMenuItem } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
@@ -144,5 +144,31 @@ export async function findIngredientTypeById(id: string): Promise<IngredientType
 
 export async function fetchIngredientTypes(): Promise<IngredientType[]> {  
   return ns.fetchIngredientTypes();
+}
+
+export async function getFoodMenuItem(id: string): Promise<IFoodMenuItem> {
+  const query = `
+    query {
+      foodMenuItem( id: "${id}" ) { 
+        _id, 
+        title, 
+        price, 
+        description, 
+        imgURL, 
+        boolOptions {  label, key, price  }, 
+        options { 
+          key, 
+          label, 
+          optionItems { label, key, price }
+        },
+        usedIngredients { 
+          ingredient, 
+          quantity, 
+        }
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.foodMenuItem;
 }
 
