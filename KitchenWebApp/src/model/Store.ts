@@ -185,9 +185,9 @@ export class Store {
     })
   }
 
-  getIngredientTypeInList(id: string)
+  getIngredientTypeAmountInList(id: string)
   {
-    return this.ingredientTypes.filter(it => it._id == id)[0];
+    return this.ingredientTypesStock.filter(it => it._id == id)[0];
   }
 
   getQuantityStockItemValue(_id: string): number

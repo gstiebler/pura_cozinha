@@ -36,10 +36,13 @@ interface IProps {
 
 function IngredientTypesStock(props: IProps) {
   const { store, classes } = props;
-  const items = store.ingredientTypesStock.map(fmi =>{ 
-    const ingredientType = store.getIngredientTypeInList(fmi._id);
-    const primary = ingredientType.title;
-    const secondary = `${fmi.total} ${readableUnits.get(ingredientType.unit)}`;
+  const items = store.ingredientTypes.map(fmi =>{ 
+    const ingredientTypeAmount = store.getIngredientTypeAmountInList(fmi._id);
+    
+    
+    const primary = fmi.title;
+    const secondary = `${ ((!!ingredientTypeAmount) ? ingredientTypeAmount.total : 0)} 
+                        ${readableUnits.get(fmi.unit)}`;
     return (
       <ListItem key={fmi._id} divider >
         <ListItemText primary={primary} secondary={secondary}/>
