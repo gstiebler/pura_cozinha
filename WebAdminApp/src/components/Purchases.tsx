@@ -79,7 +79,7 @@ function Purchases(props: IProps) {
   const ITEM_HEIGHT = 25;
   const items = store.purchases.map(fmi => {
     const secondary = fmi.value;
-    const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType.id);
+    const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType);
     const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
     return (
       <ListItem key={fmi._id} divider >

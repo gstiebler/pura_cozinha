@@ -178,9 +178,9 @@ export class Store {
     this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
     //Calculate difference between prepared items and ingredients stock remaining
     closedOrders.map(order => {
-      console.log(order);
+      //console.log(order);
       order.items.map(async item => {
-        console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
+        //console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
       });
     })
   }
