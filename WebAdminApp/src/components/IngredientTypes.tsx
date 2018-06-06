@@ -9,7 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
-import { availableUnits, readableUnits } from '../../../common/statuesesMaps';
+import { availableUnits, readableUnits } from '../../../common/unitMaps';
 
 import { formatCurrency } from '../../../common/util';
 import Dialog, {

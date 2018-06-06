@@ -10,7 +10,7 @@ import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
-import { availableUnits } from '../../../common/statuesesMaps';
+import { availableUnits } from '../../../common/unitMaps';
 
 import Dialog, {
   DialogActions,
