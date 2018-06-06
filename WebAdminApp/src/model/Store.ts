@@ -30,7 +30,7 @@ export class Store {
   @observable selectedUnit: string;
 
   //New purchase variables
-  @observable quantity: number = 1;
+  @observable quantity: string = '';
   @observable value: string = '';
   @observable ingredientTypeId: string = '';
   @observable buyDate: Date;
@@ -106,15 +106,12 @@ export class Store {
     this.value = value;
   }
 
-  onItemQtyIncreased() {
-    this.quantity++;
+  quantityChanged(qty: string)
+  {
+    this.quantity = qty;
   }
 
-  onItemQtyDecreased() {
-    if(this.quantity != 1)
-      this.quantity--;
-  }
-
+  
   removeFromNewPurchases(key: number)
   {
     const index = this.newPurchases.findIndex(obj => obj.key==key);
@@ -126,14 +123,14 @@ export class Store {
   {
     const newPurchase = {
       key: this.newPurchases.length+1,
-      quantity: this.quantity,
+      quantity: parseFloat(this.quantity),
       buyDate: this.buyDate,
       value: parseFloat(this.value),
       ingredientType: this.getPurchaseIngredientType(this.ingredientTypeId)
     }
     this.newPurchases.push(newPurchase);
     this.calculateTotalAmount();
-    this.quantity = 1;
+    this.quantity = '';
     this.value = '';
     this.ingredientTypeId = this.ingredients[0]._id;
   }

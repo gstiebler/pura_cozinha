@@ -1,10 +1,9 @@
 import * as mongoose from 'mongoose';
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 export interface Purchase extends mongoose.Document {
   _id: string,
-  ingredientType: {
-    id: string;
-  }
+  ingredientType: any;
   quantity: number;
   value: number;
   buyDate: Date;
@@ -12,7 +11,7 @@ export interface Purchase extends mongoose.Document {
 }
 
 const purchaseSchema = new mongoose.Schema({
-  ingredientType: { type: Object, required: true },
+  ingredientType: { type: ObjectId, ref: 'IngredientType', index: true },
   quantity: { type: Number, required: true },
   value: { type: Number, required: true },
   buyDate: { type: Date, default: Date.now, required: true},
