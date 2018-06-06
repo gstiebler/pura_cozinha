@@ -178,9 +178,14 @@ export class Store {
     this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
     //Calculate difference between prepared items and ingredients stock remaining
     closedOrders.map(order => {
-      //console.log(order);
       order.items.map(async item => {
-        //console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
+        const menuItem = await ns.getFoodMenuItem(item.foodMenuItem.id);
+        menuItem.usedIngredients.map(usedIngredient => {
+          let i = this.ingredientTypesStock.findIndex(it => it._id == usedIngredient.ingredient);
+          console.log(usedIngredient.ingredient);
+          this.ingredientTypesStock.filter(it => it._id == usedIngredient.ingredient)[0];
+          this.ingredientTypesStock[i].total -= usedIngredient.quantity;
+        });
       });
     })
   }
