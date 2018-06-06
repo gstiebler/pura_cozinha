@@ -10,6 +10,7 @@ import {
   ISelectedMenuItemOption,
   IPurchaseRequest,
 } from '../../../common/Interfaces';
+import { availableUnits } from '../../../common/statuesesMaps';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
 
@@ -55,11 +56,13 @@ export class Store {
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchases();
     this.totalAmount = 0;
+    this.selectedUnit = availableUnits[0][0];
   }
 
   async onIngredientsPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
+    this.selectedUnit = availableUnits[0][0];
   }
 
   async onPurchasesPageLoad()
