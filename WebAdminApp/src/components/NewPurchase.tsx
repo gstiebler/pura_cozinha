@@ -41,6 +41,10 @@ function onValueChanged(store: Store, event) {
   store.valueChanged(event.target.value);
 }
 
+function onQuantityChanged(store: Store, event) {
+  store.quantityChanged(event.target.value);
+}
+
 function onBuyDate(store: Store, event) {
   store.buyDateChanged(event.target.value);
 }
@@ -135,31 +139,16 @@ function NewIngredient(props: IProps) {
               </Select>
             </FormControl>
             <br/>
-            <Grid container className={classes.qtyContainer}>
-              <Grid item xs={12}>
-                <Grid container            
-                    alignItems="center"
-                    direction="row"
-                    justify='flex-start'  >
-                    <Grid item>
-                      <Typography variant="subheading" gutterBottom>
-                        Quantidade:
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <RemoveCircleOutline className={classes.icon} onClick={ () => store.onItemQtyDecreased() }/>
-                    </Grid>
-                    <Grid item>
-                      <Typography className={classes.quantity} variant="body2">
-                        { store.quantity }
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <AddCircleOutline className={classes.icon} onClick={ () => store.onItemQtyIncreased() }/>
-                    </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+            <TextField
+              id="qty"
+              label="Quantidade"
+              value={store.quantity}
+              className={classes.formControl}
+              onChange={onQuantityChanged.bind(null, store)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
             <TextField
               id="value"
               label="Valor"

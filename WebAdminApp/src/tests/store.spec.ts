@@ -81,10 +81,10 @@ describe('admin web app store', () => {
   it('get purchase ingredient type', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[0].ingredientType.id);
+    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[0].ingredientType);
     expect(pIngredientType1.title).to.equal('Carne moída');
 
-    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[1].ingredientType.id);
+    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[1].ingredientType);
     expect(pIngredientType2.title).to.equal('Seleta de Legumes');
   });
 
@@ -92,8 +92,7 @@ describe('admin web app store', () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
     store.ingredientTypeSelected(store.ingredients[0]._id);
-    store.onItemQtyIncreased();
-    store.onItemQtyIncreased();
+    store.quantityChanged('3');
     store.valueChanged('56.5');
     store.buyDateChanged(new Date('2018-03-18'));
     store.addNewPurchase();
@@ -104,7 +103,7 @@ describe('admin web app store', () => {
     expect(lastPurchase.value).to.equal(56.5);
     const d2 = new Date('2018-03-18');
     expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
-    expect(lastPurchase.ingredientType.id+'').to.equal(store.ingredients[0]._id);
+    expect(lastPurchase.ingredientType+'').to.equal(store.ingredients[0]._id);
     expect(lastPurchase.quantity).to.equal(3);
   });
 

@@ -9,36 +9,28 @@ export default async () => {
       value: 22.5,
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
-      ingredientType:{
-        id: await idByValue(IngredientType, 'title', 'Carne moída'),
-      }
+      ingredientType: await idByValue(IngredientType, 'title', 'Carne moída'),
     },
     {
       quantity: 2,
       value: 1.20,
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
-      ingredientType:{
-        id: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
-      }
+      ingredientType: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
     },
     {
       quantity: 13,
       value: 5,
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
-      ingredientType:{
-        id: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
-      }
+      ingredientType: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
     },
     {
       quantity: 10,
       value: 1.20,
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
-      ingredientType:{
-        id: await idByValue(IngredientType, 'title', 'Leite'),
-      }
+      ingredientType: await idByValue(IngredientType, 'title', 'Leite'),
     }
   ];
 }

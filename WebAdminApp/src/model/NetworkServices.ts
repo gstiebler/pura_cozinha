@@ -24,9 +24,7 @@ export async function fetchPurchases(): Promise<Purchase[]> {
         value,
         buyDate,
         createdAt,
-        ingredientType {
-          id
-        } 
+        ingredientType 
       } 
     }
   `;
@@ -43,9 +41,7 @@ export async function findPurchaseById(id: string): Promise<Purchase[]> {
         value,
         buyDate,
         createdAt,
-        ingredientType {
-          id
-        } 
+        ingredientType 
       } 
     }
   `;
@@ -82,9 +78,7 @@ export async function sendPurchaseRequest(purchaseRequest: IPurchaseRequest) {
           value: ${purchaseRequest.value},
           quantity: ${purchaseRequest.quantity},
           buyDate: ${purchaseRequest.buyDate.getTime()},
-          ingredientType: {
-            id: "${purchaseRequest.ingredientType}"
-          } 
+          ingredientType: "${purchaseRequest.ingredientType}"
         }
       ) 
     }
