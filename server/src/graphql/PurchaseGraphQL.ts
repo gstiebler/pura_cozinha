@@ -10,7 +10,7 @@ import {
   import { Purchase } from '../db/models/Purchase';
   import { IIngredientRequest } from '../../../common/Interfaces';
   import { ObjectId, ObjectID } from 'bson';
-  import * as resolvers from './resolvers/IngredientTypeStockResolver';
+  import * as resolvers from './resolvers/PurchaseResolver';
   
   
   export const PurchaseCompleteType = new GraphQLObjectType({

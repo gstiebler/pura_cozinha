@@ -169,54 +169,13 @@ export class Store {
 
   async onIngredientTypesStockPage()
   {
-    //Get prepared items
-    const closedStatuses:TOrderStatus[] = ['DELIVERING', 'DELIVERED'];
-    const closedOrders = await ns.getOrders(closedStatuses);
     
     //Get ingredientTypes registered
     this.ingredientTypes = await ns.fetchIngredientTypes();
 
     //Get total amounts of ingredient types in stock
-    const stockTemp = await ns.fetchIngredientTypesAmount();
+    this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
     
-    //Calculate difference between prepared items and ingredients stock remaining
-    // this.ingredientTypesStock = stockTemp.reduce( (previous, stock) => {
-    //   let totalUsed = 0;
-    //   closedOrders.forEach(async order => {
-    //     const promises = order.items.map(async item => {
-    //       const menuItem = await ns.getFoodMenuItem(item.foodMenuItem.id);
-    //       menuItem.usedIngredients.forEach( usedIngredient=> {
-    //         console.log(usedIngredient.quantity);
-    //         if(usedIngredient.ingredient == stock._id)
-    //           totalUsed += usedIngredient.quantity;
-    //       });
-    //     });
-    //     await Promise.all(promises);
-    //   });
-      
-    //   console.log(stock);
-    //   console.log(totalUsed);
-    //   stock.total -= totalUsed;
-    //   previous.push(stock);
-    //   return previous;
-    // }, []);
-
-    closedOrders.forEach(async order => {
-      const promises = order.items.map(async item => {
-        const menuItem = await ns.getFoodMenuItem(item.foodMenuItem.id);
-        const results = menuItem.usedIngredients.reduce( (previous, usedIngredient) => {
-          let i = stockTemp.findIndex(it => it._id == usedIngredient.ingredient);
-          const itStock = {
-            _id: stockTemp[i]._id,
-            total: stockTemp[i].total - usedIngredient.quantity
-          }
-          previous.push(itStock);
-          return previous;
-        }, []);
-        this.ingredientTypesStock = this.ingredientTypesStock.concat(results);
-      });
-      await Promise.all(promises);
-    })
   }
 
   getIngredientTypeAmountInList(id: string)
