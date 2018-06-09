@@ -11,22 +11,18 @@ export async function getIngredientTypesStocks() {
   const closedStatuses: TOrderStatus[] = ['DELIVERING', 'DELIVERED', 'PENDING', 'PREPARING', ];
   const query = { status: { $in: closedStatuses } };
   const menuItems: any[] = [];
-  await Order.find(query)
+  
+  const orders = await Order.find(query)
     .sort({ createdOn: -1 })
-    .skip(0)
-    .limit(100)
-    .then(async orders => {
-      await orders.forEach(async order =>{
-        const promises = order.items.map(item => {
-          MenuItem.findOne({_id: item.foodMenuItem.id})
-            .then( (menuItem) => {
-              menuItems.push(menuItem.toObject());
-            })
-            .catch(err => console.log(err));
-        });
-        await Promise.all(promises);
-      });
+    .skip(0);
+
+  await orders.forEach(async order => {
+    const promises = order.items.map(async item => {
+      const menuItem = await MenuItem.findOne({_id: item.foodMenuItem.id});  
+      menuItems.push(menuItem.toObject());
     });
+    await Promise.all(promises);
+  });
   
   const stockTemp = await Purchase.aggregate([
     { $group: { _id: "$ingredientType", total: { $sum: "$quantity" } } },
