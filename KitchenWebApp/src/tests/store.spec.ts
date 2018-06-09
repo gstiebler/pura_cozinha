@@ -94,7 +94,19 @@ describe('kitchen web app store', () => {
 
     const it3 = store.ingredientTypes.filter(obj => obj.title === 'Leite')[0];
     const itStock3 = store.ingredientTypesStock.filter(obj => obj._id === it3._id)[0];
-    expect(itStock3.total).to.equal(10);
+    expect(itStock3.total).to.equal(9.95);
+
+    const it4 = store.ingredientTypes.filter(obj => obj.title === 'Açaí')[0];
+    const itStock4 = store.ingredientTypesStock.filter(obj => obj._id === it4._id)[0];
+    expect(itStock4.total).to.equal(9.8);
+
+    const it5 = store.ingredientTypes.filter(obj => obj.title === 'Filé Mignon')[0];
+    const itStock5 = store.ingredientTypesStock.filter(obj => obj._id === it5._id)[0];
+    expect(itStock5.total).to.equal(9.8);
+
+    const it6 = store.ingredientTypes.filter(obj => obj.title === 'Peito de Frango')[0];
+    const itStock6 = store.ingredientTypesStock.filter(obj => obj._id === it6._id)[0];
+    expect(itStock6.total).to.equal(9.7);
   });
 
 });
