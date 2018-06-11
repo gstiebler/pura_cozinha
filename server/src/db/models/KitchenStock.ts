@@ -16,7 +16,7 @@ export interface KitchenStock {
 
 const KitchenStockSchema = new Schema({
   kitchen: { type: ObjectId, ref: "kitchen", index: true },
-  ingredientType: { type: ObjectId, ref: "kitchen", index: true },
+  ingredientType: { type: ObjectId, ref: "ingredientType", index: true },
   quantity: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
