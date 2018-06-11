@@ -38,6 +38,7 @@ export class Store {
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
+  @observable anchorEL = null; //ingredient menu anchor to Edit stock
   
   constructor() {
     this._reset();
