@@ -35,6 +35,7 @@ export class Store {
   @observable ingredientTypes: IngredientType[] = [];
   @observable currentIngredientType: IngredientType = null;
   @observable stockQty: string = ''; 
+  @observable ingredientTitle: string = ''; 
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
@@ -190,7 +191,8 @@ export class Store {
   setCurrentIngredientType(id: string)
   {
     this.currentIngredientType = this.ingredientTypes.find(it => it._id == id);
-    this.stockQty = this.ingredientTypesStock.find(it => it._id == id).quantity;
+    this.ingredientTitle = this.currentIngredientType.title;
+    this.stockQty = this.ingredientTypesStock.find(it => it._id == id).total;
   }
 
   onKitchenStockQtyChanged(quantity: string)
@@ -198,12 +200,30 @@ export class Store {
     this.stockQty = quantity;
   }
 
+  async updateIngredientTypeStock()
+  {
+    const kitchenStock = {
+      kitchen: this.kitchen._id,
+      ingredientType: this.currentIngredientType._id,
+      quantity: parseFloat(this.stockQty),
+    };
+    try{
+      //await ns.updateKitchenStock(kitchenStock);
+      this.setSnackbarMsg('Estoque editado com sucesso');
+    }
+    catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao executar esta função!');
+    }
+  
+  }
+
   getQuantityStockItemValue(_id: string): number
   {
     if(this.kitchen != null)
     {
       const stock = this.kitchen.stock;
-      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      var result = stock.find( obj => obj.menu_item === _id);
       return result.quantity;
     }
     return -1;

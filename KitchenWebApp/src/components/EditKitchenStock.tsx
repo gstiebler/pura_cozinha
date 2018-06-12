@@ -23,11 +23,8 @@ function onQuantityChanged(store: Store, event) {
   store.onKitchenStockQtyChanged(event.target.value);
 }
 
-function displayIngredientTypeText(store: Store): string {
-  if(store.currentIngredientType)
-    return store.currentIngredientType.title;
-  else
-    return '';
+function onUpdateIngredient(store: Store, event) {
+  store.updateIngredientTypeStock();
 }
 
 const styles = theme => ({
@@ -50,6 +47,7 @@ const styles = theme => ({
   },
   summaryLabel: {
     padding: 16,
+    paddingLeft: 5,
   },
 });
 
@@ -77,9 +75,8 @@ function EditKitchenStock(props: IProps) {
             gutterBottom
             className={classes.summaryLabel}
           >
-            {displayIngredientTypeText.bind(null, store)}
+            <b>Insumo:</b> { store.ingredientTitle }
           </Typography>
-          <br />
           <TextField
             id="qty"
             label="Quantidade"
@@ -95,7 +92,9 @@ function EditKitchenStock(props: IProps) {
           <Button onClick={handleClose.bind(null, store)} color="primary">
             Cancelar
           </Button>
-          <Button color="primary">Salvar</Button>
+          <Button onClick={onUpdateIngredient.bind(null, store)} color="primary">
+            Salvar
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
