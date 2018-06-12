@@ -34,12 +34,14 @@ export class Store {
   @observable ingredientTypesStock: any[] = [];
   @observable ingredientTypes: IngredientType[] = [];
   @observable currentIngredientType: IngredientType = null;
+  @observable stockQty: string = ''; 
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit stock
+  @observable openDialogForm: boolean = false;
   
   constructor() {
     this._reset();
@@ -188,6 +190,11 @@ export class Store {
   setCurrentIngredientType(id: string)
   {
     this.currentIngredientType = this.ingredientTypes.find(it => it._id == id);
+  }
+
+  onKitchenStockQtyChanged(quantity: string)
+  {
+    this.stockQty = quantity;
   }
 
   getQuantityStockItemValue(_id: string): number
