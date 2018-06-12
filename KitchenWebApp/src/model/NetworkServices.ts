@@ -1,5 +1,5 @@
 import * as network from '../../../common/network';
-import { IOrderSummary, IFoodMenuItem } from '../../../common/Interfaces';
+import { IOrderSummary, IFoodMenuItem, IKitchenStockRequest } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
@@ -172,7 +172,7 @@ export async function getFoodMenuItem(id: string): Promise<IFoodMenuItem> {
   return result.foodMenuItem;
 }
 
-export async function updateKitchenStock(kitchenStock) {
+export async function updateKitchenStock(kitchenStock: IKitchenStockRequest) {
   const mutation = `
     mutation {
       updateKitchenStock (

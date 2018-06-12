@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { TOrderStatus, IFoodMenuItem, } from '../../../common/Interfaces';
+import { TOrderStatus, IFoodMenuItem, IKitchenStockRequest} from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
@@ -202,13 +202,13 @@ export class Store {
 
   async updateIngredientTypeStock()
   {
-    const kitchenStock = {
+    const kitchenStock: IKitchenStockRequest = {
       kitchen: this.kitchen._id,
       ingredientType: this.currentIngredientType._id,
       quantity: parseFloat(this.stockQty),
     };
     try{
-      //await ns.updateKitchenStock(kitchenStock);
+      await ns.updateKitchenStock(kitchenStock);
       this.setSnackbarMsg('Estoque editado com sucesso');
     }
     catch(error) {

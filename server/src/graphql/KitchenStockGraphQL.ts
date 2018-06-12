@@ -10,6 +10,7 @@ import {
 import { IngredientType } from "../db/models/IngredientType";
 import { KitchenStock } from "../db/models/KitchenStock";
 import { ObjectId } from "bson";
+import * as resolvers from './resolvers/KitchenStockResolver';
 
 const KitchenStockRequestInputType = new GraphQLInputObjectType({
   name: "KitchenStockRequestInputType",
@@ -27,8 +28,8 @@ export const Mutation = {
     type: GraphQLString,
     args: { fmiData: { type: KitchenStockRequestInputType } },
     resolve: async (value, { fmiData }) => {
-      await IngredientType.update({ _id: fmiData.id }, { $set: fmiData });
-      return "OK";
+      await resolvers.updateKitchenStock(fmiData);
+      return { msg: "OK" };
     }
   }
 };
