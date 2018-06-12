@@ -12,9 +12,7 @@ export async function getIngredientTypesStocks() {
   const query = { status: { $in: closedStatuses } };
   const menuItems: any[] = [];
   
-  const orders = await Order.find(query)
-    .sort({ createdOn: -1 })
-    .skip(0);
+  const orders = await Order.find(query);
 
   await orders.forEach(async order => {
     const promises = order.items.map(async item => {
