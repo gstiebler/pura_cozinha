@@ -179,7 +179,7 @@ export async function updateKitchenStock(kitchenStock: IKitchenStockRequest) {
         fmiData: {
           kitchen: "${kitchenStock.kitchen}",
           ingredientType: "${kitchenStock.ingredientType}",
-          quantity: "${kitchenStock.quantity}",
+          quantity: ${kitchenStock.quantity},
         }
       ) 
     }

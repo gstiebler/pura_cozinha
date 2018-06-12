@@ -55,6 +55,8 @@ export class Store {
     this.isLoggedIn = false;
     this.email = '';
     this.password = '';
+    this.anchorEL = null;
+    this.openDialogForm = false;
   }
 
 
@@ -209,6 +211,7 @@ export class Store {
     };
     try{
       await ns.updateKitchenStock(kitchenStock);
+      this._reset();
       this.setSnackbarMsg('Estoque editado com sucesso');
     }
     catch(error) {
