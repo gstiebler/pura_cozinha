@@ -172,3 +172,19 @@ export async function getFoodMenuItem(id: string): Promise<IFoodMenuItem> {
   return result.foodMenuItem;
 }
 
+export async function updateKitchenStock(kitchenStock) {
+  const mutation = `
+    mutation {
+      updateKitchenStock (
+        fmiData: {
+          kitchen: "${kitchenStock.kitchen}",
+          ingredientType: "${kitchenStock.ingredientType}",
+          quantity: "${kitchenStock.quantity}",
+        }
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
+}
+
