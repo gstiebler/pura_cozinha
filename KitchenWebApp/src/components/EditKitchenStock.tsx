@@ -23,6 +23,13 @@ function onQuantityChanged(store: Store, event) {
   store.onKitchenStockQtyChanged(event.target.value);
 }
 
+function displayIngredientTypeText(store: Store): string {
+  if(store.currentIngredientType)
+    return store.currentIngredientType.title;
+  else
+    return '';
+}
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -40,7 +47,10 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit,
     horizontalAlignment: "center"
-  }
+  },
+  summaryLabel: {
+    padding: 16,
+  },
 });
 
 interface IProps {
@@ -67,7 +77,7 @@ function EditKitchenStock(props: IProps) {
             gutterBottom
             className={classes.summaryLabel}
           >
-            {store.currentIngredientType.title}
+            {displayIngredientTypeText.bind(null, store)}
           </Typography>
           <br />
           <TextField

@@ -190,6 +190,7 @@ export class Store {
   setCurrentIngredientType(id: string)
   {
     this.currentIngredientType = this.ingredientTypes.find(it => it._id == id);
+    this.stockQty = this.ingredientTypesStock.find(it => it._id == id).quantity;
   }
 
   onKitchenStockQtyChanged(quantity: string)

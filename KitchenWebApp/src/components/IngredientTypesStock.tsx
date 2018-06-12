@@ -11,6 +11,7 @@ import views from '../Views';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
 import { availableUnits, readableUnits } from '../../../common/statuesesMaps';
+import EditKitchenStock from './EditKitchenStock';
 
 
 function handleClick(store: Store, id: string, event) {
@@ -19,6 +20,12 @@ function handleClick(store: Store, id: string, event) {
 }
 
 function handleClose(store: Store) {
+  store.anchorEL = null;
+}
+
+
+function handleFormOpen(store: Store) {
+  store.openDialogForm = !store.openDialogForm;
   store.anchorEL = null;
 }
 
@@ -78,7 +85,7 @@ function IngredientTypesStock(props: IProps) {
             },
           }}
         >
-          <MenuItem key='delete'>
+          <MenuItem key='delete' onClick={handleFormOpen.bind(null, store)}>
               Editar
           </MenuItem>
         </Menu>
@@ -93,6 +100,7 @@ function IngredientTypesStock(props: IProps) {
       <List>
         {items}
       </List>
+      <EditKitchenStock store={store}/>
     </div>
   );
 }
