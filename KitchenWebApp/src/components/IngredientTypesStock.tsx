@@ -14,6 +14,7 @@ import { availableUnits, readableUnits } from '../../../common/statuesesMaps';
 
 
 function handleClick(store: Store, id: string, event) {
+  store.setCurrentIngredientType(id);
   store.anchorEL = event.currentTarget;
 }
 

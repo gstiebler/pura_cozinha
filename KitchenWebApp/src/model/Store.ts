@@ -33,6 +33,7 @@ export class Store {
   @observable foodMenuItems: any[] = [];
   @observable ingredientTypesStock: any[] = [];
   @observable ingredientTypes: IngredientType[] = [];
+  @observable currentIngredientType: IngredientType = null;
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
@@ -181,7 +182,12 @@ export class Store {
 
   getIngredientTypeAmountInList(id: string)
   {
-    return this.ingredientTypesStock.filter(it => it._id == id)[0];
+    return this.ingredientTypesStock.find(it => it._id == id);
+  }
+
+  setCurrentIngredientType(id: string)
+  {
+    this.currentIngredientType = this.ingredientTypes.find(it => it._id == id);
   }
 
   getQuantityStockItemValue(_id: string): number
