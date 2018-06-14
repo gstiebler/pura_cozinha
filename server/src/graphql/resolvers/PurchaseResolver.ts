@@ -1,4 +1,5 @@
 import { Purchase } from "../../db/models/Purchase";
+import { IngredientType } from "../../db/models/IngredientType";
 import { Order } from "../../db/models/Order";
 import { MenuItem } from "../../db/models/menuItem";
 import { TOrderStatus, IFoodMenuItem } from "../../../../common/Interfaces";
@@ -21,6 +22,20 @@ export async function getIngredientTypesStocks() {
     });
     await Promise.all(promises);
   });
+
+  const ingredientTypes = await IngredientType.find();
+
+  const stocks = await ingredientTypes.map(async ingredient => {
+
+    const ingredientStock = await Purchase.aggregate([
+      { $match : { ingredientType : ingredient._id} },
+      { $group:  { _id: '$ingredientType',  total: { $sum: "$quantity" } } },
+    ]);
+  
+    console.log(ingredientStock[0]);
+  });
+
+  console.log('Final ' + stocks);
   
   const stockTemp = await Purchase.aggregate([
     { $group: { _id: "$ingredientType", total: { $sum: "$quantity" } } },
