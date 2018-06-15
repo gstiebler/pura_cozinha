@@ -4,7 +4,7 @@ import { KitchenStock } from "../../db/models/KitchenStock";
 import { Order } from "../../db/models/Order";
 import { MenuItem } from "../../db/models/menuItem";
 import { TOrderStatus, IFoodMenuItem } from "../../../../common/Interfaces";
-
+import * as Bluebird from 'bluebird';
 import * as kitchenNs from "../../../../KitchenWebApp/src/model/NetworkServices";
 
 
