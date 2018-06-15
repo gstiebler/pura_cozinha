@@ -21,7 +21,7 @@ export default async () => {
     {
       quantity: 13,
       value: 5,
-      buyDate: new Date('2018-01-02'),
+      buyDate: new Date('2018-02-10'),
       createdAt: new Date(),
       ingredientType: await idByValue(IngredientType, 'title', 'Seleta de Legumes'),
     },

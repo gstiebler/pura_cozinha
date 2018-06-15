@@ -1,5 +1,6 @@
 import { Purchase } from "../../db/models/Purchase";
 import { IngredientType } from "../../db/models/IngredientType";
+import { KitchenStock } from "../../db/models/KitchenStock";
 import { Order } from "../../db/models/Order";
 import { MenuItem } from "../../db/models/menuItem";
 import { TOrderStatus, IFoodMenuItem } from "../../../../common/Interfaces";
@@ -26,13 +27,27 @@ export async function getIngredientTypesStocks() {
   const ingredientTypes = await IngredientType.find();
 
   const stocks = await ingredientTypes.map(async ingredient => {
+    const editedStock = await KitchenStock.findOne({ ingredientType: ingredient._id });
+    let updated = new Date('1970-01-01');
+    let finalTotal = 0;
+    if(editedStock)
+    {
+      updated = editedStock.toObject().updatedAt;
+      finalTotal = editedStock.toObject().quantity;
+    }
 
     const ingredientStock = await Purchase.aggregate([
-      { $match : { ingredientType : ingredient._id} },
+      { $match : { ingredientType : ingredient._id, buyDate: { $gte: updated } } },
       { $group:  { _id: '$ingredientType',  total: { $sum: "$quantity" } } },
     ]);
-  
-    console.log(ingredientStock[0]);
+
+    if(ingredientStock)
+      finalTotal += ingredientStock[0].total;
+    console.log('_id ' + ingredient._id + ', ' + finalTotal);
+    return {
+      _id: ingredient._id,
+      total: finalTotal
+    }
   });
 
   console.log('Final ' + stocks);
