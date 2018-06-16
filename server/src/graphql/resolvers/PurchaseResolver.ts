@@ -50,9 +50,9 @@ export async function getIngredientTypesStocks() {
         },
         { $group: { _id: "$ingredientType", total: { $sum: "$quantity" } } }
       ]);
-
-      if (ingredientStock) finalTotal += ingredientStock[0].total;
-
+      
+      if (!!ingredientStock && ingredientStock.length != 0) finalTotal += ingredientStock[0].total;
+      
       return {
         _id: ingredient._id,
         total: finalTotal
@@ -78,9 +78,9 @@ export async function getIngredientTypesStocks() {
             let totalLeft = 0;
             if(ingredientType.toObject()._id.toString() == ingredient.ingredient)
             {
-              if(editedStock)
+              if(!!editedStock)
               {
-                if(order.createdOn.getTime() >= editedStock.toObject().buyDate.getTime())
+                if(order.createdOn.getTime() >= editedStock.toObject().updatedAt.getTime())
                   totalLeft = previousIngQty + ingredient.quantity 
                 else
                   previousIngQty;
@@ -97,6 +97,8 @@ export async function getIngredientTypesStocks() {
     }, 0);
     return aggregate.set(ingredientType._id.toString(), reducedMenu);
   }, zeroStockIngredients);
+
+
 
   // sum the stock from the purchases and the negative stock from the orders 
   const stock = ingredientTypes.map(ingredient => { 
