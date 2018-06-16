@@ -89,7 +89,7 @@ export async function getIngredientTypesStocks() {
                 totalLeft = previousIngQty + ingredient.quantity;
             }
 
-            return totalLeft;
+            return totalLeft * orderMenu.qty;
         },0);
         return reducedIngredient + menuAggregate;
       }, 0);
