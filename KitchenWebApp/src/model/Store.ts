@@ -212,7 +212,7 @@ export class Store {
     try{
       await ns.updateKitchenStock(kitchenStock);
       this._reset();
-      this.onIngredientTypesStockPage();
+      await this.onIngredientTypesStockPage();
       this.setSnackbarMsg('Estoque editado com sucesso');
     }
     catch(error) {
