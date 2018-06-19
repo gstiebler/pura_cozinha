@@ -111,7 +111,7 @@ export async function updateKitchenStatus(kitchenId: string, status: boolean): P
 }
 
 export async function updateKitchen(kitchen: IKitchenModel): Promise<string> {
-  const mutation = `mutation { updateKitchenStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
+  const mutation = `mutation { updateKitchenWithStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }
