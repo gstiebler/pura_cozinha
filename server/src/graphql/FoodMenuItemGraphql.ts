@@ -24,7 +24,7 @@ const boolOptionsItemsType = new GraphQLObjectType({
 const usedIngredients = new GraphQLObjectType({
   name: 'usedIngredients',
   fields: {
-    ingredient: { type: GraphQLString },
+    ingredient: { type: GraphQLID },
     quantity: { type: GraphQLFloat },
   },
 });
