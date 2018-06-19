@@ -1,6 +1,7 @@
-import * as mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
+const ObjectId = Schema.Types.ObjectId;
 
-export const menuItemSchema = new mongoose.Schema({
+export const menuItemSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
@@ -20,9 +21,9 @@ export const menuItemSchema = new mongoose.Schema({
     price: { type: Number, required: true },
   }],
   usedIngredients: [{
-    ingredient: { type: String, required: true },
+    ingredient: { type: ObjectId, ref: 'IngredientType', required: true },
     quantity: { type: Number, required: true },
   }],
 });
 
-export const MenuItem = mongoose.model('MenuItem', menuItemSchema);
+export const MenuItem = model('MenuItem', menuItemSchema);
