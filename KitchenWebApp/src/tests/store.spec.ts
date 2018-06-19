@@ -3,6 +3,7 @@ import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { Order } from '../../../server/src/db/models/Order';
 import * as ConsumerStore from '../../../ConsumerWebApp/src/model/Store';
+import * as AdminStore from '../../../WebAdminApp/src/model/Store';
 
 describe('kitchen web app store', () => {
 
@@ -98,7 +99,18 @@ describe('kitchen web app store', () => {
     expect(itStock.total).to.equal(30);
 
     //Test of adding new purchase of 'File Mignon' after stock edit
+    const adminStore = new AdminStore.Store();
+    await adminStore.onPurchasesPageLoad();
+    adminStore.ingredientTypeSelected(mignon._id);
+    adminStore.quantityChanged('4.5');
+    adminStore.valueChanged('56.5');
+    adminStore.buyDateChanged(new Date());
+    adminStore.addNewPurchase();
+    await adminStore.onSendPurchaseRequested();
 
+    await store.onIngredientTypesStockPage();
+    const prStock = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    expect(prStock.total).to.equal(34.5);
   });
 
 });
