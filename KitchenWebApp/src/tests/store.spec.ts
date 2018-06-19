@@ -85,32 +85,49 @@ describe('kitchen web app store', () => {
     const store = new Store();
     await store.getDefaultKitchen();
     await store.onIngredientTypesStockPage();
-    const mignon = store.ingredientTypes.find(it => it.title == "Filé Mignon");
+    const ingredient = store.ingredientTypes.find(it => it.title == "Filé Mignon");
 
     //Init test considering only purchases and orders of File Mignon based on test fixtures
-    const itStock1 = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    const itStock1 = store.ingredientTypesStock.find(obj => obj._id === ingredient._id); 
     expect(itStock1.total).to.equal(9.8);
 
     //Test of editing ingredient type kitchen stock of 'File Mignon'
-    store.setCurrentIngredientType(mignon._id);
+    store.setCurrentIngredientType(ingredient._id);
     store.onKitchenStockQtyChanged('30');
     await store.updateIngredientTypeStock();
-    const itStock = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    const itStock = store.ingredientTypesStock.find(obj => obj._id === ingredient._id); 
     expect(itStock.total).to.equal(30);
 
     //Test of adding new purchase of 'File Mignon' after stock edit
     const adminStore = new AdminStore.Store();
     await adminStore.onPurchasesPageLoad();
-    adminStore.ingredientTypeSelected(mignon._id);
+    adminStore.ingredientTypeSelected(ingredient._id);
     adminStore.quantityChanged('4.5');
-    adminStore.valueChanged('56.5');
+    adminStore.valueChanged('120');
     adminStore.buyDateChanged(new Date());
     adminStore.addNewPurchase();
     await adminStore.onSendPurchaseRequested();
 
     await store.onIngredientTypesStockPage();
-    const prStock = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    const prStock = store.ingredientTypesStock.find(obj => obj._id === ingredient._id); 
     expect(prStock.total).to.equal(34.5);
+
+    //Test stock after ordering 2 Mignon sandwiches
+    const consumerStore = new ConsumerStore.Store();
+    await consumerStore.onMenuPageLoad();
+    const sandMignon = consumerStore.foodMenuItems[2];
+    consumerStore.onFmiSelected(sandMignon._id);
+    consumerStore.onItemQtyIncreased(consumerStore.lastItemIndex);
+    consumerStore.onItemQtyIncreased(consumerStore.lastItemIndex);
+    consumerStore.onLocalSelected('Stella Vita');
+    consumerStore.onPaymentOptionSelected('Dinheiro');
+    consumerStore.onTelNumberChanged('1234');
+    consumerStore.onCommentsChanged('Teste de baixa de estoque');
+    await consumerStore.onSendOrderRequested();
+
+    await store.onIngredientTypesStockPage();
+    const csStock = store.ingredientTypesStock.find(obj => obj._id === ingredient._id); 
+    expect(csStock.total).to.equal(34.1);
   });
 
 });
