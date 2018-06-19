@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { Order } from '../../../server/src/db/models/Order';
-import * as logger from 'winston';
-import * as moment from 'moment-timezone';
+import * as ConsumerStore from '../../../ConsumerWebApp/src/model/Store';
 
 describe('kitchen web app store', () => {
 
@@ -81,32 +80,25 @@ describe('kitchen web app store', () => {
     expect(store.currentOrder.kitchenComments).to.equal('Cliente pediu sem cebola');
   });
 
-  it('get ingredient types stock', async () => {
+  it('check ingredient types stock processes', async () => {
     const store = new Store();
+    await store.getDefaultKitchen();
     await store.onIngredientTypesStockPage();
-    const it1 = store.ingredientTypes.filter(obj => obj.title === 'Carne moída')[0];
-    const itStock1 = store.ingredientTypesStock.filter(obj => obj._id === it1._id)[0];
-    expect(itStock1.total).to.equal(3);
+    const mignon = store.ingredientTypes.find(it => it.title == "Filé Mignon");
 
-    const it2 = store.ingredientTypes.filter(obj => obj.title === 'Seleta de Legumes')[0];
-    const itStock2 = store.ingredientTypesStock.filter(obj => obj._id === it2._id)[0];
-    expect(itStock2.total).to.equal(15);
+    //Init test considering only purchases and orders of File Mignon based on test fixtures
+    const itStock1 = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    expect(itStock1.total).to.equal(9.8);
 
-    const it3 = store.ingredientTypes.filter(obj => obj.title === 'Leite')[0];
-    const itStock3 = store.ingredientTypesStock.filter(obj => obj._id === it3._id)[0];
-    expect(itStock3.total).to.equal(9.95);
+    //Test of editing ingredient type kitchen stock of 'File Mignon'
+    store.setCurrentIngredientType(mignon._id);
+    store.onKitchenStockQtyChanged('30');
+    await store.updateIngredientTypeStock();
+    const itStock = store.ingredientTypesStock.find(obj => obj._id === mignon._id); 
+    expect(itStock.total).to.equal(30);
 
-    const it4 = store.ingredientTypes.filter(obj => obj.title === 'Açaí')[0];
-    const itStock4 = store.ingredientTypesStock.filter(obj => obj._id === it4._id)[0];
-    expect(itStock4.total).to.equal(9.8);
+    //Test of adding new purchase of 'File Mignon' after stock edit
 
-    const it5 = store.ingredientTypes.filter(obj => obj.title === 'Filé Mignon')[0];
-    const itStock5 = store.ingredientTypesStock.filter(obj => obj._id === it5._id)[0];
-    expect(itStock5.total).to.equal(9.8);
-
-    const it6 = store.ingredientTypes.filter(obj => obj.title === 'Peito de Frango')[0];
-    const itStock6 = store.ingredientTypesStock.filter(obj => obj._id === it6._id)[0];
-    expect(itStock6.total).to.equal(9.7);
   });
 
 });
