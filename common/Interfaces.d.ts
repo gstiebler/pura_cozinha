@@ -1,5 +1,6 @@
 import { IngredientType } from '../server/src/db/models/IngredientType';
 import { Kitchen } from '../server/src/db/models/Kitchen';
+import { MenuItem } from '../server/src/db/models/menuItem';
 
 
 export type TfmiId = string;
@@ -8,31 +9,6 @@ export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' 
 export type TOptionGroupKey = string;
 export type TSelectedItemKey = string;
 
-export interface IFoodMenuItem {
-  _id?: TfmiId;
-  title: string;
-  description: string;
-  price: number;
-  imgURL: string;
-  options: {
-    label: string;
-    key: string;
-    optionItems: {
-      label: string;
-      key: string;
-      price: number;
-    }[];
-  }[];
-  boolOptions: {
-    label: string;
-    key: string;
-    price: number;
-  }[];
-  usedIngredients: {
-    ingredient: string;
-    quantity: number;
-  }[];
-}
 
 export interface ISelectedFoodMenuItem {
   _id?: TfmiId;
@@ -120,3 +96,6 @@ export interface Kitchen extends Kitchen {
   id: TfmiId;
 }
 
+export interface IFoodMenuItem extends MenuItem{
+  _id: TfmiId;
+}

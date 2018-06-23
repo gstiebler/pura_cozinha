@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Model, model } from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 
 export const menuItemSchema = new Schema({
@@ -25,5 +25,33 @@ export const menuItemSchema = new Schema({
     quantity: { type: Number, required: true },
   }],
 });
+
+
+export interface MenuItem {
+  title: string;
+  description: string;
+  price: number;
+  imgURL: string;
+  options: {
+    label: string;
+    key: string;
+    optionItems: {
+      label: string;
+      key: string;
+      price: number;
+    }[];
+  }[];
+  boolOptions: {
+    label: string;
+    key: string;
+    price: number;
+  }[];
+  usedIngredients: {
+    ingredient: string;
+    quantity: number;
+  }[];
+}
+
+interface IMenuItemModel extends MenuItem, Document {}
 
 export const MenuItem = model('MenuItem', menuItemSchema);
