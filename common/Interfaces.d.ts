@@ -1,4 +1,5 @@
 import { IngredientType } from '../server/src/db/models/IngredientType';
+import { Kitchen } from '../server/src/db/models/Kitchen';
 
 
 export type TfmiId = string;
@@ -113,5 +114,9 @@ export interface ISelectedMenuItemOption {
 
 export interface IngredientType extends IngredientType {
   _id: TfmiId;
+}
+
+export interface Kitchen extends Kitchen {
+  id: TfmiId;
 }
 

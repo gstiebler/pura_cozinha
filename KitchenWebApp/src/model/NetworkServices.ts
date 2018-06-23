@@ -2,7 +2,7 @@ import * as network from '../../../common/network';
 import { IOrderSummary, IFoodMenuItem, IKitchenStockRequest } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
-import { IKitchenModel } from '../../../server/src/db/models/kitchen';
+import { Kitchen } from '../../../common/Interfaces';
 import { Purchase } from '../../../server/src/db/models/Purchase';
 import { IngredientType } from '../../../common/Interfaces';
 import * as ns from '../../../common/NetworkServices';
@@ -110,7 +110,7 @@ export async function updateKitchenStatus(kitchenId: string, status: boolean): P
   return result.msg;
 }
 
-export async function updateKitchen(kitchen: IKitchenModel): Promise<string> {
+export async function updateKitchen(kitchen: Kitchen): Promise<string> {
   const mutation = `mutation { updateKitchenWithStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
   const result = await network.fetchQuery(mutation);
   return result.msg;

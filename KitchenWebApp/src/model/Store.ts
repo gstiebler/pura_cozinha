@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { TOrderStatus, IFoodMenuItem, IKitchenStockRequest} from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
-import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
+import { Kitchen } from  '../../../common/Interfaces';
 import { IngredientType } from '../../../common/Interfaces';
 
 export const availableStatuses = [
@@ -29,7 +29,7 @@ export class Store {
   @observable isLoggedIn: boolean = true;
   @observable kitchenActive: boolean = true;
   @observable user: IUserModel = null;
-  @observable kitchen: IKitchenModel = null;
+  @observable kitchen: Kitchen = null;
   @observable foodMenuItems: any[] = [];
   @observable ingredientTypesStock: any[] = [];
   @observable ingredientTypes: IngredientType[] = [];
