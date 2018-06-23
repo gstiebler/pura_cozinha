@@ -7,7 +7,7 @@ import { TOrderStatus, IFoodMenuItem, IKitchenStockRequest} from '../../../commo
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
-import { IngredientType } from '../../../server/src/db/models/IngredientType';
+import { IngredientType } from '../../../common/Interfaces';
 
 export const availableStatuses = [
   ['PENDING', 'Pendente'],

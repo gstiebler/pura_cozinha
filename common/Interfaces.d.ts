@@ -1,3 +1,5 @@
+import { IngredientType } from '../server/src/db/models/IngredientType';
+
 
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
@@ -106,3 +108,10 @@ export interface ISelectedMenuItemOption {
   // option key => option key string value
   multipleOptions: Map<TOptionGroupKey, string>;
 }
+
+
+
+export interface IngredientType extends IngredientType {
+  _id: TfmiId;
+}
+

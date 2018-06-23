@@ -4,7 +4,7 @@ import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
 import { Purchase } from '../../../server/src/db/models/Purchase';
-import { IngredientType } from '../../../server/src/db/models/IngredientType';
+import { IngredientType } from '../../../common/Interfaces';
 import * as ns from '../../../common/NetworkServices';
 
 
