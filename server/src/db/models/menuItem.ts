@@ -1,4 +1,4 @@
-import { Schema, Model, model } from 'mongoose';
+import { Schema, Model, model, Document } from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 
 export const menuItemSchema = new Schema({
@@ -27,7 +27,7 @@ export const menuItemSchema = new Schema({
 });
 
 
-export interface MenuItem {
+export interface MenuItem extends Document{
   title: string;
   description: string;
   price: number;
@@ -54,4 +54,4 @@ export interface MenuItem {
 
 interface IMenuItemModel extends MenuItem, Document {}
 
-export const MenuItem = model('MenuItem', menuItemSchema);
+export const MenuItem: Model<IMenuItemModel> = model<IMenuItemModel>('MenuItem', menuItemSchema);

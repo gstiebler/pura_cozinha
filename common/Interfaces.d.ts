@@ -1,6 +1,7 @@
 import { IngredientType } from '../server/src/db/models/IngredientType';
 import { Kitchen } from '../server/src/db/models/Kitchen';
 import { MenuItem } from '../server/src/db/models/menuItem';
+import { Purchase } from '../server/src/db/models/Purchase';
 
 
 export type TfmiId = string;
@@ -98,4 +99,9 @@ export interface Kitchen extends Kitchen {
 
 export interface IFoodMenuItem extends MenuItem{
   _id: TfmiId;
+}
+
+
+export interface Purchase extends Purchase {
+  _id: string
 }
