@@ -194,7 +194,9 @@ export class Store {
       this.reset();
       this.setSnackbarMsg('Insumo removido com sucesso');
     } catch(error) {
-      console.error(error);
+      console.log(error);
+      console.error(error[0].message);
+      console.error(error[0].extra);
       this.setSnackbarMsg('Erro ao remover Insumo');
     }
   }
@@ -205,7 +207,7 @@ export class Store {
       this.reset();
       this.setSnackbarMsg('Compra removida com sucesso');
     } catch(error) {
-      console.error(error);
+      console.error(error.name);
       this.setSnackbarMsg('Erro ao remover compra');
     }
   }

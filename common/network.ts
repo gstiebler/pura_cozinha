@@ -12,6 +12,7 @@ export async function fetchQuery(query: String): Promise<any> {
     });
     const json = await res.json();
     if (json.errors) {
+      console.log(json.errors);
       throw new Error(JSON.stringify(json.errors));
     }
     return json.data;
