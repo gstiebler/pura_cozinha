@@ -194,10 +194,11 @@ export class Store {
       this.reset();
       this.setSnackbarMsg('Insumo removido com sucesso');
     } catch(error) {
-      console.log(error);
-      console.error(error[0].message);
-      console.error(error[0].extra);
-      this.setSnackbarMsg('Erro ao remover Insumo');
+      const err = JSON.parse(error.message);
+      if(err.path[0] === 'deleteIngredient')
+        this.setSnackbarMsg(err.message);
+      else
+      this.setSnackbarMsg('Erro ao remover o insumo');
     }
   }
 

@@ -12,13 +12,11 @@ export async function fetchQuery(query: String): Promise<any> {
     });
     const json = await res.json();
     if (json.errors) {
-      console.log(json.errors);
-      throw new Error(JSON.stringify(json.errors));
+      throw new Error(JSON.stringify(json.errors[0]));
     }
     return json.data;
   } catch (err) {
-    console.error(err);
-    throw new Error(JSON.stringify(err));
+    throw new Error(err.message);
   }
 }
 

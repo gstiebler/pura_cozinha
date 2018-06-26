@@ -15,16 +15,14 @@ export async function deleteIngredientType(id: string) {
   if(!!itStock || !!purchase)
   {//
     
-    IngredientTypeInUseException.prototype = Object.create(IngredientTypeInUseException.prototype);
-    IngredientTypeInUseException.prototype.constructor = IngredientTypeInUseException;
+    IngredientTypeInUseException.prototype = Error.prototype;
     throw new IngredientTypeInUseException('Este insumo já está registrado em estoque'); 
   }
-  // await IngredientType.remove({ _id: id });
+  await IngredientType.remove({ _id: id });
   return 'OK';
 }
 
 function IngredientTypeInUseException(message) {
   this.name = 'MeuErro';
   this.message = message || 'Mensagem de erro padrão';
-  this.stack = (new Error()).stack;
 }

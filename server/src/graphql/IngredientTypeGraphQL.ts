@@ -71,7 +71,7 @@ import {
       type: GraphQLString,
       args: { id: { type: GraphQLID } },
       resolve: async (value, { id }) => {
-        return resolver.deleteIngredientType(id);
+        return await resolver.deleteIngredientType(id);
       }
     },
   };
