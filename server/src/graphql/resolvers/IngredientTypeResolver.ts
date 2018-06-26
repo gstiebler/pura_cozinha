@@ -1,12 +1,7 @@
 import { Purchase } from "../../db/models/Purchase";
 import { IngredientType } from "../../db/models/IngredientType";
 import { KitchenStock } from "../../db/models/KitchenStock";
-import { Order } from "../../db/models/Order";
-import { MenuItem } from "../../db/models/menuItem";
-import { TOrderStatus, IFoodMenuItem } from "../../../../common/Interfaces";
-import * as Bluebird from "bluebird";
-import * as kitchenNs from "../../../../KitchenWebApp/src/model/NetworkServices";
-import { Map } from "immutable";
+
 
 export async function deleteIngredientType(id: string) {
   const itStock = await KitchenStock.findOne({ ingredientType: id });
@@ -16,7 +11,7 @@ export async function deleteIngredientType(id: string) {
   {//
     
     IngredientTypeInUseException.prototype = Error.prototype;
-    throw new IngredientTypeInUseException('Este insumo já está registrado em estoque'); 
+    throw new IngredientTypeInUseException('Este insumo não pode ser apagado pois está sendo usado'); 
   }
   await IngredientType.remove({ _id: id });
   return 'OK';
