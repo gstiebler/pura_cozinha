@@ -6,7 +6,6 @@ import { KitchenStock } from "../../db/models/KitchenStock";
 export async function deleteIngredientType(id: string) {
   const itStock = await KitchenStock.findOne({ ingredientType: id });
   const purchase = await Purchase.findOne({ ingredientType: id });
-  console.log(itStock + ' ' + purchase);
   if(!!itStock || !!purchase)
   {//
     

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { promise } from 'chai-as-promised';
 import * as sinon from 'sinon';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
@@ -146,5 +147,22 @@ describe('admin web app store', () => {
     store.removeFromNewPurchases(key2);
 
     expect(store.totalAmount).to.equal(21);
+  });
+
+
+
+  it('prevent removal of used ingredient type', async () => {
+    const store = new Store();
+    await store.onIngredientsPageLoad();
+    const ingredients = await IngredientType.findOne({title: 'Carne moída'});
+    const tmp = ingredients.toObject();
+    expect(tmp.title).to.equal('Carne moída');
+    await store.findIngredientById(tmp._id);
+    await store.onDeleteIngredientRequested();
+    promise.should.be.rejectedWith(Error); 
+
+
+    const deletedIngredient = IngredientType.find({title: 'Suco de tomate'}).limit(1)[0];
+    expect(deletedIngredient).to.equal(undefined);
   });
 });
