@@ -1,11 +1,12 @@
 import { expect } from 'chai';
-import { promise } from 'chai-as-promised';
+import { promise, assert } from 'chai-as-promised';
 import * as sinon from 'sinon';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
+import * as adminNs from '../model/NetworkServices';
 import * as logger from 'winston';
 
 describe('admin web app store', () => {
@@ -149,8 +150,6 @@ describe('admin web app store', () => {
     expect(store.totalAmount).to.equal(21);
   });
 
-
-
   it('prevent removal of used ingredient type', async () => {
     const store = new Store();
     await store.onIngredientsPageLoad();
@@ -158,11 +157,8 @@ describe('admin web app store', () => {
     const tmp = ingredients.toObject();
     expect(tmp.title).to.equal('Carne moída');
     await store.findIngredientById(tmp._id);
-    await store.onDeleteIngredientRequested();
-    promise.should.be.rejectedWith(Error); 
-
-
-    const deletedIngredient = IngredientType.find({title: 'Suco de tomate'}).limit(1)[0];
-    expect(deletedIngredient).to.equal(undefined);
+    expect(  () => adminNs.deleteIngredientType(store.currentIngredient._id) ).to.throw(Error);
+    // expect(() => delFn).to.throw(Error);
   });
+
 });
