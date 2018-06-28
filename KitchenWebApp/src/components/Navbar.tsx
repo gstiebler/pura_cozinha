@@ -135,7 +135,7 @@ function Navbar(props: IProps) {
   
   return (
     <div>
-      <AppBar className={classes.root} position="static" color="default">
+      <AppBar className={classes.root} position="fixed" color="default">
         <Toolbar>
           <IconButton
             color="inherit"

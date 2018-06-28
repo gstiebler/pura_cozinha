@@ -26,10 +26,10 @@ store.router = new RouterStore();
 startRouter(Views, store);
 
 ReactDOM.render(
-  <div>
+  <div style={{ paddingTop: theme.spacing.unit * 6 }}>
     <MuiThemeProvider theme={theme}>
       <Navbar store={store} />
-      <Provider store={store}>
+      <Provider store={store} >
         <MobxRouter/>
       </Provider>
     </MuiThemeProvider>
