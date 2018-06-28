@@ -11,8 +11,8 @@ import {
   ISelectedMenuItemOption,
   ISelectedFoodMenuItem,
   TOptionGroupKey,
+  Kitchen
 } from '../../../common/Interfaces';
-import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
 
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
@@ -29,7 +29,7 @@ export class Store {
   @observable isSnackbarOpen: boolean = false;
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
-  @observable kitchen: IKitchenModel = null;
+  @observable kitchen: Kitchen = null;
   lastItemIndex: number;
 
   locationOptions: string[];
