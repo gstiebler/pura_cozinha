@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 import * as ns from './NetworkServices';
 import * as _ from 'lodash';
-import { TOrderStatus, IFoodMenuItem, } from '../../../common/Interfaces';
+import { TOrderStatus, IFoodMenuItem, IKitchenStockRequest} from '../../../common/Interfaces';
 import views from '../Views';
 import { User, IUserModel } from  '../../../server/src/db/models/User';
 import { IKitchenModel } from  '../../../server/src/db/models/kitchen';
@@ -33,11 +33,16 @@ export class Store {
   @observable foodMenuItems: any[] = [];
   @observable ingredientTypesStock: any[] = [];
   @observable ingredientTypes: IngredientType[] = [];
+  @observable currentIngredientType: IngredientType = null;
+  @observable stockQty: string = ''; 
+  @observable ingredientTitle: string = ''; 
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
+  @observable anchorEL = null; //ingredient menu anchor to Edit stock
+  @observable openDialogForm: boolean = false;
   
   constructor() {
     this._reset();
@@ -50,6 +55,8 @@ export class Store {
     this.isLoggedIn = false;
     this.email = '';
     this.password = '';
+    this.anchorEL = null;
+    this.openDialogForm = false;
   }
 
 
@@ -169,25 +176,50 @@ export class Store {
 
   async onIngredientTypesStockPage()
   {
-    //Get prepared items
-    const closedStatuses:TOrderStatus[] = ['DELIVERING', 'DELIVERED'];
-    const closedOrders = await ns.getOrders(closedStatuses);
+    
     //Get ingredientTypes registered
     this.ingredientTypes = await ns.fetchIngredientTypes();
+
     //Get total amounts of ingredient types in stock
     this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
-    //Calculate difference between prepared items and ingredients stock remaining
-    closedOrders.map(order => {
-      //console.log(order);
-      order.items.map(async item => {
-        //console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
-      });
-    })
+    
   }
 
   getIngredientTypeAmountInList(id: string)
   {
-    return this.ingredientTypesStock.filter(it => it._id == id)[0];
+    return this.ingredientTypesStock.find(it => it._id == id);
+  }
+
+  setCurrentIngredientType(id: string)
+  {
+    this.currentIngredientType = this.ingredientTypes.find(it => it._id == id);
+    this.ingredientTitle = this.currentIngredientType.title;
+    this.stockQty = this.ingredientTypesStock.find(it => it._id == id).total;
+  }
+
+  onKitchenStockQtyChanged(quantity: string)
+  {
+    this.stockQty = quantity;
+  }
+
+  async updateIngredientTypeStock()
+  {
+    const kitchenStock: IKitchenStockRequest = {
+      kitchen: this.kitchen._id,
+      ingredientType: this.currentIngredientType._id,
+      quantity: parseFloat(this.stockQty),
+    };
+    try{
+      await ns.updateKitchenStock(kitchenStock);
+      this._reset();
+      await this.onIngredientTypesStockPage();
+      this.setSnackbarMsg('Estoque editado com sucesso');
+    }
+    catch(error) {
+      console.error(error);
+      this.setSnackbarMsg('Erro ao executar esta função!');
+    }
+  
   }
 
   getQuantityStockItemValue(_id: string): number
@@ -195,7 +227,7 @@ export class Store {
     if(this.kitchen != null)
     {
       const stock = this.kitchen.stock;
-      var result = stock.filter( obj => obj.menu_item === _id)[0];
+      var result = stock.find( obj => obj.menu_item === _id);
       return result.quantity;
     }
     return -1;

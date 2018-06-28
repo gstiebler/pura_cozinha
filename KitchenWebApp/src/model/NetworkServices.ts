@@ -1,5 +1,5 @@
 import * as network from '../../../common/network';
-import { IOrderSummary, IFoodMenuItem } from '../../../common/Interfaces';
+import { IOrderSummary, IFoodMenuItem, IKitchenStockRequest } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 import { TOrderStatus } from '../../../common/Interfaces';
 import { IKitchenModel } from '../../../server/src/db/models/kitchen';
@@ -111,7 +111,7 @@ export async function updateKitchenStatus(kitchenId: string, status: boolean): P
 }
 
 export async function updateKitchen(kitchen: IKitchenModel): Promise<string> {
-  const mutation = `mutation { updateKitchenStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
+  const mutation = `mutation { updateKitchenWithStock( newKitchenData: ${objToGrahqlStr(kitchen)} ) }`;
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }
@@ -170,5 +170,21 @@ export async function getFoodMenuItem(id: string): Promise<IFoodMenuItem> {
   `;
   const result = await network.fetchQuery(query);
   return result.foodMenuItem;
+}
+
+export async function updateKitchenStock(kitchenStock: IKitchenStockRequest) {
+  const mutation = `
+    mutation {
+      updateKitchenStock (
+        fmiData: {
+          kitchen: "${kitchenStock.kitchen}",
+          ingredientType: "${kitchenStock.ingredientType}",
+          quantity: ${kitchenStock.quantity},
+        }
+      ) 
+    }
+  `;
+  const result = await network.fetchQuery(mutation);
+  return result.msg;
 }
 

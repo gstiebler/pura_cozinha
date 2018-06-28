@@ -89,6 +89,14 @@ export interface IPurchaseRequest {
   ingredientType: string;
 }
 
+
+export interface IKitchenStockRequest {
+  ingredientType: string;
+  kitchen: string;
+  quantity: number;
+  updatedAt?: Date;
+}
+
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
   qty: number;
