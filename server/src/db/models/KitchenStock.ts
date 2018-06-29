@@ -6,7 +6,6 @@ const ObjectId = Schema.Types.ObjectId;
 export type TfmiId = string;
 
 export interface KitchenStock {
-  _id: string;
   kitchen: string;
   ingredientType: string;
   quantity: number;
@@ -22,7 +21,7 @@ const KitchenStockSchema = new Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-export const KitchenStock = mongoose.model(
-  "KitchenStock",
-  KitchenStockSchema
-);
+interface IKitchenStockModel extends KitchenStock, Document {}
+
+export const KitchenStock: Model<IKitchenStockModel> = model<IKitchenStockModel>("KitchenStock",
+KitchenStockSchema);
