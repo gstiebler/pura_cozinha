@@ -31,6 +31,27 @@ export default async () => {
       buyDate: new Date('2018-01-02'),
       createdAt: new Date(),
       ingredientType: await idByValue(IngredientType, 'title', 'Leite'),
+    },
+    {
+      quantity: 10,
+      value: 200,
+      buyDate: new Date('2018-01-02'),
+      createdAt: new Date(),
+      ingredientType: await idByValue(IngredientType, 'title', 'Filé Mignon'),
+    },
+    {
+      quantity: 10,
+      value: 20,
+      buyDate: new Date('2018-01-02'),
+      createdAt: new Date(),
+      ingredientType: await idByValue(IngredientType, 'title', 'Açaí'),
+    },
+    {
+      quantity: 10,
+      value: 100,
+      buyDate: new Date('2018-01-02'),
+      createdAt: new Date(),
+      ingredientType: await idByValue(IngredientType, 'title', 'Peito de Frango'),
     }
   ];
 }

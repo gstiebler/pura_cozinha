@@ -169,20 +169,13 @@ export class Store {
 
   async onIngredientTypesStockPage()
   {
-    //Get prepared items
-    const closedStatuses:TOrderStatus[] = ['DELIVERING', 'DELIVERED'];
-    const closedOrders = await ns.getOrders(closedStatuses);
+    
     //Get ingredientTypes registered
     this.ingredientTypes = await ns.fetchIngredientTypes();
+
     //Get total amounts of ingredient types in stock
     this.ingredientTypesStock = await ns.fetchIngredientTypesAmount();
-    //Calculate difference between prepared items and ingredients stock remaining
-    closedOrders.map(order => {
-      //console.log(order);
-      order.items.map(async item => {
-        //console.log(await ns.getFoodMenuItem(item.foodMenuItem.id));
-      });
-    })
+    
   }
 
   getIngredientTypeAmountInList(id: string)
