@@ -38,7 +38,7 @@ class Navbar extends React.Component<IProps> {
   render() {
     const { classes, store } = this.props;
     return (
-      <AppBar className={classes.root} position="static" color="default">
+      <AppBar className={classes.root} position="fixed" color="default">
         <Toolbar>
           <BackButton store={store}/>
           <Typography variant="title" color="inherit">

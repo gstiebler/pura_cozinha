@@ -29,14 +29,14 @@ store.router = new RouterStore();
 startRouter(views, store);
 
 ReactDOM.render(
-  <div>
-  <MuiThemeProvider theme={theme}>
-    <Navbar store={store} />
-    <Provider store={store}>
-      <MobxRouter/>
-    </Provider>
-  </MuiThemeProvider>
-  <SystemMessage store={store} />
+  <div style={{ paddingTop: theme.spacing.unit * 6 }}>
+    <MuiThemeProvider theme={theme}>
+      <Navbar store={store} />
+      <Provider store={store}>
+        <MobxRouter/>
+      </Provider>
+    </MuiThemeProvider>
+    <SystemMessage store={store} />
   </div>,
   document.getElementById('root')
 );
