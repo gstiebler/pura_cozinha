@@ -69,7 +69,7 @@ describe('admin web app store', () => {
     await store.findIngredientById(tmp._id);
     await store.onDeleteIngredientRequested();
 
-    const deletedIngredient = IngredientType.find({title: 'Suco de tomate'}).limit(1)[0];
+    const deletedIngredient = await IngredientType.find({title: 'Suco de tomate'}).limit(1)[0];
     expect(deletedIngredient).to.equal(undefined);
   });
 
@@ -153,12 +153,28 @@ describe('admin web app store', () => {
   it('prevent removal of used ingredient type', async () => {
     const store = new Store();
     await store.onIngredientsPageLoad();
+
+    //Try to delete used ingredient
     const ingredients = await IngredientType.findOne({title: 'Carne moída'});
     const tmp = ingredients.toObject();
     expect(tmp.title).to.equal('Carne moída');
     await store.findIngredientById(tmp._id);
-    expect(  () => adminNs.deleteIngredientType(store.currentIngredient._id) ).to.throw(Error);
-    // expect(() => delFn).to.throw(Error);
+    await  expect(adminNs.deleteIngredientType(store.currentIngredient._id)).to.be.rejectedWith(Error);
+
+    // Create new ingredient
+    await store.onIngredientsPageLoad();
+    store.ingredientTitleChanged('Tomate');
+    store.unitSelected('CX');
+    await store.onSendIngredientRequested();
+    const ingredients2 = await IngredientType.find().sort({_id:-1}).limit(1);
+    const lastIngredient = ingredients2[0].toObject();
+    expect(lastIngredient.title).to.equal('Tomate');
+
+    //Delete unused ingredient
+    await store.findIngredientById(lastIngredient._id);
+    await store.onDeleteIngredientRequested();
+    const deletedIngredient = await IngredientType.findOne({title: 'Tomate'});
+    expect(deletedIngredient).to.equal(null);
   });
 
 });

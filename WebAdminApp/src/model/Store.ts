@@ -191,7 +191,7 @@ export class Store {
   async onDeleteIngredientRequested() {
     try {
       await ns.deleteIngredientType(this.currentIngredient._id);
-      this.reset();
+      await this.reset();
       this.setSnackbarMsg('Insumo removido com sucesso');
     } catch(error) {
       let err = JSON.parse(error.message);
