@@ -29,7 +29,7 @@ export async function getIngredientTypesStocks() {
     ingredientTypes: IngredientType.find(),
     kitchenStocks: KitchenStock.find()
   });
-
+  
   const purchasesStock = await Bluebird.map(
     ingredientTypes,
     async ingredient => {
@@ -38,7 +38,6 @@ export async function getIngredientTypesStocks() {
       );
       let updated = new Date("1970-01-01");
       let finalTotal = 0;
-
       if (editedStock) {
         updated = editedStock.toObject().updatedAt;
         finalTotal = editedStock.toObject().quantity;
@@ -51,7 +50,10 @@ export async function getIngredientTypesStocks() {
         { $group: { _id: "$ingredientType", total: { $sum: "$quantity" } } }
       ]);
       
-      if (!!ingredientStock && ingredientStock.length != 0) finalTotal += ingredientStock[0].total;
+      if (ingredientStock && ingredientStock.length != 0) {
+        finalTotal += ingredientStock[0].total;
+      }
+        
       
       return {
         _id: ingredient._id,
@@ -59,7 +61,7 @@ export async function getIngredientTypesStocks() {
       };
     }
   );
-  
+  purchasesStock.map(it => console.log(it.total));
   const menuItemsMap = Map<string, IFoodMenuItem>(
     menuItems.map(m => [m._id.toString(), m])
   );
@@ -73,17 +75,15 @@ export async function getIngredientTypesStocks() {
         const menuItem: IFoodMenuItem = menuItemsMap.get(orderMenu.foodMenuItem.id.toString());
         const reducedIngredient = menuItem.usedIngredients.reduce( (prevTotal, ingredient) => {
             
-            const editedStock = kitchenStocks.find(ks => ks.toObject().ingredientType == ingredient.ingredient);
+            const editedStock = kitchenStocks.find(ks => ks.toObject().ingredientType.toString() == ingredient.ingredient);
             const previousIngQty = prevTotal;
             let totalLeft = 0;
             if(ingredientType.toObject()._id.toString() == ingredient.ingredient)
             {
-              if(!!editedStock)
+              if(editedStock)
               {
-                if(order.createdOn.getTime() >= editedStock.toObject().updatedAt.getTime())
+                if(order.createdOn.getTime() > editedStock.toObject().updatedAt.getTime())
                   totalLeft = previousIngQty + ingredient.quantity 
-                else
-                  previousIngQty;
               }
               else
                 totalLeft = previousIngQty + ingredient.quantity;
