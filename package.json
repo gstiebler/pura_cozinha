@@ -48,6 +48,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.4",
     "gulp-uglify": "^3.0.0",
+    "immutable": "^3.8.2",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.35",
     "material-ui-icons": "^1.0.0-beta.17",

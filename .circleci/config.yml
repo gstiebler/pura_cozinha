@@ -36,22 +36,8 @@ jobs:
           name: Running Tests
           command: |
             ./node_modules/gulp/bin/gulp.js test
-    
-      - run:
-           name: Prepare to deploy
-           command: |
-              ./node_modules/bower/bin/bower install
-              ./node_modules/gulp/bin/gulp.js postProdInstall
            environment:
-              NODE_ENV: production
-
-      - deploy:
-          name: Deploy staging
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "staging" ]; then
-              docker build -t performitiv/performitiv:staging .
-              docker push performitiv/performitiv:staging
-            fi
+              NODE_ENV: test
 
       - store_artifacts:
                 path: ~/.npm/_logs
