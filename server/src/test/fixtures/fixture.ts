@@ -12,12 +12,14 @@ import { Order } from '../../db/models/Order';
 import { User } from '../../db/models/User';
 import { IngredientType } from '../../db/models/IngredientType';
 import { Purchase } from '../../db/models/Purchase';
+import { KitchenStock } from '../../db/models/KitchenStock';
 
 export async function initFixtures() {
   await Promise.all([
     User.remove({}),
     Order.remove({}),
     Kitchen.remove({}),
+    KitchenStock.remove({}),
     MenuItem.remove({}),
     Purchase.remove({}),
     IngredientType.remove({}),

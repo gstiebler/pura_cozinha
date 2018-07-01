@@ -153,7 +153,7 @@ export const KitchenMutation = {
       return 'OK';
     }
   },
-  updateKitchenStock: {
+  updateKitchenWithStock: {
     type: GraphQLString,
     args: { newKitchenData: { type: KitchenWithStockInputType } },
     resolve: async (value, { newKitchenData }) => {

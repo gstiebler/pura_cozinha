@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export interface IKitchenModel extends mongoose.Document {
-  id: string,
+export interface Kitchen extends mongoose.Document {
   name: string;
   address: string;
   coordinates: { 
@@ -30,6 +29,8 @@ const kitSchema = new mongoose.Schema({
    stock: { type: Object }
 });
 
-export const Kitchen = mongoose.model('Kitchen', kitSchema);
+interface IKitchenModel extends Kitchen, Document {};
+
+export const Kitchen: mongoose.Model<IKitchenModel> = mongoose.model<IKitchenModel>('Kitchen', kitSchema);
 
 export default Kitchen;

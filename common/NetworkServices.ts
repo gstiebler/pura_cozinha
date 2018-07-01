@@ -1,5 +1,5 @@
 import * as network from './network';
-import { IngredientType } from '../server/src/db/models/IngredientType';
+import { IngredientType } from './Interfaces';
 
 export async function findKitchenById(kitchenId: string): Promise<any> {
     const params = `
