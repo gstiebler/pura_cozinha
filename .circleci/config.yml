@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/node:8.11.1
       - image: mongo:3.6
@@ -36,8 +36,6 @@ jobs:
           name: Running Tests
           command: |
             ./node_modules/gulp/bin/gulp.js test
-           environment:
-              NODE_ENV: test
 
       - store_artifacts:
                 path: ~/.npm/_logs
