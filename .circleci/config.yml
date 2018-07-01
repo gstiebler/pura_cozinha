@@ -17,7 +17,7 @@ jobs:
           command: |
             yarn
             node ./node_modules/gulp/bin/gulp.js transpile
-            node ./node_modules/gulp/bin/gulp.js start:server
+            node ./node_modules/gulp/bin/gulp.js test
       - save_cache:
           paths:
             - node_modules
