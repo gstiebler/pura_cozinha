@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.11.1
+      - image: mongo:3.6
+    environment:
+      NODE_ENV: ci
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: npm-dependencies
+
+      - run:
+          name: Preparing environment
+          command: |
+            yarn
+            node ./node_modules/gulp/bin/gulp.js transpile
+            node ./node_modules/gulp/bin/gulp.js test
+      - save_cache:
+          paths:
+            - node_modules
+          key: npm-dependencies
+
+      - run:
+          name: Installing MongoDB Tools
+          command: |
+            sudo apt-get install apt-transport-https
+            sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+            echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+            sudo apt-get update
+            sudo apt-get install -y mongodb-org-tools
+            
+      - run:
+          name: Running Tests
+          command: |
+            ./node_modules/gulp/bin/gulp.js test
+
+      - store_artifacts:
+                path: ~/.npm/_logs
+                destination: logs
