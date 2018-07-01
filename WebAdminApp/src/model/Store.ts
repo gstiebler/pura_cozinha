@@ -11,7 +11,7 @@ import {
   IPurchaseRequest,
 } from '../../../common/Interfaces';
 import { availableUnits } from '../../../common/unitMaps';
-import { IngredientType } from '../../../server/src/db/models/IngredientType';
+import { IngredientType } from '../../../common/Interfaces';
 import { Purchase } from '../../../server/src/db/models/Purchase';
 
 
