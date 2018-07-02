@@ -20,6 +20,8 @@ export class Store {
   @observable router;
   @observable isDrawerOpen = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
+  @observable imgLoaderUrl = 'https://bit.ly/238UUAJ'; //ingredient menu anchor to Edit and Delete options
+
   @observable ingredients: IngredientType[] = [];
   @observable purchases: Purchase[] = [];
   @observable openDialogForm: boolean = false;

@@ -90,7 +90,7 @@ function Purchases(props: IProps) {
           loader={
             <div style={{ marginBottom: 35 }}>
               <Typography gutterBottom className={classes.loadingLabel}>
-                Carregando...
+                <img src={store.imgLoaderUrl} style={{ maxWidth: 35 }}/>
               </Typography>
               <br/><br/>
             </div>
