@@ -52,7 +52,7 @@ import {
     fetchPurchasesPerPage: {
       type: new GraphQLList(PurchaseCompleteType),
       args: {
-        page: { type: GraphQLString }
+        page: { type: GraphQLFloat }
       },
       resolve: async function(root, { page }) {
         return await Purchase.find()

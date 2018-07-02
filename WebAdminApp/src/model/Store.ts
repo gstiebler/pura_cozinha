@@ -25,7 +25,7 @@ export class Store {
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   @observable currentPurchase = null;
-  @observable itemsTest = Array.from({ length: 20 });
+  @observable page: number = 0;
   
   //New ingredient variables
   @observable title: string = '';
@@ -69,16 +69,17 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchasesPerPage(1);
+    this.purchases = await ns.fetchPurchasesPerPage(0);
     this.ingredientTypeId = this.ingredients[0]._id;
   }
 
 
-  fetchMorePurchasesData = () => {
-    // a fake async api call like which sends
+  async fetchMorePurchasesData() {
     // 20 more records in 1.5 secs
+    this.page++;
+    const newPurchases = await ns.fetchPurchasesPerPage(this.page);
     setTimeout(() => {
-      this.itemsTest = this.itemsTest.concat(Array.from({ length: 20 }));
+      this.purchases = this.purchases.concat(newPurchases);
     }, 1000);
   };
 

@@ -79,47 +79,12 @@ interface IProps {
 function Purchases(props: IProps) {
   const { store, classes } = props;
   const ITEM_HEIGHT = 25;
-  const items = store.purchases.map(fmi => {
-    const secondary = fmi.value;
-    const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType);
-    const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
-    return (
-      <ListItem key={fmi._id} divider >
-        <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
-                               +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
-        <IconButton
-          aria-label="More"
-          aria-owns={store.anchorEL ? 'long-menu' : null}
-          aria-haspopup="true"
-          key={fmi._id}
-          onClick={handleClick.bind(null, store, fmi._id)}
-        >
-          <MoreVertIcon />
-        </IconButton>
-        <Menu
-          id="long-menu"
-          anchorEl={store.anchorEL}
-          open={Boolean(store.anchorEL)}
-          onClose={handleClose.bind(null, store)}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: 80,
-            },
-          }}
-        >
-          <MenuItem key='delete' onClick={() => onDeletePurchase(store)}>
-              Deletar
-          </MenuItem>
-        </Menu>
-      </ListItem>
-    );
-  });
+  
 
   const infinite = (
     <div>
       <InfiniteScroll
-          dataLength={store.itemsTest.length}
+          dataLength={store.purchases.length}
           next={fetchMoreData.bind(null, store)}
           hasMore={true}
           loader={
@@ -136,11 +101,42 @@ function Purchases(props: IProps) {
             </p>
           }
         >
-        {store.itemsTest.map((i, index) => (
-          <ListItem key={index} divider>
-            <ListItemText primary={`div - ${index}`} />
-          </ListItem>
-        ))}
+        { store.purchases.map(fmi => {
+          const secondary = fmi.value;
+          const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType);
+          const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
+          return (
+            <ListItem key={fmi._id} divider >
+              <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
+                                    +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
+              <IconButton
+                aria-label="More"
+                aria-owns={store.anchorEL ? 'long-menu' : null}
+                aria-haspopup="true"
+                key={fmi._id}
+                onClick={handleClick.bind(null, store, fmi._id)}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="long-menu"
+                anchorEl={store.anchorEL}
+                open={Boolean(store.anchorEL)}
+                onClose={handleClose.bind(null, store)}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: 80,
+                  },
+                }}
+              >
+                <MenuItem key='delete' onClick={() => onDeletePurchase(store)}>
+                    Deletar
+                </MenuItem>
+              </Menu>
+            </ListItem>
+          );
+        })}
       </InfiniteScroll>
     </div>
   );
