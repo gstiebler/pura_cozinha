@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
 import { observer } from 'mobx-react';
-import views from '../Views';
 import { Store } from '../model/Store';
-import { availableUnits, readableUnits } from '../../../common/unitMaps';
 import { formatCurrency } from '../../../common/util';
 import * as moment from 'moment';
 import Dialog, {
@@ -20,7 +17,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
 import NewPurchase from './NewPurchase';
-import Views from '../Views';
+import * as InfiniteScroll from "react-infinite-scroll-component";
 
 
 function handleClick(store: Store, id: string, event) {
@@ -37,11 +34,6 @@ function onDeletePurchase(store: Store) {
   store.onDeletePurchaseRequested();
 }
 
-function onEditIngredient(store: Store) {
-  store.anchorEL = null;
-  store.router.goTo(Views.editIngredient, {}, store);
-}
-
 function getPurchaseIngredientType(store: Store, id: string)
 {
   return store.getPurchaseIngredientType(id);
@@ -49,6 +41,11 @@ function getPurchaseIngredientType(store: Store, id: string)
 
 function handleFormOpen(store: Store) {
   store.openDialogForm = !store.openDialogForm;
+}
+
+
+function fetchMoreData(store: Store) {
+  store.fetchMoreData();
 }
 
 const styles = theme => ({
@@ -68,6 +65,13 @@ const styles = theme => ({
     padding: 16,
   },
 });
+
+const style = {
+  height: 30,
+  border: "1px solid green",
+  margin: 6,
+  padding: 8
+};
 
 interface IProps {
   store: Store;
@@ -114,12 +118,39 @@ function Purchases(props: IProps) {
     );
   });
 
+  const infinite = (
+    <div>
+      <InfiniteScroll
+          dataLength={store.itemsTest.length}
+          next={fetchMoreData.bind(null, store)}
+          hasMore={true}
+          loader={
+            <div style={{ marginTop: 15 }}>
+              <h4>Carregando...</h4>
+              <br/><br/>
+            </div>
+          }
+          endMessage={
+            <p style={{textAlign: 'center'}}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+        {store.itemsTest.map((i, index) => (
+          <ListItem key={index} divider>
+            <ListItemText primary={`div - ${index}`} />
+          </ListItem>
+        ))}
+      </InfiniteScroll>
+    </div>
+  );
+
   return (
     <div className={classes.root}>
-      <List>
+      {/* <List>
         {items}
-      </List>
-      
+      </List> */}
+      {infinite}
       <Paper style={{ position: "fixed", bottom:"0", width:"100%", height: "100"}}>
         <Button variant="raised" className={classes.button} 
                 onClick={handleFormOpen.bind(null, store)}

@@ -25,6 +25,7 @@ export class Store {
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   @observable currentPurchase = null;
+  @observable itemsTest = Array.from({ length: 20 });
   
   //New ingredient variables
   @observable title: string = '';
@@ -232,6 +233,14 @@ export class Store {
       this.isSnackbarOpen = false;
     }, 5000);
   }
+
+  fetchMoreData = () => {
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+      this.itemsTest = this.itemsTest.concat(Array.from({ length: 20 }));
+    }, 1000);
+  };
 
 }
 
