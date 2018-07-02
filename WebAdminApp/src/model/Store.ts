@@ -27,6 +27,7 @@ export class Store {
   @observable currentPurchase = null;
   @observable purchasesTotal: number = 0;
   @observable page: number = 0;
+  @observable hasMore: boolean = true;
   
   //New ingredient variables
   @observable title: string = '';
@@ -72,7 +73,6 @@ export class Store {
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchasesPerPage(0);
     this.purchasesTotal = await ns.countPurchases();
-    console.log(await ns.countPurchases());
     this.ingredientTypeId = this.ingredients[0]._id;
     this.page = 0;
   }
@@ -80,6 +80,7 @@ export class Store {
 
   async fetchMorePurchasesData() {
     // 20 more records in 1.5 secs
+    this.hasMore = (this.purchases.length < this.purchasesTotal);
     this.page++;
     const newPurchases = await ns.fetchPurchasesPerPage(this.page);
     setTimeout(() => {

@@ -86,7 +86,7 @@ function Purchases(props: IProps) {
       <InfiniteScroll
           dataLength={store.purchases.length}
           next={fetchMoreData.bind(null, store)}
-          hasMore={true}
+          hasMore={store.hasMore}
           loader={
             <div style={{ marginBottom: 35 }}>
               <Typography gutterBottom className={classes.loadingLabel}>
@@ -96,9 +96,12 @@ function Purchases(props: IProps) {
             </div>
           }
           endMessage={
-            <p style={{textAlign: 'center'}}>
-              <b>Yay! You have seen it all</b>
-            </p>
+            <div style={{ marginBottom: 35, textAlign: 'center' }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                Yeahp! Todas as compras foram carregadas.
+              </Typography>
+              <br/><br/>
+            </div>
           }
         >
         { store.purchases.map(fmi => {
@@ -143,9 +146,6 @@ function Purchases(props: IProps) {
 
   return (
     <div className={classes.root}>
-      {/* <List>
-        {items}
-      </List> */}
       <div>
         <Typography gutterBottom className={classes.summaryLabel}>
           Compras Cadastradas
