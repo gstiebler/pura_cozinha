@@ -46,7 +46,7 @@ function handleFormOpen(store: Store) {
 
 
 function fetchMoreData(store: Store) {
-  store.fetchMoreData();
+  store.fetchMorePurchasesData();
 }
 
 const styles = theme => ({

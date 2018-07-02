@@ -69,9 +69,18 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchases();
+    this.purchases = await ns.fetchPurchasesPerPage(1);
     this.ingredientTypeId = this.ingredients[0]._id;
   }
+
+
+  fetchMorePurchasesData = () => {
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+      this.itemsTest = this.itemsTest.concat(Array.from({ length: 20 }));
+    }, 1000);
+  };
 
   async findIngredientById(id: string)
   {
@@ -233,14 +242,6 @@ export class Store {
       this.isSnackbarOpen = false;
     }, 5000);
   }
-
-  fetchMoreData = () => {
-    // a fake async api call like which sends
-    // 20 more records in 1.5 secs
-    setTimeout(() => {
-      this.itemsTest = this.itemsTest.concat(Array.from({ length: 20 }));
-    }, 1000);
-  };
 
 }
 

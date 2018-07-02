@@ -49,6 +49,17 @@ import {
         return await Purchase.find();
       }
     },
+    fetchPurchasesPerPage: {
+      type: new GraphQLList(PurchaseCompleteType),
+      args: {
+        page: { type: GraphQLString }
+      },
+      resolve: async function(root, { page }) {
+        return await Purchase.find()
+                            .limit(8)
+                            .skip(8 * page);
+      }
+    },
     purchase: {
       type: PurchaseCompleteType,
       args: {
