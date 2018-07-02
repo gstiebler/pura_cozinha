@@ -50,6 +50,16 @@ export async function fetchPurchasesPerPage(page: number): Promise<Purchase[]> {
   return result.fetchPurchasesPerPage;
 }
 
+export async function countPurchases(): Promise<number> {
+  const query = `
+    query {
+      countPurchases 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.countPurchases;
+}
+
 export async function findPurchaseById(id: string): Promise<Purchase[]> {
   const query = `
     query {

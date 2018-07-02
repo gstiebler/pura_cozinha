@@ -25,6 +25,7 @@ export class Store {
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   @observable currentPurchase = null;
+  @observable purchasesTotal: number = 0;
   @observable page: number = 0;
   
   //New ingredient variables
@@ -70,7 +71,10 @@ export class Store {
   {
     this.ingredients = await ns.fetchIngredientTypes();
     this.purchases = await ns.fetchPurchasesPerPage(0);
+    this.purchasesTotal = await ns.countPurchases();
+    console.log(await ns.countPurchases());
     this.ingredientTypeId = this.ingredients[0]._id;
+    this.page = 0;
   }
 
 
