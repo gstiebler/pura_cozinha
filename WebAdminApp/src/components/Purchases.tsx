@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
+import Typography from 'material-ui/Typography';
 import { observer } from 'mobx-react';
 import { Store } from '../model/Store';
 import { formatCurrency } from '../../../common/util';
@@ -64,14 +65,11 @@ const styles = theme => ({
   summaryLabel: {
     padding: 16,
   },
+  loadingLabel: {
+    paddingLeft: 10,
+    paddingTop: 10
+  },
 });
-
-const style = {
-  height: 30,
-  border: "1px solid green",
-  margin: 6,
-  padding: 8
-};
 
 interface IProps {
   store: Store;
@@ -125,8 +123,10 @@ function Purchases(props: IProps) {
           next={fetchMoreData.bind(null, store)}
           hasMore={true}
           loader={
-            <div style={{ marginTop: 15 }}>
-              <h4>Carregando...</h4>
+            <div style={{ marginBottom: 35 }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                Carregando...
+              </Typography>
               <br/><br/>
             </div>
           }
@@ -150,6 +150,11 @@ function Purchases(props: IProps) {
       {/* <List>
         {items}
       </List> */}
+      <div>
+        <Typography gutterBottom className={classes.summaryLabel}>
+          Compras Cadastradas
+        </Typography>
+      </div>
       {infinite}
       <Paper style={{ position: "fixed", bottom:"0", width:"100%", height: "100"}}>
         <Button variant="raised" className={classes.button} 
