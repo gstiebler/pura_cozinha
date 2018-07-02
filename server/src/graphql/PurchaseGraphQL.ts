@@ -64,7 +64,8 @@ import {
       resolve: async function(root, { page }) {
         return await Purchase.find()
                             .limit(8)
-                            .skip(8 * page);
+                            .skip(8 * page)
+                            .sort({_id:-1});
       }
     },
     countPurchases: {

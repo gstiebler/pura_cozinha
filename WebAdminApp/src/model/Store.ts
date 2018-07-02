@@ -57,7 +57,6 @@ export class Store {
     this.currentIngredient = null;
     this.newPurchases = [];
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchases();
     this.totalAmount = 0;
     this.selectedUnit = availableUnits[0][0];
   }
@@ -194,7 +193,7 @@ export class Store {
         };
         await ns.sendPurchaseRequest(request);
       });
-      
+      await this.onPurchasesPageLoad();
       await this.reset();
       this.setSnackbarMsg('Compras salvas com sucesso');
       this.openDialogForm = false;
