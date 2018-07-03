@@ -126,7 +126,20 @@ describe('admin web app store', () => {
     store.addNewPurchase();
     await store.onSendPurchaseRequested();
     const purchasesCount = await adminNs.countPurchases();
-    expect(purchasesCount).to.equal(11);
+    expect(purchasesCount).to.equal(11); //4 initiated in fixtures, 7 more in this test
+  });
+
+  it('check purchases infinite scrolling', async () => {
+    const store = new Store();
+    await store.onPurchasesPageLoad();
+    expect(store.purchases.length).to.equal(8);
+    expect(store.hasMore).to.equal(true);
+    
+    await store.fetchMorePurchasesData();
+    expect(store.purchases.length).to.equal(11);
+
+    await store.fetchMorePurchasesData();
+    expect(store.hasMore).to.equal(false);
   });
 
   it('create purchase', async () => {
