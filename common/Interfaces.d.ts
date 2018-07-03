@@ -1,3 +1,8 @@
+import { IngredientType } from '../server/src/db/models/IngredientType';
+import { Kitchen } from '../server/src/db/models/Kitchen';
+import { MenuItem } from '../server/src/db/models/menuItem';
+import { Purchase } from '../server/src/db/models/Purchase';
+
 
 export type TfmiId = string;
 export type TPaymentOptions = 'Dinheiro' | 'Cartão';
@@ -5,31 +10,6 @@ export type TOrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERING' | 'DELIVERED' 
 export type TOptionGroupKey = string;
 export type TSelectedItemKey = string;
 
-export interface IFoodMenuItem {
-  _id?: TfmiId;
-  title: string;
-  description: string;
-  price: number;
-  imgURL: string;
-  options: {
-    label: string;
-    key: string;
-    optionItems: {
-      label: string;
-      key: string;
-      price: number;
-    }[];
-  }[];
-  boolOptions: {
-    label: string;
-    key: string;
-    price: number;
-  }[];
-  usedIngredients: {
-    ingredient: string;
-    quantity: number;
-  }[];
-}
 
 export interface ISelectedFoodMenuItem {
   _id?: TfmiId;
@@ -89,6 +69,14 @@ export interface IPurchaseRequest {
   ingredientType: string;
 }
 
+
+export interface IKitchenStockRequest {
+  ingredientType: string;
+  kitchen: string;
+  quantity: number;
+  updatedAt?: Date;
+}
+
 export interface ISelectedMenuItemOption {
   _id: TfmiId;
   qty: number;
@@ -97,4 +85,23 @@ export interface ISelectedMenuItemOption {
   boolOptions: Set<string>;
   // option key => option key string value
   multipleOptions: Map<TOptionGroupKey, string>;
+}
+
+
+
+export interface IngredientType extends IngredientType {
+  _id: TfmiId;
+}
+
+export interface Kitchen extends Kitchen {
+  id: TfmiId;
+}
+
+export interface IFoodMenuItem extends MenuItem{
+  _id: TfmiId;
+}
+
+
+export interface Purchase extends Purchase {
+  _id: string
 }

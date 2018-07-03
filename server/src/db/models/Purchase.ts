@@ -2,7 +2,6 @@ import * as mongoose from 'mongoose';
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 export interface Purchase extends mongoose.Document {
-  _id: string,
   ingredientType: any;
   quantity: number;
   value: number;
@@ -17,7 +16,8 @@ const purchaseSchema = new mongoose.Schema({
   buyDate: { type: Date, default: Date.now, required: true},
   createdAt: { type: Date, default: Date.now, required: true },
 });
+interface IPurchaseModel extends Purchase, Document {}
 
-export const Purchase = mongoose.model('Purchase', purchaseSchema);
+export const Purchase: mongoose.Model<IPurchaseModel> = mongoose.model<IPurchaseModel>('Purchase', purchaseSchema);
 
 export default Purchase;

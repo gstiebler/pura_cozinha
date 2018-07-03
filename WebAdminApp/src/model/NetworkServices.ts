@@ -6,7 +6,7 @@ import {
   IPurchaseRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
-import { IngredientType } from '../../../server/src/db/models/IngredientType';
+import { IngredientType } from '../../../common/Interfaces';
 import { Purchase } from '../../../server/src/db/models/Purchase';
 import { ObjectID } from 'bson';
 import * as ns from '../../../common/NetworkServices';

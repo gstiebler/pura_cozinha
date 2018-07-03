@@ -16,21 +16,15 @@ const availableUnits = [
 export type TfmiId = string;
 
 export interface IngredientType {
-  _id: string;
   title: string;
   unit: string;
 }
-
-// export interface IIngredient {
-//   title: string;
-//   unit: string;
-// }
 
 const IngredientSchema = new Schema({
   title: { type: String, required: true },
   unit: { type: String, enum: availableUnits, default: 'KG' },
 });
 
-// interface IIngredientModel extends IIngredient, Document {}
+interface IIngredientModel extends IngredientType, Document {}
 
-export const IngredientType = mongoose.model('IngredientType', IngredientSchema);
+export const IngredientType: Model<IIngredientModel> = model<IIngredientModel>('IngredientType', IngredientSchema);

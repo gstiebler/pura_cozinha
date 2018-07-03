@@ -1,5 +1,7 @@
 /.project
 node_modules
 out
+yarn.lock
+*.lock
 
 yarn\.lock

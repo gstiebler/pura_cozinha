@@ -10,6 +10,7 @@ import {
   import { Purchase } from '../db/models/Purchase';
   import { IIngredientRequest } from '../../../common/Interfaces';
   import { ObjectId, ObjectID } from 'bson';
+  import * as resolvers from './resolvers/PurchaseResolver';
   
   
   export const PurchaseCompleteType = new GraphQLObjectType({
@@ -88,10 +89,7 @@ import {
     ingredientTypeSums: {
       type: new GraphQLList(IngredientTypesTotal),
       resolve: async function() {
-        return await Purchase.aggregate([
-                              { $group: { _id: "$ingredientType", total: { $sum: "$quantity" } } },
-                              { $sort: { total: -1 } }
-                            ]);
+        return await resolvers.getIngredientTypesStocks();
       }
     },
   };
