@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
+import * as adminNs  from '../model/NetworkServices';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
@@ -74,18 +75,58 @@ describe('admin web app store', () => {
   it('get purchases', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    expect(store.purchases[0].quantity).to.equal(3);
-    expect(store.purchases[1].quantity).to.equal(2);
+    expect(store.purchases[3].quantity).to.equal(3);
+    expect(store.purchases[2].quantity).to.equal(2);
   });
+
 
   it('get purchase ingredient type', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[0].ingredientType);
+    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[3].ingredientType);
     expect(pIngredientType1.title).to.equal('Carne moída');
 
-    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[1].ingredientType);
+    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[2].ingredientType);
     expect(pIngredientType2.title).to.equal('Seleta de Legumes');
+  });
+
+
+  it('check purchases count', async () => {
+    const store = new Store();
+    await store.onPurchasesPageLoad();
+    store.ingredientTypeSelected(store.ingredients[0]._id);
+    store.buyDateChanged(new Date('2018-03-18'));
+    //1 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //2 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //3 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //4 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //5 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //6 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //7 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    await store.onSendPurchaseRequested();
+    const purchasesCount = await adminNs.countPurchases();
+    expect(purchasesCount).to.equal(11);
   });
 
   it('create purchase', async () => {
