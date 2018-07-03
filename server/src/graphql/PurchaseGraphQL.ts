@@ -59,12 +59,13 @@ import {
     fetchPurchasesPerPage: {
       type: new GraphQLList(PurchaseCompleteType),
       args: {
-        page: { type: GraphQLFloat }
+        page: { type: GraphQLFloat },
+        perPage: { type: GraphQLFloat }
       },
-      resolve: async function(root, { page }) {
+      resolve: async function(root, { page, perPage }) {
         return await Purchase.find()
-                            .limit(8)
-                            .skip(8 * page)
+                            .limit(perPage)
+                            .skip(perPage * page)
                             .sort({_id:-1});
       }
     },

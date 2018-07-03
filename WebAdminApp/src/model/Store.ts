@@ -29,6 +29,7 @@ export class Store {
   @observable currentPurchase = null;
   @observable purchasesTotal: number = 0;
   @observable page: number = 0;
+  @observable PER_PAGE: number = 8;
   @observable hasMore: boolean = true;
   
   //New ingredient variables
@@ -72,7 +73,7 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchasesPerPage(0);
+    this.purchases = await ns.fetchPurchasesPerPage(0, this.PER_PAGE);
     this.purchasesTotal = await ns.countPurchases();
     this.ingredientTypeId = this.ingredients[0]._id;
     this.page = 0;
@@ -80,13 +81,10 @@ export class Store {
 
 
   async fetchMorePurchasesData() {
-    // 20 more records in 1.5 secs
     this.hasMore = (this.purchases.length < this.purchasesTotal);
     this.page++;
-    const newPurchases = await ns.fetchPurchasesPerPage(this.page);
-    setTimeout(() => {
-      this.purchases = this.purchases.concat(newPurchases);
-    }, 1000);
+    const newPurchases = await ns.fetchPurchasesPerPage(this.page, this.PER_PAGE);    
+    this.purchases = this.purchases.concat(newPurchases);
   };
 
   async findIngredientById(id: string)

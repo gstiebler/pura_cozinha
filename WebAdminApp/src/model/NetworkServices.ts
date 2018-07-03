@@ -33,10 +33,10 @@ export async function fetchPurchases(): Promise<Purchase[]> {
 }
 
 
-export async function fetchPurchasesPerPage(page: number): Promise<Purchase[]> {
+export async function fetchPurchasesPerPage(page: number, perPage: number): Promise<Purchase[]> {
   const query = `
     query {
-      fetchPurchasesPerPage (page: ${page}) { 
+      fetchPurchasesPerPage (page: ${page}, perPage: ${perPage}) { 
         _id, 
         quantity,
         value,
