@@ -75,18 +75,18 @@ describe('admin web app store', () => {
   it('get purchases', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    expect(store.purchases[3].quantity).to.equal(3);
-    expect(store.purchases[2].quantity).to.equal(2);
+    expect(store.purchases[6].quantity).to.equal(3);
+    expect(store.purchases[5].quantity).to.equal(2);
   });
 
 
   it('get purchase ingredient type', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[3].ingredientType);
+    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[6].ingredientType);
     expect(pIngredientType1.title).to.equal('Carne moída');
 
-    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[2].ingredientType);
+    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[5].ingredientType);
     expect(pIngredientType2.title).to.equal('Seleta de Legumes');
   });
 
@@ -125,8 +125,8 @@ describe('admin web app store', () => {
     store.quantityChanged('3');
     store.addNewPurchase();
     await store.onSendPurchaseRequested();
-    const purchasesCount = await adminNs.countPurchases();
-    expect(purchasesCount).to.equal(11); //4 initiated in fixtures, 7 more in this test
+    await store.onPurchasesPageLoad();
+    expect(store.purchasesTotal).to.equal(14); //7 initiated in fixtures, 7 more in this test
   });
 
   it('check purchases infinite scrolling', async () => {
@@ -136,7 +136,7 @@ describe('admin web app store', () => {
     expect(store.hasMore).to.equal(true);
     
     await store.fetchMorePurchasesData();
-    expect(store.purchases.length).to.equal(11);
+    expect(store.purchases.length).to.equal(14);
 
     await store.fetchMorePurchasesData();
     expect(store.hasMore).to.equal(false);
