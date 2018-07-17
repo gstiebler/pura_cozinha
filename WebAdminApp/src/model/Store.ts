@@ -20,11 +20,17 @@ export class Store {
   @observable router;
   @observable isDrawerOpen = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit and Delete options
+  @observable imgLoaderUrl = 'https://bit.ly/238UUAJ'; //ingredient menu anchor to Edit and Delete options
+
   @observable ingredients: IngredientType[] = [];
   @observable purchases: Purchase[] = [];
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   @observable currentPurchase = null;
+  @observable purchasesTotal: number = 0;
+  @observable page: number = 0;
+  @observable PER_PAGE: number = 8;
+  @observable hasMore: boolean = true;
   
   //New ingredient variables
   @observable title: string = '';
@@ -54,7 +60,6 @@ export class Store {
     this.currentIngredient = null;
     this.newPurchases = [];
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchases();
     this.totalAmount = 0;
     this.selectedUnit = availableUnits[0][0];
   }
@@ -68,9 +73,19 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchases();
+    this.purchases = await ns.fetchPurchasesPerPage(0, this.PER_PAGE);
+    this.purchasesTotal = await ns.countPurchases();
     this.ingredientTypeId = this.ingredients[0]._id;
+    this.page = 0;
   }
+
+
+  async fetchMorePurchasesData() {
+    this.hasMore = (this.purchases.length < this.purchasesTotal);
+    this.page++;
+    const newPurchases = await ns.fetchPurchasesPerPage(this.page, this.PER_PAGE);    
+    this.purchases = this.purchases.concat(newPurchases);
+  };
 
   async findIngredientById(id: string)
   {
@@ -178,7 +193,7 @@ export class Store {
         };
         await ns.sendPurchaseRequest(request);
       });
-      
+      await this.onPurchasesPageLoad();
       await this.reset();
       this.setSnackbarMsg('Compras salvas com sucesso');
       this.openDialogForm = false;

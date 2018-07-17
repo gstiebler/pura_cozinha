@@ -32,6 +32,34 @@ export async function fetchPurchases(): Promise<Purchase[]> {
   return result.allPurchases;
 }
 
+
+export async function fetchPurchasesPerPage(page: number, perPage: number): Promise<Purchase[]> {
+  const query = `
+    query {
+      fetchPurchasesPerPage (page: ${page}, perPage: ${perPage}) { 
+        _id, 
+        quantity,
+        value,
+        buyDate,
+        createdAt,
+        ingredientType 
+      } 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.fetchPurchasesPerPage;
+}
+
+export async function countPurchases(): Promise<number> {
+  const query = `
+    query {
+      countPurchases 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.countPurchases;
+}
+
 export async function findPurchaseById(id: string): Promise<Purchase[]> {
   const query = `
     query {

@@ -32,6 +32,13 @@ import {
       total: { type: GraphQLFloat },
     }
   });
+
+  export const PurchaseCount = new GraphQLObjectType({
+    name: 'PurchaseCount',
+    fields: {
+      total: { type: GraphQLFloat },
+    }
+  });
   
   const PurchaseRequestInputType = new GraphQLInputObjectType({
     name: 'PurchaseRequestInputType',
@@ -48,6 +55,26 @@ import {
       type: new GraphQLList(PurchaseCompleteType),
       resolve: async function() {
         return await Purchase.find();
+      }
+    },
+    fetchPurchasesPerPage: {
+      type: new GraphQLList(PurchaseCompleteType),
+      args: {
+        page: { type: GraphQLFloat },
+        perPage: { type: GraphQLFloat }
+      },
+      resolve: async function(root, { page, perPage }) {
+        return await Purchase.find()
+                            .limit(perPage)
+                            .skip(perPage * page)
+                            .sort({_id:-1});
+      }
+    },
+    countPurchases: {
+      type: GraphQLFloat,
+      resolve: async function() {
+        const total = await Purchase.find().count();
+        return total;
       }
     },
     purchase: {
