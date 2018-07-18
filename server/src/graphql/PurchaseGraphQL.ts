@@ -67,7 +67,7 @@ import {
         return await Purchase.find()
                             .limit(perPage)
                             .skip(perPage * page)
-                            .sort({_id:-1});
+                            .sort({buyDate:-1});
       }
     },
     countPurchases: {
