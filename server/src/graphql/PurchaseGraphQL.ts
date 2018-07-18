@@ -60,13 +60,12 @@ import {
     fetchPurchasesPerPage: {
       type: new GraphQLList(PurchaseCompleteType),
       args: {
-        page: { type: GraphQLFloat },
+        buyDate: { type: GraphQLFloat },
         perPage: { type: GraphQLFloat }
       },
-      resolve: async function(root, { page, perPage }) {
-        return await Purchase.find()
+      resolve: async function(root, { buyDate, perPage }) {
+        return await Purchase.find({ buyDate: { $gte: buyDate } })
                             .limit(perPage)
-                            .skip(perPage * page)
                             .sort({buyDate:-1});
       }
     },
