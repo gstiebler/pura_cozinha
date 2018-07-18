@@ -76,6 +76,7 @@ export class Store {
     this.purchases = await ns.fetchPurchasesPerPage(0, this.PER_PAGE);
     this.purchasesTotal = await ns.countPurchases();
     this.ingredientTypeId = this.ingredients[0]._id;
+    this.hasMore = true;
     this.page = 0;
   }
 
