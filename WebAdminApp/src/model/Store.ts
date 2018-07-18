@@ -84,7 +84,6 @@ export class Store {
   async fetchMorePurchasesData() {
     this.hasMore = (this.purchases.length < this.purchasesTotal);
     const lastBuyDate = new Date(this.purchases[this.purchases.length-1].buyDate);
-    console.log(lastBuyDate);
     const newPurchases = await ns.fetchPurchasesPerPage(lastBuyDate, this.PER_PAGE);    
     this.purchases = this.purchases.concat(newPurchases);
   };
