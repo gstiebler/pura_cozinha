@@ -156,7 +156,7 @@ describe('admin web app store', () => {
     const lastPurchase = purchases[0].toObject();
     expect(lastPurchase.value).to.equal(56.5);
     const d2 = new Date('2018-03-18');
-    expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
+    expect(lastPurchase.buyDate.toDateString()).to.equal(d2.toDateString());
     expect(lastPurchase.ingredientType+'').to.equal(store.ingredients[0]._id);
     expect(lastPurchase.quantity).to.equal(3);
   });
