@@ -73,7 +73,7 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchasesPerPage(new Date('1970-01-01'), this.PER_PAGE);
+    this.purchases = await ns.fetchPurchasesPerPage(new Date('2100-01-01'), this.PER_PAGE);
     this.purchasesTotal = await ns.countPurchases();
     this.ingredientTypeId = this.ingredients[0]._id;
     this.hasMore = true;
@@ -83,7 +83,8 @@ export class Store {
 
   async fetchMorePurchasesData() {
     this.hasMore = (this.purchases.length < this.purchasesTotal);
-    const lastBuyDate = this.purchases[this.purchases.length-1].buyDate;
+    const lastBuyDate = new Date(this.purchases[this.purchases.length-1].buyDate);
+    console.log(lastBuyDate);
     const newPurchases = await ns.fetchPurchasesPerPage(lastBuyDate, this.PER_PAGE);    
     this.purchases = this.purchases.concat(newPurchases);
   };

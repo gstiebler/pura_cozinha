@@ -64,7 +64,7 @@ import {
         perPage: { type: GraphQLFloat }
       },
       resolve: async function(root, { buyDate, perPage }) {
-        return await Purchase.find({ buyDate: { $gt: buyDate } })
+        return await Purchase.find({ buyDate: { $lt: buyDate } })
                             .limit(perPage)
                             .sort({buyDate:-1});
       }
