@@ -98,9 +98,7 @@ import {
       type: GraphQLString,
       args: { fmiData: { type: PurchaseRequestInputType } },
       async resolve(value, { fmiData }) {
-        fmiData.ingredientType = new ObjectID(fmiData.ingredientType);
-        const purchase = new Purchase(fmiData);
-        await purchase.save();
+        await resolvers.savePurchase(fmiData);
         return { msg: 'OK' };
       }
     },
