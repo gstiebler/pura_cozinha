@@ -146,8 +146,12 @@ export async function savePurchase(fmiData: any) {
       }
   ]).sort({buyDate: -1}).limit(1);
 
-  console.log(lastPurchases[0]);
-  
+  if(!!lastPurchases[0])
+  {
+    const lastDate = new Date(lastPurchases[0].buyDate);
+    currentPurchaseDate.setSeconds(lastDate.getSeconds() + 1);
+    fmiData.buyDate = currentPurchaseDate.getTime();
+  }
 
   fmiData.ingredientType = new ObjectID(fmiData.ingredientType);
   const purchase = new Purchase(fmiData);
