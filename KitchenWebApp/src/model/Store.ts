@@ -44,6 +44,7 @@ export class Store {
   @observable anchorEL = null; //ingredient menu anchor to Edit stock
   @observable openDialogForm: boolean = false;
   @observable hasMore: boolean = true;
+  @observable PER_PAGE: number = 7;
   
   constructor() {
     this._reset();
@@ -75,12 +76,14 @@ export class Store {
     this.kitchenActive = this.kitchen.active;
   }
   async onOrdersOpen(ordersType: string) {
+
     const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
     const closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
     const orderTypes = ordersType === 'OPEN' ? openOrderTypes :
                        ordersType === 'CLOSED' ? closedOrderTypes :
                        ['Error: unkonwn order type'];
-    this.orders = await ns.getOrders(orderTypes);
+    this.orders = await ns.getOrders(orderTypes, new Date('2100-01-01'), this.PER_PAGE);
+    console.log(this.orders.length);
   }
 
   async onOrderSelected(orderId: string) {

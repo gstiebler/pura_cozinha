@@ -18,10 +18,10 @@ const ordersStatusFields = [
   'items { qty, itemTotalPrice, foodMenuItem { id, title, description, price } }',
 ];
 
-export async function getOrders(orderTypes: string[]): Promise<any[]> {
+export async function getOrders(orderTypes: string[], createdOn: Date, perPage: number): Promise<any[]> {
   const params = `
-    offset: ${0},
-    limit: ${100},
+    createdOn: ${createdOn.getTime()},
+    limit: ${perPage},
     orderTypes: [${orderTypes.map(ot => `"${ot}"`).join(', ')}]
   `;
   const fieldsStr = ordersStatusFields.join(', ');
