@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
+import Typography from 'material-ui/Typography';
 import { observer } from 'mobx-react';
-import views from '../Views';
 import { Store } from '../model/Store';
-import { availableUnits, readableUnits } from '../../../common/unitMaps';
 import { formatCurrency } from '../../../common/util';
 import * as moment from 'moment';
 import Dialog, {
@@ -18,9 +16,9 @@ import Dialog, {
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
 import NewPurchase from './NewPurchase';
-import Views from '../Views';
+import * as InfiniteScroll from "react-infinite-scroll-component";
 
 
 function handleClick(store: Store, id: string, event) {
@@ -37,11 +35,6 @@ function onDeletePurchase(store: Store) {
   store.onDeletePurchaseRequested();
 }
 
-function onEditIngredient(store: Store) {
-  store.anchorEL = null;
-  store.router.goTo(Views.editIngredient, {}, store);
-}
-
 function getPurchaseIngredientType(store: Store, id: string)
 {
   return store.getPurchaseIngredientType(id);
@@ -49,6 +42,11 @@ function getPurchaseIngredientType(store: Store, id: string)
 
 function handleFormOpen(store: Store) {
   store.openDialogForm = !store.openDialogForm;
+}
+
+
+function fetchMoreData(store: Store) {
+  store.fetchMorePurchasesData();
 }
 
 const styles = theme => ({
@@ -67,6 +65,10 @@ const styles = theme => ({
   summaryLabel: {
     padding: 16,
   },
+  loadingLabel: {
+    paddingLeft: 10,
+    paddingTop: 10
+  },
 });
 
 interface IProps {
@@ -77,53 +79,86 @@ interface IProps {
 function Purchases(props: IProps) {
   const { store, classes } = props;
   const ITEM_HEIGHT = 25;
-  const items = store.purchases.map(fmi => {
-    const secondary = fmi.value;
-    const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType);
-    const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
-    return (
-      <ListItem key={fmi._id} divider >
-        <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
-                               +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
-        <IconButton
-          aria-label="More"
-          aria-owns={store.anchorEL ? 'long-menu' : null}
-          aria-haspopup="true"
-          key={fmi._id}
-          onClick={handleClick.bind(null, store, fmi._id)}
+  
+
+  const infinite = (
+    <div>
+      <InfiniteScroll
+          dataLength={store.purchases.length}
+          next={fetchMoreData.bind(null, store)}
+          hasMore={store.hasMore}
+          loader={
+            <div style={{ marginBottom: 35 }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                <img src={store.imgLoaderUrl} style={{ maxWidth: 35 }}/>
+              </Typography>
+              <br/><br/>
+            </div>
+          }
+          endMessage={
+            <div style={{ marginBottom: 35, textAlign: 'center' }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                Yeahp! Todas as compras foram carregadas.
+              </Typography>
+              <br/><br/>
+            </div>
+          }
         >
-          <MoreVertIcon />
-        </IconButton>
-        <Menu
-          id="long-menu"
-          anchorEl={store.anchorEL}
-          open={Boolean(store.anchorEL)}
-          onClose={handleClose.bind(null, store)}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: 80,
-            },
-          }}
-        >
-          <MenuItem key='delete' onClick={() => onDeletePurchase(store)}>
-              Deletar
-          </MenuItem>
-        </Menu>
-      </ListItem>
-    );
-  });
+        { store.purchases.map(fmi => {
+          const secondary = fmi.value;
+          const ingredientType = getPurchaseIngredientType(store, fmi.ingredientType);
+          const date = moment(fmi.buyDate).format('DD/MM/YY - HH:mm');
+          return (
+            <ListItem key={fmi._id} divider >
+              <ListItemText primary={fmi.quantity + ' ' +ingredientType.unit
+                                    +' '+ingredientType.title} secondary={formatCurrency(secondary)+'. '+date} />
+              <IconButton
+                aria-label="More"
+                aria-owns={store.anchorEL ? 'long-menu' : null}
+                aria-haspopup="true"
+                key={fmi._id}
+                onClick={handleClick.bind(null, store, fmi._id)}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="long-menu"
+                anchorEl={store.anchorEL}
+                open={Boolean(store.anchorEL)}
+                onClose={handleClose.bind(null, store)}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: 80,
+                  },
+                }}
+              >
+                <MenuItem key='delete' onClick={() => onDeletePurchase(store)}>
+                    Deletar
+                </MenuItem>
+              </Menu>
+            </ListItem>
+          );
+        })}
+      </InfiniteScroll>
+    </div>
+  );
 
   return (
     <div className={classes.root}>
-      <List>
-        {items}
-      </List>
-      <Button variant="raised" className={classes.button} 
-              onClick={handleFormOpen.bind(null, store)}
-              >
-        Cadastrar Compra
-      </Button>
+      <div>
+        <Typography gutterBottom className={classes.summaryLabel}>
+          Compras Cadastradas
+        </Typography>
+      </div>
+      {infinite}
+      <Paper style={{ position: "fixed", bottom:"0", width:"100%", height: "100"}}>
+        <Button variant="raised" className={classes.button} 
+                onClick={handleFormOpen.bind(null, store)}
+                >
+          Cadastrar Compra
+        </Button>
+      </Paper>
       <NewPurchase store={store} />
     </div>
   );

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
+import * as adminNs  from '../model/NetworkServices';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { IngredientType } from '../../../server/src/db/models/IngredientType';
 import { Purchase } from '../../../server/src/db/models/Purchase';
@@ -74,18 +75,71 @@ describe('admin web app store', () => {
   it('get purchases', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    expect(store.purchases[0].quantity).to.equal(3);
-    expect(store.purchases[1].quantity).to.equal(2);
+    expect(store.purchases[6].quantity).to.equal(3);
+    expect(store.purchases[5].quantity).to.equal(2);
   });
+
 
   it('get purchase ingredient type', async () => {
     const store = new Store();
     await store.onPurchasesPageLoad();
-    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[0].ingredientType);
+    const pIngredientType1 = store.getPurchaseIngredientType(store.purchases[6].ingredientType);
     expect(pIngredientType1.title).to.equal('Carne moída');
 
-    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[1].ingredientType);
+    const pIngredientType2 = store.getPurchaseIngredientType(store.purchases[5].ingredientType);
     expect(pIngredientType2.title).to.equal('Seleta de Legumes');
+  });
+
+
+  it('check purchases count', async () => {
+    const store = new Store();
+    await store.onPurchasesPageLoad();
+    store.ingredientTypeSelected(store.ingredients[0]._id);
+    store.buyDateChanged(new Date('2018-03-18'));
+    //1 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //2 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //3 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //4 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //5 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //6 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    //7 purchase to list
+    store.valueChanged('10');
+    store.quantityChanged('3');
+    store.addNewPurchase();
+    await store.onSendPurchaseRequested();
+    await store.onPurchasesPageLoad();
+    expect(store.purchasesTotal).to.equal(14); //7 initiated in fixtures, 7 more in this test
+  });
+
+  it('check purchases infinite scrolling', async () => {
+    const store = new Store();
+    await store.onPurchasesPageLoad();
+    expect(store.purchases.length).to.equal(8);
+    expect(store.hasMore).to.equal(true);
+    
+    await store.fetchMorePurchasesData();
+    expect(store.purchases.length).to.equal(14);
+
+    await store.fetchMorePurchasesData();
+    expect(store.hasMore).to.equal(false);
   });
 
   it('create purchase', async () => {
@@ -102,7 +156,7 @@ describe('admin web app store', () => {
     const lastPurchase = purchases[0].toObject();
     expect(lastPurchase.value).to.equal(56.5);
     const d2 = new Date('2018-03-18');
-    expect(lastPurchase.buyDate.getTime()).to.equal(d2.getTime());
+    expect(lastPurchase.buyDate.toDateString()).to.equal(d2.toDateString());
     expect(lastPurchase.ingredientType+'').to.equal(store.ingredients[0]._id);
     expect(lastPurchase.quantity).to.equal(3);
   });

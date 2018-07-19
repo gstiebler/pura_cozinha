@@ -135,16 +135,15 @@ export const Query = {
   orders: {
     type: new GraphQLList(OrderInListType),
     args: {
-      offset: { type: GraphQLFloat },
+      createdOn: { type: GraphQLFloat },
       limit: { type: GraphQLFloat },
       orderTypes: { type: new GraphQLList(GraphQLString) },
     },
-    resolve: async function(root, { offset, limit, orderTypes }, source, fieldASTs) {
+    resolve: async function(root, { createdOn, limit, orderTypes }, source, fieldASTs) {
       const projection = getProjection(fieldASTs);
-      const query = { status: { $in: orderTypes } };
+      const query = { status: { $in: orderTypes },  createdOn: { $lt: createdOn } };
       return await Order.find(query, projection)
           .sort({ createdOn: -1 })
-          .skip(offset)
           .limit(limit)
           .lean();
     }

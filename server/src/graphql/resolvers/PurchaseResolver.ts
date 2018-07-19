@@ -7,6 +7,7 @@ import { TOrderStatus, IFoodMenuItem } from "../../../../common/Interfaces";
 import * as Bluebird from "bluebird";
 import * as kitchenNs from "../../../../KitchenWebApp/src/model/NetworkServices";
 import { Map } from "immutable";
+import { ObjectId, ObjectID } from 'bson';
 
 export async function getIngredientTypesStocks() {
   //Get prepared items
@@ -116,4 +117,44 @@ export async function getIngredientTypesStocks() {
   }); 
 
   return stock;
+}
+
+
+export async function savePurchase(fmiData: any) {
+
+  const currentPurchaseDate = new Date(fmiData.buyDate);
+  //Get last purchase saved with same buyDate
+  const lastPurchases = await Purchase.aggregate([
+      // Extract the year, month and day portions of the 'enddate' 
+      {
+        $project:
+          {
+            year: { $year: "$buyDate" },
+            month: { $month: "$buyDate" },
+            day: { $dayOfMonth: "$buyDate" },
+            buyDate: "$buyDate"
+          }
+      },
+      // Filter by date - Replace hard-coded values with values you want
+      {
+        $match:
+          {
+            year:  currentPurchaseDate.getFullYear() ,
+            month:  currentPurchaseDate.getMonth() + 1,
+            day:  currentPurchaseDate.getUTCDate() 
+          }
+      }
+  ]).sort({buyDate: -1}).limit(1);
+
+  if(!!lastPurchases[0])
+  {
+    const lastDate = new Date(lastPurchases[0].buyDate);
+    currentPurchaseDate.setSeconds(lastDate.getSeconds() + 1);
+    fmiData.buyDate = currentPurchaseDate.getTime();
+  }
+
+  fmiData.ingredientType = new ObjectID(fmiData.ingredientType);
+  const purchase = new Purchase(fmiData);
+  await purchase.save();
+  return { msg: 'OK' };
 }

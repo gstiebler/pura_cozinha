@@ -6,13 +6,23 @@ import { withStyles } from 'material-ui/styles';
 import { formatCurrency } from '../../../common/util';
 import views from '../Views';
 import * as moment from 'moment';
+import * as InfiniteScroll from "react-infinite-scroll-component";
+import Typography from 'material-ui/Typography';
 
 function onItemClicked(store: Store, orderId: string) {
   store.router.goTo(views.orderDetails, { order_id: orderId }, store);
 }
 
+function fetchMoreData(store: Store) {
+  store.fetchMoreOrdersData();
+}
+
 const styles = {
-  root: {}
+  root: {},
+  loadingLabel: {
+    paddingLeft: 10,
+    paddingTop: 10
+  },
 };
 
 interface IProps {
@@ -36,9 +46,28 @@ function Orders(props: IProps) {
 
   return (
     <div className={classes.root}>
-      <List>
+      <InfiniteScroll
+          dataLength={store.orders.length}
+          next={fetchMoreData.bind(null, store)}
+          hasMore={store.hasMore}
+          loader={
+            <div style={{ marginBottom: 35 }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                Carregando...
+              </Typography>
+            </div>
+          }
+          endMessage={
+            <div style={{ marginBottom: 35, textAlign: 'center' }}>
+              <Typography gutterBottom className={classes.loadingLabel}>
+                Yeahp! Todas os pedidos foram carregados.
+              </Typography>
+              <br/><br/>
+            </div>
+          }
+        >
         {items}
-      </List>
+      </InfiniteScroll>
     </div>
   );
 }
