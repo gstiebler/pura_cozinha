@@ -86,7 +86,7 @@ export class Store {
                        ['Error: unkonwn order type'];
     this.orders = await ns.getOrders(this.orderTypes, new Date('2100-01-01'), this.PER_PAGE);
     this.hasMore = true;
-    console.log(this.orders.length);
+
   }
 
   async onOrderSelected(orderId: string) {

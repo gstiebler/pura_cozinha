@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import { Order } from '../../../server/src/db/models/Order';
+import  OrderInfiniteScrollFixtures  from '../../../server/src/test/fixtures/OrderInfiniteScrollFixtures';
 import * as ConsumerStore from '../../../ConsumerWebApp/src/model/Store';
 import * as AdminStore from '../../../WebAdminApp/src/model/Store';
 
@@ -129,5 +130,21 @@ describe('kitchen web app store', () => {
     const csStock = store.ingredientTypesStock.find(obj => obj._id === ingredient._id); 
     expect(csStock.total).to.equal(34.1);
   });
+
+  it('check orders infinite scroll', async () => {
+    //init order fixtures for infinite scrolling test - 10 more
+    await Order.insertMany(await OrderInfiniteScrollFixtures());
+
+    //Test start
+    const store = new Store();
+    await store.onOrdersOpen('OPEN');
+    expect(store.orders.length).to.equal(7);
+    expect(store.hasMore).to.equal(true);
+
+    await store.fetchMoreOrdersData();
+    expect(store.orders.length).to.equal(11);
+    expect(store.hasMore).to.equal(false);
+  });
+
 
 });
