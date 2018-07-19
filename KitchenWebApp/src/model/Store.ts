@@ -38,6 +38,10 @@ export class Store {
   @observable ingredientTitle: string = ''; 
   @observable snackbarMsg: string = '';
   @observable kitchenComments: string = '';
+  @observable openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
+  @observable closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
+  @observable orderTypes;
+
   // visual properties
   @observable isDrawerOpen = false;
   @observable isSnackbarOpen: boolean = false;
@@ -45,6 +49,7 @@ export class Store {
   @observable openDialogForm: boolean = false;
   @observable hasMore: boolean = true;
   @observable PER_PAGE: number = 7;
+  
   
   constructor() {
     this._reset();
@@ -76,13 +81,11 @@ export class Store {
     this.kitchenActive = this.kitchen.active;
   }
   async onOrdersOpen(ordersType: string) {
-
-    const openOrderTypes:TOrderStatus[] = ['PENDING', 'PREPARING', 'DELIVERING'];
-    const closedOrderTypes:TOrderStatus[] = ['DELIVERED', 'CANCELED'];
-    const orderTypes = ordersType === 'OPEN' ? openOrderTypes :
-                       ordersType === 'CLOSED' ? closedOrderTypes :
+    this.orderTypes = ordersType === 'OPEN' ? this.openOrderTypes :
+                       ordersType === 'CLOSED' ? this.closedOrderTypes :
                        ['Error: unkonwn order type'];
-    this.orders = await ns.getOrders(orderTypes, new Date('2100-01-01'), this.PER_PAGE);
+    this.orders = await ns.getOrders(this.orderTypes, new Date('2100-01-01'), this.PER_PAGE);
+    this.hasMore = true;
     console.log(this.orders.length);
   }
 
@@ -91,7 +94,10 @@ export class Store {
   }
 
   async fetchMoreOrdersData() {
-    
+    const lastCreated = new Date(this.orders[this.orders.length-1].createdOn);
+    const newOrders = await ns.getOrders(this.orderTypes, lastCreated, this.PER_PAGE);
+    this.orders = this.orders.concat(newOrders);
+    this.hasMore = (newOrders.length <= this.PER_PAGE) ? false : true;    
   }
 
   async onKitchenStatusChange()
