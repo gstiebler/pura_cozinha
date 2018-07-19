@@ -18,7 +18,11 @@ function fetchMoreData(store: Store) {
 }
 
 const styles = {
-  root: {}
+  root: {},
+  loadingLabel: {
+    paddingLeft: 10,
+    paddingTop: 10
+  },
 };
 
 interface IProps {
@@ -51,7 +55,6 @@ function Orders(props: IProps) {
               <Typography gutterBottom className={classes.loadingLabel}>
                 Carregando...
               </Typography>
-              <br/><br/>
             </div>
           }
           endMessage={
