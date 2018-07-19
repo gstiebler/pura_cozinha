@@ -43,6 +43,7 @@ export class Store {
   @observable isSnackbarOpen: boolean = false;
   @observable anchorEL = null; //ingredient menu anchor to Edit stock
   @observable openDialogForm: boolean = false;
+  @observable hasMore: boolean = true;
   
   constructor() {
     this._reset();
@@ -84,6 +85,10 @@ export class Store {
 
   async onOrderSelected(orderId: string) {
     await this._setCurrentOrder(orderId);
+  }
+
+  async fetchMoreOrdersData() {
+    
   }
 
   async onKitchenStatusChange()
