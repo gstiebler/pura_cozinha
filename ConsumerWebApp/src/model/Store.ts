@@ -231,7 +231,7 @@ export class Store {
 
   async onSendOrderRequested() {
     try {
-      if(this.mustDeliver)
+      if(!this.mustDeliver)
       {
         this.localComplement = 'O pedido será coletado na cozinha';
         this.selectedLocal = 'Não Entrega';
