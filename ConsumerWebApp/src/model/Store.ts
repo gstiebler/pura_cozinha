@@ -31,6 +31,9 @@ export class Store {
   @observable comments: string = '';
   @observable kitchen: Kitchen = null;
   lastItemIndex: number;
+  @observable deliveringMsg: string = 'Não';
+  @observable mustDeliver: boolean = false;  
+
 
   locationOptions: string[];
   paymentOptions: string[];
@@ -218,6 +221,13 @@ export class Store {
   onCommentsChanged(comment: string) {
     this.comments = comment;
   }
+
+  async toggleDeliveringTax()
+  {
+    this.mustDeliver = !this.mustDeliver;
+    this.deliveringMsg = (this.mustDeliver) ? 'Sim' : 'Não';
+  }
+
 
   async onSendOrderRequested() {
     try {

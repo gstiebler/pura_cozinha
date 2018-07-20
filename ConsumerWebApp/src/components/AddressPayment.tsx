@@ -38,6 +38,11 @@ async function onSendOrderRequested(store: Store) {
   store.router.goTo(views.home, {}, store);
 }
 
+function handleToggle(store: Store)
+{
+  store.toggleDeliveringTax();
+}
+
 const styles = theme => ({
   root: {
     padding: 16,
@@ -82,55 +87,48 @@ function AddressPayment(props: IProps) {
 
   return (
     <div className={classes.root}>
-      {/* <form className={classes.container} noValidate autoComplete="off">
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="delivering_tax">Você deseja que seu pedido seja entregue?</InputLabel>
-          <Switch 
-            inputProps={{
-              id: 'delivering_tax',
-            }}
-          />
-        </FormControl>
-      </form> */}
       <FormControl component="fieldset">
-        <FormLabel component="legend">Você deseja que seu pedido seja entregue? (R$ 3,00)</FormLabel>
+        <FormLabel component="legend">Você deseja que seu pedido seja entregue? (Taxa adicional: R$ 3,00)</FormLabel>
         <FormGroup>
           <FormControlLabel
             control={
               <Switch
-                checked={true}
+                checked={store.mustDeliver}
                 value="gilad"
+                onChange={handleToggle.bind(null, store)}
               />
             }
-            label="Sim"
+            label={store.deliveringMsg}
           />
         </FormGroup>
       </FormControl>
-      <div style={{ display: 'none' }}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="local">Local</InputLabel>
-          <Select
-            native
-            value={store.selectedLocal}
-            onChange={localSelected.bind(null, store)}
-            inputProps={{
-              id: 'local',
-            }}
-          >
-            { localOptionsHTML }
-          </Select>
-        </FormControl>
-        <form className={classes.container} noValidate autoComplete="off">
-          <TextField
-            id="localComplement"
-            label={store.localComplementLabel}
-            className={classes.textField}
-            value={store.localComplement}
-            onChange={localComplementChanged.bind(null, store)}
-            margin="normal"
-          />
-        </form>
-      </div>
+      {store.mustDeliver  &&
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="local">Local</InputLabel>
+            <Select
+              native
+              value={store.selectedLocal}
+              onChange={localSelected.bind(null, store)}
+              inputProps={{
+                id: 'local',
+              }}
+            >
+              { localOptionsHTML }
+            </Select>
+          </FormControl>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="localComplement"
+              label={store.localComplementLabel}
+              className={classes.textField}
+              value={store.localComplement}
+              onChange={localComplementChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+        </div>
+      }
       
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="payment">Opções de pagamento</InputLabel>
