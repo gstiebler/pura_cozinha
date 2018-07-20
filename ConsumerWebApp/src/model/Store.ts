@@ -231,6 +231,11 @@ export class Store {
 
   async onSendOrderRequested() {
     try {
+      if(this.mustDeliver)
+      {
+        this.localComplement = 'O pedido será coletado na cozinha';
+        this.selectedLocal = 'Não Entrega';
+      }
       const request:IOrderRequest = {
         orderSummary: this.orderSummary,
         local: this.selectedLocal,
