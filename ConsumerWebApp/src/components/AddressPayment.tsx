@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl, FormHelperText, FormLabel,
+  FormGroup, FormControlLabel } from 'material-ui/Form';
+
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Select from 'material-ui/Select';
 import { observer } from 'mobx-react';
 import views from '../Views';
 import { Store } from '../model/Store';
+import Switch from 'material-ui/Switch';
 
 function localSelected(store: Store, event) {
   store.onLocalSelected(event.target.value);
@@ -79,29 +82,56 @@ function AddressPayment(props: IProps) {
 
   return (
     <div className={classes.root}>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="local">Local</InputLabel>
-        <Select
-          native
-          value={store.selectedLocal}
-          onChange={localSelected.bind(null, store)}
-          inputProps={{
-            id: 'local',
-          }}
-        >
-          { localOptionsHTML }
-        </Select>
+      {/* <form className={classes.container} noValidate autoComplete="off">
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="delivering_tax">Você deseja que seu pedido seja entregue?</InputLabel>
+          <Switch 
+            inputProps={{
+              id: 'delivering_tax',
+            }}
+          />
+        </FormControl>
+      </form> */}
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Você deseja que seu pedido seja entregue? (R$ 3,00)</FormLabel>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={true}
+                value="gilad"
+              />
+            }
+            label="Sim"
+          />
+        </FormGroup>
       </FormControl>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="localComplement"
-          label={store.localComplementLabel}
-          className={classes.textField}
-          value={store.localComplement}
-          onChange={localComplementChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
+      <div style={{ display: 'none' }}>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="local">Local</InputLabel>
+          <Select
+            native
+            value={store.selectedLocal}
+            onChange={localSelected.bind(null, store)}
+            inputProps={{
+              id: 'local',
+            }}
+          >
+            { localOptionsHTML }
+          </Select>
+        </FormControl>
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="localComplement"
+            label={store.localComplementLabel}
+            className={classes.textField}
+            value={store.localComplement}
+            onChange={localComplementChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+      </div>
+      
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="payment">Opções de pagamento</InputLabel>
         <Select
@@ -136,6 +166,8 @@ function AddressPayment(props: IProps) {
           className={classes.textField}
           margin="normal"
         />
+
+      
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
         Enviar pedido
