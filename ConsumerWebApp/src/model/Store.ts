@@ -31,7 +31,6 @@ export class Store {
   @observable comments: string = '';
   @observable kitchen: Kitchen = null;
   lastItemIndex: number;
-  @observable deliveringMsg: string = 'Não';
   @observable mustDeliver: boolean = false;  
 
 
@@ -225,7 +224,6 @@ export class Store {
   async toggleDeliveringTax()
   {
     this.mustDeliver = !this.mustDeliver;
-    this.deliveringMsg = (this.mustDeliver) ? 'Sim' : 'Não';
   }
 
 

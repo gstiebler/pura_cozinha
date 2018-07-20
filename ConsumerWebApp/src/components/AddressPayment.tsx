@@ -98,7 +98,7 @@ function AddressPayment(props: IProps) {
                 onChange={handleToggle.bind(null, store)}
               />
             }
-            label={store.deliveringMsg}
+            label=''
           />
         </FormGroup>
       </FormControl>
