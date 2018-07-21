@@ -63,7 +63,7 @@ describe('consumer web app store', () => {
     expect(store.orderSummary.totalAmount).to.equal(23.98);
   });
 
-  it('send order', async () => {
+  it('send order with delivering', async () => {
     const store = new Store();
     await store.onMenuPageLoad();
 
@@ -84,12 +84,15 @@ describe('consumer web app store', () => {
     store.onFmiSelected(sandMignon._id);
     store.onItemQtyIncreased(store.lastItemIndex);
     store.onMenuItemOptionSelected(store.lastItemIndex, molho.key, italian.key);
-  
+    expect(store.mustDeliver).to.equal(false); //Initial value considers user does not want delivering
+    store.toggleDeliveringTax(); //Confirming delivering
+
     expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
     expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
     expect(store.orderSummary.items[0].qty).to.equal(2);
-    // 2 * (11.99) + (8.00 + 2.00) + (15.00 + 1.20)
-    expect(store.orderSummary.totalAmount).to.be.closeTo(50.18, 0.001);
+    // 2 * (11.99) + (8.00 + 2.00) + (15.00 + 1.20)  
+    expect(store.orderSummary.totalAmount).to.be.closeTo(50.18, 0.001); // Value before the addition of delivering fee
+
     store.onLocalSelected('Stella Vita');
     store.onPaymentOptionSelected('Dinheiro');
     store.onTelNumberChanged('1234');
@@ -103,7 +106,63 @@ describe('consumer web app store', () => {
     expect(lastOrder.paymentOption).to.equal('Dinheiro');
     expect(lastOrder.telephoneNumber).to.equal('1234');
     expect(lastOrder.comments).to.equal('Comida muito boa!');
-    expect(lastOrder.totalAmount).to.be.closeTo(50.18, 0.001);
+    expect(lastOrder.totalAmount).to.be.closeTo(53.18, 0.001); //With delivering extra fee added
+    expect(lastOrder.items).to.have.lengthOf(3);
+    expect(lastOrder.items[0].qty).to.equal(2);
+    expect(lastOrder.items[0].itemTotalPrice).to.be.closeTo(23.98, 0.001);
+    expect(lastOrder.items[0].foodMenuItem.title).to.equal('Sanduba de frango');
+    expect(lastOrder.items[0].foodMenuItem.description).to.equal('Muito gostoso, feito com frango desfiado');
+    expect(lastOrder.items[0].foodMenuItem.price).to.equal(11.99);
+  });
+
+  //Same values as test before, but without delivering extra fee
+  it('send order without delivering', async () => {
+    const store = new Store();
+    await store.onMenuPageLoad();
+
+    const sandubaFrango = store.foodMenuItems[0];
+    store.onFmiSelected(sandubaFrango._id);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onItemQtyIncreased(store.lastItemIndex);
+
+    const acai = store.foodMenuItems[1];
+    store.onFmiSelected(acai._id);
+    const granola = acai.boolOptions[0];
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onBoolOptionSelected(store.lastItemIndex, granola.key);
+
+    const sandMignon = store.foodMenuItems[2];
+    const molho = sandMignon.options[0];
+    const italian = molho.optionItems[1];
+    store.onFmiSelected(sandMignon._id);
+    store.onItemQtyIncreased(store.lastItemIndex);
+    store.onMenuItemOptionSelected(store.lastItemIndex, molho.key, italian.key);
+    expect(store.mustDeliver).to.equal(false);
+
+    expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
+    expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
+    expect(store.orderSummary.items[0].qty).to.equal(2);
+    // 2 * (11.99) + (8.00 + 2.00) + (15.00 + 1.20)  
+    expect(store.orderSummary.totalAmount).to.be.closeTo(50.18, 0.001);    
+
+    store.onPaymentOptionSelected('Dinheiro');
+    store.onTelNumberChanged('1234');
+    store.onCommentsChanged('Comida muito boa!');
+    await store.onSendOrderRequested();
+
+    const orders = await Order.find().sort({createdOn:-1}).limit(1);
+    const lastOrder = orders[0];
+    
+    //Messages for non-delivering order
+    expect(lastOrder.local).to.equal('Não Entrega');
+    expect(lastOrder.localComplement).to.equal('O pedido será coletado na cozinha');
+
+    expect(lastOrder.status).to.equal('PENDING');
+    expect(lastOrder.userId).to.equal('coffee_shop');
+    expect(lastOrder.paymentOption).to.equal('Dinheiro');
+    expect(lastOrder.telephoneNumber).to.equal('1234');
+    expect(lastOrder.comments).to.equal('Comida muito boa!');
+    expect(lastOrder.totalAmount).to.be.closeTo(50.18, 0.001); //With delivering extra fee added
     expect(lastOrder.items).to.have.lengthOf(3);
     expect(lastOrder.items[0].qty).to.equal(2);
     expect(lastOrder.items[0].itemTotalPrice).to.be.closeTo(23.98, 0.001);
