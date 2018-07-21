@@ -6,6 +6,7 @@ import OrderFixtures from './OrderFixtures';
 import UserFixtures from './UserFixtures';
 import IngredientFixtures from './IngredientFixtures';
 import PurchaseFixtures from './PurchaseFixtures';
+import GeneralConfigFixtures from './GeneralConfigFixtures';
 import { MenuItem } from '../../db/models/menuItem';
 import { Kitchen } from '../../db/models/kitchen';
 import { Order } from '../../db/models/Order';
@@ -13,9 +14,11 @@ import { User } from '../../db/models/User';
 import { IngredientType } from '../../db/models/IngredientType';
 import { Purchase } from '../../db/models/Purchase';
 import { KitchenStock } from '../../db/models/KitchenStock';
+import { GeneralConfig } from '../../db/models/GeneralConfig';
 
 export async function initFixtures() {
   await Promise.all([
+    GeneralConfig.remove({}),
     User.remove({}),
     Order.remove({}),
     Kitchen.remove({}),
@@ -25,11 +28,12 @@ export async function initFixtures() {
     IngredientType.remove({}),
   ]);
 
-  await Purchase.remove({});
+  // await Purchase.remove({});
   await IngredientType.insertMany(await IngredientFixtures() );
   await Purchase.insertMany(await PurchaseFixtures() );
   await MenuItem.insertMany(await menuItemFixtures());
   await Kitchen.insertMany(await kitchenFixtures());
   await Order.insertMany(await OrderFixtures());
   await UserFixtures();
+  await GeneralConfig.insertMany(await GeneralConfigFixtures());
 }
