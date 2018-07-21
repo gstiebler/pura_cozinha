@@ -1,6 +1,17 @@
 import * as network from './network';
 import { IngredientType } from './Interfaces';
 
+
+export async function findGeneralConfigByKey(key: string): Promise<Number> {
+  const query = `
+    query {
+      getByKey (key: "${key}") 
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.getByKey;
+}
+
 export async function findKitchenById(kitchenId: string): Promise<any> {
     const params = `
       id: "${kitchenId}"

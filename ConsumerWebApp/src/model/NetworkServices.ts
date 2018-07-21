@@ -98,3 +98,8 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
 export async function getItemsByKitchen(kitchenId: string): Promise<any> {
   return ns.getItemsByKitchen(kitchenId);
 }
+
+
+export async function findGeneralConfigByKey(key: string): Promise<any> {
+  return ns.findGeneralConfigByKey(key);
+}

@@ -32,6 +32,7 @@ export class Store {
   @observable kitchen: Kitchen = null;
   lastItemIndex: number;
   @observable mustDeliver: boolean = false;  
+  @observable extraFee: number = 0;  
 
 
   locationOptions: string[];
@@ -179,7 +180,8 @@ export class Store {
       }
       return orderRequest;
     });
-    const totalAmount = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0);
+
+    const totalAmount = items.map(i => i.itemTotalPrice).reduce((a, b) => a + b, 0) + this.extraFee;
     return { items, totalAmount };
   }
 
@@ -234,6 +236,10 @@ export class Store {
         this.localComplement = 'O pedido será coletado na cozinha';
         this.selectedLocal = 'Não Entrega';
       }
+      else{
+        this.extraFee = await ns.findGeneralConfigByKey('DELIVERING_TAX');
+      }
+      
       const request:IOrderRequest = {
         orderSummary: this.orderSummary,
         local: this.selectedLocal,

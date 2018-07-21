@@ -22,13 +22,14 @@ import {
   
   export const Query = {
     getByKey: {
-      type: GeneralConfigCompleteType,
+      type: GraphQLFloat,
       args: {
         key: { type: GraphQLString }
       },
       resolve: async function(root, { key }, source, fieldASTs) {
         const generalConfig = await GeneralConfig.findOne({'key' : key});
-        return generalConfig;
+        const value = parseFloat(generalConfig.value);
+        return value;
       }
     }
   };
