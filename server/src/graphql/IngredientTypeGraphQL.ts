@@ -9,6 +9,7 @@ import {
   } from 'graphql';
   import { IngredientType } from '../db/models/IngredientType';
   import { IIngredientRequest } from '../../../common/Interfaces';
+  import * as resolver from './resolvers/IngredientTypeResolver';
   import { ObjectId } from 'bson';
   
   
@@ -70,8 +71,7 @@ import {
       type: GraphQLString,
       args: { id: { type: GraphQLID } },
       resolve: async (value, { id }) => {
-        await IngredientType.remove({ _id: id });
-        return 'OK';
+        return await resolver.deleteIngredientType(id);
       }
     },
   };
