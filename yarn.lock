@@ -1300,6 +1300,10 @@ binaryextensions@2:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-2.1.1.tgz#3209a51ca4a4ad541a3b8d3d6a6d5b83a2485935"
 
+bindings@^1.2.1:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.0.tgz#b346f6ecf6a95f5a815c5839fc7cdb22502f1ed7"
+
 bl@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.1.tgz#cac328f7bee45730d404b692203fcb590e172d5e"
@@ -3594,6 +3598,14 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
+hoek@5.x.x:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.3.tgz#b71d40d943d0a95da01956b547f83c4a5b4a34ac"
+
+hoek@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
+
 hoist-non-react-statics@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
@@ -4085,6 +4097,12 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
+isemail@3.x.x:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/isemail/-/isemail-3.1.3.tgz#64f37fc113579ea12523165c3ebe3a71a56ce571"
+  dependencies:
+    punycode "2.x.x"
+
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -4128,6 +4146,14 @@ isurl@^1.0.0-alpha5:
 iterall@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
+
+joi@^13.1.2:
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-13.4.0.tgz#afc359ee3d8bc5f9b9ba6cdc31b46d44af14cecc"
+  dependencies:
+    hoek "5.x.x"
+    isemail "3.x.x"
+    topo "3.x.x"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -5164,7 +5190,7 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-nan@2.10.0:
+nan@2.10.0, nan@^2.3.5:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
 
@@ -5216,6 +5242,13 @@ node-dir@0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/node-dir/-/node-dir-0.1.8.tgz#55fb8deb699070707fb67f91a460f0448294c77d"
 
+node-expat@^2.3.15:
+  version "2.3.16"
+  resolved "https://registry.yarnpkg.com/node-expat/-/node-expat-2.3.16.tgz#adb22174e1aaa5305996bd5b1aa6f2c8d5c0f239"
+  dependencies:
+    bindings "^1.2.1"
+    nan "^2.3.5"
+
 node-fetch@^1.0.1, node-fetch@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
@@ -5250,6 +5283,13 @@ node-libs-browser@^2.0.0:
     url "^0.11.0"
     util "^0.10.3"
     vm-browserify "0.0.4"
+
+node-pagseguro@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/node-pagseguro/-/node-pagseguro-0.1.9.tgz#5cd7a482f2088decbda9b07ee273873f947062aa"
+  dependencies:
+    request "^2.83.0"
+    xml2json "^0.11.0"
 
 node-pre-gyp@0.10.2:
   version "0.10.2"
@@ -5929,6 +5969,10 @@ pumpify@^1.3.3, pumpify@^1.3.5:
 punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
+
+punycode@2.x.x:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
 punycode@^1.2.4, punycode@^1.3.2, punycode@^1.4.1:
   version "1.4.1"
@@ -7289,6 +7333,12 @@ to-through@^2.0.0:
   dependencies:
     through2 "^2.0.3"
 
+topo@3.x.x:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/topo/-/topo-3.0.0.tgz#37e48c330efeac784538e0acd3e62ca5e231fe7a"
+  dependencies:
+    hoek "5.x.x"
+
 tough-cookie@>=2.3.3, tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
@@ -7908,6 +7958,14 @@ write-file-atomic@^1.2.0:
     graceful-fs "^4.1.11"
     imurmurhash "^0.1.4"
     slide "^1.1.5"
+
+xml2json@^0.11.0:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/xml2json/-/xml2json-0.11.2.tgz#70ddd234fd7818312cc58455cab8457b5bcc7c52"
+  dependencies:
+    hoek "^4.2.1"
+    joi "^13.1.2"
+    node-expat "^2.3.15"
 
 "xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"

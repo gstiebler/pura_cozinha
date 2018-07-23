@@ -62,6 +62,7 @@
     "moment-timezone": "^0.5.14",
     "mongoose": "^5.0.2",
     "node-fetch": "^1.7.3",
+    "node-pagseguro": "^0.1.9",
     "node-telegram-bot-api": "^0.30.0",
     "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",
