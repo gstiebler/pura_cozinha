@@ -21,7 +21,7 @@ declare global {
   interface Window { PagSeguroDirectPayment: any; }
 }
 
-window.PagSeguroDirectPayment.setSessionId('50cd7435cd804df9b1ac60e6302fef0f');
+window.PagSeguroDirectPayment.setSessionId('4c83553850484b2793c0db33837e906a');
 
 // var xhttp = new XMLHttpRequest();
 // xhttp.onreadystatechange = function() {
@@ -41,7 +41,24 @@ window.PagSeguroDirectPayment.getBrand({
     console.log(response);
   },
   error: function (response){
-    console.log('deu pau ' + response.toSource());
+    console.log('deu erro ' + response.toSource());
+  },
+  complete: function (response){
+    console.log('meh');
+  }
+});
+
+
+window.PagSeguroDirectPayment.createCardToken({
+  cardNumber: '4111111111111111',
+  cvv: '123',
+  expirationMonth: 12,
+  expirationYear: 2030,
+  success: function (response){
+    console.log(response);
+  },
+  error: function (response){
+    console.log('deu erro ' + response.toSource());
   },
   complete: function (response){
     console.log('meh');
