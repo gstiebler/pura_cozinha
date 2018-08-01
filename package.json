@@ -26,6 +26,7 @@
     "@types/sinon": "^4.1.3",
     "@types/winston": "^2.3.7",
     "awesome-typescript-loader": "^3.4.1",
+    "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^8.0.0",
