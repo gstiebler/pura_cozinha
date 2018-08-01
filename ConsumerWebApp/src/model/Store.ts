@@ -16,6 +16,13 @@ import {
 
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
+
+declare global {
+  interface Window { PagSeguroDirectPayment: any; }
+}
+
+window.PagSeguroDirectPayment.setSessionId('620f99e348c24f07877c927b353e49d3');
+
 export class Store {
 
   @observable router;
