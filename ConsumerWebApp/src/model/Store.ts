@@ -21,7 +21,32 @@ declare global {
   interface Window { PagSeguroDirectPayment: any; }
 }
 
-window.PagSeguroDirectPayment.setSessionId('620f99e348c24f07877c927b353e49d3');
+window.PagSeguroDirectPayment.setSessionId('50cd7435cd804df9b1ac60e6302fef0f');
+
+// var xhttp = new XMLHttpRequest();
+// xhttp.onreadystatechange = function() {
+//   if (this.readyState == 4 && this.status == 200) {
+//     console.log(this.responseText);
+//   }
+//   console.log('error ' + this.status);
+// };
+// xhttp.open('POST', 'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions', true);
+// xhttp.setRequestHeader("Content-type", "application/xml; charset=ISO-8859-1");
+// xhttp.send("email=guilherme.mst@gmail.com&token=6D17B04C51F749EEA3F3ECE500FE01C1"); 
+
+
+window.PagSeguroDirectPayment.getBrand({
+  cardBin: '4111111111111111',
+  success: function (response){
+    console.log(response);
+  },
+  error: function (response){
+    console.log('deu pau ' + response.toSource());
+  },
+  complete: function (response){
+    console.log('meh');
+  }
+});
 
 export class Store {
 
