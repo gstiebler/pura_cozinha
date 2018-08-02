@@ -14,6 +14,10 @@ function param( params ) {
   return p.toString();
 }
 
+function doSomething(data) {
+  console.log(data);
+}
+
 function testPagseguro(){
   console.log("start test");
 
@@ -39,12 +43,12 @@ function testPagseguro(){
       "Content-Type" :"application/x-www-form-urlencoded",
       "Cache-Control": "no-cache",
     },
-    responseType:'stream',
+    responseType:'document',
     url:'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions',
     data: param(reqData)
   })
   .then(function(response) {
-    console.log('it worked ' + response.data.statusCode);
+    doSomething(response.data);
   })
   .catch(function (error) {
     console.log(error.response.status)
