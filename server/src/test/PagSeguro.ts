@@ -1,70 +1,112 @@
 // var PagSeguro = require('node-pagseguro');
 
 const PagSeguro = require('pagseguro-nodejs');
+const axios = require('axios');
 
 
 testPagseguro();
 
+function param( params ) {
+  const p = new URLSearchParams;
+  for( const [ key, value ] of Object.entries( params ) ) {
+      p.set( key, String( value ) );
+  }
+  return p.toString();
+}
+
 function testPagseguro(){
   console.log("start test");
 
-  var pagseguro = new PagSeguro({
-    email: 'guilherme.mst@gmail.com',
-    token: '6D17B04C51F749EEA3F3ECE500FE01C1',
-    mode: PagSeguro.MODE_SANDBOX,
-    debug: true
+  // axios({
+  //   method:'get',
+  //   url:'http://bit.ly/2mTM3nY',
+  //   responseType:'stream'
+  // })
+  // .then(function(response) {
+  //   console.log(response.data.statusCode);
+  // });
+
+  const reqData = {
+    'email': 'guilherme.mst@gmail.com',
+    'token': '6D17B04C51F749EEA3F3ECE500FE01C1'
+  };
+
+  axios({
+    method:'post',
+    withCredentials: true,
+    crossdomain: true,
+    headers: { 
+      "Content-Type" :"application/x-www-form-urlencoded",
+      "Cache-Control": "no-cache",
+    },
+    responseType:'stream',
+    url:'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions',
+    data: param(reqData)
+  })
+  .then(function(response) {
+    console.log('it worked ' + response.data.statusCode);
+  })
+  .catch(function (error) {
+    console.log(error.response.status)
   });
 
-  pagseguro.currency('BRL');
-  pagseguro.reference('12345');
+  // var pagseguro = new PagSeguro({
+  //   email: 'guilherme.mst@gmail.com',
+  //   token: '6D17B04C51F749EEA3F3ECE500FE01C1',
+  //   mode: PagSeguro.MODE_SANDBOX,
+  //   debug: true
+  // });
 
-  /* Produtos */
-  pagseguro.addItem({
-    id: '1',
-    description: 'Descrição do primeiro produto',
-    amount: '40.00',
-    quantity: '1'
-  });
+  // pagseguro.currency('BRL');
+  // pagseguro.reference('12345');
 
-  pagseguro.addItem({
-    id: '2',
-    description: 'Descrição do segundo produto',
-    amount: '40.00',
-    quantity: '9'
-  });
+  // /* Produtos */
+  // pagseguro.addItem({
+  //   id: '1',
+  //   description: 'Descrição do primeiro produto',
+  //   amount: '40.00',
+  //   quantity: '1'
+  // });
+
+  // pagseguro.addItem({
+  //   id: '2',
+  //   description: 'Descrição do segundo produto',
+  //   amount: '40.00',
+  //   quantity: '9'
+  // });
 
 
-  pagseguro.sender({
-    name: 'Edvaldo Szymonek',
-    email: 'nigelnaiguel.comp@gmail.com',
-    phone: {
-      areaCode: '51',
-      number: '12345678'
-    }
-  });
+  // pagseguro.sender({
+  //   name: 'Edvaldo Szymonek',
+  //   email: 'nigelnaiguel.comp@gmail.com',
+  //   phone: {
+  //     areaCode: '51',
+  //     number: '12345678'
+  //   }
+  // });
 
-  pagseguro.shipping({
-    type: 1,
-    name: 'Edvaldo Szymonek',
-    email: 'nigelnaiguel.comp@gmail.com',
-    address: {
-      street: 'Endereço',
-      number: '10',
-      city: 'Nome da cidade',
-      state: 'PR',
-      country: 'BRA'
-    }
-  });
+  // pagseguro.shipping({
+  //   type: 1,
+  //   name: 'Edvaldo Szymonek',
+  //   email: 'nigelnaiguel.comp@gmail.com',
+  //   address: {
+  //     street: 'Endereço',
+  //     number: '10',
+  //     city: 'Nome da cidade',
+  //     state: 'PR',
+  //     country: 'BRA'
+  //   }
+  // });
 
-  pagseguro.checkout(function(success, response) {
-    if (success) {
-      console.log('Success');
-      console.log(response);
-    } else {
-      console.log('Error');
-      console.error(response);
-    }
-  });
+  // pagseguro.checkout(function(success, response) {
+  //   if (success) {
+  //     console.log('Success');
+  //     console.log(response);
+  //   } else {
+  //     console.log('Error');
+  //     console.error(response);
+  //   }
+  // });
 
 
 //   let payment = new PagSeguro({

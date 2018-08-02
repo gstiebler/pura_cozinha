@@ -13,6 +13,7 @@ import {
   TOptionGroupKey,
   Kitchen
 } from '../../../common/Interfaces';
+import axios from 'axios';
 
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
@@ -21,19 +22,24 @@ declare global {
   interface Window { PagSeguroDirectPayment: any; }
 }
 
-window.PagSeguroDirectPayment.setSessionId('4c83553850484b2793c0db33837e906a');
+window.PagSeguroDirectPayment.setSessionId('8413ad7fd3de4da7bb60db966f6b39b9');
 
-// var xhttp = new XMLHttpRequest();
-// xhttp.onreadystatechange = function() {
-//   if (this.readyState == 4 && this.status == 200) {
-//     console.log(this.responseText);
-//   }
-//   console.log('error ' + this.status);
-// };
-// xhttp.open('POST', 'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions', true);
-// xhttp.setRequestHeader("Content-type", "application/xml; charset=ISO-8859-1");
-// xhttp.send("email=guilherme.mst@gmail.com&token=6D17B04C51F749EEA3F3ECE500FE01C1"); 
-
+axios({
+  method:'post',
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  url:'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions',
+  responseType:'stream',
+  data: {
+    email: 'guilherme.mst@gmail.com',
+    token: '6D17B04C51F749EEA3F3ECE500FE01C1'
+  }
+})
+.then(function(response) {
+  console.log(response);
+})
+.catch(function (error) {
+  console.log(error);
+});
 
 window.PagSeguroDirectPayment.getBrand({
   cardBin: '4111111111111111',
