@@ -1,9 +1,6 @@
 const axios = require('axios');
 var parseString = require('xml2js').parseString;
 
-
-testPagseguro();
-
 function param( params ) {
   const p = new URLSearchParams;
   for( const [ key, value ] of Object.entries( params ) ) {
@@ -13,7 +10,7 @@ function param( params ) {
 }
 
 
-function testPagseguro(){
+export function getPaymentSessionId(){
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1'
