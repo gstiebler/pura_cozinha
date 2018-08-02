@@ -19,6 +19,7 @@ import * as KitchenGraphql from './KitchenGraphql';
 import * as IngredientTypeGraphQL from './IngredientTypeGraphQL';
 import * as PurchaseGraphQL from './PurchaseGraphQL';
 import * as KitchenStockGraphQL from './KitchenStockGraphQL';
+import * as PagSeguroGraphQL from './PagSeguroGraphQL';
 
 export const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -29,7 +30,8 @@ export const schema = new GraphQLSchema({
       ...UserGraphQL.Query,
       ...IngredientTypeGraphQL.Query,
       ...KitchenGraphql.KitchenQuery,
-      ...PurchaseGraphQL.Query
+      ...PurchaseGraphQL.Query,
+      ...PagSeguroGraphQL.Query
     }
   }),
   mutation: new GraphQLObjectType({

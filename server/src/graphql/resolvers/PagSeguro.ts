@@ -2,6 +2,7 @@ const axios = require('axios');
 var parseString = require('xml2js').parseString;
 
 function param( params ) {
+  
   const p = new URLSearchParams;
   for( const [ key, value ] of Object.entries( params ) ) {
       p.set( key, String( value ) );
@@ -10,13 +11,14 @@ function param( params ) {
 }
 
 
-export function getPaymentSessionId(){
+export async function getPaymentSessionId(): Promise<string>{
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1'
   };
-
-  axios({
+  let sessionId = '';
+  
+  const response = await axios({
     method:'post',
     withCredentials: true,
     crossdomain: true,
@@ -27,13 +29,16 @@ export function getPaymentSessionId(){
     responseType:'document',
     url:'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions',
     data: param(reqData)
-  })
-  .then(function(response) {
-    parseString(response.data, function (err, result) {
-      console.dir(result.session.id[0]);
-    });
-  })
-  .catch(function (error) {
-    console.log(error.response.status)
   });
+
+  
+  if(response.status === 200)
+  {
+    parseString(response.data, function (err, result) {
+      
+      sessionId = result.session.id[0];
+    });
+  }
+  
+  return sessionId;
 };

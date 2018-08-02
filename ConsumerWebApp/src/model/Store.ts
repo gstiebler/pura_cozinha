@@ -22,55 +22,6 @@ declare global {
   interface Window { PagSeguroDirectPayment: any; }
 }
 
-window.PagSeguroDirectPayment.setSessionId('8413ad7fd3de4da7bb60db966f6b39b9');
-
-axios({
-  method:'post',
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  url:'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions',
-  responseType:'stream',
-  data: {
-    email: 'guilherme.mst@gmail.com',
-    token: '6D17B04C51F749EEA3F3ECE500FE01C1'
-  }
-})
-.then(function(response) {
-  console.log(response);
-})
-.catch(function (error) {
-  console.log(error);
-});
-
-window.PagSeguroDirectPayment.getBrand({
-  cardBin: '4111111111111111',
-  success: function (response){
-    console.log(response);
-  },
-  error: function (response){
-    console.log('deu erro ' + response.toSource());
-  },
-  complete: function (response){
-    console.log('meh');
-  }
-});
-
-
-window.PagSeguroDirectPayment.createCardToken({
-  cardNumber: '4111111111111111',
-  cvv: '123',
-  expirationMonth: 12,
-  expirationYear: 2030,
-  success: function (response){
-    console.log(response);
-  },
-  error: function (response){
-    console.log('deu erro ' + response.toSource());
-  },
-  complete: function (response){
-    console.log('meh');
-  }
-});
-
 export class Store {
 
   @observable router;
@@ -129,6 +80,7 @@ export class Store {
   {
     await this.getKitchen();
     await this.getFoodMenuItems();
+    await this.pagSeguroTransaction();
   }
 
   onFmiSelected(id: TfmiId) {
@@ -306,6 +258,45 @@ export class Store {
 
   onMenuItemOptionSelected(index: number, optionKey: string, optionItem: string) {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
+  }
+
+
+
+  async pagSeguroTransaction()
+  {
+    const sessionId = await ns.getPaymentSessionId();
+    console.log(sessionId);
+    window.PagSeguroDirectPayment.setSessionId(sessionId);
+
+    window.PagSeguroDirectPayment.getBrand({
+      cardBin: '4111111111111111',
+      success: function (response){
+        console.log(response);
+      },
+      error: function (response){
+        console.log('deu erro ' + response.toSource());
+      },
+      complete: function (response){
+        console.log('meh');
+      }
+    });
+
+
+    window.PagSeguroDirectPayment.createCardToken({
+      cardNumber: '4111111111111111',
+      cvv: '123',
+      expirationMonth: 12,
+      expirationYear: 2030,
+      success: function (response){
+        console.log(response);
+      },
+      error: function (response){
+        console.log('deu erro ' + response.toSource());
+      },
+      complete: function (response){
+        console.log('meh');
+      }
+    });
   }
 
 }
