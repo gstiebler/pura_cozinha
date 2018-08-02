@@ -7,6 +7,7 @@ import {
   IOrderRequest,
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
+import * as PagSeguroUtils from '../../../server/src/lib/PagSeguro';
 
 export async function fetchFoodMenu(): Promise<IFoodMenuItem[]> {
   const query = `
@@ -97,4 +98,9 @@ export async function findKitchenById(kitchenId: string): Promise<any> {
 
 export async function getItemsByKitchen(kitchenId: string): Promise<any> {
   return ns.getItemsByKitchen(kitchenId);
+}
+
+
+export async function getPaymentSessionId(): Promise<any> {
+  return PagSeguroUtils.getPaymentSessionId();
 }
