@@ -113,8 +113,8 @@ export async function getPaymentSessionId(): Promise<any> {
 
 export async function checkoutPayment(cardToken: string): Promise<any> {
   const mutation = `
-    checkoutPayment {
-      saveOrder (
+    mutation {
+      checkoutPayment (
         fmiData: {
           cardToken: "${cardToken}"
         }
@@ -122,5 +122,5 @@ export async function checkoutPayment(cardToken: string): Promise<any> {
     }
   `;
   const result = await network.fetchQuery(mutation);
-  return result.getSessionId;
+  return result.msg;
 }

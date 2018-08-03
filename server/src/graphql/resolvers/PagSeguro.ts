@@ -46,6 +46,9 @@ export async function getPaymentSessionId(): Promise<string>{
 
 
 export async function checkoutPayment(cardToken: string): Promise<string>{
+
+  console.log(cardToken);
+
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1'

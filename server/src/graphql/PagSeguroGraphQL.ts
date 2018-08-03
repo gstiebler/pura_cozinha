@@ -11,8 +11,8 @@ import {
   import * as PagSeguro from './resolvers/PagSeguro';
   
 
-  export const CheckoutCompleteType = new GraphQLObjectType({
-    name: 'CheckoutCompleteType',
+  export const CheckoutCompleteInputType = new GraphQLInputObjectType({
+    name: 'CheckoutCompleteInputType',
     fields: {
       cardToken: { type: GraphQLString },
     }
@@ -31,8 +31,9 @@ import {
   export const Mutation = {
     checkoutPayment: {
       type: GraphQLString,
-      args: { fmiData: { type: CheckoutCompleteType } },
+      args: { fmiData: { type: CheckoutCompleteInputType } },
       async resolve(value, { fmiData }) {
+        console.log(fmiData.cardToken);
         await PagSeguro.checkoutPayment(fmiData.cardToken);
         return { msg: 'OK' };
       }
