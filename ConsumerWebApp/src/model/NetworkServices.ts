@@ -112,11 +112,15 @@ export async function getPaymentSessionId(): Promise<any> {
 
 
 export async function checkoutPayment(cardToken: string): Promise<any> {
-  const query = `
-    query {
-      getSessionId  
+  const mutation = `
+    checkoutPayment {
+      saveOrder (
+        fmiData: {
+          cardToken: "${cardToken}"
+        }
+      ) 
     }
   `;
-  const result = await network.fetchQuery(query);
+  const result = await network.fetchQuery(mutation);
   return result.getSessionId;
 }
