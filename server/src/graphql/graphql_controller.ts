@@ -41,7 +41,8 @@ export const schema = new GraphQLSchema({
       ...IngredientTypeGraphQL.Mutation,
       ...KitchenGraphql.KitchenMutation,
       ...PurchaseGraphQL.Mutation,
-      ...KitchenStockGraphQL.Mutation
+      ...KitchenStockGraphQL.Mutation,
+      ...PagSeguroGraphQL.Query
     },
   })
 });

@@ -109,3 +109,14 @@ export async function getPaymentSessionId(): Promise<any> {
   const result = await network.fetchQuery(query);
   return result.getSessionId;
 }
+
+
+export async function checkoutPayment(cardToken: string): Promise<any> {
+  const query = `
+    query {
+      getSessionId  
+    }
+  `;
+  const result = await network.fetchQuery(query);
+  return result.getSessionId;
+}

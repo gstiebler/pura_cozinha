@@ -268,27 +268,16 @@ export class Store {
     console.log(sessionId);
     window.PagSeguroDirectPayment.setSessionId(sessionId);
 
-    window.PagSeguroDirectPayment.getBrand({
-      cardBin: '4111111111111111',
-      success: function (response){
-        console.log(response);
-      },
-      error: function (response){
-        console.log('deu erro ' + response.toSource());
-      },
-      complete: function (response){
-        console.log('meh');
-      }
-    });
-
-
-    window.PagSeguroDirectPayment.createCardToken({
+    let cardToken = '';
+    await window.PagSeguroDirectPayment.createCardToken({
       cardNumber: '4111111111111111',
       cvv: '123',
       expirationMonth: 12,
       expirationYear: 2030,
-      success: function (response){
-        console.log(response);
+      success: async function (response){
+        cardToken = response.card.token;
+        console.log('token ' + cardToken);
+        await ns.checkoutPayment(cardToken);
       },
       error: function (response){
         console.log('deu erro ' + response.toSource());
@@ -297,6 +286,9 @@ export class Store {
         console.log('meh');
       }
     });
+
+    
+
   }
 
 }
