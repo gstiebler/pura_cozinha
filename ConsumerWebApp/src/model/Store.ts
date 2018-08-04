@@ -265,8 +265,24 @@ export class Store {
   async pagSeguroTransaction()
   {
     const sessionId = await ns.getPaymentSessionId();
-    console.log(sessionId);
+    
     window.PagSeguroDirectPayment.setSessionId(sessionId);
+    const senderHash = window.PagSeguroDirectPayment.getSenderHash();
+    
+    await window.PagSeguroDirectPayment.getInstallments({
+      amount: '24300.00',
+      brand: 'visa',
+      // maxInstallmentNoInterest: 0,
+      success: async function (response){
+        console.log('installments ' + response.toSource());
+      },
+      error: function (response){
+        console.log('deu erro ' + response.toSource());
+      },
+      complete: function (response){
+        console.log('meh');
+      }
+    });
 
     let cardToken = '';
     await window.PagSeguroDirectPayment.createCardToken({
@@ -277,7 +293,7 @@ export class Store {
       success: async function (response){
         cardToken = response.card.token;
         console.log('token ' + cardToken);
-        await ns.checkoutPayment(cardToken);
+        await ns.checkoutPayment(cardToken, senderHash);
       },
       error: function (response){
         console.log('deu erro ' + response.toSource());

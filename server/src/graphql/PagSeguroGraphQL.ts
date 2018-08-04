@@ -15,6 +15,7 @@ import {
     name: 'CheckoutCompleteInputType',
     fields: {
       cardToken: { type: GraphQLString },
+      senderHash: { type: GraphQLString },
     }
   });
 
@@ -34,7 +35,7 @@ import {
       args: { fmiData: { type: CheckoutCompleteInputType } },
       async resolve(value, { fmiData }) {
         console.log(fmiData.cardToken);
-        await PagSeguro.checkoutPayment(fmiData.cardToken);
+        await PagSeguro.checkoutPayment(fmiData.cardToken, fmiData.senderHash);
         return { msg: 'OK' };
       }
     },

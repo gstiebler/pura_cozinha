@@ -111,12 +111,13 @@ export async function getPaymentSessionId(): Promise<any> {
 }
 
 
-export async function checkoutPayment(cardToken: string): Promise<any> {
+export async function checkoutPayment(cardToken: string, senderHash: string): Promise<any> {
   const mutation = `
     mutation {
       checkoutPayment (
         fmiData: {
-          cardToken: "${cardToken}"
+          cardToken: "${cardToken}",
+          senderHash: "${senderHash}",
         }
       ) 
     }
