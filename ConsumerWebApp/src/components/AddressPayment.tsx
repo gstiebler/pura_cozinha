@@ -138,7 +138,7 @@ function AddressPayment(props: IProps) {
         />
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
-        Enviar pedido
+        { store.sendOrderButtonTxt }
       </Button>
     </div>
   );

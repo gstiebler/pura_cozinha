@@ -36,6 +36,7 @@ export class Store {
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
   @observable kitchen: Kitchen = null;
+  @observable sendOrderButtonTxt: string = "Enviar Pedido";
   lastItemIndex: number;
 
   locationOptions: string[];
@@ -80,7 +81,7 @@ export class Store {
   {
     await this.getKitchen();
     await this.getFoodMenuItems();
-    await this.pagSeguroTransaction();
+    // await this.pagSeguroTransaction();
   }
 
   onFmiSelected(id: TfmiId) {
@@ -215,6 +216,12 @@ export class Store {
   }
 
   onPaymentOptionSelected(paymentOption: TPaymentOptions) {
+    if(paymentOption == "Cartão"){
+      this.sendOrderButtonTxt = "Continuar Pagamento";
+    }
+    else{
+      this.sendOrderButtonTxt = "Enviar Pedido";
+    }
     this.selectedPaymentOption = paymentOption;
   }
 
