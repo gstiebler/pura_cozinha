@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl, FormHelperText, FormGroup, FormControlLabel } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Switch from 'material-ui/Switch';
@@ -77,7 +77,7 @@ function CardPaymentForm(props: IProps) {
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="senderAreaCode"
-          label="Código de Área do Telefone Para Contato"
+          label="Código de Área"
           className={classes.textField}
           value={store.senderAreaCode}
           onChange={senderNameChanged.bind(null, store)}
@@ -104,10 +104,19 @@ function CardPaymentForm(props: IProps) {
           margin="normal"
         />
       </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <Switch onChange={handleToggle.bind(null, store, fmi._id)}
-            checked={isChecked(quantity)}/>
-      </form>
+      <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={true}
+                value="gilad"
+                // onChange={handleToggle.bind(null, store)}
+              />
+            }
+            label='Irá utilizar o seu cartão de crédito?'
+          />
+      </FormGroup>
+      
       
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
