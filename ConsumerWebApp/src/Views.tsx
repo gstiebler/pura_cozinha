@@ -5,6 +5,7 @@ import FoodMenu from './components/FoodMenu';
 import ItemDetail from './components/ItemDetail';
 import OrderSummary from './components/OrderSummary';
 import AddressPayment from './components/AddressPayment';
+import CardPaymentForm from './components/CardPaymentForm';
 
 export default {
   home: new Route({
@@ -31,5 +32,9 @@ export default {
   addressPayment: new Route({
     path: '/address_payment',
     component: <AddressPayment store={store}/>
+  }),
+  cardPayment: new Route({
+    path: '/card_payment',
+    component: <CardPaymentForm store={store}/>
   }),
 };

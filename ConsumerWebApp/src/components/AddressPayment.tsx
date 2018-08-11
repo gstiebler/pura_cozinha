@@ -31,8 +31,15 @@ function localComplementChanged(store: Store, event) {
 }
 
 async function onSendOrderRequested(store: Store) {
-  await store.onSendOrderRequested();
-  store.router.goTo(views.home, {}, store);
+  if(store.selectedPaymentOption != 'Cartão')
+  {
+    await store.onSendOrderRequested();
+    store.router.goTo(views.home, {}, store);
+  }
+  else{
+    store.router.goTo(views.cardPayment, {}, store);
+  }
+    
 }
 
 const styles = theme => ({
