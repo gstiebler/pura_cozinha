@@ -36,7 +36,23 @@ export class Store {
   @observable snackbarMsg: string = '';
   @observable comments: string = '';
   @observable kitchen: Kitchen = null;
+
+  //Card payment info
+  @observable senderName: string = "";
+  @observable senderCpf: string = "";
+  @observable senderAreaCode: string = "";
+  @observable senderPhone: string = "";
+  @observable senderEmail: string = "";
+  @observable shippingAddressDistrict: string = "";
+  @observable shippingAddressPostalCode: string = "";
+  @observable shippingAddressState: string = "";
+  @observable creditCardHolderName: string = "";
+  @observable creditCardHolderCPF: string = "";
+  @observable creditCardHolderBirthDate: string = "";
+  @observable creditCardHolderAreaCode: string = "";
   @observable sendOrderButtonTxt: string = "Enviar Pedido";
+
+
   lastItemIndex: number;
 
   locationOptions: string[];
@@ -59,6 +75,11 @@ export class Store {
   reset() {
     this.comments = '';
     this.selectedFMIsAndOptions = [];
+  }
+
+  //Credit card change functions
+  onSenderNameChanged(name: string) {
+    this.senderName = name;
   }
 
   getKitchenActive(): boolean
