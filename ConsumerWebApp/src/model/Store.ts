@@ -270,7 +270,7 @@ export class Store {
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
     
     await window.PagSeguroDirectPayment.getInstallments({
-      amount: '24300.00',
+      amount: '2.00',
       brand: 'visa',
       // maxInstallmentNoInterest: 0,
       success: async function (response){
@@ -286,10 +286,10 @@ export class Store {
 
     let cardToken = '';
     await window.PagSeguroDirectPayment.createCardToken({
-      cardNumber: '4111111111111111',
-      cvv: '123',
-      expirationMonth: 12,
-      expirationYear: 2030,
+      cardNumber: '5234210440463109',
+      cvv: '503',
+      expirationMonth: 1,
+      expirationYear: 2021,
       success: async function (response){
         cardToken = response.card.token;
         console.log('token ' + cardToken);
