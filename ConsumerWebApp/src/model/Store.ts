@@ -81,6 +81,21 @@ export class Store {
   onSenderNameChanged(name: string) {
     this.senderName = name;
   }
+  
+  onSenderCpfChanged(cpf: string) {
+    this.senderCpf = cpf;
+  }
+  onSenderAreaCodeChanged(area: string) {
+    this.senderAreaCode = area;
+  }
+
+  onSenderPhoneChanged(phone: string) {
+    this.senderPhone = phone;
+  }
+
+  onSenderEmailChanged(email: string) {
+    this.senderEmail = email;
+  }
 
   getKitchenActive(): boolean
   {

@@ -13,6 +13,22 @@ function senderNameChanged(store: Store, event) {
   store.onSenderNameChanged(event.target.value);
 }
 
+function senderCpfChanged(store: Store, event) {
+  store.onSenderCpfChanged(event.target.value);
+}
+
+function senderAreaChanged(store: Store, event) {
+  store.onSenderAreaCodeChanged(event.target.value);
+}
+
+function senderPhoneChanged(store: Store, event) {
+  store.onSenderPhoneChanged(event.target.value);
+}
+
+function senderEmailChanged(store: Store, event) {
+  store.onSenderEmailChanged(event.target.value);
+}
+
 
 async function onSendOrderRequested(store: Store) {
   await store.onSendOrderRequested();
@@ -70,7 +86,7 @@ function CardPaymentForm(props: IProps) {
           label="CPF do Cliente"
           className={classes.textField}
           value={store.senderCpf}
-          onChange={senderNameChanged.bind(null, store)}
+          onChange={senderCpfChanged.bind(null, store)}
           margin="normal"
         />
       </form>
@@ -80,7 +96,7 @@ function CardPaymentForm(props: IProps) {
           label="Código de Área"
           className={classes.textField}
           value={store.senderAreaCode}
-          onChange={senderNameChanged.bind(null, store)}
+          onChange={senderAreaChanged.bind(null, store)}
           margin="normal"
         />
       </form>
@@ -90,7 +106,7 @@ function CardPaymentForm(props: IProps) {
           label="Telefone Para Contato"
           className={classes.textField}
           value={store.senderPhone}
-          onChange={senderNameChanged.bind(null, store)}
+          onChange={senderPhoneChanged.bind(null, store)}
           margin="normal"
         />
       </form>
@@ -100,7 +116,7 @@ function CardPaymentForm(props: IProps) {
           label="Email do Cliente"
           className={classes.textField}
           value={store.senderEmail}
-          onChange={senderNameChanged.bind(null, store)}
+          onChange={senderEmailChanged.bind(null, store)}
           margin="normal"
         />
       </form>
@@ -117,6 +133,7 @@ function CardPaymentForm(props: IProps) {
           />
       </FormGroup>
       
+
       
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
