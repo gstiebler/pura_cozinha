@@ -29,6 +29,10 @@ function senderEmailChanged(store: Store, event) {
   store.onSenderEmailChanged(event.target.value);
 }
 
+function toggleCardHolderOwner(store: Store) {
+  store.toggleIsCardHolderOwner();
+}
+
 
 async function onSendOrderRequested(store: Store) {
   await store.onSendOrderRequested();
@@ -124,17 +128,69 @@ function CardPaymentForm(props: IProps) {
           <FormControlLabel
             control={
               <Switch
-                checked={true}
+                checked={store.isCardHolder}
                 value="gilad"
-                // onChange={handleToggle.bind(null, store)}
+                onChange={toggleCardHolderOwner.bind(null, store)}
               />
             }
             label='Irá utilizar o seu cartão de crédito?'
           />
       </FormGroup>
-      
-
-      
+      {!store.isCardHolder && 
+        <div>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="creditCardHolderName"
+              label="Nome (igual no cartão)"
+              className={classes.textField}
+              value={store.senderName}
+              onChange={senderNameChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="creditCardHolderCPF"
+              label="CPF"
+              className={classes.textField}
+              value={store.senderCpf}
+              onChange={senderCpfChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="creditCardHolderBirthDate"
+              label="Data de Nascimento"
+              className={classes.textField}
+              value={store.senderAreaCode}
+              onChange={senderAreaChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="creditCardHolderAreaCode"
+              label="Código de Área"
+              className={classes.textField}
+              value={store.senderPhone}
+              onChange={senderPhoneChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="creditCardHolderPhone"
+              label="Telefone"
+              className={classes.textField}
+              value={store.senderEmail}
+              onChange={senderEmailChanged.bind(null, store)}
+              margin="normal"
+            />
+          </form>
+        </div>
+      }
+            
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
         Enviar Pedido
@@ -144,3 +200,4 @@ function CardPaymentForm(props: IProps) {
 }
 
 export default withStyles(styles)(observer(CardPaymentForm));
+

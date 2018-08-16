@@ -51,6 +51,7 @@ export class Store {
   @observable creditCardHolderBirthDate: string = "";
   @observable creditCardHolderAreaCode: string = "";
   @observable sendOrderButtonTxt: string = "Enviar Pedido";
+  @observable isCardHolder: boolean = true;
 
 
   lastItemIndex: number;
@@ -95,6 +96,10 @@ export class Store {
 
   onSenderEmailChanged(email: string) {
     this.senderEmail = email;
+  }
+
+  toggleIsCardHolderOwner() {
+    this.isCardHolder = !this.isCardHolder;
   }
 
   getKitchenActive(): boolean
