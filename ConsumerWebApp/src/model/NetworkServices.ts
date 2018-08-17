@@ -5,6 +5,7 @@ import {
   IFoodMenuItem,
   IOrderSummary,
   IOrderRequest,
+  IPaymentRequest
 } from '../../../common/Interfaces';
 import { objToGrahqlStr } from '../../../common/util';
 
@@ -111,13 +112,46 @@ export async function getPaymentSessionId(): Promise<any> {
 }
 
 
-export async function checkoutPayment(cardToken: string, senderHash: string): Promise<any> {
+export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
+  
+  const items = request.items.map(selGroupOption => {
+    return `
+      {
+        itemId: "${this.itemId}",
+        itemDescription: "${this.itemDescription}",
+        itemAmount: "${this.itemAmount}",
+        itemQuantity: ${this.itemQuantity},
+      }
+    `;
+  });
+
   const mutation = `
     mutation {
       checkoutPayment (
         fmiData: {
-          cardToken: "${cardToken}",
-          senderHash: "${senderHash}",
+          items: [
+            ${items.join(',')}
+          ],
+          senderName: "${request.senderName}",
+          senderCPF: "${request.senderCPF}",
+          senderAreaCode: "${request.senderAreaCode}",
+          senderPhone: "${request.senderPhone}",
+          senderEmail: "${request.senderEmail}",
+          senderHash: "${request.senderHash}",
+          shippingAddressStreet: "${request.shippingAddressStreet}",
+          shippingAddressNumber: "${request.shippingAddressNumber}",
+          shippingAddressComplement: "${request.shippingAddressComplement}",
+          shippingAddressDistrict: "${this.shippingAddressDistrict}",
+          shippingAddressPostalCode: "${this.shippingAddressPostalCode}",
+          shippingAddressCity: "${this.shippingAddressCity}",
+          shippingAddressState: "${this.shippingAddressState}",
+          creditCardToken: "${this.creditCardToken}",
+          installmentValue: "${this.installmentValue}",
+          creditCardHolderName: "${this.creditCardHolderName}",
+          creditCardHolderCPF: "${this.creditCardHolderCPF}",
+          creditCardHolderBirthDate: "${this.creditCardHolderBirthDate}",
+          creditCardHolderAreaCode: "${this.creditCardHolderAreaCode}",
+          creditCardHolderPhone: "${this.creditCardHolderPhone}"
         }
       ) 
     }

@@ -348,7 +348,7 @@ export class Store {
           return {
             itemId: selectedFmi._id,
             itemDescription: selectedFmi.title,
-            itemAmount: selectedFmi.price + "",
+            itemAmount: Number(selectedFmi.price).toFixed(2) + "",
             itemQuantity: item.qty,
           };
         });
@@ -369,14 +369,14 @@ export class Store {
           shippingAddressCity: 'Sao Paulo',
           shippingAddressState: 'SP',
           creditCardToken: cardToken,
-          installmentValue: this.orderSummary.totalAmount,
+          installmentValue: Number(this.orderSummary.totalAmount).toFixed(2) + "",
           creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
           creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
           creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
           creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
           creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
         };
-        await ns.checkoutPayment(cardToken, senderHash);
+        await ns.checkoutPayment(request);
       },
       error: function (response){
         console.log('deu erro ' + response.toSource());
