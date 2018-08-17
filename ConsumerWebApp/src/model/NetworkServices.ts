@@ -113,14 +113,15 @@ export async function getPaymentSessionId(): Promise<any> {
 
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
-  
+  let i = 0;
   const items = request.items.map(selGroupOption => {
+    i++;
     return `
       {
-        itemId: "${this.itemId}",
-        itemDescription: "${this.itemDescription}",
-        itemAmount: "${this.itemAmount}",
-        itemQuantity: ${this.itemQuantity},
+        itemId${i}: "${this.itemId}",
+        itemDescription${i}: "${this.itemDescription}",
+        itemAmount${i}: "${this.itemAmount}",
+        itemQuantity${i}: ${this.itemQuantity},
       }
     `;
   });
@@ -156,6 +157,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
       ) 
     }
   `;
+  console.log(mutation);
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }

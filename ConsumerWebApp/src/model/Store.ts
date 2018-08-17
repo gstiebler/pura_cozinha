@@ -314,7 +314,7 @@ export class Store {
     
 
     const sessionId = await ns.getPaymentSessionId();
-    
+    console.log(sessionId);
     window.PagSeguroDirectPayment.setSessionId(sessionId);
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
     
