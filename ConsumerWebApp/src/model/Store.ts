@@ -11,7 +11,8 @@ import {
   ISelectedMenuItemOption,
   ISelectedFoodMenuItem,
   TOptionGroupKey,
-  Kitchen
+  Kitchen,
+  IPaymentRequest,
 } from '../../../common/Interfaces';
 import axios from 'axios';
 
@@ -307,9 +308,11 @@ export class Store {
   onMenuItemOptionSelected(index: number, optionKey: string, optionItem: string) {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
-  
+
   async pagSeguroTransaction()
   {
+    
+
     const sessionId = await ns.getPaymentSessionId();
     
     window.PagSeguroDirectPayment.setSessionId(sessionId);
@@ -339,6 +342,40 @@ export class Store {
       success: async function (response){
         cardToken = response.card.token;
         console.log('token ' + cardToken);
+
+        const items = this.selectedFMIsAndOptions.map(item => {
+          const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
+          return {
+            itemId: selectedFmi._id,
+            itemDescription: selectedFmi.title,
+            itemAmount: selectedFmi.price + "",
+            itemQuantity: item.qty,
+          };
+        });
+    
+        const request: IPaymentRequest = {
+          items: items,
+          senderName: this.senderName,
+          senderCPF: this.senderCPF,
+          senderAreaCode: this.senderAreaCode,
+          senderPhone: this.senderPhone,
+          senderEmail: this.senderEmail,
+          senderHash: senderHash,
+          shippingAddressStreet: this.selectedLocal,
+          shippingAddressNumber: '1384',
+          shippingAddressComplement: this.localComplement,
+          shippingAddressDistrict: 'Jardim Paulistano',
+          shippingAddressPostalCode: '01452002',
+          shippingAddressCity: 'Sao Paulo',
+          shippingAddressState: 'SP',
+          creditCardToken: cardToken,
+          installmentValue: this.orderSummary.totalAmount,
+          creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
+          creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
+          creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
+          creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
+          creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
+        };
         await ns.checkoutPayment(cardToken, senderHash);
       },
       error: function (response){

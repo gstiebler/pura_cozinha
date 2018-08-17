@@ -77,35 +77,35 @@ export interface IKitchenStockRequest {
   updatedAt?: Date;
 }
 
+
+
 export interface IPaymentRequest {
-  ingredientType: string;
-  itms: {
-    itemId: string,
-    itemDescription: string,
-    itemAmount: string,
-    itemQuantity: number,
+  items: {
+    itemId: string;
+    itemDescription: string;
+    itemAmount: string;
+    itemQuantity: number;
   }[];
-  senderName: string,
-  senderCPF: string,
-  senderAreaCode: string,
-  senderPhone: string,
-  senderEmail: string,
-  senderHash: string,
-  shippingAddressStreet: string,
-  shippingAddressNumber: string,
-  shippingAddressComplement: string,
-  shippingAddressDistrict: string,
-  shippingAddressPostalCode: string,
-  shippingAddressCity: string,
-  shippingAddressState: string,
-  shippingAddressCountry: string,
-  creditCardToken: string,
-  installmentValue: string,
-  creditCardHolderName: string,
-  creditCardHolderCPF: string,
-  creditCardHolderBirthDate: string,
-  creditCardHolderAreaCode: string,
-  creditCardHolderPhone: string,
+  senderName: string;
+  senderCPF: string;
+  senderAreaCode: string;
+  senderPhone: string;
+  senderEmail: string;
+  senderHash: string;
+  shippingAddressStreet: string;
+  shippingAddressNumber: string;
+  shippingAddressComplement: string;
+  shippingAddressDistrict: string;
+  shippingAddressPostalCode: string;
+  shippingAddressCity: string;
+  shippingAddressState: string;
+  creditCardToken: string;
+  installmentValue: string;
+  creditCardHolderName: string;
+  creditCardHolderCPF: string;
+  creditCardHolderBirthDate: string;
+  creditCardHolderAreaCode: string;
+  creditCardHolderPhone: string;
 }
 
 export interface ISelectedMenuItemOption {
