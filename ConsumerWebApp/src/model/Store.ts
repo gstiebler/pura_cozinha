@@ -307,9 +307,7 @@ export class Store {
   onMenuItemOptionSelected(index: number, optionKey: string, optionItem: string) {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
-
-
-
+  
   async pagSeguroTransaction()
   {
     const sessionId = await ns.getPaymentSessionId();
