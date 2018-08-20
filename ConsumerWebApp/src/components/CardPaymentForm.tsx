@@ -29,6 +29,27 @@ function senderEmailChanged(store: Store, event) {
   store.onSenderEmailChanged(event.target.value);
 }
 
+
+function cardNameChanged(store: Store, event) {
+  store.onCardNameChanged(event.target.value);
+}
+
+function cardCpfChanged(store: Store, event) {
+  store.onCardCpfChanged(event.target.value);
+}
+
+function cardAreaChanged(store: Store, event) {
+  store.onCardAreaCodeChanged(event.target.value);
+}
+
+function cardPhoneChanged(store: Store, event) {
+  store.onCardPhoneChanged(event.target.value);
+}
+
+function cardBirthdayChanged(store: Store, event) {
+  store.onCardBirthdayChanged(event.target.value);
+}
+
 function toggleCardHolderOwner(store: Store) {
   store.toggleIsCardHolderOwner();
 }
@@ -144,8 +165,8 @@ function CardPaymentForm(props: IProps) {
               id="creditCardHolderName"
               label="Nome (igual no cartão)"
               className={classes.textField}
-              value={store.senderName}
-              onChange={senderNameChanged.bind(null, store)}
+              value={store.creditCardHolderName}
+              onChange={cardNameChanged.bind(null, store)}
               margin="normal"
             />
           </form>
@@ -154,8 +175,8 @@ function CardPaymentForm(props: IProps) {
               id="creditCardHolderCPF"
               label="CPF"
               className={classes.textField}
-              value={store.senderCpf}
-              onChange={senderCpfChanged.bind(null, store)}
+              value={store.creditCardHolderCPF}
+              onChange={cardCpfChanged.bind(null, store)}
               margin="normal"
             />
           </form>
@@ -164,8 +185,8 @@ function CardPaymentForm(props: IProps) {
               id="creditCardHolderBirthDate"
               label="Data de Nascimento"
               className={classes.textField}
-              value={store.senderAreaCode}
-              onChange={senderAreaChanged.bind(null, store)}
+              value={store.creditCardHolderBirthDate}
+              onChange={cardBirthdayChanged.bind(null, store)}
               margin="normal"
             />
           </form>
@@ -174,8 +195,8 @@ function CardPaymentForm(props: IProps) {
               id="creditCardHolderAreaCode"
               label="Código de Área"
               className={classes.textField}
-              value={store.senderPhone}
-              onChange={senderPhoneChanged.bind(null, store)}
+              value={store.creditCardHolderAreaCode}
+              onChange={cardAreaChanged.bind(null, store)}
               margin="normal"
             />
           </form>
@@ -184,8 +205,8 @@ function CardPaymentForm(props: IProps) {
               id="creditCardHolderPhone"
               label="Telefone"
               className={classes.textField}
-              value={store.senderEmail}
-              onChange={senderEmailChanged.bind(null, store)}
+              value={store.creditCardHolderPhone}
+              onChange={cardPhoneChanged.bind(null, store)}
               margin="normal"
             />
           </form>

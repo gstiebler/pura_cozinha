@@ -51,6 +51,7 @@ export class Store {
   @observable creditCardHolderCPF: string = "";
   @observable creditCardHolderBirthDate: string = "";
   @observable creditCardHolderAreaCode: string = "";
+  @observable creditCardHolderPhone: string = "";
   @observable sendOrderButtonTxt: string = "Enviar Pedido";
   @observable senderHash: string = "";
   @observable isCardHolder: boolean = true;
@@ -99,6 +100,25 @@ export class Store {
 
   onSenderEmailChanged(email: string) {
     this.senderEmail = email;
+  }
+
+  onCardNameChanged(name: string) {
+    this.creditCardHolderName = name;
+  }
+  
+  onCardCpfChanged(cpf: string) {
+    this.creditCardHolderCPF = cpf;
+  }
+  onCardAreaCodeChanged(area: string) {
+    this.creditCardHolderAreaCode = area;
+  }
+
+  onCardPhoneChanged(phone: string) {
+    this.creditCardHolderPhone = phone;
+  }
+
+  onCardBirthdayChanged(email: string) {
+    this.creditCardHolderBirthDate = email;
   }
 
   toggleIsCardHolderOwner() {
@@ -365,7 +385,7 @@ export class Store {
       creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
       creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
       creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
-      creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.senderPhone
+      creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
     console.log(request);
     
