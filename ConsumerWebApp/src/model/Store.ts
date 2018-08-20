@@ -353,7 +353,7 @@ export class Store {
   async pagSeguroTransaction()
   {
     const sessionId = await ns.getPaymentSessionId();
-    console.log(sessionId);
+    
     window.PagSeguroDirectPayment.setSessionId(sessionId);
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
     this.senderHash = senderHash;
@@ -411,10 +411,10 @@ export class Store {
         await ns.checkoutPayment(request);
       },
       error: function (response){
-        console.log('deu erro ' + response.toSource());
+        console.log('Error ' + response.toSource());
       },
       complete: function (response){
-        console.log('meh');
+        console.log('process');
       }
     });
     await this.reset();

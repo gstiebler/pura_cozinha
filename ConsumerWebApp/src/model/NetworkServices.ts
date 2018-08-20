@@ -114,8 +114,6 @@ export async function getPaymentSessionId(): Promise<any> {
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
 
-  console.log('inside network services ' + request.creditCardToken);
-  console.log('inside network services 2 ' + request.senderName);
   const items = request.items.map(selGroupOption => {
     
     return `
@@ -159,7 +157,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
       ) 
     }
   `;
-  console.log(mutation);
+  console.log('Request: ' + mutation);
   const result = await network.fetchQuery(mutation);
   return result.msg;
 }

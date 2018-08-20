@@ -49,8 +49,6 @@ export async function getPaymentSessionId(): Promise<string>{
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<string>{
 
-  console.log(request.creditCardToken);
-
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1',
@@ -122,7 +120,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<string>
     console.log(error);
   }
   
-
+  //Treat response errors later
   console.log(response);
   // if(response.status === 200)
   // {
