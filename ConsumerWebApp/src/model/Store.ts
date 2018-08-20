@@ -39,7 +39,10 @@ export class Store {
   @observable kitchen: Kitchen = null;
 
   //Card payment info
+  @observable cardNumber: string = "";
+  @observable cvv: string = "";
   @observable senderName: string = "";
+  @observable expirationDate: string = "";
   @observable senderCpf: string = "";
   @observable senderAreaCode: string = "";
   @observable senderPhone: string = "";
@@ -84,6 +87,16 @@ export class Store {
   }
 
   //Credit card change functions
+  onCardNumberChanged(number: string) {
+    this.cardNumber = number;
+  }
+  onCVVChanged(cvv: string) {
+    this.cvv = cvv;
+  }
+  onExpirationDateChanged(date: string) {
+    this.expirationDate = date;
+  }
+
   onSenderNameChanged(name: string) {
     this.senderName = name;
   }
@@ -354,7 +367,7 @@ export class Store {
         itemQuantity: item.qty,
       };
     });
-    
+
     const request: IPaymentRequest = {
       items: items,
       senderName: this.senderName,
@@ -374,16 +387,24 @@ export class Store {
       installmentValue: Number(this.orderSummary.totalAmount).toFixed(2) + "",
       creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
       creditCardHolderCPF: (this.isCardHolder) ? this.senderCpf : this.creditCardHolderCPF,
-      creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
+      creditCardHolderBirthDate: (this.isCardHolder) ? this.senderBirthday: this.creditCardHolderBirthDate,
       creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
-    
-    await window.PagSeguroDirectPayment.createCardToken({
+    /** Input examples
       cardNumber: '4111111111111111',
       cvv: '123',
       expirationMonth: 12,
       expirationYear: 2030,
+     */
+    const dates = this.expirationDate.split('/');
+    const expirationMonth = parseInt(dates[0]);
+    const expirationYear = parseInt(dates[1]);
+    await window.PagSeguroDirectPayment.createCardToken({
+      cardNumber: this.cardNumber,
+      cvv: this.cvv,
+      expirationMonth: expirationMonth,
+      expirationYear: expirationYear,
       success: async function (response){
         const cardToken = response.card.token;
         request.creditCardToken = cardToken;
@@ -397,11 +418,6 @@ export class Store {
       }
     });
     await this.reset();
-  }
-
-  async checkoutPaymentWithTokens(response)
-  {
-    
   }
 
 }

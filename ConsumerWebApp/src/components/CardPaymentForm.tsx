@@ -34,6 +34,19 @@ function senderBirthdayChanged(store: Store, event) {
 }
 
 //Credit card functions
+
+function cardNumberChanged(store: Store, event) {
+  store.onCardNumberChanged(event.target.value);
+}
+
+function cardCVVChanged(store: Store, event) {
+  store.onCVVChanged(event.target.value);
+}
+
+function cardExpirationDateChanged(store: Store, event) {
+  store.onExpirationDateChanged(event.target.value);
+}
+
 function cardNameChanged(store: Store, event) {
   store.onCardNameChanged(event.target.value);
 }
@@ -100,6 +113,38 @@ function CardPaymentForm(props: IProps) {
   const { store, classes } = props;
   return (
     <div className={classes.root}>
+      {/* Credit card info */}
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="cardNumber"
+          label="Número do Cartão"
+          className={classes.textField}
+          value={store.cardNumber}
+          onChange={cardNumberChanged.bind(null, store)}
+          margin="normal"
+        />
+      </form>
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="cvv"
+          label="Código CVV"
+          className={classes.textField}
+          value={store.cvv}
+          onChange={cardCVVChanged.bind(null, store)}
+          margin="normal"
+        />
+      </form>
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="expirationDate"
+          label="Data de Expiração"
+          className={classes.textField}
+          value={store.expirationDate}
+          onChange={cardExpirationDateChanged.bind(null, store)}
+          margin="normal"
+        />
+      </form>
+      {/* End Credit card info */}
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="senderName"
