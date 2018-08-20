@@ -113,17 +113,17 @@ export async function getPaymentSessionId(): Promise<any> {
 
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
-  let i = 0;
+
   console.log('inside network services ' + request.creditCardToken);
   console.log('inside network services 2 ' + request.senderName);
   const items = request.items.map(selGroupOption => {
-    i++;
+    
     return `
       {
-        itemId${i}: "${selGroupOption.itemId}",
-        itemDescription${i}: "${selGroupOption.itemDescription}",
-        itemAmount${i}: "${selGroupOption.itemAmount}",
-        itemQuantity${i}: ${selGroupOption.itemQuantity},
+        itemId: "${selGroupOption.itemId}",
+        itemDescription: "${selGroupOption.itemDescription}",
+        itemAmount: "${selGroupOption.itemAmount}",
+        itemQuantity: ${selGroupOption.itemQuantity},
       }
     `;
   });
