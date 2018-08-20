@@ -52,7 +52,9 @@ export class Store {
   @observable creditCardHolderBirthDate: string = "";
   @observable creditCardHolderAreaCode: string = "";
   @observable sendOrderButtonTxt: string = "Enviar Pedido";
+  @observable senderHash: string = "";
   @observable isCardHolder: boolean = true;
+  @observable paymentItems: ISelectedMenuItemOption[] = [];
 
 
   lastItemIndex: number;
@@ -183,6 +185,7 @@ export class Store {
 
   @computed
   get orderSummary(): IOrderSummary {
+    this.paymentItems = this.selectedFMIsAndOptions.slice(0);
     const items = this.selectedFMIsAndOptions.map(selectedFMIAndOptions => {
       const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === selectedFMIAndOptions._id);
       const selectedBoolOptions = [...selectedFMIAndOptions.boolOptions].map(key => {
@@ -287,7 +290,7 @@ export class Store {
         kitchenComments: null,
       };
       await ns.sendOrderRequest(request);
-      this.reset();
+      // this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');
     } catch(error) {
       console.error(error);
@@ -311,71 +314,71 @@ export class Store {
 
   async pagSeguroTransaction()
   {
-    
-
     const sessionId = await ns.getPaymentSessionId();
     console.log(sessionId);
     window.PagSeguroDirectPayment.setSessionId(sessionId);
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
-    
-    await window.PagSeguroDirectPayment.getInstallments({
-      amount: '24300.00',
-      brand: 'visa',
-      // maxInstallmentNoInterest: 0,
-      success: async function (response){
-        console.log('installments ' + response.toSource());
-      },
-      error: function (response){
-        console.log('deu erro ' + response.toSource());
-      },
-      complete: function (response){
-        console.log('meh');
-      }
-    });
+    this.senderHash = senderHash;
+    // await window.PagSeguroDirectPayment.getInstallments({
+    //   amount: '24300.00',
+    //   brand: 'visa',
+    //   // maxInstallmentNoInterest: 0,
+    //   success: async function (response){
+    //     console.log('installments ' + response.toSource());
+    //   },
+    //   error: function (response){
+    //     console.log('deu erro ' + response.toSource());
+    //   },
+    //   complete: function (response){
+    //     console.log('meh');
+    //   }
+    // });
 
-    let cardToken = '';
+    const items = this.selectedFMIsAndOptions.map(item => {
+    const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
+      return {
+        itemId: selectedFmi._id,
+        itemDescription: selectedFmi.title,
+        itemAmount: Number(selectedFmi.price).toFixed(2) + "",
+        itemQuantity: item.qty,
+      };
+    });
+    
+    const request: IPaymentRequest = {
+      items: items,
+      senderName: this.senderName,
+      senderCPF: this.senderCpf,
+      senderAreaCode: this.senderAreaCode,
+      senderPhone: this.senderPhone,
+      senderEmail: this.senderEmail,
+      senderHash: this.senderHash,
+      shippingAddressStreet: this.selectedLocal,
+      shippingAddressNumber: '1384',
+      shippingAddressComplement: this.localComplement,
+      shippingAddressDistrict: 'Jardim Paulistano',
+      shippingAddressPostalCode: '01452002',
+      shippingAddressCity: 'Sao Paulo',
+      shippingAddressState: 'SP',
+      creditCardToken: '',
+      installmentValue: Number(this.orderSummary.totalAmount).toFixed(2) + "",
+      creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
+      creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
+      creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
+      creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
+      creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.senderPhone
+    };
+    console.log(request);
+    
     await window.PagSeguroDirectPayment.createCardToken({
       cardNumber: '4111111111111111',
       cvv: '123',
       expirationMonth: 12,
       expirationYear: 2030,
       success: async function (response){
-        cardToken = response.card.token;
+        const cardToken = response.card.token;
         console.log('token ' + cardToken);
-
-        const items = this.selectedFMIsAndOptions.map(item => {
-          const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
-          return {
-            itemId: selectedFmi._id,
-            itemDescription: selectedFmi.title,
-            itemAmount: Number(selectedFmi.price).toFixed(2) + "",
-            itemQuantity: item.qty,
-          };
-        });
-    
-        const request: IPaymentRequest = {
-          items: items,
-          senderName: this.senderName,
-          senderCPF: this.senderCPF,
-          senderAreaCode: this.senderAreaCode,
-          senderPhone: this.senderPhone,
-          senderEmail: this.senderEmail,
-          senderHash: senderHash,
-          shippingAddressStreet: this.selectedLocal,
-          shippingAddressNumber: '1384',
-          shippingAddressComplement: this.localComplement,
-          shippingAddressDistrict: 'Jardim Paulistano',
-          shippingAddressPostalCode: '01452002',
-          shippingAddressCity: 'Sao Paulo',
-          shippingAddressState: 'SP',
-          creditCardToken: cardToken,
-          installmentValue: Number(this.orderSummary.totalAmount).toFixed(2) + "",
-          creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
-          creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
-          creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
-          creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
-          creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
-        };
+        console.log(request.senderName);
+        request.creditCardToken = cardToken;
         await ns.checkoutPayment(request);
       },
       error: function (response){
@@ -385,9 +388,11 @@ export class Store {
         console.log('meh');
       }
     });
+  }
 
+  async checkoutPaymentWithTokens(response)
+  {
     
-
   }
 
 }

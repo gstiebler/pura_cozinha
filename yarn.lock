@@ -7656,6 +7656,10 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
+url-search-params@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-1.0.2.tgz#429958e9bf09f2c980f39dbde49de944efd93c88"
+
 url-to-options@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/url-to-options/-/url-to-options-1.0.1.tgz#1505a03a289a48cbd7a434efbaeec5055f5633a9"

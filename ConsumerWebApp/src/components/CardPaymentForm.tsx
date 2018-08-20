@@ -35,8 +35,8 @@ function toggleCardHolderOwner(store: Store) {
 
 
 async function onSendOrderRequested(store: Store) {
-  await store.onSendOrderRequested();
   await store.pagSeguroTransaction();
+  await store.onSendOrderRequested();
   store.router.goTo(views.home, {}, store);
 }
 
