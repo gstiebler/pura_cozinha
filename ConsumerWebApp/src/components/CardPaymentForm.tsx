@@ -29,7 +29,11 @@ function senderEmailChanged(store: Store, event) {
   store.onSenderEmailChanged(event.target.value);
 }
 
+function senderBirthdayChanged(store: Store, event) {
+  store.onSenderBirthdayChanged(event.target.value);
+}
 
+//Credit card functions
 function cardNameChanged(store: Store, event) {
   store.onCardNameChanged(event.target.value);
 }
@@ -113,6 +117,16 @@ function CardPaymentForm(props: IProps) {
           className={classes.textField}
           value={store.senderCpf}
           onChange={senderCpfChanged.bind(null, store)}
+          margin="normal"
+        />
+      </form>
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="senderBirthday"
+          label="Data de Aniversário do Cliente"
+          className={classes.textField}
+          value={store.senderBirthday}
+          onChange={senderBirthdayChanged.bind(null, store)}
           margin="normal"
         />
       </form>

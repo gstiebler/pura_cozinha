@@ -44,6 +44,7 @@ export class Store {
   @observable senderAreaCode: string = "";
   @observable senderPhone: string = "";
   @observable senderEmail: string = "";
+  @observable senderBirthday: string = "";
   @observable shippingAddressDistrict: string = "";
   @observable shippingAddressPostalCode: string = "";
   @observable shippingAddressState: string = "";
@@ -85,6 +86,10 @@ export class Store {
   //Credit card change functions
   onSenderNameChanged(name: string) {
     this.senderName = name;
+  }
+
+  onSenderBirthdayChanged(name: string) {
+    this.senderBirthday = name;
   }
   
   onSenderCpfChanged(cpf: string) {
@@ -382,7 +387,7 @@ export class Store {
       creditCardToken: '',
       installmentValue: Number(this.orderSummary.totalAmount).toFixed(2) + "",
       creditCardHolderName: (this.isCardHolder) ? this.senderName : this.creditCardHolderName,
-      creditCardHolderCPF: (this.isCardHolder) ? this.senderName : this.creditCardHolderCPF,
+      creditCardHolderCPF: (this.isCardHolder) ? this.senderCpf : this.creditCardHolderCPF,
       creditCardHolderBirthDate: (this.isCardHolder) ? '01/01/1970': this.creditCardHolderBirthDate,
       creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
