@@ -61,6 +61,12 @@ interface IProps {
   classes?: any;
 }
 
+function goToPaymentSession(store: Store)
+{
+  if(!store.hasPreviousPaymentInfo())
+    store.router.goTo(views.addressPayment, {}, store);
+}
+
 function ItemDetail(props: IProps) {
   const { store, classes } = props;
   const foodMenuItem = store.getFoodMenuItem(store.lastItemIndex);
@@ -158,7 +164,7 @@ function ItemDetail(props: IProps) {
           </Grid>
         </Grid>
         <Button variant="raised" className={classes.button} 
-                onClick={ () => store.router.goTo(views.addressPayment, {}, store) } disabled={store.orderSummary.items.length === 0}>
+                onClick={ goToPaymentSession.bind(null, store) } disabled={store.orderSummary.items.length === 0}>
           Finalizar pedido
         </Button>
         <Button variant="raised" className={classes.button} 

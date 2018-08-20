@@ -409,6 +409,8 @@ export class Store {
         const cardToken = response.card.token;
         request.creditCardToken = cardToken;
         await ns.checkoutPayment(request);
+        localStorage.setItem('paymentInfo', JSON.stringify(request));
+        localStorage.setItem('cardNumber', JSON.stringify(this.cardNumber));
       },
       error: function (response){
         console.log('Error ' + response.toSource());
@@ -420,6 +422,17 @@ export class Store {
     await this.reset();
   }
 
+
+  hasPreviousPaymentInfo(): boolean
+  {
+    var retrievedObject = localStorage.getItem('paymentInfo');
+    console.log('retrievedObject: ', JSON.parse(retrievedObject));
+    if(retrievedObject !== null)
+      return true;
+    return false;
+  }
+
 }
+
 
 export let store: Store = new Store();
