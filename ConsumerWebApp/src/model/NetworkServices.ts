@@ -114,14 +114,16 @@ export async function getPaymentSessionId(): Promise<any> {
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
   let i = 0;
+  console.log('inside network services ' + request.creditCardToken);
+  console.log('inside network services 2 ' + request.senderName);
   const items = request.items.map(selGroupOption => {
     i++;
     return `
       {
-        itemId${i}: "${this.itemId}",
-        itemDescription${i}: "${this.itemDescription}",
-        itemAmount${i}: "${this.itemAmount}",
-        itemQuantity${i}: ${this.itemQuantity},
+        itemId${i}: "${selGroupOption.itemId}",
+        itemDescription${i}: "${selGroupOption.itemDescription}",
+        itemAmount${i}: "${selGroupOption.itemAmount}",
+        itemQuantity${i}: ${selGroupOption.itemQuantity},
       }
     `;
   });
@@ -142,17 +144,17 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
           shippingAddressStreet: "${request.shippingAddressStreet}",
           shippingAddressNumber: "${request.shippingAddressNumber}",
           shippingAddressComplement: "${request.shippingAddressComplement}",
-          shippingAddressDistrict: "${this.shippingAddressDistrict}",
-          shippingAddressPostalCode: "${this.shippingAddressPostalCode}",
-          shippingAddressCity: "${this.shippingAddressCity}",
-          shippingAddressState: "${this.shippingAddressState}",
-          creditCardToken: "${this.creditCardToken}",
-          installmentValue: "${this.installmentValue}",
-          creditCardHolderName: "${this.creditCardHolderName}",
-          creditCardHolderCPF: "${this.creditCardHolderCPF}",
-          creditCardHolderBirthDate: "${this.creditCardHolderBirthDate}",
-          creditCardHolderAreaCode: "${this.creditCardHolderAreaCode}",
-          creditCardHolderPhone: "${this.creditCardHolderPhone}"
+          shippingAddressDistrict: "${request.shippingAddressDistrict}",
+          shippingAddressPostalCode: "${request.shippingAddressPostalCode}",
+          shippingAddressCity: "${request.shippingAddressCity}",
+          shippingAddressState: "${request.shippingAddressState}",
+          creditCardToken: "${request.creditCardToken}",
+          installmentValue: "${request.installmentValue}",
+          creditCardHolderName: "${request.creditCardHolderName}",
+          creditCardHolderCPF: "${request.creditCardHolderCPF}",
+          creditCardHolderBirthDate: "${request.creditCardHolderBirthDate}",
+          creditCardHolderAreaCode: "${request.creditCardHolderAreaCode}",
+          creditCardHolderPhone: "${request.creditCardHolderPhone}"
         }
       ) 
     }

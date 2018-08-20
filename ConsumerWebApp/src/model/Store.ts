@@ -343,7 +343,7 @@ export class Store {
         itemQuantity: item.qty,
       };
     });
-    
+    console.log(items);
     const request: IPaymentRequest = {
       items: items,
       senderName: this.senderName,
@@ -377,8 +377,9 @@ export class Store {
       success: async function (response){
         const cardToken = response.card.token;
         console.log('token ' + cardToken);
-        console.log(request.senderName);
+        console.log(request);
         request.creditCardToken = cardToken;
+        console.log('inside success '+request);
         await ns.checkoutPayment(request);
       },
       error: function (response){
