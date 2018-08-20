@@ -464,8 +464,9 @@ export class Store {
     const lastPayment =  JSON.parse(retrievedObject);
     if(retrievedObject !== null)
     {
-      var cardNumber = localStorage.getItem('cardNumber');
-      this.cardNumber = JSON.stringify(cardNumber);
+      let cardNumber = localStorage.getItem('cardNumber');
+      cardNumber =  cardNumber.replace(/.(?=.{4})/g, 'x');
+      this.cardNumber = cardNumber;
       this.creditCardHolderName = lastPayment.creditCardHolderName;
       return true;
     }
