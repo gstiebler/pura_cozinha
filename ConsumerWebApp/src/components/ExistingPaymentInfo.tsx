@@ -31,6 +31,18 @@ interface IProps {
   classes?: any;
 }
 
+function usePreviousPayment(store: Store)
+{
+  store.usePreviousPayment = true;
+  store.router.goTo(views.home, {}, store);
+}
+
+function newPaymentInfo(store: Store)
+{
+  store.reset();
+  store.router.goTo(views.addressPayment, {}, store);
+}
+
 function ExistingPaymentInfo(props: IProps) {
   const { store, classes } = props;
   return (
@@ -55,12 +67,12 @@ function ExistingPaymentInfo(props: IProps) {
           </Typography>
           <Grid container wrap="nowrap" style={{ paddingLeft: 20 }} spacing={16}>
             <Grid item>
-              <Button color="primary">
+              <Button onClick={usePreviousPayment.bind(null, store)} color="primary">
                 Sim
               </Button>
             </Grid>
             <Grid item xs>
-              <Button color="primary">
+              <Button onClick={newPaymentInfo.bind(null, store)} color="primary">
                 Não
               </Button>
             </Grid>

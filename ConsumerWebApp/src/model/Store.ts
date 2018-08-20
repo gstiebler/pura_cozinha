@@ -60,6 +60,7 @@ export class Store {
   @observable senderHash: string = "";
   @observable isCardHolder: boolean = true;
   @observable paymentItems: ISelectedMenuItemOption[] = [];
+  @observable usePreviousPayment: boolean = false;
 
 
   lastItemIndex: number;
