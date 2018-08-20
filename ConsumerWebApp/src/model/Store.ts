@@ -85,6 +85,7 @@ export class Store {
   reset() {
     this.comments = '';
     this.selectedFMIsAndOptions = [];
+    this.usePreviousPayment = false;
   }
 
   //Credit card change functions
@@ -319,7 +320,7 @@ export class Store {
 
   async onSendOrderRequested() {
     try {
-      const request:IOrderRequest = {
+      let request:IOrderRequest = {
         orderSummary: this.orderSummary,
         local: this.selectedLocal,
         localComplement: this.localComplement,
@@ -328,7 +329,25 @@ export class Store {
         comments: this.comments,
         kitchenComments: null,
       };
-      await ns.sendOrderRequest(request);
+
+      if(this.usePreviousPayment)
+      {
+        const retrievedObject = localStorage.getItem('orderRequest');
+        const lastOrder =  JSON.parse(retrievedObject);
+        console.log('no if');
+        console.log(lastOrder);
+        request = lastOrder;
+        request.orderSummary = this.orderSummary;
+        console.log(request);
+        await ns.sendOrderRequest(request);
+        this.reset();
+      }
+      else
+      {
+        console.log('no else');
+        await ns.sendOrderRequest(request);
+        localStorage.setItem('orderRequest', JSON.stringify(request));  
+      }
       // this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');
     } catch(error) {
@@ -369,7 +388,7 @@ export class Store {
       };
     });
 
-    const request: IPaymentRequest = {
+    let request: IPaymentRequest = {
       items: items,
       senderName: this.senderName,
       senderCPF: this.senderCpf,
@@ -392,35 +411,50 @@ export class Store {
       creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
-    /** Input examples
-      cardNumber: '4111111111111111',
-      cvv: '123',
-      expirationMonth: 12,
-      expirationYear: 2030,
-     */
-    const dates = this.expirationDate.split('/');
-    const expirationMonth = parseInt(dates[0]);
-    const expirationYear = parseInt(dates[1]);
-    await window.PagSeguroDirectPayment.createCardToken({
-      cardNumber: this.cardNumber,
-      cvv: this.cvv,
-      expirationMonth: expirationMonth,
-      expirationYear: expirationYear,
-      success: async function (response){
-        const cardToken = response.card.token;
-        request.creditCardToken = cardToken;
-        await ns.checkoutPayment(request);
-        localStorage.setItem('paymentInfo', JSON.stringify(request));
-        localStorage.setItem('cardNumber', this.cardNumber);
-      },
-      error: function (response){
-        console.log('Error ' + response.toSource());
-      },
-      complete: function (response){
-        console.log('process');
-      }
-    });
-    await this.reset();
+    
+    if(this.usePreviousPayment)
+    {
+      const retrievedObject = localStorage.getItem('paymentInfo');
+      const lastPayment =  JSON.parse(retrievedObject);
+      request = lastPayment;
+      request.items = items;
+      request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
+      request.senderHash = this.senderHash;
+      await ns.checkoutPayment(request);
+    }
+    else{
+      /** Input examples
+        cardNumber: '4111111111111111',
+        cvv: '123',
+        expirationMonth: 12,
+        expirationYear: 2030,
+      */
+      const dates = this.expirationDate.split('/');
+      const expirationMonth = parseInt(dates[0]);
+      const expirationYear = parseInt(dates[1]);
+      await window.PagSeguroDirectPayment.createCardToken({
+        cardNumber: this.cardNumber,
+        cvv: this.cvv,
+        expirationMonth: expirationMonth,
+        expirationYear: expirationYear,
+        success: async function (response){
+          const cardToken = response.card.token;
+          request.creditCardToken = cardToken;
+          await ns.checkoutPayment(request);
+          localStorage.setItem('paymentInfo', JSON.stringify(request));
+          localStorage.setItem('cardNumber', this.cardNumber);
+        },
+        error: function (response){
+          console.log('Error ' + response.toSource());
+        },
+        complete: function (response){
+          console.log('process');
+        }
+      });
+    }
+
+    if(!this.usePreviousPayment)
+      await this.reset();
   }
 
 

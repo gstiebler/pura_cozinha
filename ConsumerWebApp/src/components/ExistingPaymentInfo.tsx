@@ -31,9 +31,11 @@ interface IProps {
   classes?: any;
 }
 
-function usePreviousPayment(store: Store)
+async function usePreviousPayment(store: Store)
 {
   store.usePreviousPayment = true;
+  await store.pagSeguroTransaction();
+  await store.onSendOrderRequested();
   store.router.goTo(views.home, {}, store);
 }
 
