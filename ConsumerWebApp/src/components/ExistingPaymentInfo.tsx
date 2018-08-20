@@ -50,6 +50,21 @@ function ExistingPaymentInfo(props: IProps) {
               </Grid>
             </Grid>
           </Paper>
+          <Typography gutterBottom >
+            Deseja utilizar os dados do pagamento anterior?
+          </Typography>
+          <Grid container wrap="nowrap" style={{ paddingLeft: 20 }} spacing={16}>
+            <Grid item>
+              <Button color="primary">
+                Sim
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button color="primary">
+                Não
+              </Button>
+            </Grid>
+          </Grid>
       </div>
     </div>
   );
