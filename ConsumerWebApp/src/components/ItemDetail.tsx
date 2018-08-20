@@ -63,7 +63,9 @@ interface IProps {
 
 function goToPaymentSession(store: Store)
 {
-  if(!store.hasPreviousPaymentInfo())
+  if(store.hasPreviousPaymentInfo())
+    store.router.goTo(views.previousCardPayment, {}, store);
+  else
     store.router.goTo(views.addressPayment, {}, store);
 }
 

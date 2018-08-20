@@ -6,6 +6,7 @@ import ItemDetail from './components/ItemDetail';
 import OrderSummary from './components/OrderSummary';
 import AddressPayment from './components/AddressPayment';
 import CardPaymentForm from './components/CardPaymentForm';
+import ExistingPaymentInfo from './components/ExistingPaymentInfo';
 
 export default {
   home: new Route({
@@ -36,5 +37,9 @@ export default {
   cardPayment: new Route({
     path: '/card_payment',
     component: <CardPaymentForm store={store}/>
+  }),
+  previousCardPayment: new Route({
+    path: '/card_payment',
+    component: <ExistingPaymentInfo store={store}/>
   }),
 };
