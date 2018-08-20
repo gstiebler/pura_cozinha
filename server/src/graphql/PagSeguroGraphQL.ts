@@ -66,7 +66,7 @@ import {
       args: { fmiData: { type: CheckoutCompleteInputType } },
       async resolve(value, { fmiData }) {
         console.log(fmiData.cardToken);
-        await PagSeguro.checkoutPayment(fmiData.cardToken, fmiData.senderHash);
+        await PagSeguro.checkoutPayment(fmiData);
         return { msg: 'OK' };
       }
     },

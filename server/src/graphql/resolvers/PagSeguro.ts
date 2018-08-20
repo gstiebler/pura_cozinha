@@ -1,6 +1,7 @@
 const axios = require('axios');
 const URLSearchParams = require('url-search-params');
 var parseString = require('xml2js').parseString;
+import { IPaymentRequest } from '../../../../common/Interfaces';
 
 function param( params ) {
   
@@ -46,9 +47,9 @@ export async function getPaymentSessionId(): Promise<string>{
 
 
 
-export async function checkoutPayment(cardToken: string, senderHash: string): Promise<string>{
+export async function checkoutPayment(request: IPaymentRequest): Promise<string>{
 
-  console.log(cardToken);
+  console.log(request.creditCardToken);
 
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
@@ -58,37 +59,33 @@ export async function checkoutPayment(cardToken: string, senderHash: string): Pr
     'receiverEmail': 'guilherme.mst@gmail.com',
     'currency': 'BRL',
     'extraAmount': '0.00',
-    'itemId1': '0001',
-    'itemDescription1': 'Notebook Prata',
-    'itemAmount1': '24300.00',
-    'itemQuantity1': 1,
     'notificationURL': 'https://sualoja.com.br/notifica.html',
     'reference': 'REF1234',
-    'senderName': 'Jose Comprador',
-    'senderCPF': '22111944785',
-    'senderAreaCode': '11',
-    'senderPhone': '56273440',
-    'senderEmail': 'c81447846550186559447@sandbox.pagseguro.com.br',
-    'senderHash': senderHash,
-    'shippingAddressStreet': 'Av. Brig. Faria Lima',
-    'shippingAddressNumber': '1384',
-    'shippingAddressComplement': '5o andar',
-    'shippingAddressDistrict': 'Jardim Paulistano',
-    'shippingAddressPostalCode': '01452002',
-    'shippingAddressCity': 'Sao Paulo',
-    'shippingAddressState': 'SP',
+    'senderName': request.senderName,
+    'senderCPF': request.senderCPF,
+    'senderAreaCode': request.senderAreaCode,
+    'senderPhone': request.senderPhone,
+    'senderEmail': request.senderEmail,
+    'senderHash': request.senderHash,
+    'shippingAddressStreet': request.shippingAddressStreet,
+    'shippingAddressNumber': request.shippingAddressNumber,
+    'shippingAddressComplement': request.shippingAddressComplement,
+    'shippingAddressDistrict': request.shippingAddressDistrict,
+    'shippingAddressPostalCode': request.shippingAddressPostalCode,
+    'shippingAddressCity': request.shippingAddressCity,
+    'shippingAddressState': request.shippingAddressState,
     'shippingAddressCountry': 'BRA',
     'shippingType': 1,
     'shippingCost': '0.00',
-    'creditCardToken': cardToken,
+    'creditCardToken': request.creditCardToken,
     'installmentQuantity': 1,
-    'installmentValue': '24300.00',
+    'installmentValue': request.installmentValue,
     'noInterestInstallmentQuantity': 2,
-    'creditCardHolderName': 'Jose Comprador',
-    'creditCardHolderCPF': '22111944785',
-    'creditCardHolderBirthDate': '27/10/1987',
-    'creditCardHolderAreaCode': '11',
-    'creditCardHolderPhone': '56273440',
+    'creditCardHolderName': request.creditCardHolderName,
+    'creditCardHolderCPF': request.creditCardHolderCPF,
+    'creditCardHolderBirthDate': request.creditCardHolderBirthDate,
+    'creditCardHolderAreaCode': request.creditCardHolderAreaCode,
+    'creditCardHolderPhone': request.creditCardHolderPhone,
     'billingAddressStreet': 'Av. Brig. Faria Lima',
     'billingAddressNumber': '1384',
     'billingAddressComplement': '5o andar',
@@ -98,6 +95,14 @@ export async function checkoutPayment(cardToken: string, senderHash: string): Pr
     'billingAddressState': 'SP',
     'billingAddressCountry': 'BRA',
   };
+
+  for(var i=0; i< request.items.length; i++){
+    reqData['itemId'+(i+1)] = request.items[i].itemId;
+    reqData['itemDescription'+(i+1)] = request.items[i].itemDescription;
+    reqData['itemAmount'+(i+1)] = request.items[i].itemAmount;
+    reqData['itemQuantity'+(i+1)] = request.items[i].itemQuantity;
+  }
+
   let sessionId = '';
   let response;
   try {

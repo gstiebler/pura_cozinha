@@ -344,20 +344,6 @@ export class Store {
     window.PagSeguroDirectPayment.setSessionId(sessionId);
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
     this.senderHash = senderHash;
-    // await window.PagSeguroDirectPayment.getInstallments({
-    //   amount: '24300.00',
-    //   brand: 'visa',
-    //   // maxInstallmentNoInterest: 0,
-    //   success: async function (response){
-    //     console.log('installments ' + response.toSource());
-    //   },
-    //   error: function (response){
-    //     console.log('deu erro ' + response.toSource());
-    //   },
-    //   complete: function (response){
-    //     console.log('meh');
-    //   }
-    // });
 
     const items = this.selectedFMIsAndOptions.map(item => {
     const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
@@ -368,7 +354,7 @@ export class Store {
         itemQuantity: item.qty,
       };
     });
-    console.log(items);
+    
     const request: IPaymentRequest = {
       items: items,
       senderName: this.senderName,
@@ -392,7 +378,6 @@ export class Store {
       creditCardHolderAreaCode: (this.isCardHolder) ? this.senderAreaCode : this.creditCardHolderAreaCode,
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
-    console.log(request);
     
     await window.PagSeguroDirectPayment.createCardToken({
       cardNumber: '4111111111111111',
@@ -401,10 +386,7 @@ export class Store {
       expirationYear: 2030,
       success: async function (response){
         const cardToken = response.card.token;
-        console.log('token ' + cardToken);
-        console.log(request);
         request.creditCardToken = cardToken;
-        console.log('inside success '+request);
         await ns.checkoutPayment(request);
       },
       error: function (response){
@@ -414,6 +396,7 @@ export class Store {
         console.log('meh');
       }
     });
+    await this.reset();
   }
 
   async checkoutPaymentWithTokens(response)
