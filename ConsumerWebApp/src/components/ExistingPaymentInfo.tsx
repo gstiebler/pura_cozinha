@@ -11,7 +11,7 @@ import OrderSummary from './OrderSummary';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
-import PriorityHigh from 'material-ui-icons/PriorityHigh';
+import CreditCard from 'material-ui-icons/CreditCard';
 
 const styles = theme => ({
   root: {
@@ -40,11 +40,13 @@ function ExistingPaymentInfo(props: IProps) {
             <Grid container wrap="nowrap" spacing={16}>
               <Grid item>
               <Avatar className={classes.button}>
-                <PriorityHigh/>
+                <CreditCard/>
               </Avatar>
               </Grid>
               <Grid item xs>
-                <Typography>Esta cozinha encontra-se temporariamente fechada. Tente novamente mais tarde.</Typography>
+                <Typography>Cartão: </Typography>
+                <Typography>{store.cardNumber}</Typography>
+                <Typography>{store.creditCardHolderName}</Typography>
               </Grid>
             </Grid>
           </Paper>

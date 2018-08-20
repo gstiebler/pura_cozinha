@@ -410,7 +410,7 @@ export class Store {
         request.creditCardToken = cardToken;
         await ns.checkoutPayment(request);
         localStorage.setItem('paymentInfo', JSON.stringify(request));
-        localStorage.setItem('cardNumber', JSON.stringify(this.cardNumber));
+        localStorage.setItem('cardNumber', this.cardNumber);
       },
       error: function (response){
         console.log('Error ' + response.toSource());
@@ -425,10 +425,16 @@ export class Store {
 
   hasPreviousPaymentInfo(): boolean
   {
-    var retrievedObject = localStorage.getItem('paymentInfo');
-    console.log('retrievedObject: ', JSON.parse(retrievedObject));
+    const retrievedObject = localStorage.getItem('paymentInfo');
+    const lastPayment =  JSON.parse(retrievedObject);
     if(retrievedObject !== null)
+    {
+      var cardNumber = localStorage.getItem('cardNumber');
+      this.cardNumber = JSON.stringify(cardNumber);
+      this.creditCardHolderName = lastPayment.creditCardHolderName;
       return true;
+    }
+      
     return false;
   }
 
