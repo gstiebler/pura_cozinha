@@ -89,6 +89,7 @@ export class Store {
     this.comments = '';
     this.selectedFMIsAndOptions = [];
     this.usePreviousPayment = false;
+    this.cardNumber = '';
   }
 
   //Credit card change functions

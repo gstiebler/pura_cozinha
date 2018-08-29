@@ -50,6 +50,7 @@ export async function getPaymentSessionId(): Promise<string>{
 
 export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
   //12/2030
+  console.log(request);
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1',
