@@ -71,11 +71,9 @@ function toggleCardHolderOwner(store: Store) {
   store.toggleIsCardHolderOwner();
 }
 
-
 async function onSendOrderRequested(store: Store) {
-  await store.pagSeguroTransaction();
-  await store.onSendOrderRequested();
-  store.router.goTo(views.home, {}, store);
+  if(await store.pagSeguroTransaction())
+    store.router.goTo(views.home, {}, store);
 }
 
 const styles = theme => ({

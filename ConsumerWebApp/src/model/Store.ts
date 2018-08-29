@@ -15,7 +15,8 @@ import {
   IPaymentRequest,
 } from '../../../common/Interfaces';
 import axios from 'axios';
-
+import * as pagSeguroErros from '../../../server/src/lib/PagSeguroErrors';
+;
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
 
@@ -61,6 +62,7 @@ export class Store {
   @observable isCardHolder: boolean = true;
   @observable paymentItems: ISelectedMenuItemOption[] = [];
   @observable usePreviousPayment: boolean = false;
+  @observable paymentErrors: any;
 
 
   lastItemIndex: number;
@@ -324,7 +326,7 @@ export class Store {
         orderSummary: this.orderSummary,
         local: this.selectedLocal,
         localComplement: this.localComplement,
-        paymentOption: this.selectedPaymentOption,
+        paymentOption: 'Cartão',
         telephoneNumber: this.telephoneNumber,
         comments: this.comments,
         kitchenComments: null,
@@ -366,7 +368,7 @@ export class Store {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
 
-  async pagSeguroTransaction()
+  async pagSeguroTransaction(): Promise<boolean>
   {
     const sessionId = await ns.getPaymentSessionId();
     
@@ -428,31 +430,41 @@ export class Store {
       const dates = this.expirationDate.split('/');
       const expirationMonth = parseInt(dates[0]);
       const expirationYear = parseInt(dates[1]);
-      await window.PagSeguroDirectPayment.createCardToken({
+      
+      const store = this;
+      window.PagSeguroDirectPayment.createCardToken({
         cardNumber: this.cardNumber,
         cvv: this.cvv,
         expirationMonth: expirationMonth,
         expirationYear: expirationYear,
         success: async function (response){
-          const cardToken = response.card.token;
-          request.creditCardToken = cardToken;
-          await ns.checkoutPayment(request);
+          request.creditCardToken = response.card.token;;
+          const checkoutResponse = await ns.checkoutPayment(request);
+          store.setPaymentErrors(checkoutResponse);
+          await store.onSendOrderRequested();
           localStorage.setItem('paymentInfo', JSON.stringify(request));
-          localStorage.setItem('cardNumber', this.cardNumber);
+          localStorage.setItem('cardNumber', store.cardNumber);
+          if(!store.usePreviousPayment)
+            await store.reset();
+          return true;
         },
         error: function (response){
-          console.log('Error ' + response.toSource());
+          store.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
         },
         complete: function (response){
-          console.log('process');
+          console.log('complete process');
         }
       });
+      
     }
-
-    if(!this.usePreviousPayment)
-      await this.reset();
+    return false;
   }
 
+
+  setPaymentErrors(errors: any)
+  {
+    this.paymentErrors = JSON.parse(errors);
+  }
 
   hasPreviousPaymentInfo(): boolean
   {

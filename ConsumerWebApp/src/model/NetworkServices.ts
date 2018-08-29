@@ -159,5 +159,6 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any> {
   `;
   console.log('Request: ' + mutation);
   const result = await network.fetchQuery(mutation);
-  return result.msg;
+  console.log(result);
+  return result.checkoutPayment;
 }

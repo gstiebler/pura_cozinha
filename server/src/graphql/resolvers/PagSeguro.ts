@@ -2,6 +2,7 @@ const axios = require('axios');
 const URLSearchParams = require('url-search-params');
 var parseString = require('xml2js').parseString;
 import { IPaymentRequest } from '../../../../common/Interfaces';
+import * as pagSeguroErrors from '../../lib/PagSeguroErrors';
 
 function param( params ) {
   
@@ -47,8 +48,8 @@ export async function getPaymentSessionId(): Promise<string>{
 
 
 
-export async function checkoutPayment(request: IPaymentRequest): Promise<string>{
-
+export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
+  //12/2030
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1',
@@ -101,34 +102,34 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<string>
     reqData['itemQuantity'+(i+1)] = request.items[i].itemQuantity;
   }
 
-  let sessionId = '';
-  let response;
-  try {
-    response = await axios({
-      method:'post',
-      withCredentials: true,
-      crossdomain: true,
-      headers: { 
-        "Content-Type" :"application/x-www-form-urlencoded; charset=ISO-8859-1",
-        "Cache-Control": "no-cache",
-      },
-      responseType:'document',
-      url:'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions',
-      data: param(reqData)
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  let finalErrors: Object;
+  const response = await axios({
+    method:'post',
+    withCredentials: true,
+    crossdomain: true,
+    headers: { 
+      "Content-Type" :"application/x-www-form-urlencoded; charset=ISO-8859-1",
+      "Cache-Control": "no-cache",
+    },
+    responseType:'document',
+    url:'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions',
+    data: param(reqData)
+  })
+  .catch(error => {
+    if(error.response.status === 400)
+    {
+      parseString(error.response.data, function (err, result) {
+        console.log(error.response.data);
+        const errors = result.errors.error;
+        let errorsArray = [];
+        for(let i=0; i < errors.length; i++)
+          errorsArray.push(errors[i].code[0]);
+        finalErrors = pagSeguroErrors.mapPagseguroBadRequest(errorsArray);
+      });
+    }
+  });
   
-  //Treat response errors later
-  console.log(response);
-  // if(response.status === 200)
-  // {
-  //   parseString(response.data, function (err, result) {
-      
-  //     sessionId = result.session.id[0];
-  //   });
-  // }
-  
-  return sessionId;
+  if(finalErrors != undefined)
+    return finalErrors;
+  return {msg: 'success'};
 };

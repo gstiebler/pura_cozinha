@@ -65,8 +65,8 @@ import {
       type: GraphQLString,
       args: { fmiData: { type: CheckoutCompleteInputType } },
       async resolve(value, { fmiData }) {
-        await PagSeguro.checkoutPayment(fmiData);
-        return { msg: 'OK' };
+        const response = await PagSeguro.checkoutPayment(fmiData);
+        return JSON.stringify(response);
       }
     },
   };
