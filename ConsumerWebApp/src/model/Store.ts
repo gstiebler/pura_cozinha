@@ -62,7 +62,8 @@ export class Store {
   @observable isCardHolder: boolean = true;
   @observable paymentItems: ISelectedMenuItemOption[] = [];
   @observable usePreviousPayment: boolean = false;
-  @observable paymentErrors: any;
+  @observable showPaymentErrors: boolean = false;
+  @observable paymentErrors: any = {};
 
 
   lastItemIndex: number;
@@ -463,6 +464,7 @@ export class Store {
 
   setPaymentErrors(errors: any)
   {
+    this.showPaymentErrors = true;
     this.paymentErrors = JSON.parse(errors);
   }
 

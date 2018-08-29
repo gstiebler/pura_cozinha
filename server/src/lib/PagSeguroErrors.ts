@@ -51,7 +51,7 @@ export function mapPagseguroBadRequest(response): any {
   return errors;
 }
 
-export function mapPagseguroBadRequestForCardToken(response): any {
+export function mapPagseguroBadRequestForCardToken(response): string {
   const errors = mapPagseguroBadRequest(Object.keys(response));
-  return errors;
+  return JSON.stringify(errors);
 }

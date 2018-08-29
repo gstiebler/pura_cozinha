@@ -85,7 +85,7 @@ const styles = theme => ({
     // flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
+    // marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: '100%',
   },
@@ -109,100 +109,148 @@ interface IProps {
 
 function CardPaymentForm(props: IProps) {
   const { store, classes } = props;
+  const showErrors = store.showPaymentErrors;
   return (
     <div className={classes.root}>
       {/* Credit card info */}
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="cardNumber"
-          label="Número do Cartão"
-          className={classes.textField}
-          value={store.cardNumber}
-          onChange={cardNumberChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="cvv"
-          label="Código CVV"
-          className={classes.textField}
-          value={store.cvv}
-          onChange={cardCVVChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="expirationDate"
-          label="Data de Expiração"
-          className={classes.textField}
-          value={store.expirationDate}
-          onChange={cardExpirationDateChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
+      <FormControl className={classes.formControl} error aria-describedby="cardNumber-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="cardNumber"
+            label="Número do Cartão"
+            className={classes.textField}
+            value={store.cardNumber}
+            onChange={cardNumberChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="cardNumber-error-text">
+          {store.paymentErrors['cardNumber']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="cvv-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="cvv"
+            label="Código CVV"
+            className={classes.textField}
+            value={store.cvv}
+            onChange={cardCVVChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="cvv-error-text">
+          {store.paymentErrors['cvv']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="expirationDate-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="expirationDate"
+            label="Data de Expiração"
+            className={classes.textField}
+            value={store.expirationDate}
+            onChange={cardExpirationDateChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="expirationDate-error-text">
+          {store.paymentErrors['expirationDate']}
+        </FormHelperText>
+      </FormControl>
       {/* End Credit card info */}
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderName"
-          label="Nome do Cliente"
-          className={classes.textField}
-          value={store.senderName}
-          onChange={senderNameChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderCpf"
-          label="CPF do Cliente"
-          className={classes.textField}
-          value={store.senderCpf}
-          onChange={senderCpfChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderBirthday"
-          label="Data de Aniversário do Cliente"
-          className={classes.textField}
-          value={store.senderBirthday}
-          onChange={senderBirthdayChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderAreaCode"
-          label="Código de Área"
-          className={classes.textField}
-          value={store.senderAreaCode}
-          onChange={senderAreaChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderPhone"
-          label="Telefone Para Contato"
-          className={classes.textField}
-          value={store.senderPhone}
-          onChange={senderPhoneChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="senderEmail"
-          label="Email do Cliente"
-          className={classes.textField}
-          value={store.senderEmail}
-          onChange={senderEmailChanged.bind(null, store)}
-          margin="normal"
-        />
-      </form>
+      
+      <FormControl className={classes.formControl} error aria-describedby="senderName-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderName"
+            label="Nome do Cliente"
+            className={classes.textField}
+            value={store.senderName}
+            onChange={senderNameChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderName-error-text">
+          {store.paymentErrors['senderName']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="senderCpf-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderCpf"
+            label="CPF do Cliente"
+            className={classes.textField}
+            value={store.senderCpf}
+            onChange={senderCpfChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderCpf-error-text">
+          {store.paymentErrors['senderCpf']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="senderBirthday-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderBirthday"
+            label="Data de Aniversário do Cliente"
+            className={classes.textField}
+            value={store.senderBirthday}
+            onChange={senderBirthdayChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderBirthday-error-text">
+          {store.paymentErrors['senderBirthday']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="senderAreaCode-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderAreaCode"
+            label="Código de Área"
+            className={classes.textField}
+            value={store.senderAreaCode}
+            onChange={senderAreaChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderAreaCode-error-text">
+          {store.paymentErrors['senderAreaCode']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="senderPhone-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderPhone"
+            label="Telefone Para Contato"
+            className={classes.textField}
+            value={store.senderPhone}
+            onChange={senderPhoneChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderPhone-error-text">
+          {store.paymentErrors['senderPhone']}
+        </FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl} error aria-describedby="senderEmail-error-text">
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="senderEmail"
+            label="Email do Cliente"
+            className={classes.textField}
+            value={store.senderEmail}
+            onChange={senderEmailChanged.bind(null, store)}
+            margin="normal"
+          />
+        </form>
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderEmail-error-text">
+          {store.paymentErrors['senderEmail']}
+        </FormHelperText>
+      </FormControl>
+      
       <FormGroup>
           <FormControlLabel
             control={
@@ -217,56 +265,81 @@ function CardPaymentForm(props: IProps) {
       </FormGroup>
       {!store.isCardHolder && 
         <div>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="creditCardHolderName"
-              label="Nome (igual no cartão)"
-              className={classes.textField}
-              value={store.creditCardHolderName}
-              onChange={cardNameChanged.bind(null, store)}
-              margin="normal"
-            />
-          </form>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="creditCardHolderCPF"
-              label="CPF"
-              className={classes.textField}
-              value={store.creditCardHolderCPF}
-              onChange={cardCpfChanged.bind(null, store)}
-              margin="normal"
-            />
-          </form>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="creditCardHolderBirthDate"
-              label="Data de Nascimento"
-              className={classes.textField}
-              value={store.creditCardHolderBirthDate}
-              onChange={cardBirthdayChanged.bind(null, store)}
-              margin="normal"
-            />
-          </form>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="creditCardHolderAreaCode"
-              label="Código de Área"
-              className={classes.textField}
-              value={store.creditCardHolderAreaCode}
-              onChange={cardAreaChanged.bind(null, store)}
-              margin="normal"
-            />
-          </form>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="creditCardHolderPhone"
-              label="Telefone"
-              className={classes.textField}
-              value={store.creditCardHolderPhone}
-              onChange={cardPhoneChanged.bind(null, store)}
-              margin="normal"
-            />
-          </form>
+          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderName-error-text">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="creditCardHolderName"
+                label="Nome (igual no cartão)"
+                className={classes.textField}
+                value={store.creditCardHolderName}
+                onChange={cardNameChanged.bind(null, store)}
+                margin="normal"
+              />
+            </form>
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderName-error-text">
+              {store.paymentErrors['creditCardHolderName']}
+            </FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderCPF-error-text">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="creditCardHolderCPF"
+                label="CPF"
+                className={classes.textField}
+                value={store.creditCardHolderCPF}
+                onChange={cardCpfChanged.bind(null, store)}
+                margin="normal"
+              />
+            </form>
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderCPF-error-text">
+              {store.paymentErrors['creditCardHolderCPF']}
+            </FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderBirthDate-error-text">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="creditCardHolderBirthDate"
+                label="Data de Nascimento"
+                className={classes.textField}
+                value={store.creditCardHolderBirthDate}
+                onChange={cardBirthdayChanged.bind(null, store)}
+                margin="normal"
+              />
+            </form>
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderBirthDate-error-text">
+              {store.paymentErrors['creditCardHolderBirthDate']}
+            </FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderAreaCode-error-text">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="creditCardHolderAreaCode"
+                label="Código de Área"
+                className={classes.textField}
+                value={store.creditCardHolderAreaCode}
+                onChange={cardAreaChanged.bind(null, store)}
+                margin="normal"
+              />
+            </form>
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderAreaCode-error-text">
+              {store.paymentErrors['creditCardHolderAreaCode']}
+            </FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderPhone-error-text">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="creditCardHolderPhone"
+                label="Telefone"
+                className={classes.textField}
+                value={store.creditCardHolderPhone}
+                onChange={cardPhoneChanged.bind(null, store)}
+                margin="normal"
+              />
+            </form>
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderPhone-error-text">
+              {store.paymentErrors['creditCardHolderPhone']}
+            </FormHelperText>
+          </FormControl>
         </div>
       }
             
