@@ -13,9 +13,9 @@ function localSelected(store: Store, event) {
   store.onLocalSelected(event.target.value);
 }
 
-function paymentOptionSelected(store: Store, event) {
-  store.onPaymentOptionSelected(event.target.value);
-}
+// function paymentOptionSelected(store: Store, event) {
+//   store.onPaymentOptionSelected(event.target.value);
+// }
 
 function telNumberChanged(store: Store, event) {
   store.onTelNumberChanged(event.target.value);
@@ -31,15 +31,7 @@ function localComplementChanged(store: Store, event) {
 }
 
 async function onSendOrderRequested(store: Store) {
-  if(store.selectedPaymentOption != 'Cartão')
-  {
-    await store.onSendOrderRequested();
-    store.router.goTo(views.home, {}, store);
-  }
-  else{
-    store.router.goTo(views.cardPayment, {}, store);
-  }
-    
+  store.router.goTo(views.cardPayment, {}, store);  
 }
 
 const styles = theme => ({
@@ -80,9 +72,9 @@ function AddressPayment(props: IProps) {
     return <option key={local} value={local}>{local}</option>;
   });
 
-  const paymentOptionsHTML = ['', ...store.paymentOptions].map(payOpt => {
-    return <option key={payOpt} value={payOpt}>{payOpt}</option>;
-  });
+  // const paymentOptionsHTML = ['', ...store.paymentOptions].map(payOpt => {
+  //   return <option key={payOpt} value={payOpt}>{payOpt}</option>;
+  // });
 
   return (
     <div className={classes.root}>
@@ -109,7 +101,7 @@ function AddressPayment(props: IProps) {
           margin="normal"
         />
       </form>
-      <FormControl className={classes.formControl}>
+      {/* <FormControl className={classes.formControl}>
         <InputLabel htmlFor="payment">Opções de pagamento</InputLabel>
         <Select
           native
@@ -121,7 +113,7 @@ function AddressPayment(props: IProps) {
         >
           { paymentOptionsHTML }
         </Select>
-      </FormControl>
+      </FormControl> */}
       <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="telephone"
@@ -145,7 +137,7 @@ function AddressPayment(props: IProps) {
         />
       <Button variant="raised" className={classes.button}
               onClick={ onSendOrderRequested.bind(null, store) } >
-        { store.sendOrderButtonTxt }
+        Continuar Pagamento
       </Button>
     </div>
   );

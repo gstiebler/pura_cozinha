@@ -334,17 +334,13 @@ export class Store {
       {
         const retrievedObject = localStorage.getItem('orderRequest');
         const lastOrder =  JSON.parse(retrievedObject);
-        console.log('no if');
-        console.log(lastOrder);
         request = lastOrder;
         request.orderSummary = this.orderSummary;
-        console.log(request);
         await ns.sendOrderRequest(request);
         this.reset();
       }
       else
       {
-        console.log('no else');
         await ns.sendOrderRequest(request);
         localStorage.setItem('orderRequest', JSON.stringify(request));  
       }
