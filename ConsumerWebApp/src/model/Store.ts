@@ -433,27 +433,27 @@ export class Store {
       const expirationMonth = parseInt(dates[0]);
       const expirationYear = parseInt(dates[1]);
       
-      const store = this;
+      
       window.PagSeguroDirectPayment.createCardToken({
         cardNumber: this.cardNumber,
         cvv: this.cvv,
         expirationMonth: expirationMonth,
         expirationYear: expirationYear,
-        success: async function (response){
+        success: async (response) => {
           request.creditCardToken = response.card.token;;
           const checkoutResponse = await ns.checkoutPayment(request);
-          store.setPaymentErrors(checkoutResponse);
+          this.setPaymentErrors(checkoutResponse);
           await store.onSendOrderRequested();
           localStorage.setItem('paymentInfo', JSON.stringify(request));
-          localStorage.setItem('cardNumber', store.cardNumber);
-          if(!store.usePreviousPayment)
+          localStorage.setItem('cardNumber', this.cardNumber);
+          if(!this.usePreviousPayment)
             await store.reset();
           return true;
         },
-        error: function (response){
-          store.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
+        error: (response) => {
+          this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
         },
-        complete: function (response){
+        complete: (response) => {
           console.log('complete process');
         }
       });
