@@ -70,6 +70,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-input-mask": "^2.0.4",
     "rewire": "^3.0.2",
     "serve-favicon": "^2.4.5",
     "sinon": "1.17.2",
