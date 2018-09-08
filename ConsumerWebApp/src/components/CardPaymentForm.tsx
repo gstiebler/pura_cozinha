@@ -166,7 +166,7 @@ function PhoneMask(props) {
     <MaskedInput
       {...other}
       ref={inputRef}
-      mask={[/\d/, /\d/, ' ', /\d/, /\d/,  /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+      mask={[/\d/, /\d/, ' ', /\d/, /\d/,  /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
     />
   );
 }
