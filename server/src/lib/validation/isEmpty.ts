@@ -6,3 +6,25 @@ export function isEmpty(value) {
         (typeof value === 'string' && value.trim().length === 0)
     );
 };
+
+export var isEmptyErrors = function(data) {
+    console.log('|' + JSON.stringify(data)+'|');
+    console.log(typeof(data));
+    if(typeof(data) === 'object'){
+        if(JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]' || JSON.stringify(data) === '{  }'){
+            return true;
+        }else if(!data){
+            return true;
+        }
+        return false;
+    }else if(typeof(data) === 'string'){
+        if(!data.trim()){
+            return true;
+        }
+        return false;
+    }else if(typeof(data) === 'undefined'){
+        return true;
+    }else{
+        return false;
+    }
+}

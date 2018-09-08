@@ -24,22 +24,12 @@ export function validatePaymentInput(request: IPaymentRequest, cardInfo)
         errors['senderEmail'] = 'Email inválido';
     }
 
-    if(!Validator.isAlpha(request.senderName, ['pt-BR']))
-    {
-        errors['senderName'] = 'O campo nome só deve conter letras';
-    }
-
-    if(!Validator.isAlpha(request.creditCardHolderName, ['pt-BR']))
-    {
-        errors['creditCardHolderName'] = 'O campo nome só deve conter letras';
-    }
-
     if(!Validator.isCreditCard(cardInfo.cardNumber))
     {
         errors['cardNumber'] = 'Número de cartão inválido';
     }
 
-    if(!Validator.isLength(request.creditCardHolderBirthDate, {min: 9, max: 9}))
+    if(!Validator.isLength(request.creditCardHolderBirthDate, {min: 10, max: 10}))
     {
         errors['creditCardHolderBirthDate'] = 'Data de Aniversário inválida';
         errors['senderBirthday'] = 'Data de Aniversário inválida';

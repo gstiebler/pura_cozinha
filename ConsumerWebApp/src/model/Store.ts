@@ -17,6 +17,8 @@ import {
 import axios from 'axios';
 import * as pagSeguroErros from '../../../server/src/lib/PagSeguroErrors';
 import * as pagSeguroValidator from '../../../server/src/lib/validation/PagSeguroValidator';
+import * as empty from '../../../server/src/lib/validation/isEmpty';
+import views from '../Views';
 
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
@@ -399,16 +401,16 @@ export class Store {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
 
-  async pagSeguroTransaction(): Promise<boolean>
+  async pagSeguroTransaction()
   {
     const sessionId = await ns.getPaymentSessionId();
     
     window.PagSeguroDirectPayment.setSessionId(sessionId);
     const senderHash = window.PagSeguroDirectPayment.getSenderHash();
     this.senderHash = senderHash;
-
+    console.log('items '+this.selectedFMIsAndOptions);
     const items = this.selectedFMIsAndOptions.map(item => {
-    const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
+      const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
       return {
         itemId: selectedFmi._id,
         itemDescription: selectedFmi.title,
@@ -417,6 +419,8 @@ export class Store {
       };
     });
 
+    const senderFullPhone = this.senderPhone;
+    const cardFullPhone = this.creditCardHolderAreaCode;
     const phone = this.senderPhone.split(' ');
     this.senderAreaCode = phone[0];
     this.senderPhone = phone[1];
@@ -452,67 +456,74 @@ export class Store {
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
     
-    
+    this.senderPhone =  senderFullPhone ;
+    this.creditCardHolderAreaCode = cardFullPhone;
     const frontErrors = pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
     this.setPaymentErrors(JSON.stringify(frontErrors));
 
-
-    // if(this.usePreviousPayment)
-    // {
-    //   const retrievedObject = localStorage.getItem('paymentInfo');
-    //   const lastPayment =  JSON.parse(retrievedObject);
-    //   request = lastPayment;
-    //   request.items = items;
-    //   request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
-    //   request.senderHash = this.senderHash;
-    //   await ns.checkoutPayment(request);
-    // }
-    // else{
-    //   /** Input examples
-    //     cardNumber: '4111111111111111',
-    //     cvv: '123',
-    //     expirationMonth: 12,
-    //     expirationYear: 2030,
-    //   */
-    //   const dates = this.expirationDate.split('/');
-    //   const expirationMonth = parseInt(dates[0]);
-    //   const expirationYear = parseInt(dates[1]);
-      
-      
-    //   window.PagSeguroDirectPayment.createCardToken({
-    //     cardNumber: this.cardNumber,
-    //     cvv: this.cvv,
-    //     expirationMonth: expirationMonth,
-    //     expirationYear: expirationYear,
-    //     success: async (response) => {
-    //       request.creditCardToken = response.card.token;;
-    //       const checkoutResponse = await ns.checkoutPayment(request);
-    //       this.setPaymentErrors(checkoutResponse);
-    //       await store.onSendOrderRequested();
-    //       localStorage.setItem('paymentInfo', JSON.stringify(request));
-    //       localStorage.setItem('cardNumber', this.cardNumber);
-    //       if(!this.usePreviousPayment)
-    //         await store.reset();
-    //       return true;
-    //     },
-    //     error: (response) => {
-    //       this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
-    //     },
-    //     complete: (response) => {
-    //       console.log('complete process');
-    //     }
-    //   });
-      
-    // }
-    return false;
+    if(!this.showPaymentErrors)
+    {
+      if(this.usePreviousPayment)
+      {
+        const retrievedObject = localStorage.getItem('paymentInfo');
+        const lastPayment =  JSON.parse(retrievedObject);
+        request = lastPayment;
+        request.items = items;
+        request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
+        request.senderHash = this.senderHash;
+        await ns.checkoutPayment(request);
+      }
+      else{
+        /** Input examples
+          cardNumber: '4111111111111111',
+          cvv: '123',
+          expirationMonth: 12,
+          expirationYear: 2030,
+        */
+        const dates = this.expirationDate.split('/');
+        const expirationMonth = parseInt(dates[0]);
+        const expirationYear = parseInt(dates[1]);
+        
+        
+        window.PagSeguroDirectPayment.createCardToken({
+          cardNumber: this.cardNumber,
+          cvv: this.cvv,
+          expirationMonth: expirationMonth,
+          expirationYear: expirationYear,
+          success: async (response) => {
+            request.creditCardToken = response.card.token;;
+            const checkoutResponse = await ns.checkoutPayment(request);
+            this.setPaymentErrors(checkoutResponse);
+            if(!this.showPaymentErrors)
+            {
+              await this.onSendOrderRequested();
+              localStorage.setItem('paymentInfo', JSON.stringify(request));
+              localStorage.setItem('cardNumber', this.cardNumber);
+              this.router.goTo('/', {}, store);
+            }
+          },
+          error: (response) => {
+            this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
+          },
+          complete: (response) => {
+            console.log('complete process');
+          }
+        });
+      }
+    }
   }
 
 
   setPaymentErrors(errors: any)
   {
-    this.showPaymentErrors = true;
-    this.paymentErrors = JSON.parse(errors);
+    if(!empty.isEmptyErrors(JSON.parse(errors)))
+    {
+      this.paymentErrors = JSON.parse(errors);
+      if(!this.paymentErrors.hasOwnProperty('msg'))
+        this.showPaymentErrors = true;
+    }
   }
+
 
   hasPreviousPaymentInfo(): boolean
   {

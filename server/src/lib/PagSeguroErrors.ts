@@ -72,6 +72,12 @@ export function mapPagseguroBadRequest(response): any {
       case "53141": 
         errors['general'] =  'Usuário bloqueado pela instituição financeira';
         break;
+      case "53015": 
+        errors['senderName'] =  'Nome inválido';
+        break;
+      case "53044": 
+        errors['creditCardHolderName'] =  'Nome inválido';
+        break;
       
     }
   }
