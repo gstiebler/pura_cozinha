@@ -91,6 +91,34 @@ export class Store {
     this.selectedFMIsAndOptions = [];
     this.usePreviousPayment = false;
     this.cardNumber = '';
+    this.resetPaymentInfo();
+  }
+
+  resetPaymentInfo() {
+     this.cardNumber = "";
+     this.cvv= "";
+     this.senderName= "";
+     this.expirationDate= "";
+     this.senderCpf = "";
+     this.senderAreaCode = "";
+     this.senderPhone = "";
+     this.senderEmail = "";
+     this.senderBirthday = "";
+     this.shippingAddressDistrict = "";
+     this.shippingAddressPostalCode = "";
+     this.shippingAddressState = "";
+     this.creditCardHolderName = "";
+     this.creditCardHolderCPF = "";
+     this.creditCardHolderBirthDate = "";
+     this.creditCardHolderAreaCode = "";
+     this.creditCardHolderPhone  = "";
+     this.sendOrderButtonTxt = "Enviar Pedido";
+     this.senderHash = "";
+     this.isCardHolder = true;
+     this.paymentItems = [];
+     this.usePreviousPayment = false;
+     this.showPaymentErrors = false;
+     this.paymentErrors = {};
   }
 
   //Credit card change functions

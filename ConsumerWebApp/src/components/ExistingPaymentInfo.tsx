@@ -35,13 +35,12 @@ async function usePreviousPayment(store: Store)
 {
   store.usePreviousPayment = true;
   await store.pagSeguroTransaction();
-  await store.onSendOrderRequested();
   store.router.goTo(views.home, {}, store);
 }
 
 function newPaymentInfo(store: Store)
 {
-  store.reset();
+  store.resetPaymentInfo();
   store.router.goTo(views.addressPayment, {}, store);
 }
 
