@@ -71,6 +71,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-input-mask": "^2.0.4",
+    "react-text-mask": "^5.4.3",
     "rewire": "^3.0.2",
     "serve-favicon": "^2.4.5",
     "sinon": "1.17.2",
