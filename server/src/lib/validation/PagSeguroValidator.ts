@@ -1,6 +1,6 @@
 import * as empty from './isEmpty';
 import { IPaymentRequest } from '../../../../common/Interfaces';
-import Validator from 'validator';
+const Validator = require('validator');
 
 
 export function validatePaymentInput(request: IPaymentRequest, cardInfo)
@@ -23,7 +23,8 @@ export function validatePaymentInput(request: IPaymentRequest, cardInfo)
 
     if(!Validator.isEmail(request.senderEmail))
     {
-        errors['senderEmail'] = 'Email inválido'
+        errors['senderEmail'] = 'Email inválido';
+        console.log('validation error email');
     }
 
     return errors;

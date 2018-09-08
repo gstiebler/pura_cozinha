@@ -16,7 +16,8 @@ import {
 } from '../../../common/Interfaces';
 import axios from 'axios';
 import * as pagSeguroErros from '../../../server/src/lib/PagSeguroErrors';
-;
+import * as pagSeguroValidator from '../../../server/src/lib/validation/PagSeguroValidator';
+
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
 
@@ -423,6 +424,9 @@ export class Store {
       creditCardHolderPhone: (this.isCardHolder) ? this.senderPhone : this.creditCardHolderPhone
     };
     
+    
+    pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
+
     if(this.usePreviousPayment)
     {
       const retrievedObject = localStorage.getItem('paymentInfo');
