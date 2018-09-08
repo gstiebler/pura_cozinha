@@ -159,14 +159,13 @@ function BirthDateMask(props) {
   );
 }
 
-
 function PhoneMask(props) {
   const { inputRef, ...other } = props;
   return (
     <MaskedInput
       {...other}
       ref={inputRef}
-      mask={[/\d/, /\d/, ' ', /\d/, /\d/,  /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+      mask={[/\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
     />
   );
 }
@@ -366,9 +365,9 @@ function CardPaymentForm(props: IProps) {
             </FormHelperText>
           </FormControl>
           
-          <FormControl className={classes.formControl} error aria-describedby="creditCardHolderPhone-error-text">
+          <FormControl className={classes.formControl} aria-describedby="creditCardHolderPhone-error-text">
             <form className={classes.container} noValidate autoComplete="off">
-              <InputLabel htmlFor="creditCardHolderPhone">Telefone (DDD + Número</InputLabel>
+              <InputLabel htmlFor="creditCardHolderPhone">Telefone (DDD + Número)</InputLabel>
               <Input
                 id="creditCardHolderPhone"
                 className={classes.textField}
@@ -377,7 +376,7 @@ function CardPaymentForm(props: IProps) {
                 inputComponent={PhoneMask}
               />
             </form>
-            <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="creditCardHolderPhone-error-text">
+            <FormHelperText style={{ display: showErrors ? "block" : "none" }} error id="creditCardHolderPhone-error-text">
               {store.paymentErrors['creditCardHolderPhone']}
             </FormHelperText>
           </FormControl>
