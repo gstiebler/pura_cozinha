@@ -270,7 +270,7 @@ function CardPaymentForm(props: IProps) {
             inputComponent={BirthDateMask}
           />
         </form>
-        <FormHelperText style={{ display: showErrors ? "block" : "none" }} id="senderBirthday-error-text">
+        <FormHelperText style={{ display: showErrors ? "block" : "none" }} error id="senderBirthday-error-text">
           {store.paymentErrors['senderBirthday']}
         </FormHelperText>
       </FormControl>

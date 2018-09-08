@@ -425,55 +425,57 @@ export class Store {
     };
     
     
-    pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
+    const frontErrors = pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
+    this.setPaymentErrors(JSON.stringify(frontErrors));
 
-    if(this.usePreviousPayment)
-    {
-      const retrievedObject = localStorage.getItem('paymentInfo');
-      const lastPayment =  JSON.parse(retrievedObject);
-      request = lastPayment;
-      request.items = items;
-      request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
-      request.senderHash = this.senderHash;
-      await ns.checkoutPayment(request);
-    }
-    else{
-      /** Input examples
-        cardNumber: '4111111111111111',
-        cvv: '123',
-        expirationMonth: 12,
-        expirationYear: 2030,
-      */
-      const dates = this.expirationDate.split('/');
-      const expirationMonth = parseInt(dates[0]);
-      const expirationYear = parseInt(dates[1]);
+
+    // if(this.usePreviousPayment)
+    // {
+    //   const retrievedObject = localStorage.getItem('paymentInfo');
+    //   const lastPayment =  JSON.parse(retrievedObject);
+    //   request = lastPayment;
+    //   request.items = items;
+    //   request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
+    //   request.senderHash = this.senderHash;
+    //   await ns.checkoutPayment(request);
+    // }
+    // else{
+    //   /** Input examples
+    //     cardNumber: '4111111111111111',
+    //     cvv: '123',
+    //     expirationMonth: 12,
+    //     expirationYear: 2030,
+    //   */
+    //   const dates = this.expirationDate.split('/');
+    //   const expirationMonth = parseInt(dates[0]);
+    //   const expirationYear = parseInt(dates[1]);
       
       
-      window.PagSeguroDirectPayment.createCardToken({
-        cardNumber: this.cardNumber,
-        cvv: this.cvv,
-        expirationMonth: expirationMonth,
-        expirationYear: expirationYear,
-        success: async (response) => {
-          request.creditCardToken = response.card.token;;
-          const checkoutResponse = await ns.checkoutPayment(request);
-          this.setPaymentErrors(checkoutResponse);
-          await store.onSendOrderRequested();
-          localStorage.setItem('paymentInfo', JSON.stringify(request));
-          localStorage.setItem('cardNumber', this.cardNumber);
-          if(!this.usePreviousPayment)
-            await store.reset();
-          return true;
-        },
-        error: (response) => {
-          this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
-        },
-        complete: (response) => {
-          console.log('complete process');
-        }
-      });
+    //   window.PagSeguroDirectPayment.createCardToken({
+    //     cardNumber: this.cardNumber,
+    //     cvv: this.cvv,
+    //     expirationMonth: expirationMonth,
+    //     expirationYear: expirationYear,
+    //     success: async (response) => {
+    //       request.creditCardToken = response.card.token;;
+    //       const checkoutResponse = await ns.checkoutPayment(request);
+    //       this.setPaymentErrors(checkoutResponse);
+    //       await store.onSendOrderRequested();
+    //       localStorage.setItem('paymentInfo', JSON.stringify(request));
+    //       localStorage.setItem('cardNumber', this.cardNumber);
+    //       if(!this.usePreviousPayment)
+    //         await store.reset();
+    //       return true;
+    //     },
+    //     error: (response) => {
+    //       this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
+    //     },
+    //     complete: (response) => {
+    //       console.log('complete process');
+    //     }
+    //   });
       
-    }
+    // }
     return false;
   }
 

@@ -11,8 +11,6 @@ export function validatePaymentInput(request: IPaymentRequest, cardInfo)
     request.senderCPF = !empty.isEmpty(request.senderCPF) ? request.senderCPF : '';
     request.senderPhone = !empty.isEmpty(request.senderPhone) ? request.senderPhone : '';
     request.senderEmail = !empty.isEmpty(request.senderEmail) ? request.senderEmail : '';
-    request.shippingAddressStreet = !empty.isEmpty(request.shippingAddressStreet) ? request.shippingAddressStreet : '';
-    request.shippingAddressComplement = !empty.isEmpty(request.shippingAddressComplement) ? request.shippingAddressComplement : '';
     request.creditCardHolderName = !empty.isEmpty(request.creditCardHolderName) ? request.creditCardHolderName : '';
     request.creditCardHolderCPF = !empty.isEmpty(request.creditCardHolderCPF) ? request.creditCardHolderCPF : '';
     request.creditCardHolderBirthDate = !empty.isEmpty(request.creditCardHolderBirthDate) ? request.creditCardHolderBirthDate : '';
@@ -44,80 +42,88 @@ export function validatePaymentInput(request: IPaymentRequest, cardInfo)
     if(!Validator.isLength(request.creditCardHolderBirthDate, {min: 9, max: 9}))
     {
         errors['creditCardHolderBirthDate'] = 'Data de Aniversário inválida';
+        errors['senderBirthday'] = 'Data de Aniversário inválida';
     }
 
+    cardInfo.cvv = cardInfo.cvv.replace("_", "");
     if(!Validator.isLength(cardInfo.cvv, {min: 3, max: 3}))
     {
         errors['cvv'] = 'CVV deve conter 3 dígitos';
     }
 
+    cardInfo.expirationDate = cardInfo.expirationDate.replace("_", "");
     if(!Validator.isLength(cardInfo.expirationDate, {min: 7, max: 7}))
     {
         errors['expirationDate'] = 'Data de expiração inválida';
     }
 
+    request.senderCPF = request.senderCPF.replace("_", "");
     if(!Validator.isLength(request.senderCPF, {min: 11, max: 11}))
     {
-        errors['senderCPF'] = 'O campo CPF deve conter 11 dígitos';
+        errors['senderCpf'] = 'O campo CPF deve conter 11 dígitos';
     }
 
+    request.creditCardHolderCPF = request.creditCardHolderCPF.replace("_", "");
     if(!Validator.isLength(request.creditCardHolderCPF, {min: 11, max: 11}))
     {
         errors['creditCardHolderCPF'] = 'O campo CPF deve conter 11 dígitos';
     }
 
+    request.senderPhone = request.senderPhone.replace("_", "");
     if(!Validator.isLength(request.senderPhone, {min: 9, max: 9}))
     {
         errors['senderPhone'] = 'Telefone inválido';
     }
 
+    request.creditCardHolderPhone = request.creditCardHolderPhone.replace("_", "");
     if(!Validator.isLength(request.creditCardHolderPhone, {min: 9, max: 9}))
     {
         errors['creditCardHolderPhone'] = 'Telefone inválido';
     }
 
     //required validations
-    if(!Validator.isEmpty(request.senderName))
+    if(Validator.isEmpty(request.senderName))
     {
         errors['senderName'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.senderCPF))
+    if(Validator.isEmpty(request.senderCPF))
     {
-        errors['senderCPF'] = 'Campo obrigatório';
+        errors['senderCpf'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.senderPhone))
+    if(Validator.isEmpty(request.senderPhone))
     {
         errors['senderPhone'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.senderEmail))
+    if(Validator.isEmpty(request.senderEmail))
     {
         errors['senderEmail'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.creditCardHolderName))
+    if(Validator.isEmpty(request.creditCardHolderName))
     {
         errors['creditCardHolderName'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.creditCardHolderCPF))
+    if(Validator.isEmpty(request.creditCardHolderCPF))
     {
         errors['creditCardHolderCPF'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.creditCardHolderBirthDate))
+    if(Validator.isEmpty(request.creditCardHolderBirthDate))
     {
         errors['creditCardHolderBirthDate'] = 'Campo obrigatório';
+        errors['senderBirthday'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(request.creditCardHolderPhone))
+    if(Validator.isEmpty(request.creditCardHolderPhone))
     {
         errors['creditCardHolderPhone'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(cardInfo.cardNumber))
+    if(Validator.isEmpty(cardInfo.cardNumber))
     {
         errors['cardNumber'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(cardInfo.cvv))
+    if(Validator.isEmpty(cardInfo.cvv))
     {
         errors['cvv'] = 'Campo obrigatório';
     }
-    if(!Validator.isEmpty(cardInfo.expirationDate))
+    if(Validator.isEmpty(cardInfo.expirationDate))
     {
         errors['expirationDate'] = 'Campo obrigatório';
     }
