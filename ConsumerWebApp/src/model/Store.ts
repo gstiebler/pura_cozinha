@@ -458,8 +458,11 @@ export class Store {
     
     this.senderPhone =  senderFullPhone ;
     this.creditCardHolderAreaCode = cardFullPhone;
-    const frontErrors = pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
-    this.setPaymentErrors(JSON.stringify(frontErrors));
+    if(!this.usePreviousPayment)
+    {
+      const frontErrors = pagSeguroValidator.validatePaymentInput(request, {cardNumber: this.cardNumber, cvv: this.cvv, expirationDate: this.expirationDate});
+      this.setPaymentErrors(JSON.stringify(frontErrors));
+    }
 
     if(!this.showPaymentErrors)
     {
@@ -472,6 +475,7 @@ export class Store {
         request.installmentValue = Number(this.orderSummary.totalAmount).toFixed(2) + "";
         request.senderHash = this.senderHash;
         await ns.checkoutPayment(request);
+        await this.onSendOrderRequested();
       }
       else{
         /** Input examples
