@@ -34,6 +34,11 @@ async function onSendOrderRequested(store: Store) {
   store.router.goTo(views.cardPayment, {}, store);  
 }
 
+
+function isContinuePaymentButtonDisabled(store: Store) {
+  return store.isEmptyOrder;
+}
+
 const styles = theme => ({
   root: {
     padding: 16,
@@ -136,7 +141,7 @@ function AddressPayment(props: IProps) {
           margin="normal"
         />
       <Button variant="raised" className={classes.button}
-              onClick={ onSendOrderRequested.bind(null, store) } >
+              onClick={ onSendOrderRequested.bind(null, store) } disabled={isContinuePaymentButtonDisabled(store)}>
         Continuar Pagamento
       </Button>
     </div>

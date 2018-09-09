@@ -545,6 +545,13 @@ export class Store {
     return false;
   }
 
+  @computed get isEmptyOrder(): boolean
+  {
+    if(empty.isEmpty(this.selectedLocal) || empty.isEmpty(this.localComplement) || empty.isEmpty(this.telephoneNumber))
+      return true;
+    return false;
+  }
+
 }
 
 
