@@ -81,7 +81,6 @@ export function mapPagseguroBadRequest(response): any {
       
     }
   }
-  console.log(errors);
   return errors;
 }
 

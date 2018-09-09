@@ -378,6 +378,7 @@ export class Store {
       {
         await ns.sendOrderRequest(request);
         localStorage.setItem('orderRequest', JSON.stringify(request));  
+        this.reset();
       }
       // this.reset();
       this.setSnackbarMsg('Pedido recebido com sucesso');
@@ -425,12 +426,10 @@ export class Store {
     this.senderAreaCode = phone[0];
     this.senderPhone = phone[1];
 
-    if(this.isCardHolder)
-    {
-      const phoneCard = this.creditCardHolderPhone.split(' ');
-      this.creditCardHolderAreaCode = phoneCard[0];
-      this.creditCardHolderPhone = phoneCard[1];
-    }
+    const phoneCard = this.creditCardHolderPhone.split(' ');
+    this.creditCardHolderAreaCode = phoneCard[0];
+    this.creditCardHolderPhone = phoneCard[1];
+    
 
     let request: IPaymentRequest = {
       items: items,

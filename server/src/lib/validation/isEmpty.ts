@@ -8,8 +8,6 @@ export function isEmpty(value) {
 };
 
 export var isEmptyErrors = function(data) {
-    console.log('|' + JSON.stringify(data)+'|');
-    console.log(typeof(data));
     if(typeof(data) === 'object'){
         if(JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]' || JSON.stringify(data) === '{  }'){
             return true;
