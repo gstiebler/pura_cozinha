@@ -402,7 +402,7 @@ export class Store {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
 
-  async pagSeguroTransaction()
+  async pagSeguroTransaction(): Promise<boolean>
   {
     const sessionId = await ns.getPaymentSessionId();
     
@@ -487,33 +487,31 @@ export class Store {
         const expirationMonth = parseInt(dates[0]);
         const expirationYear = parseInt(dates[1]);
         
-        
-        window.PagSeguroDirectPayment.createCardToken({
-          cardNumber: this.cardNumber,
-          cvv: this.cvv,
-          expirationMonth: expirationMonth,
-          expirationYear: expirationYear,
-          success: async (response) => {
-            request.creditCardToken = response.card.token;;
-            const checkoutResponse = await ns.checkoutPayment(request);
-            this.setPaymentErrors(checkoutResponse);
-            if(!this.showPaymentErrors)
-            {
-              await this.onSendOrderRequested();
-              localStorage.setItem('paymentInfo', JSON.stringify(request));
-              localStorage.setItem('cardNumber', this.cardNumber);
-              this.router.goTo('/', {}, store);
-            }
-          },
-          error: (response) => {
-            this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(response.errors));
-          },
-          complete: (response) => {
-            console.log('complete process');
+        try {
+          const paramsObj = {
+            cardNumber: this.cardNumber,
+            cvv: this.cvv,
+            expirationMonth: expirationMonth,
+            expirationYear: expirationYear,
+          };
+          const response: any = await this.createCardToken(paramsObj);            
+          request.creditCardToken = response.card.token;;
+          const checkoutResponse = await ns.checkoutPayment(request);
+          this.setPaymentErrors(checkoutResponse);
+          if(!this.showPaymentErrors)
+          {
+            await this.onSendOrderRequested();
+            localStorage.setItem('paymentInfo', JSON.stringify(request));
+            localStorage.setItem('cardNumber', this.cardNumber);
+            return true;
           }
-        });
+        } catch(error) {
+          this.setPaymentErrors(pagSeguroErros.mapPagseguroBadRequestForCardToken(error.errors));
+        }
       }
     }
+
+    return false;
   }
 
 
@@ -549,6 +547,18 @@ export class Store {
     if(empty.isEmpty(this.selectedLocal) || empty.isEmpty(this.localComplement) || empty.isEmpty(this.telephoneNumber))
       return true;
     return false;
+  }
+
+  createCardToken = (paramsObj) => {
+    return new Promise((resolve, reject) => {
+      paramsObj.success = response => {
+        resolve(response);
+      };
+      paramsObj.error = response => {
+        reject(response);
+      };
+      window.PagSeguroDirectPayment.createCardToken(paramsObj);
+    });
   }
 
 }
