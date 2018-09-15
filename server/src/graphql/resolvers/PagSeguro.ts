@@ -118,6 +118,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
 };
 
 async function transactionPostRequest(reqData: any): Promise<any>{
+  let finalErrors: Object;
   const response = await axios({
     method:'post',
     withCredentials: true,
@@ -134,11 +135,31 @@ async function transactionPostRequest(reqData: any): Promise<any>{
     if(error.response.status === 400)
     {
       parseString(error.response.data, function (err, result) {
-        console.log(error.response.data);
         const errors = result.errors.error;
-        return errors;
+        finalErrors = errors;
       });
     }
   });
-  return undefined;
+  return finalErrors;
+}
+
+
+export const createCardToken = (paramsObj) => {
+  return new Promise((resolve, reject) => {
+    paramsObj.success = response => {
+      resolve(response);
+    };
+    paramsObj.error = response => {
+      reject(response);
+    };
+    window.PagSeguroDirectPayment.createCardToken(paramsObj);
+  });
+}
+
+export const setSessionId = (sessionId: string) => {
+  window.PagSeguroDirectPayment.setSessionId(sessionId);
+}
+
+export const getSenderHash = () => {
+  return window.PagSeguroDirectPayment.getSenderHash();
 }

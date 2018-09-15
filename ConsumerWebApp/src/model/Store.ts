@@ -14,11 +14,10 @@ import {
   Kitchen,
   IPaymentRequest,
 } from '../../../common/Interfaces';
-import axios from 'axios';
 import * as pagSeguroErros from '../../../server/src/lib/PagSeguroErrors';
 import * as pagSeguroValidator from '../../../server/src/lib/validation/PagSeguroValidator';
 import * as empty from '../../../server/src/lib/validation/isEmpty';
-import views from '../Views';
+import * as pagSeguroLib from '../../../server/src/graphql/resolvers/PagSeguro';
 
 const MAIN_KITCHEN_ID = '5aa9b17fe5a77b0c7ba3145e';
 
@@ -406,10 +405,9 @@ export class Store {
   {
     const sessionId = await ns.getPaymentSessionId();
     
-    window.PagSeguroDirectPayment.setSessionId(sessionId);
-    const senderHash = window.PagSeguroDirectPayment.getSenderHash();
+    pagSeguroLib.setSessionId(sessionId);
+    const senderHash = pagSeguroLib.getSenderHash();
     this.senderHash = senderHash;
-    console.log('items '+this.selectedFMIsAndOptions);
     const items = this.selectedFMIsAndOptions.map(item => {
       const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
       return {
@@ -494,7 +492,7 @@ export class Store {
             expirationMonth: expirationMonth,
             expirationYear: expirationYear,
           };
-          const response: any = await this.createCardToken(paramsObj);            
+          const response: any = await pagSeguroLib.createCardToken(paramsObj);            
           request.creditCardToken = response.card.token;;
           const checkoutResponse = await ns.checkoutPayment(request);
           this.setPaymentErrors(checkoutResponse);
@@ -549,17 +547,6 @@ export class Store {
     return false;
   }
 
-  createCardToken = (paramsObj) => {
-    return new Promise((resolve, reject) => {
-      paramsObj.success = response => {
-        resolve(response);
-      };
-      paramsObj.error = response => {
-        reject(response);
-      };
-      window.PagSeguroDirectPayment.createCardToken(paramsObj);
-    });
-  }
 
 }
 
