@@ -74,7 +74,7 @@
     "react-text-mask": "^5.4.3",
     "rewire": "^3.0.2",
     "serve-favicon": "^2.4.5",
-    "sinon": "1.17.2",
+    "sinon": "^6.3.3",
     "source-map-loader": "^0.2.3",
     "tsify": "^3.0.4",
     "tslint": "^5.9.1",
