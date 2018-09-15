@@ -104,6 +104,20 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
   }
 
   let finalErrors: Object;
+  const errors = await transactionPostRequest(reqData);
+  let errorsArray = [];
+  if(errors != undefined){
+    for(let i=0; i < errors.length; i++)
+    errorsArray.push(errors[i].code[0]);
+    finalErrors = pagSeguroErrors.mapPagseguroBadRequest(errorsArray);
+  }
+  
+  if(finalErrors != undefined)
+    return finalErrors;
+  return {msg: 'success'};
+};
+
+async function transactionPostRequest(reqData: any): Promise<any>{
   const response = await axios({
     method:'post',
     withCredentials: true,
@@ -122,15 +136,9 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
       parseString(error.response.data, function (err, result) {
         console.log(error.response.data);
         const errors = result.errors.error;
-        let errorsArray = [];
-        for(let i=0; i < errors.length; i++)
-          errorsArray.push(errors[i].code[0]);
-        finalErrors = pagSeguroErrors.mapPagseguroBadRequest(errorsArray);
+        return errors;
       });
     }
   });
-  
-  if(finalErrors != undefined)
-    return finalErrors;
-  return {msg: 'success'};
-};
+  return undefined;
+}
