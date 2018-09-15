@@ -1,14 +1,20 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+// import * as sinon from 'sinon';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import * as logger from 'winston';
+import * as pagSeguroLib from '../../../server/src/graphql/resolvers/PagSeguro';
 import { Order } from '../../../server/src/db/models/Order';
+import * as xmlResponse from './pagseguroResponses';
 
 describe('consumer web app store', () => {
 
-  const twitterSendMessageStub = sinon.stub(Twitter, 'sendTwit', () => {});
+  // const twitterSendMessageStub = sinon.stub(Twitter, 'sendTwit', () => {});
+  // const createCardTokenStub = sinon.stub(pagSeguroLib, 'createCardToken').callsFake(() => {});
+  // const getPaymentSessionIdStub = sinon.stub(pagSeguroLib, 'getPaymentSessionId').callsFake(() => {});
+  // const getSenderHashStub = sinon.stub(pagSeguroLib, 'getSenderHash').callsFake(() => {});
+  // const transactionRequestStub = sinon.stub(pagSeguroLib, 'transactionPostRequest').callsFake(() => {});
 
   before(async () => {
     await initFixtures();
@@ -20,6 +26,10 @@ describe('consumer web app store', () => {
 
   afterEach(() => {
     // twitterSendMessageStub.restore();
+    // createCardTokenStub.restore();
+    // getPaymentSessionIdStub.restore();
+    // getSenderHashStub.restore();
+    // transactionRequestStub.restore();
   })
 
   it('get default kitchen', async () => {
@@ -112,4 +122,45 @@ describe('consumer web app store', () => {
     expect(lastOrder.items[0].foodMenuItem.price).to.equal(11.99);
   });
 
+  // it('send order with payment (successful)', async () => {
+  //   //Mocks
+  //     // createCardTokenStub.resolves('e87bd21e4eb2469f908ef61822b61ac0');
+  //     // getPaymentSessionIdStub.resolves('ff49a2ef41814e4da7c0de1da73373f5');
+  //     // getSenderHashStub.resolves('0e46eb437854589a89decf8590a11dcb272159ac72dfbc458ae67c7132a07e8a');
+  //     // transactionRequestStub.resolves(xmlResponse.successResponse);
+
+  //   const store = new Store();
+  //   await store.onMenuPageLoad();
+  //   store.usePreviousPayment = false;
+  //   //Order items
+  //   const sandubaFrango = store.foodMenuItems[0];
+  //   store.onFmiSelected(sandubaFrango._id);
+  //   store.onItemQtyIncreased(store.lastItemIndex);
+
+  //   expect(store.orderSummary.items[0].fmi.title).to.equal('Sanduba de frango');
+  //   expect(store.orderSummary.items[0].fmi.price).to.equal(11.99);
+  //   expect(store.orderSummary.items[0].qty).to.equal(1);
+
+  //   expect(store.orderSummary.totalAmount).to.be.closeTo(11.99, 0.001);
+  //   store.onLocalSelected('Stella Vita');
+  //   store.onPaymentOptionSelected('Cartão');
+  //   store.onTelNumberChanged('1234');
+  //   store.onCommentsChanged('Sem cebola, por favor');
+
+  //   //Payment info
+  //   store.onCardNameChanged('4111111111111111');
+  //   store.onCVVChanged('123');
+  //   store.onExpirationDateChanged('12/2020');
+  //   store.onSenderNameChanged('Keawa Uscasao da Xuase');
+  //   store.onSenderCpfChanged('66471535007');
+  //   store.onSenderBirthdayChanged('18/03/1994');
+  //   store.onSenderPhoneChanged('98 983329436');
+  //   store.onSenderEmailChanged('keawa@sandbox.pagseguro.com.br');
+  //   store.toggleIsCardHolderOwner(); //It will receive new info for credit card holder
+  //   store.onCardNameChanged('Dafao Rugupayl Suyta');
+  //   store.onCardCpfChanged('89158039066');
+  //   store.onCardBirthdayChanged('12/02/1993');
+  //   store.onCardPhoneChanged('98 991339372');
+  //   await store.pagSeguroTransaction();
+  // });
 });

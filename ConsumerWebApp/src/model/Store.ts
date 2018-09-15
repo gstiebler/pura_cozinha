@@ -407,6 +407,7 @@ export class Store {
     
     pagSeguroLib.setSessionId(sessionId);
     const senderHash = pagSeguroLib.getSenderHash();
+    console.log(senderHash);
     this.senderHash = senderHash;
     const items = this.selectedFMIsAndOptions.map(item => {
       const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);

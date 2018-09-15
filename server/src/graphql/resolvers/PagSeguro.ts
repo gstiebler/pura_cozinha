@@ -117,7 +117,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
   return {msg: 'success'};
 };
 
-async function transactionPostRequest(reqData: any): Promise<any>{
+export async function transactionPostRequest(reqData: any): Promise<any>{
   let finalErrors: Object;
   const response = await axios({
     method:'post',
