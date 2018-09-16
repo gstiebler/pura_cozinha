@@ -26,7 +26,7 @@ export async function idByValue(model: mongoose.Model<mongoose.Document>,
 
 let fetchStub;
 before(async () => {
-  fetchStub = sinon.stub(network, 'fetchQuery', queryFn);
+  fetchStub = sinon.stub(network, 'fetchQuery').callsFake(queryFn);
   await MongoInit.init({
     dbHost: process.env.MONGODB_HOST,
     dbName: process.env.MONGODB_TEST_DB_NAME,
