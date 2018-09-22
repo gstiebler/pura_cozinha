@@ -54,6 +54,7 @@ import {
     getSessionId: {
       type: GraphQLString,
       resolve: async function(root) {
+        console.trace();
         const sessionId = PagSeguro.getPaymentSessionId();
         return sessionId;
       }

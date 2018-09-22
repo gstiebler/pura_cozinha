@@ -1,20 +1,23 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import * as pagSeguroLib from '../../../server/src/graphql/resolvers/PagSeguro';
 import * as Twitter from '../../../server/src/lib/Twitter';
 import { Store } from '../model/Store';
+import * as ns from '../model/NetworkServices';
 import { initFixtures } from '../../../server/src/test/fixtures/fixture';
 import * as logger from 'winston';
-import * as pagSeguroLib from '../../../server/src/graphql/resolvers/PagSeguro';
+
 import { Order } from '../../../server/src/db/models/Order';
 import * as xmlResponse from './pagseguroResponses';
 
 describe('consumer web app store', () => {
 
   // const twitterSendMessageStub = sinon.stub(Twitter, 'sendTwit', () => {});
-  const createCardTokenStub = sinon.stub(pagSeguroLib, 'createCardToken').callsFake(() => {});
-  const getPaymentSessionIdStub = sinon.stub(pagSeguroLib, 'getPaymentSessionId').callsFake(() => {});
-  const getSenderHashStub = sinon.stub(pagSeguroLib, 'getSenderHash').callsFake(() => {});
-  const transactionRequestStub = sinon.stub(pagSeguroLib, 'transactionPostRequest').callsFake(() => {});
+  const createCardTokenStub = sinon.stub(pagSeguroLib, 'createCardToken');
+  const getPaymentSessionIdStub = sinon.stub(ns, 'getPaymentSessionId');
+  const getSenderHashStub = sinon.stub(pagSeguroLib, 'getSenderHash');
+  const transactionRequestStub = sinon.stub(pagSeguroLib, 'transactionPostRequest');
+  const setSessionIdStub = sinon.stub(pagSeguroLib, 'setSessionId');
 
   before(async () => {
     await initFixtures();
@@ -122,12 +125,19 @@ describe('consumer web app store', () => {
     expect(lastOrder.items[0].foodMenuItem.price).to.equal(11.99);
   });
 
-  it('send order with payment (successful)', async () => {
-    //Mocks
+  //  it('unit test for getSession id', async () => {
+  //   getPaymentSessionIdStub.resolves('ff49a2ef41814e4da7c0de1da73373f5');
+  //   expect(await pagSeguroLib.getPaymentSessionId()).to.equal('ff49a2ef41814e4da7c0de1da73373f5');
+  //  });
+
+  it('PagSeguro Payment: send order (successful)', async () => {
+    //Stubs
     createCardTokenStub.resolves('e87bd21e4eb2469f908ef61822b61ac0');
     getPaymentSessionIdStub.resolves('ff49a2ef41814e4da7c0de1da73373f5');
-    getSenderHashStub.resolves('0e46eb437854589a89decf8590a11dcb272159ac72dfbc458ae67c7132a07e8a');
+    getSenderHashStub.returns('0e46eb437854589a89decf8590a11dcb272159ac72dfbc458ae67c7132a07e8a');
+    setSessionIdStub.resolves();
     transactionRequestStub.resolves(xmlResponse.successResponse);
+    console.log(getSenderHashStub);
 
     const store = new Store();
     await store.onMenuPageLoad();
@@ -161,6 +171,7 @@ describe('consumer web app store', () => {
     store.onCardCpfChanged('89158039066');
     store.onCardBirthdayChanged('12/02/1993');
     store.onCardPhoneChanged('98 991339372');
+    console.trace();
     await store.pagSeguroTransaction();
   });
 });

@@ -107,6 +107,7 @@ export async function getPaymentSessionId(): Promise<any> {
       getSessionId  
     }
   `;
+  console.log('calling real function ns');
   const result = await network.fetchQuery(query);
   return result.getSessionId;
 }

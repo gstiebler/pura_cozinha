@@ -40,7 +40,7 @@ gulp.task('test:nc', function () {
   process.env.NODE_ENV = 'TEST';
   const mochaOptions = {
     timeout: 50000,
-    // grep: ''
+    grep: 'consumer web app store'
   }
   const consumerWebAppTestFiles = 'out/ConsumerWebApp/src/tests/**/*.spec.js';
   const kitchenWebAppTestFiles = 'out/KitchenWebApp/src/tests/**/*.spec.js';

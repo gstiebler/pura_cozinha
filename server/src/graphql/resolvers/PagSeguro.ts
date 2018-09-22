@@ -20,7 +20,7 @@ export async function getPaymentSessionId(): Promise<string>{
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1'
   };
   let sessionId = '';
-  
+  console.log('calling session id in pagseguro');
   const response = await axios({
     method:'post',
     withCredentials: true,
