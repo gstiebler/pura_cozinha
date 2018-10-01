@@ -223,6 +223,9 @@ export class Store {
     this.comments = comment;
   }
 
+
+  // @desc   Toggle devlier flag to add extra fee to final payment
+  // @param  void
   async toggleDeliveringTax()
   {
     this.mustDeliver = !this.mustDeliver;
@@ -237,7 +240,7 @@ export class Store {
         this.selectedLocal = 'Não Entrega';
       }
       else{
-        this.extraFee = await ns.findGeneralConfigByKey('DELIVERING_TAX');
+        this.extraFee = await ns.findGeneralConfigByKey('DELIVERING_TAX'); //Get extra fee for delivering from database
       }
       
       const request:IOrderRequest = {
