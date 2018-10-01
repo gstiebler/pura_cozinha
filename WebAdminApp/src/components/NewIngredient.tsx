@@ -71,15 +71,19 @@ function NewIngredient(props: IProps) {
             <DialogContentText>
               Insira os dados para um novo tipo de insumo.
             </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="title"
-              label="Nome"
-              type="text"
-              onChange={onIngredientTitleChange.bind(null, store)}
-              fullWidth
-            />
+            
+            <FormControl className={classes.formControl} error={store.showErros} aria-describedby="component-error-text">
+              <TextField
+                autoFocus
+                margin="dense"
+                id="title"
+                label="Nome"
+                type="text"
+                onChange={onIngredientTitleChange.bind(null, store)}
+                fullWidth
+              />
+              {store.showErros && (<FormHelperText id="component-error-text">{store.errors['title']}</FormHelperText>)}
+            </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="local">Unidade</InputLabel>
               <Select

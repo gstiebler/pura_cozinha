@@ -2,8 +2,7 @@ import * as React from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
-import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
-import RemoveCircleOutline from 'material-ui-icons/RemoveCircleOutline';
+import { default as NumberFormat } from 'react-number-format';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Delete';
 import AddIcon from 'material-ui-icons/Add';
@@ -114,16 +113,19 @@ function NewIngredient(props: IProps) {
         >
           <DialogTitle id="form-dialog-title">Nova Compra</DialogTitle>
           <DialogContent>
-            <TextField
-              id="date"
-              label="Data da Compra"
-              type="date"
-              className={classes.formControl}
-              onChange={onBuyDate.bind(null, store)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <FormControl className={classes.formControl} error={store.showErros} aria-describedby="component-error-text">
+              <TextField
+                id="date"
+                label="Data da Compra"
+                type="date"
+                className={classes.formControl}
+                onChange={onBuyDate.bind(null, store)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {store.showErros && (<FormHelperText id="component-error-text">{store.errors['buyDate']}</FormHelperText>)}
+            </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="local">Insumo</InputLabel>
               <Select
@@ -139,26 +141,32 @@ function NewIngredient(props: IProps) {
               </Select>
             </FormControl>
             <br/>
-            <TextField
-              id="qty"
-              label="Quantidade"
-              value={store.quantity}
-              className={classes.formControl}
-              onChange={onQuantityChanged.bind(null, store)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="value"
-              label="Valor"
-              value={store.value}
-              className={classes.formControl}
-              onChange={onValueChanged.bind(null, store)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <FormControl className={classes.formControl} error={store.showErros} aria-describedby="component-error-text">
+              <TextField
+                id="qty"
+                label="Quantidade"
+                value={store.quantity}
+                className={classes.formControl}
+                onChange={onQuantityChanged.bind(null, store)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {store.showErros && (<FormHelperText id="component-error-text">{store.errors['quantity']}</FormHelperText>)}
+            </FormControl>
+            <FormControl className={classes.formControl} error={store.showErros} aria-describedby="component-error-text">
+              <TextField
+                id="value"
+                label="Valor"
+                value={store.value}
+                className={classes.formControl}
+                onChange={onValueChanged.bind(null, store)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              {store.showErros && (<FormHelperText id="component-error-text">{store.errors['value']}</FormHelperText>)}
+            </FormControl>
             <Button onClick={onAddNewPurchase.bind(null, store)} color="primary" className={classes.button}>
               <AddIcon />
               Adicionar
@@ -180,7 +188,7 @@ function NewIngredient(props: IProps) {
             <Button onClick={handleClose.bind(null, store)} color="primary">
               Cancelar
             </Button>
-            <Button onClick={onSendPurchases.bind(null, store)} color="primary">
+            <Button disabled={JSON.stringify(store.newPurchases) === "[]"} onClick={onSendPurchases.bind(null, store)} color="primary">
               Salvar
             </Button>
           </DialogActions>

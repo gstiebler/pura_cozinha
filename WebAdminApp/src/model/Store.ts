@@ -13,6 +13,7 @@ import {
 import { availableUnits } from '../../../common/unitMaps';
 import { IngredientType } from '../../../common/Interfaces';
 import { Purchase } from '../../../server/src/db/models/Purchase';
+import * as validator from '../../../server/src/lib/validation/WebAdminValidator';
 
 
 export class Store {
@@ -25,6 +26,8 @@ export class Store {
   @observable openDialogForm: boolean = false;
   @observable currentIngredient = null;
   @observable currentPurchase = null;
+  @observable errors = {};
+  @observable showErros: boolean = false;
   
   //New ingredient variables
   @observable title: string = '';
@@ -57,6 +60,7 @@ export class Store {
     this.purchases = await ns.fetchPurchases();
     this.totalAmount = 0;
     this.selectedUnit = availableUnits[0][0];
+    this.showErros = false;
   }
 
   async onIngredientsPageLoad()
@@ -131,11 +135,20 @@ export class Store {
       value: parseFloat(this.value),
       ingredientType: this.getPurchaseIngredientType(this.ingredientTypeId)
     }
-    this.newPurchases.push(newPurchase);
-    this.calculateTotalAmount();
-    this.quantity = '';
-    this.value = '';
-    this.ingredientTypeId = this.ingredients[0]._id;
+    const errors = validator.validatePurchaseInput(newPurchase);
+    if(errors.isValid)
+    {
+      this.showErros = false;
+      this.newPurchases.push(newPurchase);
+      this.calculateTotalAmount();
+      this.quantity = '';
+      this.value = '';
+      this.ingredientTypeId = this.ingredients[0]._id;
+    }
+    else{
+      this.errors = errors.errors;
+      this.showErros = true;
+    }
   }
 
   calculateTotalAmount()
@@ -157,10 +170,19 @@ export class Store {
         title: this.title,
         unit: this.selectedUnit
       };
-      await ns.sendIngredientTypeRequest(request);
-      await this.reset();
-      this.setSnackbarMsg('Insumo salvo com sucesso');
-      this.openDialogForm = false;
+      const errors = validator.validateIngredientTypeInput(request);
+      if(errors.isValid)
+      {
+        this.showErros = false;
+        await ns.sendIngredientTypeRequest(request);
+        await this.reset();
+        this.setSnackbarMsg('Insumo salvo com sucesso');
+        this.openDialogForm = false;
+      }
+      else{
+        this.errors = errors.errors;
+        this.showErros = true;
+      }
     } catch(error) {
       console.error(error);
       this.setSnackbarMsg('Erro ao salvar Insumo');
