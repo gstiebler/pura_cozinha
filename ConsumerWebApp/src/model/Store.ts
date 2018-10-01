@@ -401,13 +401,16 @@ export class Store {
     this.selectedFMIsAndOptions[index].multipleOptions.set(optionKey, optionItem);
   }
 
+
+  // @desc   Checkout payment and returns if payment was successful sent
+  // @param  void
   async pagSeguroTransaction(): Promise<boolean>
   {
     const sessionId = await ns.getPaymentSessionId();
     
     pagSeguroLib.setSessionId(sessionId);
     const senderHash = pagSeguroLib.getSenderHash();
-    console.log(senderHash);
+    
     this.senderHash = senderHash;
     const items = this.selectedFMIsAndOptions.map(item => {
       const selectedFmi = this.foodMenuItems.find(fmi => fmi._id === item._id);
@@ -514,6 +517,8 @@ export class Store {
   }
 
 
+  // @desc   Gets payment errors result and set showErros in case errors exist
+  // @param  errors: any
   setPaymentErrors(errors: any)
   {
     if(!empty.isEmptyErrors(JSON.parse(errors)))
@@ -525,6 +530,8 @@ export class Store {
   }
 
 
+  // @desc   Check if there is previous payment info in browser's localStorage
+  // @param  void
   hasPreviousPaymentInfo(): boolean
   {
     const retrievedObject = localStorage.getItem('paymentInfo');
@@ -541,6 +548,9 @@ export class Store {
     return false;
   }
 
+
+  // @desc   Returns if the current order values are empty
+  // @param  void
   @computed get isEmptyOrder(): boolean
   {
     if(empty.isEmpty(this.selectedLocal) || empty.isEmpty(this.localComplement) || empty.isEmpty(this.telephoneNumber))

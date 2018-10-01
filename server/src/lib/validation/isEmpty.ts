@@ -1,3 +1,5 @@
+// @desc   Check if object/variable is empty in different ways
+// @param  value: any
 export function isEmpty(value) {
     return (
         value === undefined ||
@@ -7,6 +9,9 @@ export function isEmpty(value) {
     );
 };
 
+
+// @desc   Check if object/variable is empty in different ways (variation)
+// @param  data: any
 export var isEmptyErrors = function(data) {
     if(typeof(data) === 'object'){
         if(JSON.stringify(data) === '{}' || JSON.stringify(data) === '[]' || JSON.stringify(data) === '{  }'){

@@ -3,10 +3,14 @@ import { IPaymentRequest } from '../../../../common/Interfaces';
 const Validator = require('validator');
 
 
+// @desc   Validation rules for payment request input
+// @param  request: IPaymentRequest
 export function validatePaymentInput(request: IPaymentRequest, cardInfo)
 {
     let errors = {};
 
+    //ValidatorJS only accepts string values
+    //Checking if values are empty. If so, assing an empty string to them
     request.senderName = !empty.isEmpty(request.senderName) ? request.senderName : '';
     request.senderCPF = !empty.isEmpty(request.senderCPF) ? request.senderCPF : '';
     request.senderPhone = !empty.isEmpty(request.senderPhone) ? request.senderPhone : '';

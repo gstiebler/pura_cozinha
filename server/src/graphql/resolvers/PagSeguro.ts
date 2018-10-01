@@ -4,6 +4,9 @@ var parseString = require('xml2js').parseString;
 import { IPaymentRequest } from '../../../../common/Interfaces';
 import * as pagSeguroErrors from '../../lib/PagSeguroErrors';
 
+
+// @desc   Combine parameters into a parameter search string in the format 'param1&param2'
+// @param  params: object
 function param( params ) {
   
   const p = new URLSearchParams;
@@ -14,13 +17,15 @@ function param( params ) {
 }
 
 
+// @desc   Get payment session from PagSeguro service via post request
+// @param  void
 export async function getPaymentSessionId(): Promise<string>{
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1'
   };
   let sessionId = '';
-  console.log('calling session id in pagseguro');
+  
   const response = await axios({
     method:'post',
     withCredentials: true,
@@ -48,9 +53,11 @@ export async function getPaymentSessionId(): Promise<string>{
 
 
 
+// @desc   Checkout payment (transparent method) to PagSeguro services
+// @param  request: IPaymentRequest
 export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
   //12/2030
-  console.log(request);
+  
   const reqData = {
     'email': 'guilherme.mst@gmail.com',
     'token': '6D17B04C51F749EEA3F3ECE500FE01C1',
@@ -96,6 +103,7 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
     'billingAddressCountry': 'BRA',
   };
 
+  //Items need to have number identification in the search url (item1, item2, item3, etc)
   for(var i=0; i< request.items.length; i++){
     reqData['itemId'+(i+1)] = request.items[i].itemId;
     reqData['itemDescription'+(i+1)] = request.items[i].itemDescription;
@@ -117,6 +125,9 @@ export async function checkoutPayment(request: IPaymentRequest): Promise<any>{
   return {msg: 'success'};
 };
 
+
+// @desc   POST method to PagSeguro services for checkout payment
+// @param  reqData: any
 export async function transactionPostRequest(reqData: any): Promise<any>{
   let finalErrors: Object;
   const response = await axios({
@@ -144,6 +155,8 @@ export async function transactionPostRequest(reqData: any): Promise<any>{
 }
 
 
+// @desc   Gets a toke for credit card info from PagSeguro services
+// @param  paramsObj (card number, expiration date and cvv)
 export const createCardToken = (paramsObj) => {
   return new Promise((resolve, reject) => {
     paramsObj.success = response => {
@@ -156,10 +169,16 @@ export const createCardToken = (paramsObj) => {
   });
 }
 
+
+// @desc   Set the global session id retrived from PagSeguro
+// @param  sessionId: string
 export const setSessionId = (sessionId: string) => {
   window.PagSeguroDirectPayment.setSessionId(sessionId);
 }
 
+
+// @desc   Gets a hash value for current sender from PagSeguro services
+// @param  void
 export const getSenderHash = () => {
   return window.PagSeguroDirectPayment.getSenderHash();
 }
