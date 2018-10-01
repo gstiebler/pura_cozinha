@@ -73,14 +73,16 @@ export class Store {
   async onPurchasesPageLoad()
   {
     this.ingredients = await ns.fetchIngredientTypes();
-    this.purchases = await ns.fetchPurchasesPerPage(new Date('2100-01-01'), this.PER_PAGE);
+    this.purchases = await ns.fetchPurchasesPerPage(new Date('2100-01-01'), this.PER_PAGE); //Initial date to get most recent purchases
     this.purchasesTotal = await ns.countPurchases();
     this.ingredientTypeId = this.ingredients[0]._id;
-    this.hasMore = true;
+    this.hasMore = true; //has more data to load to list
     this.page = 0;
   }
 
 
+  // @desc   Fetch more purchase data during scrolling event
+  // @param  void
   async fetchMorePurchasesData() {
     this.hasMore = (this.purchases.length < this.purchasesTotal);
     const lastBuyDate = new Date(this.purchases[this.purchases.length-1].buyDate);

@@ -84,8 +84,8 @@ export class Store {
     this.orderTypes = ordersType === 'OPEN' ? this.openOrderTypes :
                        ordersType === 'CLOSED' ? this.closedOrderTypes :
                        ['Error: unkonwn order type'];
-    this.orders = await ns.getOrders(this.orderTypes, new Date('2100-01-01'), this.PER_PAGE);
-    this.hasMore = true;
+    this.orders = await ns.getOrders(this.orderTypes, new Date('2100-01-01'), this.PER_PAGE); //Initial date to get most recent orders
+    this.hasMore = true; //has more data
 
   }
 
@@ -93,6 +93,9 @@ export class Store {
     await this._setCurrentOrder(orderId);
   }
 
+  
+  // @desc   Fetch more data (per page) during scrolling event
+  // @param  void
   async fetchMoreOrdersData() {
     const lastCreated = new Date(this.orders[this.orders.length-1].createdOn);
     const newOrders = await ns.getOrders(this.orderTypes, lastCreated, this.PER_PAGE);
