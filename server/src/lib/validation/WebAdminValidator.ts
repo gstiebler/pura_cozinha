@@ -2,6 +2,10 @@ import * as empty from "./isEmpty";
 import { IIngredientRequest } from "../../../../common/Interfaces";
 const Validator = require("validator");
 
+
+
+// @desc   Validation rules for new ingredient type input
+// @param  request: IIngredientRequest
 export function validateIngredientTypeInput(request: IIngredientRequest) {
   let errors = {};
 
@@ -23,6 +27,8 @@ export function validateIngredientTypeInput(request: IIngredientRequest) {
 }
 
 
+// @desc   Validation rules for new purchase addition to purchases list
+// @param  request: Purchase
 export function validatePurchaseInput(request) {
   let errors = {};
   console.log(request.buyDate);
